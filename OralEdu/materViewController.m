@@ -16,7 +16,8 @@
 @property (nonatomic,strong) NSMutableArray *mater_arr;
 @property (nonatomic,strong) NSString *str;
 @property (nonatomic,strong) UILabel *homelabel;
-@property (nonatomic,strong) DWBubbleMenuButton* upMenuView;
+@property (nonatomic,strong) UIButton *add_btn;
+@property (nonatomic,strong) NSString *add_str;
 @end
 
 @implementation materViewController
@@ -28,12 +29,9 @@
     [self.view addSubview:self.matertableview];
     [self.navitionBar.right_btn removeFromSuperview];
     self.navitionBar.title_label.text = @"素材库";
-    self.mater_arr = [NSMutableArray arrayWithObjects:@"1",@"2" ,@"3",@"4",nil];
-    
-    self.homelabel = [self createHomeButtonView];
-    
-    [self.view addSubview:self.upMenuView];
-    
+    //self.mater_arr = [NSMutableArray arrayWithObjects:@"1",@"2" ,@"3",@"4",nil];
+    self.mater_arr = [NSMutableArray array];
+    [self.view addSubview:self.add_btn];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,24 +43,24 @@
 {
     [super viewWillAppear:animated];
     self.matertableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
+    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
     
 }
 #pragma mark - getters
 
--(DWBubbleMenuButton *)upMenuView
+-(UIButton *)add_btn
 {
-    if(!_upMenuView)
+    if(!_add_btn)
     {
-        _upMenuView = [[DWBubbleMenuButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - self.homelabel.frame.size.width - 20.f,
-                                                                           self.view.frame.size.height - self.homelabel.frame.size.height - 20.f,
-                                                                           self.homelabel.frame.size.width,
-                                                                           self.homelabel.frame.size.height) expansionDirection:DirectionUp];
-        
+        _add_btn = [[UIButton alloc] init];
+        _add_btn.backgroundColor = [UIColor grayColor];
+        [_add_btn setTitle:@"add" forState:UIControlStateNormal];
+        [_add_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _add_btn.layer.masksToBounds = YES;
+        _add_btn.layer.cornerRadius = 25;
+        [_add_btn addTarget:self action:@selector(addanew) forControlEvents:UIControlEventTouchUpInside];
     }
-    _upMenuView.homeButtonView = self.homelabel;
-    [_upMenuView addButtons:[self createDemoButtonArray]];
-
-    return _upMenuView;
+    return _add_btn;
 }
 
 -(UITableView *)matertableview
@@ -92,7 +90,6 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
     cell.textLabel.text = self.mater_arr[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
     return cell;
 }
 
@@ -104,7 +101,8 @@
 //点击cell方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击cell");
-    speaificViewController *specVC = [[speaificViewController alloc] initWithTitle:@"详细"isNeedBack:YES btn_image:nil];
+    
+    speaificViewController *specVC = [[speaificViewController alloc] initWithTitle:self.mater_arr[indexPath.row] isNeedBack:YES btn_image:nil];
     [self.navigationController pushViewController:specVC animated:YES];
 }
 
@@ -166,10 +164,7 @@
        // UITextField *renameTextField = [[UITextField alloc]init];
         
         [control addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            // 可以在这里对textfield进行定制，例如改变背景色
-            //textField.backgroundColor = [UIColor orangeColor];
-            //self.str = [[NSString alloc] init];
-           // self.str = textField.text;
+           
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
             
         }];
@@ -199,89 +194,6 @@
     
 }
 
-- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification {
-    UITextField *textField = notification.object;
-    self.str=textField.text;
-   // NSLog(@"%@",textField.text);
-    // Enforce a minimum length of >= 5 characters for secure text alerts.
-    //self.secureTextAlertAction.enabled = textField.text.length >= 5;
-}
-
-#pragma mark - 悬浮按钮方法 
-- (UILabel *)createHomeButtonView {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 40.f, 40.f)];
-    
-    label.text = @"Tap";
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.layer.cornerRadius = label.frame.size.height / 2.f;
-    label.backgroundColor =[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
-    label.clipsToBounds = YES;
-    
-    return label;
-}
-
-- (NSArray *)createDemoButtonArray {
-    NSMutableArray *buttonsMutable = [[NSMutableArray alloc] init];
-    
-    int i = 0;
-    for (NSString *title in @[@"A", @"B", @"C", @"D", @"E"]) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-        
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button setTitle:title forState:UIControlStateNormal];
-        
-        button.frame = CGRectMake(0.f, 0.f, 30.f, 30.f);
-        button.layer.cornerRadius = button.frame.size.height / 2.f;
-        button.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
-        button.clipsToBounds = YES;
-        button.tag = i++;
-        
-        [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [buttonsMutable addObject:button];
-    }
-    
-    return [buttonsMutable copy];
-}
-
-- (void)test:(UIButton *)sender {
-    if (sender.tag == 0) {
-        NSLog(@"0");
-    }
-    if (sender.tag == 1) {
-        NSLog(@"1");
-    }
-    if (sender.tag == 2) {
-        NSLog(@"2");
-    }
-    if(sender.tag == 3)
-    {
-        NSLog(@"2333");
-    }
-    if (sender.tag == 4) {
-        NSLog(@"444");
-    }
-}
-
-- (UIButton *)createButtonWithName:(NSString *)imageName {
-    UIButton *button = [[UIButton alloc] init];
-    [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    [button sizeToFit];
-    
-    [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
-    
-    return button;
-}
-
-
-- (BOOL)prefersStatusBarHidden {
-    return true;
-}
-
-
-
-
 #pragma mark - 实现方法
 
 -(void)leftbtnClick
@@ -294,4 +206,53 @@
     [itrSideMenu presentLeftMenuViewController];
     
 }
+
+- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification {
+    UITextField *textField = notification.object;
+    self.str=textField.text;
+}
+
+-(void)addanew
+{
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"添加" message:@"请输入分类名" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.mater_arr addObject:self.add_str];
+        [self.matertableview reloadData];
+        
+    }];
+    [control addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification2:) name:UITextFieldTextDidChangeNotification object:textField];
+        
+        //新建文件夹
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,self.str];
+        
+        // 判断文件夹是否存在，如果不存在，则创建
+        if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
+            [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        } else {
+            NSLog(@"FileDir is exists.");
+            NSLog(@"%@",createPath);
+        }
+
+        
+    }];
+
+    [control addAction:action1];
+    [control addAction:action2];
+    [self presentViewController:control animated:YES completion:nil];
+
+}
+
+- (void)handleTextFieldTextDidChangeNotification2:(NSNotification *)notification {
+    UITextField *textField = notification.object;
+    self.add_str=textField.text;
+}
+
 @end

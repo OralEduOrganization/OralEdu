@@ -9,9 +9,10 @@
 #import "speaificViewController.h"
 #import "CocoaPickerViewController.h"
 @interface speaificViewController ()<CocoaPickerViewControllerDelegate>
-@property(nonatomic,strong) UIImageView *showImageView;
-@property(nonatomic,strong) UIScrollView *scrollView;
-@property(nonatomic,strong) UIButton *btn;
+@property (nonatomic,strong) UIImageView *showImageView;
+@property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,strong) UIButton *btn;
+@property (nonatomic,strong) UIButton *add_btn;
 @end
 
 @implementation speaificViewController
@@ -30,8 +31,8 @@
 //    UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
 
     
-    
-    [self.view addSubview:self.btn];
+    [self.view addSubview:self.add_btn];
+   // [self.view addSubview:self.btn];
     [self.view addSubview:self.scrollView];
 }
 
@@ -43,25 +44,25 @@
 
 #pragma mark - getters
 
--(UIButton *)btn
+-(UIButton *)add_btn
 {
-    if (!_btn) {
-        _btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        _btn.bounds = CGRectMake(0, 0, 90, 90);
-        _btn.backgroundColor = [UIColor colorWithRed:211/255.0 green:44/255.0 blue:37/255.0 alpha:1];
-        _btn.tintColor = [UIColor whiteColor];
-        _btn.layer.cornerRadius = 45;
-        _btn.clipsToBounds = YES;
-        _btn.layer.masksToBounds = NO;
-        _btn.layer.shadowColor = [UIColor blackColor].CGColor;
-        _btn.layer.shadowOffset = CGSizeMake(4.0f, 4.0f);
-        _btn.layer.shadowOpacity = 0.5f;
-        _btn.center = CGPointMake(self.view.bounds.size.width/2.0, CGRectGetHeight(self.view.bounds) - 100);
-        [_btn setTitleColor:[UIColor redColor] forState:normal];
-        [_btn addTarget:self action:@selector(present:) forControlEvents:UIControlEventTouchUpInside];
-        [_btn addTarget:self action:@selector(touchDownAnamation:) forControlEvents:UIControlEventTouchDown];
+    if (!_add_btn) {
+        _add_btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        _add_btn.bounds = CGRectMake(0, 0, 90, 90);
+        _add_btn.backgroundColor = [UIColor colorWithRed:211/255.0 green:44/255.0 blue:37/255.0 alpha:1];
+        _add_btn.tintColor = [UIColor whiteColor];
+        _add_btn.layer.cornerRadius = 45;
+        _add_btn.clipsToBounds = YES;
+        _add_btn.layer.masksToBounds = NO;
+        _add_btn.layer.shadowColor = [UIColor blackColor].CGColor;
+        _add_btn.layer.shadowOffset = CGSizeMake(4.0f, 4.0f);
+        _add_btn.layer.shadowOpacity = 0.5f;
+        _add_btn.center = CGPointMake(self.view.bounds.size.width/2.0, CGRectGetHeight(self.view.bounds) - 100);
+        [_add_btn setTitleColor:[UIColor redColor] forState:normal];
+        [_add_btn addTarget:self action:@selector(addimage) forControlEvents:UIControlEventTouchUpInside];
+        [_add_btn addTarget:self action:@selector(touchDownAnamation:) forControlEvents:UIControlEventTouchDown];
     }
-    return _btn;
+    return _add_btn;
 }
 
 -(UIScrollView *)scrollView
@@ -83,11 +84,32 @@
 
 #pragma mark - 弹出图片选择器
 
-- (void)present:(UIButton*)button {
+-(void)addimage
+{
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"选择需要添加的图片" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        CocoaPickerViewController *transparentView = [[CocoaPickerViewController alloc] init];
+        transparentView.delegate = self;
+        transparentView.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        transparentView.view.frame=self.view.frame;
+        //        transparentView.view.superview.backgroundColor = [UIColor clearColor];
+        [self presentViewController:transparentView animated:YES completion:nil];
+    }];
+    [control addAction:action1];
+    [control addAction:action2];
     
-    button.bounds = CGRectMake(0, 0, 90, 90);
+    [self presentViewController:control animated:YES completion:nil];
+
+}
+
+- (void)present {
+    
+    //button.bounds = CGRectMake(0, 0, 90, 90);
     [UIView animateWithDuration:0.25 animations:^{
-        button.layer.cornerRadius = 45;
+      //  button.layer.cornerRadius = 45;
         
     }completion:^(BOOL finished) {
         self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCurrentContext;//半透明
@@ -98,8 +120,6 @@
         //        transparentView.view.superview.backgroundColor = [UIColor clearColor];
         [self presentViewController:transparentView animated:YES completion:nil];
     }];
-    
-    
     
 }
 

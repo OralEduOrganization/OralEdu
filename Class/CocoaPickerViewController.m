@@ -158,10 +158,9 @@
 }
 
 #pragma mark -启动相机或者相册
+
+
 - (void)tackPhotoOrChoseFromLib : (NSInteger )indexPathRow{
-    
-    
-    
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
@@ -203,8 +202,6 @@
     }];
     
 }
-
-
 
 
 -(UIAlertView *)alertWithTitle:(NSString *)title andMessage:(NSString *)message andButtonTitle:(NSString *)titleOne andButtonTitle:(NSString *)titleTwo{

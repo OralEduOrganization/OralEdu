@@ -20,6 +20,8 @@
 @property (nonatomic,strong) picModel *picM;
 @property (nonatomic,strong) NSMutableArray *arr;
 @property (nonatomic,strong) infoTableViewCell1 *cell;
+@property (nonatomic,strong) NSString *createPa;
+@property (nonatomic,strong) UIImage *saveImage;
 @end
 
 @implementation myinfoViewController
@@ -31,6 +33,34 @@
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
     self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"修改地址",@"修改签名", nil];
+    
+    
+    NSFileManager *filman = [[NSFileManager alloc] init];
+    NSString *pathDoc  = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+    
+    self.createPa = [NSString stringWithFormat:@"%@/lib",pathDoc];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:self.createPa]) {
+        [filman createDirectoryAtPath:self.createPa withIntermediateDirectories:YES attributes:nil error:nil];
+        
+    }
+    else
+    {
+        NSLog(@"add great!");
+        NSLog(@"%@",self.createPa);
+    }
+    
+    
+    
+    //加载首先访问本地沙盒是否存在相关图片
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:self.createPa] stringByAppendingPathComponent:@"currentImage.png"];
+    
+     self.saveImage = [UIImage imageWithContentsOfFile:fullPath];
+    
+
+
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,9 +138,15 @@
             _cell = [[infoTableViewCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic];
             _cell.m_label.text = @"头像";
             NSURL *url = [NSURL URLWithString:_picM.image_urlstr];
-            _cell.pic_imageview.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-            _cell.pic_imageview.layer.masksToBounds = YES;
-            _cell.pic_imageview.layer.cornerRadius = 40;
+            
+            if (!_saveImage) {
+                _cell.pic_imageview.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                _cell.pic_imageview.layer.masksToBounds = YES;
+                _cell.pic_imageview.layer.cornerRadius = 40;
+            }else
+            {
+                _cell.pic_imageview.image = self.saveImage;
+            }
             _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
         }
@@ -175,7 +211,7 @@
     
     if (indexPath.section==0)
     {
-        [self changeimage];
+        [self changeIcon];
     }
     else
     {
@@ -220,37 +256,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//选择头像
--(void)changeimage
-{
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"头像" message:@"选择图片" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-        imagePickerController.delegate = self;
-        imagePickerController.allowsEditing = YES;
-        [self presentViewController:imagePickerController animated:YES completion:^{
-            
-        }];
-        
-        
-    }];
-    
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"back" style:    UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [controll addAction:action2];
-    [controll addAction:action1];
-    [self presentViewController:controll animated:YES completion:nil];
-}
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [picker dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    self.cell.pic_imageview.image = image;
-}
 //修改性别
 -(void)Modifygender
 {
@@ -272,4 +277,137 @@
 
     [self presentViewController:control animated:YES completion:nil];
 }
+
+- (void)changeIcon
+{
+    UIAlertController *alertController;
+    
+    __block NSUInteger blockSourceType = 0;
+    
+    // 判断是否支持相机
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        //支持访问相机与相册情况
+        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:    UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSLog(@"点击从相册中选取");
+            //相册
+            blockSourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            
+            imagePickerController.delegate = self;
+            
+            imagePickerController.allowsEditing = YES;
+            
+            imagePickerController.sourceType = blockSourceType;
+            
+            [self presentViewController:imagePickerController animated:YES completion:nil];
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSLog(@"点击拍照");
+            //相机
+            blockSourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            
+            imagePickerController.delegate = self;
+            
+            imagePickerController.allowsEditing = YES;
+            
+            imagePickerController.sourceType = blockSourceType;
+            
+            [self presentViewController:imagePickerController animated:YES completion:nil];
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSLog(@"点击取消");
+            // 取消
+            return;
+        }]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        //只支持访问相册情况
+        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSLog(@"点击从相册中选取");
+            //相册
+            blockSourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            
+            imagePickerController.delegate = self;
+            
+            imagePickerController.allowsEditing = YES;
+            
+            imagePickerController.sourceType = blockSourceType;
+            
+            [self presentViewController:imagePickerController animated:YES completion:^{
+                
+            }];
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSLog(@"点击取消");
+            // 取消
+            return;
+        }]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+#pragma mark - 选择图片后,回调选择
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    /* 此处info 有六个可选类型
+     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
+     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
+     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
+     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
+     * UIImagePickerControllerMediaURL;       // an NSURL
+     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
+     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
+     */
+    
+   // [_iconBtn setImage:image forState:UIControlStateNormal];
+    self.cell.pic_imageview.image = image;
+
+    [self saveImage:image withName:@"currentImage.png"];
+}
+
+
+#pragma mark - 保存图片至本地沙盒
+
+- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName
+{
+    
+    NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.8);
+    
+    // 获取沙盒目录
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:self.createPa] stringByAppendingPathComponent:imageName];
+    
+    // 将图片写入文件
+    [imageData writeToFile:fullPath atomically:NO];
+    NSLog(@"%@",fullPath);
+}
+
+
+
 @end
