@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 #import "ITRAirSideMenu.h"
-@interface materViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
+@interface materViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @end

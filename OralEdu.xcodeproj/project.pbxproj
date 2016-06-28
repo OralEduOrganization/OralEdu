@@ -10,6 +10,7 @@
 		530538DD1D1C02EB001736B3 /* titleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538DC1D1C02EB001736B3 /* titleModel.m */; };
 		530538E01D1C096E001736B3 /* leftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538DF1D1C096E001736B3 /* leftCell.m */; };
 		530538F11D1C0F7B001736B3 /* setViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538F01D1C0F7B001736B3 /* setViewController.m */; };
+		53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53371D491D226DFE0040F7A7 /* QuartzCore.framework */; };
 		534522D31D1BFCFB0055C0EE /* homeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 534522D21D1BFCFB0055C0EE /* homeModel.m */; };
 		534522D61D1BFD440055C0EE /* homeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 534522D51D1BFD440055C0EE /* homeCell.m */; };
 		53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A7A1D20072F00F9631B /* DWBubbleMenuButton.m */; };
@@ -61,6 +62,7 @@
 		530538DF1D1C096E001736B3 /* leftCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftCell.m; sourceTree = "<group>"; };
 		530538EF1D1C0F7B001736B3 /* setViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setViewController.h; sourceTree = "<group>"; };
 		530538F01D1C0F7B001736B3 /* setViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = setViewController.m; sourceTree = "<group>"; };
+		53371D491D226DFE0040F7A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		534522D11D1BFCFB0055C0EE /* homeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homeModel.h; sourceTree = "<group>"; };
 		534522D21D1BFCFB0055C0EE /* homeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = homeModel.m; sourceTree = "<group>"; };
 		534522D41D1BFD440055C0EE /* homeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homeCell.h; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +543,7 @@
 		53E91A121D1B70E40091E85A = {
 			isa = PBXGroup;
 			children = (
+				53371D491D226DFE0040F7A7 /* QuartzCore.framework */,
 				53E91A361D1B71090091E85A /* Other */,
 				53E91A351D1B70FF0091E85A /* Framwork */,
 				53E91A1D1D1B70E40091E85A /* OralEdu */,

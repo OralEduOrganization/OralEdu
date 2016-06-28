@@ -212,47 +212,62 @@
     self.str=textField.text;
 }
 
+//添加文件夹分类
 -(void)addanew
 {
+    NSLog(@"沙盒路径：%@",NSHomeDirectory());
+    
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"添加" message:@"请输入分类名" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:UITextFieldTextDidChangeNotification object:nil];
         [self.mater_arr addObject:self.add_str];
         [self.matertableview reloadData];
-        
-    }];
+        //新建文件夹
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,self.add_str];
+        NSLog(@"str = %@",self.add_str);
+        // 判断文件夹是否存在，如果不存在，则创建
+        if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
+            [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+            
+            
+        } else {
+            NSLog(@"FileDir is exists.");
+            
+        }
+
+    }]; 
+
     [control addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification2:) name:UITextFieldTextDidChangeNotification object:textField];
         
-        //新建文件夹
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,self.str];
-        
-        // 判断文件夹是否存在，如果不存在，则创建
-        if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
-            [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        } else {
-            NSLog(@"FileDir is exists.");
-            NSLog(@"%@",createPath);
-        }
-
-        
+     
     }];
 
     [control addAction:action1];
     [control addAction:action2];
     [self presentViewController:control animated:YES completion:nil];
-
+    
 }
 
 - (void)handleTextFieldTextDidChangeNotification2:(NSNotification *)notification {
     UITextField *textField = notification.object;
+    NSLog(@"%@",textField.text);
     self.add_str=textField.text;
 }
+
+//销毁观察者模式
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 @end

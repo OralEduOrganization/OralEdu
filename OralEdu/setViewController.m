@@ -17,10 +17,14 @@
 @property (nonatomic,strong) NSMutableArray *setarr;
 @property (nonatomic,strong) setView *setV;
 @property (nonatomic,strong) NSMutableArray *modelarr;
+@property (nonatomic,strong) NSString *cache_str;
+
 @end
 
 @implementation setViewController
-
+{
+    NSInteger *chat;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navitionBar.right_btn removeFromSuperview];
@@ -125,7 +129,7 @@
     if(indexPath.row==0)
     {
          NSLog(@"清理缓存");
-        [self qinlihuancun];
+        [self cache];
     }
     else
     {
@@ -134,23 +138,6 @@
     }
 }
 #pragma mark - 实现方法
--(void)qinlihuancun
-{
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"back" style:    UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [controll addAction:action1];
-    [controll addAction:action2];
-    
-    [self presentViewController:controll animated:YES completion:nil];
-}
-
 -(void)leftbtnClick
 {
     [self presentLeftMenuViewController];
@@ -166,6 +153,49 @@
 {
     myinfoViewController *myinfoVC = [[myinfoViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
     [self.navigationController pushViewController:myinfoVC animated:YES];
+}
+//清理缓存
+-(void)cache
+{
+    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+        dispatch_async(
+                       dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                       , ^{
+                           NSString *cachPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                           
+                           NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachPath];
+                           NSLog(@"files :%ld",[files count]);
+                           
+                           
+                           for (NSString *p in files) {
+                               NSError *error;
+                               NSString *path = [cachPath stringByAppendingPathComponent:p];
+                               if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                                   [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+                               }
+                           }
+                           [self performSelectorOnMainThread:@selector(clearCacheSuccess) withObject:nil waitUntilDone:YES];});
+        
+        
+        
+    }];
+    
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"back" style:    UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [controll addAction:action1];
+    [controll addAction:action2];
+    
+    [self presentViewController:controll animated:YES completion:nil];
+}
+
+-(void)clearCacheSuccess
+{
+    NSLog(@"清理成功");
 }
 
 @end
