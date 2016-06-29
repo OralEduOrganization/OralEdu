@@ -11,6 +11,9 @@
 #import "materalCell.h"
 #import "speaificViewController.h"
 #import "DWBubbleMenuButton.h"
+#import "NSString+SZYKit.h"
+#import "materal_finder.h"
+#import "Datebase_materallist.h"
 @interface materViewController ()
 @property (nonatomic,strong) UITableView *matertableview;
 @property (nonatomic,strong) NSMutableArray *mater_arr;
@@ -18,6 +21,9 @@
 @property (nonatomic,strong) UILabel *homelabel;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) NSString *add_str;
+
+@property (nonatomic,strong) materal_finder *m_finder;
+@property (nonatomic,strong) UITableViewCell *cell;
 @end
 
 @implementation materViewController
@@ -28,11 +34,26 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
     [self.navitionBar.right_btn removeFromSuperview];
+
+    
     self.navitionBar.title_label.text = @"素材库";
     //self.mater_arr = [NSMutableArray arrayWithObjects:@"1",@"2" ,@"3",@"4",nil];
     self.mater_arr = [NSMutableArray array];
     [self.view addSubview:self.add_btn];
-}
+    
+    _m_finder = [[materal_finder alloc] init];
+    
+    NSMutableArray *listArr = [NSMutableArray array];
+    listArr  =  [Datebase_materallist readmaderallist];
+    
+    for (int i=0; i<listArr.count; i++) {
+        materal_finder *arr=listArr[i];
+        [_mater_arr addObject:arr.materal_finder_name];
+    }
+    
+    
+    
+   }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -85,12 +106,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identfider = @"materalCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
+    _cell = [tableView dequeueReusableCellWithIdentifier:identfider];
     
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
-    cell.textLabel.text = self.mater_arr[indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return cell;
+    _cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
+    _cell.textLabel.text = self.mater_arr[indexPath.row];
+    _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return _cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,6 +144,11 @@
         NSLog(@"点击了删除");
         
         // 1. 更新数据
+        self.cell=[self.matertableview cellForRowAtIndexPath:indexPath];
+       // NSString *aaa=self.cell.textLabel.text;
+        [Datebase_materallist deletematerallist:self.cell.textLabel.text];
+        
+        [self deleteFileWithObjetName:self.cell.textLabel.text];
         
         [_mater_arr removeObjectAtIndex:indexPath.row];
         
@@ -230,7 +256,7 @@
         //新建文件夹
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,self.add_str];
+        NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,@"12136",self.add_str];
         NSLog(@"str = %@",self.add_str);
         // 判断文件夹是否存在，如果不存在，则创建
         if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
@@ -241,6 +267,10 @@
             NSLog(@"FileDir is exists.");
             
         }
+        _m_finder.materal_finder_id = @"33";
+        _m_finder.materal_finder_name = self.add_str;
+
+        [Datebase_materallist savematerallist:_m_finder];
 
     }]; 
 
@@ -254,6 +284,8 @@
     [control addAction:action1];
     [control addAction:action2];
     [self presentViewController:control animated:YES completion:nil];
+    
+    
     
 }
 
@@ -270,4 +302,25 @@
 }
 
 
+-(void)deleteFileWithObjetName:(NSString *)name {
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    
+    //文件名
+    NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:name];
+    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:uniquePath];
+    if (!blHave) {
+        NSLog(@"no  have");
+        return ;
+    }else {
+        NSLog(@" have");
+        BOOL blDele= [fileManager removeItemAtPath:uniquePath error:nil];
+        if (blDele) {
+            NSLog(@"dele success");
+        }else {
+            NSLog(@"dele fail");
+        }
+        
+    }
+}
 @end

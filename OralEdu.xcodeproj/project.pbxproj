@@ -11,12 +11,11 @@
 		530538E01D1C096E001736B3 /* leftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538DF1D1C096E001736B3 /* leftCell.m */; };
 		530538F11D1C0F7B001736B3 /* setViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538F01D1C0F7B001736B3 /* setViewController.m */; };
 		53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53371D491D226DFE0040F7A7 /* QuartzCore.framework */; };
+		53371D4D1D22BD800040F7A7 /* imageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53371D4C1D22BD800040F7A7 /* imageTableViewCell.m */; };
+		53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */; };
 		534522D31D1BFCFB0055C0EE /* homeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 534522D21D1BFCFB0055C0EE /* homeModel.m */; };
 		534522D61D1BFD440055C0EE /* homeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 534522D51D1BFD440055C0EE /* homeCell.m */; };
 		53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A7A1D20072F00F9631B /* DWBubbleMenuButton.m */; };
-		53464A831D200AFE00F9631B /* CocoaGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A7E1D200AFE00F9631B /* CocoaGroup.m */; };
-		53464A841D200AFE00F9631B /* CocoaHederView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A801D200AFE00F9631B /* CocoaHederView.m */; };
-		53464A851D200AFE00F9631B /* CocoaPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A821D200AFE00F9631B /* CocoaPickerViewController.m */; };
 		538D2E401D1CC2D800BB9588 /* leftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 538D2E3F1D1CC2D800BB9588 /* leftView.m */; };
 		538D2E431D1CCC8F00BB9588 /* leftviewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 538D2E421D1CCC8F00BB9588 /* leftviewModel.m */; };
 		538D2E4A1D1CDB7200BB9588 /* infomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538D2E491D1CDB7200BB9588 /* infomationViewController.m */; };
@@ -43,6 +42,15 @@
 		539313661D1BC7D30035D874 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 539313651D1BC7D30035D874 /* loginViewController.m */; };
 		5393136C1D1BC9760035D874 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5393136B1D1BC9760035D874 /* TextView.m */; };
 		539313701D1BCB860035D874 /* registerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5393136F1D1BCB860035D874 /* registerViewController.m */; };
+		53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */; };
+		53D2ACD81D235CC0001BA2C2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCF1D235CC0001BA2C2 /* FMDatabaseAdditions.m */; };
+		53D2ACD91D235CC0001BA2C2 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACD11D235CC0001BA2C2 /* FMDatabasePool.m */; };
+		53D2ACDA1D235CC0001BA2C2 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACD31D235CC0001BA2C2 /* FMDatabaseQueue.m */; };
+		53D2ACDB1D235CC0001BA2C2 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACD61D235CC0001BA2C2 /* FMResultSet.m */; };
+		53D2ACE11D2373D1001BA2C2 /* NSString+SZYKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACE01D2373D1001BA2C2 /* NSString+SZYKit.m */; };
+		53D2ACE41D239187001BA2C2 /* materal_finder.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACE31D239187001BA2C2 /* materal_finder.m */; };
+		53D2ACEA1D239E0D001BA2C2 /* materal_model.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACE91D239E0D001BA2C2 /* materal_model.m */; };
+		53D2ACF31D23A02E001BA2C2 /* Datebase_materallist.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACF21D23A02E001BA2C2 /* Datebase_materallist.m */; };
 		53E91A201D1B70E40091E85A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A1F1D1B70E40091E85A /* main.m */; };
 		53E91A231D1B70E40091E85A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A221D1B70E40091E85A /* AppDelegate.m */; };
 		53E91A261D1B70E40091E85A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A251D1B70E40091E85A /* ViewController.m */; };
@@ -63,18 +71,15 @@
 		530538EF1D1C0F7B001736B3 /* setViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setViewController.h; sourceTree = "<group>"; };
 		530538F01D1C0F7B001736B3 /* setViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = setViewController.m; sourceTree = "<group>"; };
 		53371D491D226DFE0040F7A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		53371D4B1D22BD800040F7A7 /* imageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageTableViewCell.h; sourceTree = "<group>"; };
+		53371D4C1D22BD800040F7A7 /* imageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageTableViewCell.m; sourceTree = "<group>"; };
+		53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		534522D11D1BFCFB0055C0EE /* homeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homeModel.h; sourceTree = "<group>"; };
 		534522D21D1BFCFB0055C0EE /* homeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = homeModel.m; sourceTree = "<group>"; };
 		534522D41D1BFD440055C0EE /* homeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homeCell.h; sourceTree = "<group>"; };
 		534522D51D1BFD440055C0EE /* homeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = homeCell.m; sourceTree = "<group>"; };
 		53464A791D20072F00F9631B /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		53464A7A1D20072F00F9631B /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
-		53464A7D1D200AFE00F9631B /* CocoaGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaGroup.h; sourceTree = "<group>"; };
-		53464A7E1D200AFE00F9631B /* CocoaGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaGroup.m; sourceTree = "<group>"; };
-		53464A7F1D200AFE00F9631B /* CocoaHederView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaHederView.h; sourceTree = "<group>"; };
-		53464A801D200AFE00F9631B /* CocoaHederView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaHederView.m; sourceTree = "<group>"; };
-		53464A811D200AFE00F9631B /* CocoaPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaPickerViewController.h; sourceTree = "<group>"; };
-		53464A821D200AFE00F9631B /* CocoaPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaPickerViewController.m; sourceTree = "<group>"; };
 		538D2E3E1D1CC2D800BB9588 /* leftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leftView.h; sourceTree = "<group>"; };
 		538D2E3F1D1CC2D800BB9588 /* leftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftView.m; sourceTree = "<group>"; };
 		538D2E411D1CCC8F00BB9588 /* leftviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leftviewModel.h; sourceTree = "<group>"; };
@@ -127,6 +132,25 @@
 		5393136B1D1BC9760035D874 /* TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextView.m; sourceTree = "<group>"; };
 		5393136E1D1BCB860035D874 /* registerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerViewController.h; sourceTree = "<group>"; };
 		5393136F1D1BCB860035D874 /* registerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerViewController.m; sourceTree = "<group>"; };
+		53D2ACCC1D235CC0001BA2C2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		53D2ACCE1D235CC0001BA2C2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		53D2ACCF1D235CC0001BA2C2 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		53D2ACD01D235CC0001BA2C2 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		53D2ACD11D235CC0001BA2C2 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		53D2ACD21D235CC0001BA2C2 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		53D2ACD31D235CC0001BA2C2 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		53D2ACD41D235CC0001BA2C2 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		53D2ACD51D235CC0001BA2C2 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		53D2ACD61D235CC0001BA2C2 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		53D2ACDF1D2373D1001BA2C2 /* NSString+SZYKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SZYKit.h"; sourceTree = "<group>"; };
+		53D2ACE01D2373D1001BA2C2 /* NSString+SZYKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SZYKit.m"; sourceTree = "<group>"; };
+		53D2ACE21D239187001BA2C2 /* materal_finder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = materal_finder.h; sourceTree = "<group>"; };
+		53D2ACE31D239187001BA2C2 /* materal_finder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = materal_finder.m; sourceTree = "<group>"; };
+		53D2ACE81D239E0D001BA2C2 /* materal_model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = materal_model.h; sourceTree = "<group>"; };
+		53D2ACE91D239E0D001BA2C2 /* materal_model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = materal_model.m; sourceTree = "<group>"; };
+		53D2ACF11D23A02E001BA2C2 /* Datebase_materallist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Datebase_materallist.h; path = ../Datebase_materallist.h; sourceTree = "<group>"; };
+		53D2ACF21D23A02E001BA2C2 /* Datebase_materallist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Datebase_materallist.m; path = ../Datebase_materallist.m; sourceTree = "<group>"; };
 		53E91A1B1D1B70E40091E85A /* OralEdu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OralEdu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E91A1F1D1B70E40091E85A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		53E91A211D1B70E40091E85A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OralEdu/AppDelegate.h; sourceTree = "<group>"; };
@@ -152,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */,
 				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +217,10 @@
 		530538E71D1C0DF7001736B3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				53D2ACF11D23A02E001BA2C2 /* Datebase_materallist.h */,
+				53D2ACF21D23A02E001BA2C2 /* Datebase_materallist.m */,
+				53D2ACE21D239187001BA2C2 /* materal_finder.h */,
+				53D2ACE31D239187001BA2C2 /* materal_finder.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -231,19 +260,6 @@
 				538D2E531D1D509600BB9588 /* setModel.m */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		53464A7C1D200AFE00F9631B /* Class */ = {
-			isa = PBXGroup;
-			children = (
-				53464A7D1D200AFE00F9631B /* CocoaGroup.h */,
-				53464A7E1D200AFE00F9631B /* CocoaGroup.m */,
-				53464A7F1D200AFE00F9631B /* CocoaHederView.h */,
-				53464A801D200AFE00F9631B /* CocoaHederView.m */,
-				53464A811D200AFE00F9631B /* CocoaPickerViewController.h */,
-				53464A821D200AFE00F9631B /* CocoaPickerViewController.m */,
-			);
-			path = Class;
 			sourceTree = "<group>";
 		};
 		538D2E441D1CDB4600BB9588 /* Infomation个人信息 */ = {
@@ -481,6 +497,8 @@
 		538D2E9B1D1EBB4D00BB9588 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				53371D4B1D22BD800040F7A7 /* imageTableViewCell.h */,
+				53371D4C1D22BD800040F7A7 /* imageTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -488,6 +506,10 @@
 		538D2E9C1D1EBB5300BB9588 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				53D2ACDF1D2373D1001BA2C2 /* NSString+SZYKit.h */,
+				53D2ACE01D2373D1001BA2C2 /* NSString+SZYKit.m */,
+				53D2ACE81D239E0D001BA2C2 /* materal_model.h */,
+				53D2ACE91D239E0D001BA2C2 /* materal_model.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -540,10 +562,28 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		53D2ACCB1D235CC0001BA2C2 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				53D2ACCC1D235CC0001BA2C2 /* FMDatabase.h */,
+				53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */,
+				53D2ACCE1D235CC0001BA2C2 /* FMDatabaseAdditions.h */,
+				53D2ACCF1D235CC0001BA2C2 /* FMDatabaseAdditions.m */,
+				53D2ACD01D235CC0001BA2C2 /* FMDatabasePool.h */,
+				53D2ACD11D235CC0001BA2C2 /* FMDatabasePool.m */,
+				53D2ACD21D235CC0001BA2C2 /* FMDatabaseQueue.h */,
+				53D2ACD31D235CC0001BA2C2 /* FMDatabaseQueue.m */,
+				53D2ACD41D235CC0001BA2C2 /* FMDB.h */,
+				53D2ACD51D235CC0001BA2C2 /* FMResultSet.h */,
+				53D2ACD61D235CC0001BA2C2 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			path = OralEdu/fmdb;
+			sourceTree = "<group>";
+		};
 		53E91A121D1B70E40091E85A = {
 			isa = PBXGroup;
 			children = (
-				53371D491D226DFE0040F7A7 /* QuartzCore.framework */,
 				53E91A361D1B71090091E85A /* Other */,
 				53E91A351D1B70FF0091E85A /* Framwork */,
 				53E91A1D1D1B70E40091E85A /* OralEdu */,
@@ -594,7 +634,9 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
-				53464A7C1D200AFE00F9631B /* Class */,
+				53D2ACCB1D235CC0001BA2C2 /* fmdb */,
+				53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */,
+				53371D491D226DFE0040F7A7 /* QuartzCore.framework */,
 				53E91A411D1B72D50091E85A /* Classes */,
 			);
 			name = Framwork;
@@ -818,22 +860,27 @@
 				538D2E7F1D1E5F0000BB9588 /* infoCell2.m in Sources */,
 				530538E01D1C096E001736B3 /* leftCell.m in Sources */,
 				53E91A261D1B70E40091E85A /* ViewController.m in Sources */,
+				53D2ACE11D2373D1001BA2C2 /* NSString+SZYKit.m in Sources */,
+				53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */,
 				539313621D1BC7000035D874 /* BaseViewController.m in Sources */,
 				538D2E7C1D1E5EF100BB9588 /* infoCell1.m in Sources */,
 				538D2E611D1D69D300BB9588 /* infoTableViewCell2.m in Sources */,
-				53464A851D200AFE00F9631B /* CocoaPickerViewController.m in Sources */,
 				53E91A441D1B72D50091E85A /* ITRAirSideMenu.m in Sources */,
 				530538DD1D1C02EB001736B3 /* titleModel.m in Sources */,
+				53D2ACF31D23A02E001BA2C2 /* Datebase_materallist.m in Sources */,
+				53371D4D1D22BD800040F7A7 /* imageTableViewCell.m in Sources */,
 				539313701D1BCB860035D874 /* registerViewController.m in Sources */,
 				538D2E5B1D1D5CFC00BB9588 /* myinfoViewController.m in Sources */,
 				538D2E881D1E71DF00BB9588 /* hisModel.m in Sources */,
 				538D2E821D1E666800BB9588 /* infoModel.m in Sources */,
+				53D2ACE41D239187001BA2C2 /* materal_finder.m in Sources */,
 				539313631D1BC7000035D874 /* CustomnavView.m in Sources */,
+				53D2ACD91D235CC0001BA2C2 /* FMDatabasePool.m in Sources */,
+				53D2ACEA1D239E0D001BA2C2 /* materal_model.m in Sources */,
 				538D2E981D1EB3B600BB9588 /* materalCell.m in Sources */,
 				534522D31D1BFCFB0055C0EE /* homeModel.m in Sources */,
 				538D2E4A1D1CDB7200BB9588 /* infomationViewController.m in Sources */,
 				538D2E541D1D509600BB9588 /* setModel.m in Sources */,
-				53464A831D200AFE00F9631B /* CocoaGroup.m in Sources */,
 				53E91A231D1B70E40091E85A /* AppDelegate.m in Sources */,
 				538D2E921D1E899300BB9588 /* materViewController.m in Sources */,
 				538D2E401D1CC2D800BB9588 /* leftView.m in Sources */,
@@ -841,16 +888,18 @@
 				53E91A4B1D1B73790091E85A /* leftViewController.m in Sources */,
 				53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */,
 				538D2E4D1D1D29F800BB9588 /* setView.m in Sources */,
+				53D2ACDB1D235CC0001BA2C2 /* FMResultSet.m in Sources */,
 				538D2E431D1CCC8F00BB9588 /* leftviewModel.m in Sources */,
 				538D2E9F1D1EBB6A00BB9588 /* speaificViewController.m in Sources */,
 				538D2E641D1E12E300BB9588 /* picModel.m in Sources */,
 				538D2E5E1D1D648D00BB9588 /* infoTableViewCell1.m in Sources */,
+				53D2ACD81D235CC0001BA2C2 /* FMDatabaseAdditions.m in Sources */,
 				534522D61D1BFD440055C0EE /* homeCell.m in Sources */,
 				538D2E721D1E22E100BB9588 /* passwordViewController.m in Sources */,
 				538D2E791D1E526400BB9588 /* nameViewController.m in Sources */,
 				539313661D1BC7D30035D874 /* loginViewController.m in Sources */,
 				538D2E6B1D1E1F7F00BB9588 /* addressViewController.m in Sources */,
-				53464A841D200AFE00F9631B /* CocoaHederView.m in Sources */,
+				53D2ACDA1D235CC0001BA2C2 /* FMDatabaseQueue.m in Sources */,
 				53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */,
 				53E91A201D1B70E40091E85A /* main.m in Sources */,
 				53E91A401D1B72A50091E85A /* homeViewController.m in Sources */,

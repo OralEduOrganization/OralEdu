@@ -7,13 +7,19 @@
 //
 
 #import "speaificViewController.h"
-
+#import "imageTableViewCell.h"
 @interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UIImageView *showImageView;
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
+
+@property (nonatomic,strong) NSMutableArray *name_arr;
+@property (nonatomic,strong) NSMutableArray *image_arr;
+@property (nonatomic,strong) NSMutableArray *time_arr;
+
+@property (nonatomic,strong) imageTableViewCell *cell;
 @end
 
 @implementation speaificViewController{
@@ -30,18 +36,20 @@
     [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 
     
-    
-    
-    
+    self.image_arr = [NSMutableArray array];
+    [self.view addSubview:self.image_tableview];
     [self.view addSubview:self.add_btn];
-    [self.view addSubview:self.showImageView];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
+    
     self.showImageView.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 400);
+    
+    self.image_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,12 +68,10 @@
         _image_tableview = [[UITableView alloc] init];
         _image_tableview.dataSource = self;
         _image_tableview.delegate = self;
-        
+        _image_tableview.backgroundColor = [UIColor grayColor];
     }
     return _image_tableview;
 }
-
-
 
 
 -(UIButton *)add_btn
@@ -90,8 +96,27 @@
     return _showImageView;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.image_arr.count;
+}
 
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *idconfiger = @"imageviewcell";
+    self.cell = [tableView dequeueReusableCellWithIdentifier:idconfiger];
+    if (!_cell) {
+        _cell = [[imageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idconfiger];
+        _cell.name_label.text = self.name_arr[indexPath.row];
+        _cell.specific_imageview.image = self.image_arr[indexPath.row];
+    }
+    return self.cell;
+}
+//cell的高度
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80.0f;
+}
 
 -(void)addimage
 {
@@ -118,6 +143,7 @@
             imagePickerController.allowsEditing = YES;
             
             imagePickerController.sourceType = blockSourceType;
+            
             
             [self presentViewController:imagePickerController animated:YES completion:nil];
         }]];
@@ -179,6 +205,8 @@
             return;
         }]];
         
+        
+        
         [self presentViewController:alertController animated:YES completion:nil];
     }
 
@@ -194,12 +222,41 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     
   
+    [self.image_arr addObject:image];
+    [self.image_tableview reloadData];
+    
+    //int x =  arc4random() % 100;
+    NSString *needTime;
+    needTime=[self getCurrentTime];
+    [self saveImage:image withName:[NSString stringWithFormat:@"12136%@.png",needTime]];
     
     
-    self.showImageView.image = image;
- //   [self saveImage:image withName:@"currentImage.png"];
+    
+    
 }
-
+//获取时间
+-(NSString *)getCurrentTime{
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateTime=[formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
+//保存图片
+-(void)saveImage:(UIImage *)currentImage withName:(NSString *)needImageName{
+    
+    NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
+    NSString *path = self.navitionBar.title_label.text;
+    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",@"12136",path]]stringByAppendingPathComponent:needImageName];
+    [imageData writeToFile:fullPath atomically:NO];
+}
+//获取图片路径
+-(NSString *)getImagepath
+{
+    NSLog(@"沙盒路径：%@",NSHomeDirectory());
+   
+    
+    return nil;
+}
 #pragma mark - 实现方法
 -(void)leftbtnClick
 {
