@@ -256,7 +256,9 @@
         //新建文件夹
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,@"12136",self.add_str];
+        
+        NSString *user_id = @"12136";
+        NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.add_str];
         NSLog(@"str = %@",self.add_str);
         // 判断文件夹是否存在，如果不存在，则创建
         if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
@@ -267,7 +269,8 @@
             NSLog(@"FileDir is exists.");
             
         }
-        _m_finder.materal_finder_id = @"33";
+
+        _m_finder.materal_finder_id = user_id;
         _m_finder.materal_finder_name = self.add_str;
 
         [Datebase_materallist savematerallist:_m_finder];

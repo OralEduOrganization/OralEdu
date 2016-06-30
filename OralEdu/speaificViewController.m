@@ -8,20 +8,23 @@
 
 #import "speaificViewController.h"
 #import "imageTableViewCell.h"
-@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic,strong) UIImageView *showImageView;
-@property (nonatomic,strong) UIScrollView *scrollView;
+#import "Datebase_materallist.h"
+#import "materal_model.h"
+#import "imageCollectionViewCell.h"
+@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
-
 @property (nonatomic,strong) NSMutableArray *name_arr;
 @property (nonatomic,strong) NSMutableArray *image_arr;
 @property (nonatomic,strong) NSMutableArray *time_arr;
-
 @property (nonatomic,strong) imageTableViewCell *cell;
+@property (nonatomic,strong) materal_model *m_model;
+@property (nonatomic,strong) NSMutableArray *need_arr;
+@property (nonatomic,strong) UICollectionView *image_collectionview;
 @end
-
+static NSString *collectionview = @"imagecell";
 @implementation speaificViewController{
     
      CGFloat nowImgViewFrameY;
@@ -31,23 +34,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     self.need_arr=[[NSMutableArray alloc]init];
+     self.m_model = [[materal_model alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navitionBar.right_btn setTitle:@"搜索" forState:UIControlStateNormal];
     [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 
     
     self.image_arr = [NSMutableArray array];
-    [self.view addSubview:self.image_tableview];
-    [self.view addSubview:self.add_btn];
+    [self addTheCollectionView];
     
+    [self.view addSubview:self.add_btn];
+    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:@"22222"];
+    
+    for(int i=0;i<self.need_arr.count;i++){
+        materal_model *need_model=self.need_arr[i];
+        UIImage *image= [[UIImage alloc]initWithContentsOfFile:need_model.materal_imagepath];
+        [self.image_arr addObject:image];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
-    
-    self.showImageView.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 400);
     
     self.image_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
 }
@@ -59,19 +69,6 @@
 
 
 #pragma mark - getters
-
-
--(UITableView *)image_tableview
-{
-    if(!_image_tableview)
-    {
-        _image_tableview = [[UITableView alloc] init];
-        _image_tableview.dataSource = self;
-        _image_tableview.delegate = self;
-        _image_tableview.backgroundColor = [UIColor grayColor];
-    }
-    return _image_tableview;
-}
 
 
 -(UIButton *)add_btn
@@ -86,37 +83,89 @@
     return _add_btn;
 }
 
--(UIImageView *)showImageView
-{
-    if(!_showImageView)
-    {
-        _showImageView = [[UIImageView alloc] init];
-        _showImageView.backgroundColor = [UIColor greenColor];
-    }
-    return _showImageView;
-}
+//-(UITableView *)image_tableview
+//{
+//    if(!_image_tableview)
+//    {
+//        _image_tableview = [[UITableView alloc] init];
+//        _image_tableview.backgroundColor = [UIColor grayColor];
+//        _image_tableview.dataSource = self;
+//        _image_tableview.delegate = self;
+//    }
+//    return _image_tableview;
+//}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return self.image_arr.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *idconfiger = @"imageviewcell";
+//    self.cell = [tableView dequeueReusableCellWithIdentifier:idconfiger];
+//    if (!_cell) {
+//        _cell = [[imageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idconfiger];
+//        _cell.name_label.text = self.name_arr[indexPath.row];
+//        _cell.specific_imageview.image = self.image_arr[indexPath.row];
+//    }
+//    return self.cell;
+//}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.image_arr.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *idconfiger = @"imageviewcell";
-    self.cell = [tableView dequeueReusableCellWithIdentifier:idconfiger];
-    if (!_cell) {
-        _cell = [[imageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idconfiger];
-        _cell.name_label.text = self.name_arr[indexPath.row];
-        _cell.specific_imageview.image = self.image_arr[indexPath.row];
-    }
-    return self.cell;
+    imageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
+    cell.imageview.image = self.image_arr[indexPath.item];
+    return cell;
 }
-//cell的高度
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80.0f;
+
+
+////cell的高度
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 80.0f;
+//}
+
+
+-(void)addTheCollectionView{
+    
+    //=======================1===========================
+    //创建一个块状表格布局对象
+    UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
+    //格子的大小 (长，高)
+    flowL.itemSize = CGSizeMake(90, 90);
+    //横向最小距离
+    //flowL.minimumInteritemSpacing = 1.f;
+    //    flowL.minimumLineSpacing=60.f;//代表的是纵向的空间间隔
+    //设置，上／左／下／右 边距 空间间隔数是多少
+    //flowL.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    //如果有多个 区 就可以拉动
+    [flowL setScrollDirection:UICollectionViewScrollDirectionVertical];
+    //可以左右拉动
+    // [flowL setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    
+    _image_collectionview = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) collectionViewLayout:flowL];
+    //设置代理为当前控制器
+    _image_collectionview.delegate = self;
+    _image_collectionview.dataSource = self;
+    //设置背景
+    _image_collectionview.backgroundColor =[UIColor grayColor];
+    
+#pragma mark -- 注册单元格
+    [_image_collectionview registerClass:[imageCollectionViewCell class] forCellWithReuseIdentifier:collectionview];
+    //添加视图
+    [self.view addSubview:_image_collectionview];
+    
 }
+
+
 
 -(void)addimage
 {
@@ -224,14 +273,21 @@
   
     [self.image_arr addObject:image];
     [self.image_tableview reloadData];
-    
+    NSString *user_id = @"12136";
     //int x =  arc4random() % 100;
     NSString *needTime;
     needTime=[self getCurrentTime];
-    [self saveImage:image withName:[NSString stringWithFormat:@"12136%@.png",needTime]];
+    [self saveImage:image withName:[NSString stringWithFormat:@"%@_%@.png",user_id,needTime]];
+    
+   
+    
+    self.m_model.materal_id = user_id;
+    self.m_model.materal_name = @"22222";
+    self.m_model.materal_time = needTime;
     
     
-    
+    [Datebase_materallist savemateraldetails:self.m_model];
+    [self.image_collectionview reloadData];
     
 }
 //获取时间
@@ -246,9 +302,13 @@
     
     NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
     NSString *path = self.navitionBar.title_label.text;
-    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",@"12136",path]]stringByAppendingPathComponent:needImageName];
+    NSString *user_id = @"12136";
+    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
     [imageData writeToFile:fullPath atomically:NO];
+    
+    self.m_model.materal_imagepath = fullPath;
 }
+
 //获取图片路径
 -(NSString *)getImagepath
 {

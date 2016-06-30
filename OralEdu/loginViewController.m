@@ -9,11 +9,16 @@
 #import "loginViewController.h"
 #import "TextView.h"
 #import "registerViewController.h"
+#import "HttpTool.h"
+
+
 @interface loginViewController ()
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIView *m_view;
 @property (nonatomic,strong) TextView *Tview;
 @property (nonatomic,strong) UIButton *registered_btn;
+@property (nonatomic,strong) NSString *user_str;
+@property (nonatomic,strong) NSString *user_paseword;
 @end
 
 @implementation loginViewController
@@ -24,6 +29,9 @@
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
+    self.user_str = [[NSString alloc] init];
+    self.user_paseword = [[NSString alloc] init];
+    
     [self.view addSubview:self.login_btn];
     [self.view addSubview:self.Tview];
     [self.view addSubview:self.registered_btn];
@@ -95,6 +103,21 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    self.user_str = self.Tview.user_text.text;
+    self.user_paseword = self.Tview.pass_text.text;
+    
+//    NSDictionary *para=@{@"user_moblie":@"12345678901",@"user_pwd":@"123"};
+    
+    NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_paseword};
+    
+    [HttpTool postWithparamsWithURL:@"User/UserLogin" andParam:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",dic);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+
 }
 
 -(void)go_registerview
@@ -110,5 +133,6 @@
 {
     [_Tview.user_text resignFirstResponder];
     [_Tview.pass_text resignFirstResponder];
+    
 }
 @end

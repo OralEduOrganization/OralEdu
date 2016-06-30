@@ -8,6 +8,7 @@
 
 #import "registerViewController.h"
 #import "loginViewController.h"
+
 @interface registerViewController ()
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIButton *reist_btn;

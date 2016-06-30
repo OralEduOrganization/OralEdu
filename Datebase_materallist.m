@@ -32,7 +32,7 @@
         {
             //创建数据表
             NSString *sql = @"create table if not exists Datebase_materallist_info(materallist_id TEXT , materallist_name TEXT primary key)";
-            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id TEXT primary key, materal_name TEXT,materal_imagepath TEXT,materal_time TEXT)";
+            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id TEXT , materal_name TEXT ,materal_imagepath TEXT,materal_time TEXT)";
             
             if (![db executeUpdate:sql]) {
                 NSLog(@"create table error :%@",[db lastErrorMessage]);
@@ -116,6 +116,9 @@
 
 
 
+
+
+
 +(void)savemateraldetails:(materal_model *)details
 {
     FMDatabase *db = [self getDatebase];
@@ -135,9 +138,9 @@
 {
     FMDatabase *db = [self getDatebase];
     [db open];
-    NSString *sql = @"update Datebase_details_info set materal_id = ?,materal_name = ?,materal_imagepath = ?, materal_time = ? where user_id = ?";
+    NSString *sql2 = @"update Datebase_details_info set materal_id = ?,materal_name = ?,materal_imagepath = ?, materal_time = ? where user_id = ?";
     
-    if(![db executeUpdate:sql withArgumentsInArray:@[details.materal_id,details.materal_name,details.materal_imagepath,details.materal_imagepath,details.materal_id]])
+    if(![db executeUpdate:sql2 withArgumentsInArray:@[details.materal_id,details.materal_name,details.materal_imagepath,details.materal_imagepath,details.materal_id]])
     {
         NSLog(@"update Date error :%@",[db lastErrorMessage]);
     }
@@ -147,12 +150,15 @@
 
 
 //读取数据
-+(NSMutableArray*)readmateraldetails_time
++(NSMutableArray*)readmateraldetailsWithuser_id:(NSString *)user_id Name:(NSString *)path_name
 {
     
     FMDatabase *db = [self getDatebase];
     [db open];
-    FMResultSet *set = [db executeQuery:@"select * from Datebase_details_info"];
+    
+    NSString *sql=[NSString stringWithFormat:@"select * from Datebase_details_info where materal_id = %@ and materal_name = %@",user_id,path_name];
+    
+    FMResultSet *set = [db executeQuery:sql];
     NSMutableArray *detailsArr = [NSMutableArray array];
     while ([set next]) {
         materal_model *detail = [[materal_model alloc] init];
@@ -165,6 +171,8 @@
     [db close];
     NSLog(@"stu = %@",detailsArr);
     return detailsArr;
+    
+    
 }
 
 //删除数据

@@ -30,6 +30,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self loadDataFromWeb];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
     self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"修改地址",@"修改签名", nil];
@@ -218,17 +219,14 @@
     if(indexPath.row == 0)
     {
         nameViewController *nameVC = [[nameViewController alloc] initWithTitle:@"用户名" isNeedBack:YES btn_image:nil];
-        [self presentViewController:nameVC animated:YES completion:^{
-            
-        }];
+       
+        [self.navigationController pushViewController:nameVC animated:YES];
     }
     if(indexPath.row == 1)
     {
         NSLog(@"1");
         passwordViewController *passVC = [[passwordViewController alloc] initWithTitle:@"修改密码" isNeedBack:YES btn_image:nil];
-        [self presentViewController:passVC animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:passVC animated:YES];
     }
     if(indexPath.row == 2)
     {
@@ -238,10 +236,8 @@
     {
         NSLog(@"3");
         addressViewController *addressVC = [[addressViewController alloc] initWithTitle:@"修改地址" isNeedBack:YES btn_image:nil];
-        [self presentViewController:addressVC animated:YES completion:^{
-            
-
-        }];
+        
+        [self.navigationController pushViewController:addressVC animated:YES];
     }
     if(indexPath.row == 4)
     {

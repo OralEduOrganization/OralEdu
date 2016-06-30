@@ -141,9 +141,7 @@
 #pragma mark - 实现方法
 -(void)leftbtnClick
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)rightbtnClick
@@ -156,10 +154,7 @@
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         //返回上一页
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-            
-        }];
+        [self.navigationController popViewControllerAnimated:YES];
         //保存修改的密码
         
     }];
