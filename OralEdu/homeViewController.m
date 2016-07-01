@@ -16,6 +16,7 @@
 #import "titleModel.h"
 #import "CustomnavView.h"
 #import "infomationViewController.h"
+#import "SVPullToRefresh.h"
 @interface homeViewController ()
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
@@ -45,19 +46,45 @@
     [self.view addSubview:self.m_btn];
     [self.view addSubview:self.homeTableview];
     
- 
-
+    __weak homeViewController *weakSelf = self;
+    // setup pull-to-refresh
+    [self.homeTableview addPullToRefreshWithActionHandler:^{
+        [weakSelf insertRowAtTop];
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [self.homeTableview triggerPullToRefresh];
+
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     self.homeTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 400);
     self.m_btn.frame = CGRectMake(20, 500, 100, 50);
 }
+
+
+- (void)insertRowAtTop {
+    __weak homeViewController *weakSelf = self;
+    
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [weakSelf.homeTableview beginUpdates];
+        //[weakSelf.dataSource insertObject:[NSDate date] atIndex:0];
+//        [weakSelf.homeTableview insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+        [weakSelf.homeTableview endUpdates];
+        
+        [weakSelf.homeTableview.pullToRefreshView stopAnimating];
+    });
+}
+
+
+
+
 #pragma  mark - 数据源方法
 -(void)loadDataFromWeb
 {
@@ -94,7 +121,9 @@
     if(!_m_btn)
     {
         _m_btn = [[UIButton alloc] init];
-        _m_btn.backgroundColor = [UIColor blueColor];
+        //_m_btn.backgroundColor = [UIColor blueColor];
+        [_m_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_m_btn setTitle:@"测试登录" forState:UIControlStateNormal];
         [_m_btn addTarget:self action:@selector(go_login) forControlEvents:UIControlEventTouchUpInside];
     }
     return _m_btn;

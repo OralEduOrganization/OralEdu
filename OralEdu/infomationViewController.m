@@ -23,6 +23,7 @@
     [self.navitionBar.right_btn removeFromSuperview];
     [self loadDataFromWeb];
     [self.view addSubview:self.infotableview];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,7 +52,7 @@
         _infotableview = [[UITableView alloc] init];
         _infotableview.delegate = self;
         _infotableview.dataSource = self;
-        _infotableview.backgroundColor = [UIColor orangeColor];
+        //_infotableview.backgroundColor = [UIColor orangeColor];
         _infotableview.scrollEnabled =NO;
     }
     return _infotableview;

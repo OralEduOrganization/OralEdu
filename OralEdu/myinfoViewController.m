@@ -13,6 +13,7 @@
 #import "addressViewController.h"
 #import "passwordViewController.h"
 #import "nameViewController.h"
+#import "PersonalsignatureViewController.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -28,12 +29,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+   // self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2"]];
     [self loadDataFromWeb];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    //[self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
-    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"修改地址",@"修改签名", nil];
+    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"地址",@"签名",@"退出登录", nil];
     
     
     NSFileManager *filman = [[NSFileManager alloc] init];
@@ -102,7 +105,7 @@
         _infotableview = [[UITableView alloc] init];
         _infotableview.dataSource = self;
         _infotableview.delegate = self;
-        _infotableview.backgroundColor = [UIColor orangeColor];
+        //_infotableview.backgroundColor = [UIColor orangeColor];
     }
     return _infotableview;
 }
@@ -195,7 +198,7 @@
 {
     // return @"标题";
     if (section == 0) {
-        return @"   ";
+        return nil;
     }else
     {
         return @"   ";
@@ -234,15 +237,19 @@
     }
     if(indexPath.row == 3)
     {
-        NSLog(@"3");
         addressViewController *addressVC = [[addressViewController alloc] initWithTitle:@"修改地址" isNeedBack:YES btn_image:nil];
         
         [self.navigationController pushViewController:addressVC animated:YES];
     }
     if(indexPath.row == 4)
     {
+        PersonalsignatureViewController *PersonVC = [[PersonalsignatureViewController alloc] initWithTitle:@"修改签名" isNeedBack:YES btn_image:nil];
+        [self.navigationController pushViewController:PersonVC animated:YES];
         
-        NSLog(@"4");
+    }
+    if (indexPath.row == 5)
+    {
+        [self Logout];
     }
     }
 }
@@ -256,11 +263,11 @@
 -(void)Modifygender
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改性别" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         
     }];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         
     }];
@@ -403,6 +410,23 @@
     [imageData writeToFile:fullPath atomically:NO];
     NSLog(@"%@",fullPath);
 }
+
+
+#pragma mark - 退出登录
+-(void)Logout
+{
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"退出登录" message:@"您确定要退出登录吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [control addAction:action1];
+    [control addAction:action2];
+    [self presentViewController:control animated:YES completion:nil];
+}
+
 
 
 

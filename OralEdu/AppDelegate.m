@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
 #import "homeViewController.h"
 #import "leftViewController.h"
+#import <SMS_SDK/SMSSDK.h>
 @interface AppDelegate ()
 
 @end
@@ -47,6 +47,9 @@
     self.window.rootViewController = _itrAirSideMenu;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    //初始化应用，appKey和appSecret从后台申请得
+    [SMSSDK registerApp:@"14797912782c8" withSecret:@"398b1d6e9521d5d868bae9812d60fff3"];
     
     return YES;
 }

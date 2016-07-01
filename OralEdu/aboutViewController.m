@@ -20,6 +20,7 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.m_pic_image];
     [self.view addSubview:self.m_label];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,7 +40,7 @@
     if(!_m_pic_image)
     {
         _m_pic_image = [[UIImageView alloc] init];
-        _m_pic_image.backgroundColor = [UIColor greenColor];
+        //_m_pic_image.backgroundColor = [UIColor greenColor];
         _m_pic_image.layer.masksToBounds = YES;
         _m_pic_image.layer.cornerRadius = 40;
     }
@@ -52,7 +53,7 @@
     if(!_m_label)
     {
         _m_label = [[UILabel alloc] init];
-        _m_label.backgroundColor = [UIColor greenColor];
+       // _m_label.backgroundColor = [UIColor greenColor];
     }
     return _m_label;
 }

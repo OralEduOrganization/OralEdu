@@ -28,8 +28,8 @@
     CGFloat screenWidth  = [UIScreen mainScreen].bounds.size.width;
     
     self.title_label.frame = CGRectMake((screenWidth-120)/2, 30, 120, 30);
-    self.left_btn.frame = CGRectMake(10 , 30, 40, 30);
-    self.right_btn.frame = CGRectMake(screenWidth-10-40, 30, 40, 30);
+    self.left_btn.frame = CGRectMake(10 , 20, 40, 40);
+    self.right_btn.frame = CGRectMake(screenWidth-10-40, 20, 40, 40);
 }
 
 #pragma mark - getters

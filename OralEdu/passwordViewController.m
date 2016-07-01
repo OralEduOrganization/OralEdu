@@ -28,6 +28,8 @@
     [self.view addSubview:self.oldpass_text];
     [self.view addSubview:self.newpass_text1];
     [self.view addSubview:self.newpass_text2];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,7 +154,7 @@
 -(void)savenewpass
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //返回上一页
         [self.navigationController popViewControllerAnimated:YES];
         //保存修改的密码

@@ -91,8 +91,8 @@
         _matertableview = [[UITableView alloc] init];
         _matertableview.delegate = self;
         _matertableview.dataSource = self;
-        _matertableview.backgroundColor = [UIColor orangeColor];
-        
+        //_matertableview.backgroundColor = [UIColor orangeColor];
+        _matertableview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2.jpg"]];
     }
     return _matertableview;
 }

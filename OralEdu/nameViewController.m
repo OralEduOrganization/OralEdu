@@ -20,6 +20,9 @@
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
     [self.view addSubview:self.nametext];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +76,7 @@
 -(void)savename
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改用户名" message:@"您确定要修用户名吗" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //返回上一页
         
         [self.navigationController popViewControllerAnimated:YES];

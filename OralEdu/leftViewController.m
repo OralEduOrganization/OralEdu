@@ -30,8 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadDataFromWeb];
-    
-    self.view.backgroundColor = [UIColor orangeColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroud2.jpg"]];
+    //self.view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:self.left_tableview];
     [self.view addSubview:self.leftV];
 }
@@ -44,7 +44,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.leftV.frame = CGRectMake(80, 80, 230, 250);
+    self.leftV.frame = CGRectMake(80, 80, 230, 200);
     _left_tableview.frame = CGRectMake(0, 360, self.view.frame.size.width, 80 * 3);
 }
 
