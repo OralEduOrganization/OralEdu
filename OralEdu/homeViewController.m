@@ -32,11 +32,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    //验证登录信息
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    if (name == nil) {
+        
+        [self go_login];
+    }
+    
+    
     //数据加载
      [self loadDataFromWeb];
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;
-    self.navitionBar.left_btn.layer.cornerRadius = 7;
+    self.navitionBar.left_btn.layer.cornerRadius = 15;
     [self.navitionBar.right_btn setTitle:@"add" forState:UIControlStateNormal];
     titleModel *titlein = self.titlearr[0];
     NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
@@ -51,6 +61,8 @@
     [self.homeTableview addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
+    
+   
     
 }
 

@@ -7,17 +7,19 @@
 //
 
 #import "setViewController.h"
-#import "setView.h"
 #import "aboutViewController.h"
 #import "AppDelegate.h"
 #import "setModel.h"
 #import "myinfoViewController.h"
+#import "setCell1.h"
+#import "setCell2.h"
+#import "myinfoViewController.h"
 @interface setViewController ()
 @property (nonatomic,strong) UITableView *setTableview;
 @property (nonatomic,strong) NSMutableArray *setarr;
-@property (nonatomic,strong) setView *setV;
 @property (nonatomic,strong) NSMutableArray *modelarr;
-@property (nonatomic,strong) NSString *cache_str;
+@property (nonatomic,strong) UIImageView *user_image;
+@property (nonatomic,strong) NSMutableArray *image_arr;
 
 @end
 
@@ -33,7 +35,7 @@
     [self loadDataFromWeb];
     self.navitionBar.title_label.text = @"设置";
     [self.view addSubview:self.setTableview];
-    [self.view addSubview:self.setV];
+    
     
 }
 
@@ -45,20 +47,23 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.setTableview.frame = CGRectMake(0, 280, [UIScreen mainScreen].bounds.size.width, 140);
-    self.setV.frame = CGRectMake(0, 84, [UIScreen mainScreen].bounds.size.width, 150);
+    self.setTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
+    
 }
 
 #pragma  mark - 数据源方法
 
 -(void)loadDataFromWeb
 {
-    self.setarr = [NSMutableArray arrayWithObjects:@"清理缓存",@"关于我们",nil];
+    self.setarr = [NSMutableArray arrayWithObjects:@"身份认证",@"帮助与反馈",@"清理缓存",nil];
     self.modelarr = [NSMutableArray array];
-    setModel *smodel = [[setModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" Signature:@"老师"];
+    setModel *smodel = [[setModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" phone:@"15510922836" language:@"英文|日语|粤语"];
     [self.modelarr addObject:smodel];
+    
+    
 }
 #pragma mark - gerrers
+
 -(UITableView *)setTableview
 {
     if(!_setTableview)
@@ -68,74 +73,155 @@
         _setTableview.dataSource = self;
         _setTableview.delegate = self;
         _setTableview.backgroundColor = [UIColor clearColor];
-        _setTableview.scrollEnabled =NO;
+//        _setTableview.scrollEnabled =NO;
     }
     return _setTableview;
 }
 
--(setView *)setV
-{
-    if(!_setV)
-    {
-        _setV = [[setView alloc] init];
-        _setV.layer.borderWidth = 1;
-       // _setV.backgroundColor = [UIColor greenColor];
-        setModel *smol = self.modelarr[0];
-        _setV.name_label.text = smol.name_str;
-        _setV.accound_label.text = smol.signature_str;
-        NSURL *url = [NSURL URLWithString:smol.pic_imageurlstr];
-        _setV.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-        
-            UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nextVC)];
-            TapGestureTecognizer.cancelsTouchesInView=NO;
-            [_setV addGestureRecognizer:TapGestureTecognizer];
-        
-        
-    }
-    return _setV;
-}
-
-
 #pragma mark - UItableView DateSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 5;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.setarr.count;
+    if(section == 0)
+    {
+        return 1;
+    }
+    else if(section == 1)
+    {
+        return 1;
+    }
+    else if(section == 2)
+    {
+        return 1;
+    }
+    else if (section ==3)
+    {
+        return 1;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentfid = @"setcell";
-    UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid];
-    if(!cell)
+    static NSString *cellIdentfid = @"setcell1";
+    static NSString *cellIdentfid2 = @"setcell2";
+    static NSString *cellIdentfid3 = @"setcell3";
+    static NSString *cellIdentfid4 = @"setcell4";
+    static NSString *cellIdentfid5 = @"setcell5";
+
+    if (indexPath.section==0 )
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid];
-        cell.textLabel.text = self.setarr[indexPath.row];
-        cell.textLabel.textAlignment =  NSTextAlignmentCenter;
-        cell.backgroundColor = [UIColor clearColor];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        setCell1 *cell = nil;
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid];
+        if(!cell)
+        {
+            cell = [[setCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid];
+            
+            [cell setCellDate:self.modelarr[indexPath.row]];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        return cell;
     }
-    return cell;
+    else if (indexPath.section == 1)
+    {
+        setCell2 *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid2];
+        if (!cell) {
+            cell = [[setCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid2];
+            [cell.btn_01 setTitle:@"打赏" forState:UIControlStateNormal];
+            [cell.btn_02 setTitle:@"打赏记录" forState:UIControlStateNormal];
+            cell.record_label.text = @"$130";
+        }
+        return cell;
+    }
+    else if(indexPath.section == 2)
+    {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid3];
+        if(!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid3];
+            cell.textLabel.text = @"身份认证";
+        }
+        return cell;
+    }
+    else if (indexPath.section == 3)
+    {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid4];
+        if(!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid4];
+            cell.textLabel.text = @"帮助与反馈";
+        }
+        return cell;
+    }else
+    {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid5];
+        if(!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid5];
+            cell.textLabel.text = @"清理缓存";
+        }
+        return cell;
+    }
+    return nil;
 }
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        return 120.0f;
+    }
+    else
+    {
     return 70.0f;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    // return @"标题";
+    if (section == 0) {
+        return @"";
+    }else
+    {
+        return @"   ";
+    }
 }
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
-    if(indexPath.row==0)
+    
+    if (indexPath.section == 0)
     {
-         NSLog(@"清理缓存");
-        [self cache];
+        myinfoViewController *myinfoVC = [[myinfoViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
+        [self.navigationController pushViewController:myinfoVC animated:YES];
+    }
+    else if (indexPath.section ==1 )
+    {
+        
+    }
+    else if(indexPath.section == 2)
+    {
+        NSLog(@"身份认证");
+    }
+    else if (indexPath.section == 3)
+    {
+        NSLog(@"帮助与反馈");
     }
     else
     {
-        aboutViewController *aboutVC = [[aboutViewController alloc] initWithTitle:@"关于我们" isNeedBack:YES btn_image:nil];
-        [self.navigationController pushViewController:aboutVC animated:YES];
+        NSLog(@"清理缓存");
+        [self cache];
     }
+
 }
 #pragma mark - 实现方法
 -(void)leftbtnClick
@@ -157,9 +243,13 @@
 //清理缓存
 -(void)cache
 {
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:@"该操作不可逆" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
+        //清除登录信息
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         dispatch_async(
                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)

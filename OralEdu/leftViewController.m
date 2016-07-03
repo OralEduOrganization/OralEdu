@@ -11,16 +11,18 @@
 #import "homeViewController.h"
 #import "leftCell.h"
 #import "setViewController.h"
-#import "leftView.h"
+//#import "leftView.h"
 #import "leftviewModel.h"
 #import "materViewController.h"
+#import "aboutViewController.h"
 @interface leftViewController ()
 @property (nonatomic,strong) UITableView *left_tableview;
 @property (nonatomic,strong) NSMutableArray *leftarr;
 @property (nonatomic,strong) UIImageView *pic_image;
-@property (nonatomic,strong) leftView *leftV;
+//@property (nonatomic,strong) leftView *leftV;
 @property (nonatomic,strong) NSMutableArray *leftviewarr;
-
+@property (nonatomic,strong) UIImageView *user_image;
+@property (nonatomic,strong) UILabel *login_label;
 @end
 
 @implementation leftViewController
@@ -33,7 +35,9 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroud2.jpg"]];
     //self.view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:self.left_tableview];
-    [self.view addSubview:self.leftV];
+   // [self.view addSubview:self.leftV];
+    [self.view addSubview:self.user_image];
+    [self.view addSubview:self.login_label];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,15 +48,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.leftV.frame = CGRectMake(80, 80, 230, 200);
-    _left_tableview.frame = CGRectMake(0, 360, self.view.frame.size.width, 80 * 3);
+   // self.leftV.frame = CGRectMake(80, 80, 230, 200);
+    self.user_image.frame = CGRectMake(70, 70, 130, 130);
+    _left_tableview.frame = CGRectMake(0, 300, self.view.frame.size.width, 80 * 3);
+    self.login_label.frame = CGRectMake(80, 220, 100, 40);
 }
 
 #pragma  mark - 数据源方法
 
 -(void)loadDataFromWeb
 {
-    _leftarr = [NSMutableArray arrayWithObjects:@"主页",@"素材库",@"设置", nil];
+    _leftarr = [NSMutableArray arrayWithObjects:@"主页",@"素材库",@"设置", @"关于我们",nil];
     
     
     
@@ -76,21 +82,48 @@
     return _left_tableview;
 }
 
--(leftView *)leftV
+//-(leftView *)leftV
+//{
+//    if(!_leftV)
+//    {
+//        _leftV = [[leftView alloc] init];
+//        //_leftV.backgroundColor = [UIColor lightGrayColor];
+  //      leftviewModel *model = self.leftviewarr[0];
+//        _leftV.name_label.text = model.leftname_str;
+//        _leftV.identity_label.text = model.leftidentity_str;
+//        _leftV.signature_label.text = model.leftsignature_str;
+//        NSURL *url = [NSURL URLWithString:model.leftpic_urlstr];
+//        _leftV.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+//    }
+//    return _leftV;
+//}
+
+-(UIImageView *)user_image
 {
-    if(!_leftV)
+    if(!_user_image)
     {
-        _leftV = [[leftView alloc] init];
-        //_leftV.backgroundColor = [UIColor lightGrayColor];
+        _user_image = [[UIImageView alloc] init];
+        _user_image.backgroundColor = [UIColor greenColor];
+        _user_image.layer.masksToBounds = YES;
+        _user_image.layer.cornerRadius = 65;
         leftviewModel *model = self.leftviewarr[0];
-        _leftV.name_label.text = model.leftname_str;
-        _leftV.identity_label.text = model.leftidentity_str;
-        _leftV.signature_label.text = model.leftsignature_str;
         NSURL *url = [NSURL URLWithString:model.leftpic_urlstr];
-        _leftV.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
     }
-    return _leftV;
+    return _user_image;
 }
+
+-(UILabel *)login_label
+{
+    if(!_login_label)
+    {
+        _login_label = [[UILabel alloc] init];
+        _login_label.backgroundColor = [UIColor greenColor];
+    }
+    return _login_label;
+}
+
+
 
 
 #pragma mark UITableView Datasource
@@ -115,7 +148,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 60;
 }
 
 //点击cell跳转界面
@@ -142,6 +175,10 @@
     }
     else if(selectedIndexPath.row ==2){
         [sideMenu setContentViewController:[[[UINavigationController alloc] initWithRootViewController:[setViewController  alloc]] init]];
+    }
+    else if (selectedIndexPath.row == 3)
+    {
+        [sideMenu setContentViewController:[[[UINavigationController alloc] initWithRootViewController:[aboutViewController  alloc]] init]];
     }
 }
 @end

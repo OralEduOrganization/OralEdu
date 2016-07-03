@@ -10,7 +10,7 @@
 #import "TextView.h"
 #import "registerViewController.h"
 #import "HttpTool.h"
-
+#import "MBProgressHUD+XMG.h"
 
 @interface loginViewController ()
 @property (nonatomic,strong) UIButton *login_btn;
@@ -68,6 +68,7 @@
         _Tview.backgroundColor = [UIColor blueColor];
         _Tview.layer.masksToBounds = YES;
         _Tview.layer.cornerRadius = 20;
+        [_Tview.user_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _Tview;
 }
@@ -121,9 +122,7 @@
 
 -(void)go_homeClick
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+ 
     self.user_str = self.Tview.user_text.text;
     self.user_paseword = self.Tview.pass_text.text;
     
@@ -134,7 +133,27 @@
     [HttpTool postWithparamsWithURL:@"User/UserLogin" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSString *code=dic[@"code"];
         NSLog(@"%@",dic);
+        if ([code isEqualToString:@"500"]) {
+            
+            [MBProgressHUD showError:@"帐号错误"];
+            
+        }else if ([code isEqualToString:@"400"])
+        {
+            [MBProgressHUD showError:@"密码错误"];
+        }
+        else
+        {
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+            //保存登录信息
+            NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+            [defaultes setObject:self.user_str forKey:@"name"];
+            [defaultes setObject:self.user_paseword forKey:@"password"];
+            [defaultes synchronize];
+        }
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
@@ -162,5 +181,14 @@
     [_Tview.user_text resignFirstResponder];
     [_Tview.pass_text resignFirstResponder];
     
+}
+//限制输入长度
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    if (textField == self.Tview.user_text) {
+        if (textField.text.length > 11) {
+            textField.text = [textField.text substringToIndex:11];
+        }
+    }
 }
 @end

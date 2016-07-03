@@ -7,10 +7,11 @@
 //
 
 #import "aboutViewController.h"
-
+#import "AppDelegate.h"
 @interface aboutViewController ()
 @property (nonatomic,strong) UIImageView *m_pic_image;
 @property (nonatomic,strong) UILabel *m_label;
+@property (nonatomic,strong) UILabel *development_label;
 @end
 
 @implementation aboutViewController
@@ -62,7 +63,13 @@
 #pragma mark - 实现方法
 -(void)leftbtnClick
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self presentLeftMenuViewController];
+}
+
+- (void) presentLeftMenuViewController{
+    ITRAirSideMenu *itrSideMenu = ((AppDelegate *)[UIApplication sharedApplication].delegate).itrAirSideMenu;
+    [itrSideMenu presentLeftMenuViewController];
+    
 }
 
 @end

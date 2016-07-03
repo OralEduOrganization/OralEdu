@@ -13,6 +13,7 @@
 #import "MBProgressHUD+XMG.h"
 #import "AFNetworking.h"
 #import "HttpTool.h"
+
 @interface registerViewController ()
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIButton *reist_btn;
@@ -112,6 +113,7 @@
         _phone_text.borderStyle = UITextBorderStyleRoundedRect;
         _phone_text.leftView = self.phone_image;
         _phone_text.leftViewMode=UITextFieldViewModeAlways;
+        [_phone_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _phone_text;
 }
@@ -173,6 +175,7 @@
         _phone_image = [[UIImageView alloc] init];
         _phone_image.frame = CGRectMake(10, 10, 30, 30);
         _phone_image.image = [UIImage imageNamed:@"phone1"];
+        
     }
     return _phone_image;
 }
@@ -219,22 +222,35 @@
             self.user_str = self.phone_text.text;
             self.user_password = self.pass_text.text;
             
-            [self dismissViewControllerAnimated:YES completion:^{
-                //这里进行信息的注册
+            
+            NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_password};
+            
+            [HttpTool postWithparamsWithURL:@"User/UserSignup" andParam:para success:^(id responseObject) {
+                NSData *data = [[NSData alloc] initWithData:responseObject];
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                NSLog(@"%@",dic);
+                NSString *code=dic[@"code"];
                 
-                NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_password};
+                if ([code isEqualToString:@"600"])
+                {
+                   NSLog(@"用户已经存在");
+                    [MBProgressHUD showError:@"用户已经存在"];
+                }else
+                {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        //这里进行信息的注册
+                        
+                    }];
+                    NSLog(@"成功");
+                }
                 
-                [HttpTool postWithparamsWithURL:@"User/UserSignup" andParam:para success:^(id responseObject) {
-                    NSData *data = [[NSData alloc] initWithData:responseObject];
-                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                    NSLog(@"%@",dic);
-                } failure:^(NSError *error) {
-                    NSLog(@"%@",error);
-                }];
-
                 
-
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
             }];
+            
+            
+            
             
         }else{
             NSLog(@"验证失败:%@",error);
@@ -312,5 +328,15 @@
         }
     });
     dispatch_resume(_timer);
+}
+
+//限制输入长度
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    if (textField == self.pass_text) {
+        if (textField.text.length > 11) {
+            textField.text = [textField.text substringToIndex:11];
+        }
+    }
 }
 @end

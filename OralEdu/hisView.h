@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface hisView : UIView<UITableViewDelegate,UITableViewDataSource>
+@interface hisView : UIView
 @property (nonatomic,strong) UILabel *his_label;
 @property (nonatomic,strong) UIButton *del_btn;
 @property (nonatomic,strong) UITableView *his_tableview;

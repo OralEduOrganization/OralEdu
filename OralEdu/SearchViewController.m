@@ -32,6 +32,7 @@
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.searchbar];
     [self.view addSubview:self.hisv];
+    [self.hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,7 +43,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.searchbar.frame = CGRectMake(45, 25, [UIScreen mainScreen].bounds.size.width-45, 35);
+    self.searchbar.frame = CGRectMake(45, 20, [UIScreen mainScreen].bounds.size.width-45, 35);
     [self.searchbar becomeFirstResponder];
     
     self.hid_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 65, 20, 20);
@@ -91,15 +92,13 @@
     if(!_hisv)
     {
         _hisv = [[hisView alloc] init];
-        _hisv.backgroundColor  = [UIColor lightGrayColor];
+        //_hisv.backgroundColor  = [UIColor lightGrayColor];
         _hisv.his_tableview.dataSource = self;
         _hisv.his_tableview.delegate = self;
-        [_hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
+      
     }
     return _hisv;
 }
-
-
 
 #pragma mark - UITableViewDateSource
 
@@ -175,6 +174,8 @@
 
 -(void)hidtableview
 {
-    [self.hisv setHidden:YES];
+    NSLog(@"123");
+    //[self.hisv setHidden:YES];
+    [self.hisv removeFromSuperview];
 }
 @end
