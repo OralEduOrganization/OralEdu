@@ -36,6 +36,15 @@
     //隐藏导航栏
     [self.navigationController setNavigationBarHidden:YES];
     self.navigationController.interactivePopGestureRecognizer.delegate  = (id)self;
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val = UIInterfaceOrientationPortrait;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -70,6 +70,12 @@
 		53E91A441D1B72D50091E85A /* ITRAirSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A431D1B72D50091E85A /* ITRAirSideMenu.m */; };
 		53E91A4B1D1B73790091E85A /* leftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A4A1D1B73790091E85A /* leftViewController.m */; };
 		53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A571D1BB9860091E85A /* SearchViewController.m */; };
+		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
+		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
+		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
+		FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94721D264953006F955A /* CoreGraphics.framework */; };
+		FECC94751D26496F006F955A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94741D26496F006F955A /* UIKit.framework */; };
+		FECC947A1D266938006F955A /* videoRightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94791D266938006F955A /* videoRightView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -197,6 +203,15 @@
 		53E91A4A1D1B73790091E85A /* leftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftViewController.m; sourceTree = "<group>"; };
 		53E91A561D1BB9860091E85A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		53E91A571D1BB9860091E85A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
+		FECC946B1D26125D006F955A /* faceVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = faceVideoViewController.m; sourceTree = "<group>"; };
+		FECC946D1D2636F7006F955A /* PIDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDrawerView.h; sourceTree = "<group>"; };
+		FECC946E1D2636F7006F955A /* PIDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PIDrawerView.m; sourceTree = "<group>"; };
+		FECC94701D264936006F955A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		FECC94721D264953006F955A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FECC94741D26496F006F955A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FECC94781D266937006F955A /* videoRightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoRightView.h; sourceTree = "<group>"; };
+		FECC94791D266938006F955A /* videoRightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoRightView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +219,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FECC94751D26496F006F955A /* UIKit.framework in Frameworks */,
+				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
+				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
 				53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */,
 				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
@@ -665,6 +683,7 @@
 		53E91A1D1D1B70E40091E85A /* OralEdu */ = {
 			isa = PBXGroup;
 			children = (
+				FECC94661D2611DF006F955A /* videoConnect */,
 				53B9C87A1D24FFD7003C629B /* webService */,
 				538D2E991D1EBB0D00BB9588 /* specificmateral详细素材 */,
 				538D2E731D1E522A00BB9588 /* name修改用户名 */,
@@ -697,6 +716,9 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				FECC94741D26496F006F955A /* UIKit.framework */,
+				FECC94721D264953006F955A /* CoreGraphics.framework */,
+				FECC94701D264936006F955A /* MobileCoreServices.framework */,
 				53B9C8661D24FF56003C629B /* AFNetworking */,
 				53D2ACCB1D235CC0001BA2C2 /* fmdb */,
 				53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */,
@@ -851,6 +873,43 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		FECC94661D2611DF006F955A /* videoConnect */ = {
+			isa = PBXGroup;
+			children = (
+				FECC94691D26121B006F955A /* Controller */,
+				FECC94681D261210006F955A /* View */,
+				FECC94671D2611FE006F955A /* Model */,
+			);
+			name = videoConnect;
+			sourceTree = "<group>";
+		};
+		FECC94671D2611FE006F955A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		FECC94681D261210006F955A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FECC946D1D2636F7006F955A /* PIDrawerView.h */,
+				FECC946E1D2636F7006F955A /* PIDrawerView.m */,
+				FECC94781D266937006F955A /* videoRightView.h */,
+				FECC94791D266938006F955A /* videoRightView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		FECC94691D26121B006F955A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FECC946A1D26125D006F955A /* faceVideoViewController.h */,
+				FECC946B1D26125D006F955A /* faceVideoViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -947,6 +1006,7 @@
 				53D2ACEA1D239E0D001BA2C2 /* materal_model.m in Sources */,
 				538D2E981D1EB3B600BB9588 /* materalCell.m in Sources */,
 				534522D31D1BFCFB0055C0EE /* homeModel.m in Sources */,
+				FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */,
 				538D2E4A1D1CDB7200BB9588 /* infomationViewController.m in Sources */,
 				538D2E541D1D509600BB9588 /* setModel.m in Sources */,
 				53E91A231D1B70E40091E85A /* AppDelegate.m in Sources */,
@@ -958,6 +1018,7 @@
 				53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */,
 				538D2E4D1D1D29F800BB9588 /* setView.m in Sources */,
 				53D2ACDB1D235CC0001BA2C2 /* FMResultSet.m in Sources */,
+				FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */,
 				538D2E431D1CCC8F00BB9588 /* leftviewModel.m in Sources */,
 				538D2E9F1D1EBB6A00BB9588 /* speaificViewController.m in Sources */,
 				538D2E641D1E12E300BB9588 /* picModel.m in Sources */,
@@ -975,6 +1036,7 @@
 				53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */,
 				53E91A201D1B70E40091E85A /* main.m in Sources */,
 				53E91A401D1B72A50091E85A /* homeViewController.m in Sources */,
+				FECC947A1D266938006F955A /* videoRightView.m in Sources */,
 				53B9C8761D24FF56003C629B /* AFSecurityPolicy.m in Sources */,
 				538D2E511D1D38B400BB9588 /* aboutViewController.m in Sources */,
 				5393136C1D1BC9760035D874 /* TextView.m in Sources */,
@@ -1094,6 +1156,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
@@ -1105,6 +1171,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;

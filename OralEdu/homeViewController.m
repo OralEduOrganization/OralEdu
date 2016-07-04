@@ -16,6 +16,7 @@
 #import "titleModel.h"
 #import "CustomnavView.h"
 #import "infomationViewController.h"
+#import "faceVideoViewController.h"
 @interface homeViewController ()
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
@@ -23,7 +24,8 @@
 @property (nonatomic,strong) homeCell *cell;
 @property (nonatomic,strong) UIButton *m_btn;
 @property (nonatomic,strong) UITableViewRowAction *rowAction1;
-@property (strong,nonatomic)UIRefreshControl *refresh;
+@property (strong,nonatomic) UIRefreshControl *refresh;
+
 @end
 
 @implementation homeViewController
@@ -48,6 +50,8 @@
  
 
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -198,6 +202,11 @@
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
+    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
+    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:myFaceVideoController animated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - 响应事件
