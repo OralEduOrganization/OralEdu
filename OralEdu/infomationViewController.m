@@ -12,6 +12,7 @@
 #import "infoCell3.h"
 #import "infoModel.h"
 #import "ZCYlocation.h"
+#import "faceVideoViewController.h"
 @interface infomationViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) infoModel *model1;
@@ -109,7 +110,7 @@
     if(!_left_btn)
     {
         _left_btn = [[UIButton alloc] init];
-        [_left_btn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+        [_left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
         [_left_btn addTarget:self action:@selector(leftclick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _left_btn;
@@ -124,7 +125,7 @@
         [_go_viewbtn setTitle:@"视频学习" forState:UIControlStateNormal];
         _go_viewbtn.layer.masksToBounds = YES;
         _go_viewbtn.layer.cornerRadius = 10;
-        
+        [_go_viewbtn addTarget:self action:@selector(goVideoViewController) forControlEvents:UIControlEventTouchUpInside];
     }
     return _go_viewbtn;
 }
@@ -233,5 +234,14 @@
 -(void)leftclick
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)goVideoViewController
+{
+    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
+    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:myFaceVideoController animated:YES completion:^{
+        
+    }];
 }
 @end

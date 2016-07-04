@@ -36,7 +36,7 @@
     [self.view addSubview:self.oldpass_text];
     [self.view addSubview:self.newpass_text1];
     [self.view addSubview:self.newpass_text2];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
 }
 

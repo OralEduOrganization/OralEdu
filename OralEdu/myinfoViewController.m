@@ -151,7 +151,7 @@
     if(!_left_btn)
     {
         _left_btn = [[UIButton alloc] init];
-        [_left_btn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+        [_left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
         [_left_btn addTarget:self action:@selector(leftclick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _left_btn;

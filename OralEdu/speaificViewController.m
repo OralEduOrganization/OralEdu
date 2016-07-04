@@ -38,7 +38,7 @@ static NSString *collectionview = @"imagecell";
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navitionBar.right_btn setTitle:@"修改" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 
     

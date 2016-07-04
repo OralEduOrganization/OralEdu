@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
     [self.navitionBar.right_btn removeFromSuperview];

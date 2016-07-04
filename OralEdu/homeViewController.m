@@ -50,7 +50,8 @@
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;
     self.navitionBar.left_btn.layer.cornerRadius = 15;
-    [self.navitionBar.right_btn setTitle:@"add" forState:UIControlStateNormal];
+    //[self.navitionBar.right_btn setTitle:@"add" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setImage:[UIImage imageNamed:@"加号.png"] forState:UIControlStateNormal];
     titleModel *titlein = self.titlearr[0];
     NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
      [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
@@ -64,8 +65,6 @@
     [self.homeTableview addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
-    
-   
     
 }
 
@@ -163,6 +162,7 @@
     {
         _cell = [[homeCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [_cell setCellDate:self.homearr[indexPath.row]];
+        
         [_cell.home_btn addTarget:self action:@selector(toinfoBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     

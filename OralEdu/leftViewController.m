@@ -23,6 +23,7 @@
 @property (nonatomic,strong) NSMutableArray *leftviewarr;
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) UILabel *login_label;
+@property (nonatomic,strong) NSMutableArray *pic_arr;
 @end
 
 @implementation leftViewController
@@ -38,6 +39,8 @@
    // [self.view addSubview:self.leftV];
     [self.view addSubview:self.user_image];
     [self.view addSubview:self.login_label];
+    
+    self.pic_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"主页icon"],[UIImage imageNamed:@"心"],[UIImage imageNamed:@"设置齿轮"],[UIImage imageNamed:@"关于"], nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,7 +121,9 @@
     if(!_login_label)
     {
         _login_label = [[UILabel alloc] init];
-        _login_label.backgroundColor = [UIColor greenColor];
+        //_login_label.backgroundColor = [UIColor greenColor];
+        _login_label.textAlignment = NSTextAlignmentCenter;
+        _login_label.text = @"请登陆";
     }
     return _login_label;
 }
@@ -137,7 +142,9 @@
         cell = [[leftCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor =[UIColor clearColor];
         cell.m_label.text = self.leftarr[indexPath.row];
+        cell.m_imageview.image = self.pic_arr[indexPath.row];
     }
+ 
     return cell;
 }
 

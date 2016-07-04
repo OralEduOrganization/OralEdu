@@ -66,7 +66,6 @@
     return _home_namelabel;
 }
 
-
 -(UILabel *)home_timelabel
 {
     if(!_home_timelabel)
@@ -82,7 +81,7 @@
     if(!_home_btn)
     {
         _home_btn = [[UIButton alloc] init];
-        _home_btn.backgroundColor = [UIColor greenColor];
+        [_home_btn setImage:[UIImage imageNamed:@"首页联系人未选中叹号"] forState:UIControlStateNormal];
     }
     return _home_btn;
 }
