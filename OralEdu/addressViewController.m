@@ -49,8 +49,7 @@
     if(!_address_btn)
     {
         _address_btn = [[UIButton alloc] init];
-        _address_btn.backgroundColor = [UIColor orangeColor];
-        [_address_btn setTitle:@"定位" forState:UIControlStateNormal];
+        [_address_btn setImage:[UIImage imageNamed:@"address-iPhone"] forState:UIControlStateNormal];
         [_address_btn addTarget:self action:@selector(positioning) forControlEvents:UIControlEventTouchUpInside];
     }
     return _address_btn;

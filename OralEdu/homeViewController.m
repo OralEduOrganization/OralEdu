@@ -127,7 +127,7 @@
         _homeTableview = [[UITableView alloc] init];
         _homeTableview.dataSource = self;
         _homeTableview.delegate = self;
-        _homeTableview.backgroundColor = [UIColor lightGrayColor];
+        _homeTableview.backgroundColor = [UIColor whiteColor];
     }
     return _homeTableview;
 }

@@ -72,7 +72,7 @@
         _user_image = [[UIImageView alloc] init];
         //_uset_image.backgroundColor = [UIColor greenColor];
         _user_image.image = [UIImage imageNamed:@"phone1"];
-        _user_image.frame = CGRectMake(10, 10, 30, 30);
+        _user_image.frame = CGRectMake(20, 10, 30, 30);
     }
     return _user_image;
 }
@@ -84,7 +84,7 @@
         _password_image = [[UIImageView alloc] init];
         // _password_image.backgroundColor = [UIColor greenColor];
         _password_image.image = [UIImage imageNamed:@"lock1"];
-        _password_image.frame = CGRectMake(10, 10, 30, 30);
+        _password_image.frame = CGRectMake(20, 10, 30, 30);
         
     }
     return _password_image;
