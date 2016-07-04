@@ -27,6 +27,7 @@
     @property (nonatomic,strong) UIButton           *pickColorButton;
     @property (nonatomic,strong) UIButton           *pickEraserButton;
     @property (nonatomic,strong) UIButton           *pickImageButton;
+    @property (nonatomic,strong) UIButton           *clearBtn;
     @property (nonatomic,strong) UIColor            *selectedColor;
     @property (nonatomic,strong) UIImageView        *backGroundImageView;
 
@@ -47,7 +48,7 @@
     [self.view addSubview:self.pickImageButton];
     [self.view addSubview:self.writeButton];
     [self.view addSubview:self.pickColorButton];
-    
+    [self.view addSubview:self.backBtn];
     
     self.selectedColor = [UIColor redColor];
     self.drawView.selectedColor=self.selectedColor;
@@ -104,8 +105,19 @@
     
 }
 #pragma mark - click
+-(void)clearBtnClick{
+    
+}
 -(void)backBtnClick{
-//    [self.navigationController popViewControllerAnimated:YES];
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val = UIInterfaceOrientationPortrait;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)writeBtnClick{
@@ -374,6 +386,17 @@
         [_rightView setCurrentSelectedColor:self.selectedColor];
     }
     return _rightView;
+}
+
+-(UIButton *)clearBtn{
+    if(!_clearBtn){
+        _clearBtn=[[UIButton alloc]init];
+        [_clearBtn addTarget:self action:@selector(clearBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_clearBtn setTitle:@"清空涂鸦" forState:UIControlStateNormal];
+        _clearBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+        [_clearBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }
+    return _clearBtn;
 }
 
 
