@@ -13,6 +13,7 @@
 #import "addressViewController.h"
 #import "passwordViewController.h"
 #import "nameViewController.h"
+#import "PersonalsignatureViewController.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -22,6 +23,11 @@
 @property (nonatomic,strong) infoTableViewCell1 *cell;
 @property (nonatomic,strong) NSString *createPa;
 @property (nonatomic,strong) UIImage *saveImage;
+
+@property (nonatomic,strong) UIImageView *pic_image;
+@property (nonatomic,strong) UILabel *name_label;
+@property (nonatomic,strong) UIButton *left_btn;
+@property (nonatomic,strong) UILabel *signature_label;
 @end
 
 @implementation myinfoViewController
@@ -29,38 +35,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2"]];
     [self loadDataFromWeb];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+
+    [self.navitionBar.left_btn removeFromSuperview];
+    [self.navitionBar.title_label removeFromSuperview];
+    self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
-    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"修改地址",@"修改签名", nil];
-    
-    
-    NSFileManager *filman = [[NSFileManager alloc] init];
-    NSString *pathDoc  = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
-    
-    self.createPa = [NSString stringWithFormat:@"%@/lib",pathDoc];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:self.createPa]) {
-        [filman createDirectoryAtPath:self.createPa withIntermediateDirectories:YES attributes:nil error:nil];
-        
-    }
-    else
-    {
-        NSLog(@"add great!");
-        NSLog(@"%@",self.createPa);
-    }
-    
-    
-    
-    //加载首先访问本地沙盒是否存在相关图片
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:self.createPa] stringByAppendingPathComponent:@"currentImage.png"];
-    
-     self.saveImage = [UIImage imageWithContentsOfFile:fullPath];
-    
-
-
-    
-    
+    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
+    [self.view addSubview:self.pic_image];
+    [self.view addSubview:self.name_label];
+    [self.view addSubview:self.left_btn];
+    [self.view addSubview:self.signature_label];
     
 }
 
@@ -72,7 +59,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.infotableview.frame = CGRectMake(0, 80, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-80);
+    self.infotableview.frame = CGRectMake(0, 160, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-130);
+    
+    self.left_btn.frame = CGRectMake(10, 50, 30, 30);
+    self.pic_image.frame = CGRectMake(50, 50, 100, 100);
+    self.name_label.frame = CGRectMake(160, 70, 100, 30);
+    self.signature_label.frame = CGRectMake(160, 100, 180, 50);
 }
 
 #pragma  mark - 数据源方法
@@ -85,7 +77,7 @@
     _picM.name_str = @"涛桑";
     _picM.address_str = @"天津";
     _picM.gender_str = @"男";
-    _picM.signature_str = @"12828274628";
+    _picM.signature_str = @"”我要在你身上去做，春天在樱桃树上做的事情“";
     [self.arr addObject:_picM.name_str];
     [self.arr addObject:_picM.gender_str];
     [self.arr addObject:_picM.address_str];
@@ -102,9 +94,67 @@
         _infotableview = [[UITableView alloc] init];
         _infotableview.dataSource = self;
         _infotableview.delegate = self;
-        _infotableview.backgroundColor = [UIColor orangeColor];
+        _infotableview.backgroundColor = [UIColor clearColor];
     }
     return _infotableview;
+}
+
+-(UIImageView *)pic_image
+{
+    if(!_pic_image)
+    {
+        _pic_image = [[UIImageView alloc] init];
+        _pic_image.backgroundColor = [UIColor greenColor];
+        _pic_image.layer.masksToBounds = YES;
+        _pic_image.layer.cornerRadius = 50;
+        NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
+        _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        //点击图片事件
+        UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imagereplace)];
+        TapGestureTecognizer.cancelsTouchesInView=NO;
+        _pic_image.userInteractionEnabled = YES;
+        [_pic_image addGestureRecognizer:TapGestureTecognizer];
+    }
+    return _pic_image;
+}
+
+-(UILabel *)name_label
+{
+    if(!_name_label)
+    {
+        _name_label = [[UILabel alloc] init];
+        //_name_label.backgroundColor = [UIColor greenColor];
+        _name_label.textAlignment = NSTextAlignmentCenter;
+        
+        _name_label.text = self.picM.name_str;
+    }
+    return _name_label;
+}
+
+-(UILabel *)signature_label
+{
+    if(!_signature_label)
+    {
+        _signature_label = [[UILabel alloc] init];
+        //_signature_label.backgroundColor = [UIColor greenColor];
+        _signature_label.font = [UIFont systemFontOfSize:14];
+        _signature_label.text = self.picM.signature_str;
+        _signature_label.lineBreakMode = NSLineBreakByWordWrapping;
+        _signature_label.numberOfLines = 0;
+    }
+    return _signature_label;
+}
+
+
+-(UIButton *)left_btn
+{
+    if(!_left_btn)
+    {
+        _left_btn = [[UIButton alloc] init];
+        [_left_btn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+        [_left_btn addTarget:self action:@selector(leftclick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _left_btn;
 }
 
 #pragma mark - UITableViewDataSource
@@ -112,49 +162,50 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-       return 2;
+       return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        // 第0组有多少行
-        return 1;
-    }else
-    {
-        // 第1组有多少行
-        return self.infoarr.count;
-    }
+//    if (section == 0) {
+//        // 第0组有多少行
+//        return 1;
+//    }else
+//    {
+//        // 第1组有多少行
+//        return self.infoarr.count;
+//    }
+    return self.infoarr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    if(indexPath.section == 0)
-    {
-    static NSString *cellidentfic = @"infoTableViewCell1";
-    _cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic];
-        if(!_cell)
-        {
-            _cell = [[infoTableViewCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic];
-            _cell.m_label.text = @"头像";
-            NSURL *url = [NSURL URLWithString:_picM.image_urlstr];
-            
-            if (!_saveImage) {
-                _cell.pic_imageview.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-                _cell.pic_imageview.layer.masksToBounds = YES;
-                _cell.pic_imageview.layer.cornerRadius = 40;
-            }else
-            {
-                _cell.pic_imageview.image = self.saveImage;
-            }
-            _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-        }
-    return _cell;
-    }
-    else
-    {
+//    if(indexPath.section == 0)
+//    {
+//    static NSString *cellidentfic = @"infoTableViewCell1";
+//    _cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic];
+//        if(!_cell)
+//        {
+//            _cell = [[infoTableViewCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic];
+//            _cell.m_label.text = @"头像";
+//            NSURL *url = [NSURL URLWithString:_picM.image_urlstr];
+//            
+//            if (!_saveImage) {
+//                _cell.pic_imageview.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+//                _cell.pic_imageview.layer.masksToBounds = YES;
+//                _cell.pic_imageview.layer.cornerRadius = 40;
+//            }else
+//            {
+//                _cell.pic_imageview.image = self.saveImage;
+//            }
+//            _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//
+//        }
+//    return _cell;
+//    }
+//    else
+//    {
         static NSString *cellidentfic2 = @"infoTableViewCell2";
         infoTableViewCell2 *cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic2];
         if(!cell)
@@ -177,56 +228,53 @@
             {
                 cell.m_label2.text = _picM.address_str;
             }
-            if(indexPath.row == 4)
+            if (indexPath.row == 4) {
+                cell.m_label2.text = @"老师";
+            }
+            if(indexPath.row == 5)
             {
                 cell.m_label2.text = _picM.signature_str;
             }
         }
         return cell;
-    }
-    return nil;
+//    }
+//    return nil;
 }
 
 /**
  *  第section组头部显示什么标题
  *
  */
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    // return @"标题";
-    if (section == 0) {
-        return @"   ";
-    }else
-    {
-        return @"   ";
-    }
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    // return @"标题";
+//    if (section == 0) {
+//        return nil;
+//    }else
+//    {
+//        return @"   ";
+//    }
+//}
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80.0f;
+    return 70.0f;
 }
 //点击cell方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     
-    if (indexPath.section==0)
-    {
-        [self changeIcon];
-    }
-    else
-    {
-    if(indexPath.row == 0)
+    if (indexPath.row==0)
     {
         nameViewController *nameVC = [[nameViewController alloc] initWithTitle:@"用户名" isNeedBack:YES btn_image:nil];
-       
+        
         [self.navigationController pushViewController:nameVC animated:YES];
     }
     if(indexPath.row == 1)
     {
-        NSLog(@"1");
         passwordViewController *passVC = [[passwordViewController alloc] initWithTitle:@"修改密码" isNeedBack:YES btn_image:nil];
         [self.navigationController pushViewController:passVC animated:YES];
+
     }
     if(indexPath.row == 2)
     {
@@ -234,33 +282,51 @@
     }
     if(indexPath.row == 3)
     {
-        NSLog(@"3");
         addressViewController *addressVC = [[addressViewController alloc] initWithTitle:@"修改地址" isNeedBack:YES btn_image:nil];
         
         [self.navigationController pushViewController:addressVC animated:YES];
+
     }
     if(indexPath.row == 4)
     {
         
-        NSLog(@"4");
     }
+    if(indexPath.row == 5)
+    {
+        PersonalsignatureViewController *PersonVC = [[PersonalsignatureViewController alloc] initWithTitle:@"个人简介" isNeedBack:YES btn_image:nil];
+        [self.navigationController pushViewController:PersonVC animated:YES];
+        
+    }
+    if (indexPath.row == 6)
+    {
+        [self Logout];
     }
 }
+
 #pragma mark - 实现方法
--(void)leftbtnClick
+//-(void)leftbtnClick
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
+-(void)leftclick
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)imagereplace
+{
+    [self changeIcon];
+    NSLog(@"12");
+}
 //修改性别
 -(void)Modifygender
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改性别" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         
     }];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         
     }];
@@ -371,38 +437,29 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
-    
-    /* 此处info 有六个可选类型
-     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
-     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
-     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
-     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
-     * UIImagePickerControllerMediaURL;       // an NSURL
-     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
-     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
-     */
-    
-   // [_iconBtn setImage:image forState:UIControlStateNormal];
-    self.cell.pic_imageview.image = image;
-
-    [self saveImage:image withName:@"currentImage.png"];
+    self.pic_image.image = image;
+//    self.cell.pic_imageview.image = image;
 }
 
-
-#pragma mark - 保存图片至本地沙盒
-
-- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName
+#pragma mark - 退出登录
+-(void)Logout
 {
-    
-    NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.8);
-    
-    // 获取沙盒目录
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:self.createPa] stringByAppendingPathComponent:imageName];
-    
-    // 将图片写入文件
-    [imageData writeToFile:fullPath atomically:NO];
-    NSLog(@"%@",fullPath);
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"退出登录" message:@"您确定要退出登录吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //清除登录信息
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }];
+    [control addAction:action1];
+    [control addAction:action2];
+    [self presentViewController:control animated:YES completion:nil];
 }
+
 
 
 

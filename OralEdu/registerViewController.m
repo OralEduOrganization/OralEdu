@@ -8,6 +8,11 @@
 
 #import "registerViewController.h"
 #import "loginViewController.h"
+#import <SMS_SDK/SMSSDK.h>
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+XMG.h"
+#import "AFNetworking.h"
+#import "HttpTool.h"
 
 @interface registerViewController ()
 @property (nonatomic,strong) UIButton *login_btn;
@@ -19,16 +24,21 @@
 @property (nonatomic,strong) UIImageView *phone_image;
 @property (nonatomic,strong) UIImageView *pass_image;
 @property (nonatomic,strong) UIImageView *valid_image;
+@property (nonatomic,strong) NSString *user_str;
+@property (nonatomic,strong) NSString *user_password;
 @end
 
 @implementation registerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor lightGrayColor];
+   // self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2.jpg"]];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
+    self.user_str = [[NSString alloc] init];
+    self.user_password = [[NSString alloc] init];
     [self.view addSubview:self.login_btn];
     [self.view addSubview:self.reist_btn];
     [self.view addSubview:self.phone_text];
@@ -45,14 +55,16 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.login_btn.frame = CGRectMake(100, 500, 220, 50);
-    self.reist_btn.frame = CGRectMake(100, 400, 220, 50);
-    self.phone_text.frame = CGRectMake(80, 150, 256, 50);
-    self.pass_text.frame = CGRectMake(80, 220, 256, 50);
-    self.valid_text.frame = CGRectMake(80, 290, 130, 50);
+    
+    self.login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 500, 220, 50);
+    self.reist_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
+    self.phone_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 150, 300, 50);
+    self.pass_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 220, 300, 50);
+    self.valid_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 290, 170, 50);
     self.get_btn.frame = CGRectMake(210, 290, 130, 50);
     //设置为第一响应者
     [self.phone_text becomeFirstResponder];
+    
 }
 
 #pragma mark - getters
@@ -62,8 +74,8 @@
     if(!_login_btn)
     {
         _login_btn = [[UIButton alloc] init];
-        _login_btn.backgroundColor = [UIColor orangeColor];
-        [_login_btn setTitle:@"登录" forState:UIControlStateNormal];
+       // _login_btn.backgroundColor = [UIColor orangeColor];
+        [_login_btn setTitle:@"已有密码，点击登录" forState:UIControlStateNormal];
         [_login_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_login_btn addTarget:self action:@selector(go_login) forControlEvents:UIControlEventTouchUpInside];
         _login_btn.layer.masksToBounds = YES;
@@ -101,6 +113,7 @@
         _phone_text.borderStyle = UITextBorderStyleRoundedRect;
         _phone_text.leftView = self.phone_image;
         _phone_text.leftViewMode=UITextFieldViewModeAlways;
+        [_phone_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _phone_text;
 }
@@ -162,6 +175,7 @@
         _phone_image = [[UIImageView alloc] init];
         _phone_image.frame = CGRectMake(10, 10, 30, 30);
         _phone_image.image = [UIImage imageNamed:@"phone1"];
+        
     }
     return _phone_image;
 }
@@ -200,8 +214,48 @@
 
 -(void)regis
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        //这里进行信息的注册
+    [SMSSDK commitVerificationCode:_valid_text.text phoneNumber:_phone_text.text zone:@"86" result:^(NSError *error) {
+        if (!error) {
+
+            [MBProgressHUD showSuccess:@"验证成功"];
+            
+            self.user_str = self.phone_text.text;
+            self.user_password = self.pass_text.text;
+            
+            
+            NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_password};
+            
+            [HttpTool postWithparamsWithURL:@"User/UserSignup" andParam:para success:^(id responseObject) {
+                NSData *data = [[NSData alloc] initWithData:responseObject];
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                NSLog(@"%@",dic);
+                NSString *code=dic[@"code"];
+                
+                if ([code isEqualToString:@"600"])
+                {
+                   NSLog(@"用户已经存在");
+                    [MBProgressHUD showError:@"用户已经存在"];
+                }else
+                {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        //这里进行信息的注册
+                        
+                    }];
+                    NSLog(@"成功");
+                }
+                
+                
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            
+            
+            
+            
+        }else{
+            NSLog(@"验证失败:%@",error);
+            [MBProgressHUD showError:@"注册失败，请检查输入"];
+        }
     }];
 }
 
@@ -217,7 +271,34 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+-(void)getvalid
+{
+    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:_phone_text.text zone:@"86" customIdentifier:nil result:^(NSError *error) {
+        if (!error) {
+            NSLog(@"获取验证码成功");
+//            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"获取验证码成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                
+//            }];
+//            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                
+//            }];
+//            [control addAction:action1];
+//            [control addAction:action2];
+//            [self presentViewController:control animated:YES completion:nil];
+            [MBProgressHUD showSuccess:@"获取成功"];
+        }else{
+            NSLog(@"获取验证码失败");
+            [MBProgressHUD showError:@"请确认您输入的手机号"];
+        }
+        
+    }];
+
+}
 -(void)startTime{
+
+    [self getvalid];
     __block int timeout=30; //倒计时时间
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
@@ -229,6 +310,7 @@
                 //设置界面的按钮显示 根据自己需求设置
                 [_get_btn setTitle:@"发送验证码" forState:UIControlStateNormal];
                 _get_btn.userInteractionEnabled = YES;
+                
             });
         }else{
             int seconds = timeout % 60;
@@ -246,5 +328,15 @@
         }
     });
     dispatch_resume(_timer);
+}
+
+//限制输入长度
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    if (textField == self.pass_text) {
+        if (textField.text.length > 11) {
+            textField.text = [textField.text substringToIndex:11];
+        }
+    }
 }
 @end

@@ -10,5 +10,6 @@
 @class lefttableModel;
 @interface leftCell : UITableViewCell
 @property (nonatomic,strong) UILabel *m_label;
+@property (nonatomic,strong) UIImageView *m_imageview;
 -(void)setCellDate:(lefttableModel *)leftmodel;
 @end

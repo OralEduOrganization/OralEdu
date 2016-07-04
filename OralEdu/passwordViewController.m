@@ -7,7 +7,9 @@
 //
 
 #import "passwordViewController.h"
-
+#import "HttpTool.h"
+#import "MBProgressHUD+XMG.h"
+#import "MBProgressHUD.h"
 @interface passwordViewController ()
 @property (nonatomic,strong) UITextField *oldpass_text;
 @property (nonatomic,strong) UITextField *newpass_text1;
@@ -15,6 +17,9 @@
 @property (nonatomic,strong) UIImageView *leftview1;
 @property (nonatomic,strong) UIImageView *leftview2;
 @property (nonatomic,strong) UIImageView *leftview3;
+@property (nonatomic,strong) NSString *user_namestr;
+@property (nonatomic,strong) NSString *oldpassword_str;
+@property (nonatomic,strong) NSString *newpassword_str;
 @end
 
 @implementation passwordViewController
@@ -25,9 +30,14 @@
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
+    self.user_namestr = [[NSString alloc] init];
+    self.oldpassword_str = [[NSString alloc] init];
+    self.newpassword_str = [[NSString alloc] init];
     [self.view addSubview:self.oldpass_text];
     [self.view addSubview:self.newpass_text1];
     [self.view addSubview:self.newpass_text2];
+    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,11 +162,51 @@
 -(void)savenewpass
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        //返回上一页
-        [self.navigationController popViewControllerAnimated:YES];
-        //保存修改的密码
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        
+        if (self.newpass_text2.text!=self.newpass_text1.text) {
+            NSLog(@"请确认新密码");
+            [MBProgressHUD showError:@"请确认新密码"];
+        }
+        else
+        {
+            //验证登录信息
+            NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+            self.user_namestr = [defaultes objectForKey:@"name"];
+            self.oldpassword_str= [defaultes objectForKey:@"password"];
+            self.newpassword_str = self.newpass_text2.text;
+            
+            NSDictionary *para=@{@"user_moblie":self.user_namestr,@"user_pwd":self.oldpassword_str,@"user_newpwd":self.newpassword_str};
+            
+            [HttpTool postWithparamsWithURL:@"PasswordUpdate/PasswordUpdate" andParam:para success:^(id responseObject) {
+                NSData *data = [[NSData alloc] initWithData:responseObject];
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                NSString *code=dic[@"code"];
+                NSLog(@"%@",dic);
+                if ([code isEqualToString:@"400"]) {
+                    
+                    [MBProgressHUD showError:@"密码错误"];
+                    
+                }
+                else
+                {
+                    //返回上一页
+                    [self.navigationController popViewControllerAnimated:YES];
+                    //保存登录信息
+                    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+                    [defaultes setObject:self.user_namestr forKey:@"name"];
+                    [defaultes setObject:self.newpassword_str forKey:@"password"];
+                    [defaultes synchronize];
+                }
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
+            }];
+
+            
+           
+        }
+    
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         

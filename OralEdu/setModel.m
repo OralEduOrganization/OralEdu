@@ -11,14 +11,15 @@
 @implementation setModel
 - (instancetype)initWithPicurl:(NSString *)setview_url
                           Name:(NSString *)setview_name
-                     Signature:(NSString *)setview_signature
-
+                     phone:(NSString *)setview_phone
+                      language:(NSString *)setview_language
 {
     self = [super init];
     if (self) {
         _pic_imageurlstr = setview_url;
         _name_str = setview_name;
-        _signature_str = setview_signature;
+        _phone_str = setview_phone;
+        _language_str = setview_language;
     }
     return self;
 }

@@ -11,7 +11,7 @@
 #import "Datebase_materallist.h"
 #import "materal_model.h"
 #import "imageCollectionViewCell.h"
-@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
@@ -25,6 +25,7 @@
 @property (nonatomic,strong) UICollectionView *image_collectionview;
 @end
 static NSString *collectionview = @"imagecell";
+
 @implementation speaificViewController{
     
      CGFloat nowImgViewFrameY;
@@ -37,7 +38,7 @@ static NSString *collectionview = @"imagecell";
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navitionBar.right_btn setTitle:@"搜索" forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"修改" forState:UIControlStateNormal];
     [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
 
     
@@ -45,7 +46,8 @@ static NSString *collectionview = @"imagecell";
     [self addTheCollectionView];
     
     [self.view addSubview:self.add_btn];
-    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:@"22222"];
+    
+    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
     
     for(int i=0;i<self.need_arr.count;i++){
         materal_model *need_model=self.need_arr[i];
@@ -83,36 +85,6 @@ static NSString *collectionview = @"imagecell";
     return _add_btn;
 }
 
-//-(UITableView *)image_tableview
-//{
-//    if(!_image_tableview)
-//    {
-//        _image_tableview = [[UITableView alloc] init];
-//        _image_tableview.backgroundColor = [UIColor grayColor];
-//        _image_tableview.dataSource = self;
-//        _image_tableview.delegate = self;
-//    }
-//    return _image_tableview;
-//}
-
-
-
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return self.image_arr.count;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *idconfiger = @"imageviewcell";
-//    self.cell = [tableView dequeueReusableCellWithIdentifier:idconfiger];
-//    if (!_cell) {
-//        _cell = [[imageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idconfiger];
-//        _cell.name_label.text = self.name_arr[indexPath.row];
-//        _cell.specific_imageview.image = self.image_arr[indexPath.row];
-//    }
-//    return self.cell;
-//}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -126,13 +98,7 @@ static NSString *collectionview = @"imagecell";
     return cell;
 }
 
-
-////cell的高度
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 80.0f;
-//}
-
+//创建uicollectionview
 
 -(void)addTheCollectionView{
     
@@ -140,7 +106,7 @@ static NSString *collectionview = @"imagecell";
     //创建一个块状表格布局对象
     UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
     //格子的大小 (长，高)
-    flowL.itemSize = CGSizeMake(90, 90);
+    flowL.itemSize = CGSizeMake(80,80);
     //横向最小距离
     //flowL.minimumInteritemSpacing = 1.f;
     //    flowL.minimumLineSpacing=60.f;//代表的是纵向的空间间隔
@@ -164,8 +130,6 @@ static NSString *collectionview = @"imagecell";
     [self.view addSubview:_image_collectionview];
     
 }
-
-
 
 -(void)addimage
 {
@@ -282,7 +246,8 @@ static NSString *collectionview = @"imagecell";
    
     
     self.m_model.materal_id = user_id;
-    self.m_model.materal_name = @"22222";
+    
+    self.m_model.materal_name = self.navitionBar.title_label.text;
     self.m_model.materal_time = needTime;
     
     
@@ -313,8 +278,6 @@ static NSString *collectionview = @"imagecell";
 -(NSString *)getImagepath
 {
     NSLog(@"沙盒路径：%@",NSHomeDirectory());
-   
-    
     return nil;
 }
 #pragma mark - 实现方法

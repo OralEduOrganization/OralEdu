@@ -27,9 +27,10 @@
     [super layoutSubviews];
     CGFloat screenWidth  = [UIScreen mainScreen].bounds.size.width;
     
-    self.title_label.frame = CGRectMake((screenWidth-120)/2, 30, 120, 30);
-    self.left_btn.frame = CGRectMake(10 , 30, 40, 30);
-    self.right_btn.frame = CGRectMake(screenWidth-10-40, 30, 40, 30);
+    self.title_label.frame = CGRectMake((screenWidth-120)/2, 20, 120, 30);
+    self.left_btn.frame = CGRectMake(10 , 20, 30, 30);
+    self.right_btn.frame = CGRectMake(screenWidth-10-40, 20, 30, 30);
+    
 }
 
 #pragma mark - getters
@@ -46,17 +47,16 @@
     return _title_label;
 }
 
-
 -(UIButton *)left_btn
 {
     if(!_left_btn)
     {
         _left_btn = [[UIButton alloc] init];
        // _left_btn.backgroundColor = [UIColor orangeColor];
+        _left_btn.titleLabel.font = [UIFont systemFontOfSize:14];
     }
     return _left_btn;
 }
-
 
 -(UIButton *)right_btn
 {
@@ -64,6 +64,7 @@
     {
         _right_btn = [[UIButton alloc] init];
         //_right_btn.backgroundColor = [UIColor orangeColor];
+        _right_btn.titleLabel.font = [UIFont systemFontOfSize:14];
     }
     return _right_btn;
 }

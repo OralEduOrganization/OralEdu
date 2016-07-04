@@ -6,8 +6,15 @@
 //  Copyright © 2016年 wangjungang. All rights reserved.
 //
 
+
 #import "ViewController.h"
 #import "BaseViewController.h"
-@interface addressViewController : BaseViewController
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
+@interface addressViewController : BaseViewController<CLLocationManagerDelegate,MKMapViewDelegate>
+
+@property(strong,nonatomic) CLLocationManager *myLocationManager;
+@property(strong,nonatomic) CLGeocoder *myGeocoder;
+@property(strong,nonatomic) CLLocation *myLocation;
 @end

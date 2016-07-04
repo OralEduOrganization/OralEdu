@@ -24,8 +24,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.label1.frame = CGRectMake(30, 20, 100, 50);
-    self.label2.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-150, 20, 100, 50);
+    self.label1.frame = CGRectMake(20, 20, 80, 50);
+    self.label2.frame = CGRectMake(120, 20, 250, 50);
 }
 
 #pragma mark - getters
@@ -36,7 +36,7 @@
     {
         _label1 = [[UILabel alloc] init];
        // _label1.backgroundColor = [UIColor greenColor];
-        _label1.textAlignment =  NSTextAlignmentCenter;
+        //_label1.textAlignment =  NSTextAlignmentCenter;
     }
     return _label1;
 }
@@ -48,6 +48,10 @@
         _label2 = [[UILabel alloc] init];
        // _label2.backgroundColor = [UIColor greenColor];
         _label2.textAlignment =  NSTextAlignmentCenter;
+        _label2.font = [UIFont systemFontOfSize:12];
+        _label2.lineBreakMode = NSLineBreakByWordWrapping;
+        _label2.numberOfLines = 0;
+
     }
     return _label2;
 }

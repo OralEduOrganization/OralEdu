@@ -28,7 +28,7 @@
     self.pic_image.frame = CGRectMake(30, 0, 100, 100);
     self.name_label.frame = CGRectMake(30, 110, 100, 30);
     self.identity_label.frame = CGRectMake(30, 150, 100, 30);
-    self.signature_label.frame = CGRectMake(10, 190, 250, 80);
+    self.signature_label.frame = CGRectMake(10, 190, 200, 80);
 }
 
 #pragma mark - getters
