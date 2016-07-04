@@ -10,11 +10,13 @@
 #import "PIDrawerView.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "videoRightView.h"
+#import "Datebase_materallist.h"
 
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
     NSInteger screenWidth;
     NSInteger screenHeight;
+    PIDrawerView *drawView;
     
 }
 
@@ -22,12 +24,13 @@
     @property (nonatomic,strong) UIView             *teacherView;
     @property (nonatomic,strong) UIView             *studentView;
 
-    @property (nonatomic,strong) PIDrawerView       *drawView;
+
     @property (nonatomic,strong) UIButton           *writeButton;
     @property (nonatomic,strong) UIButton           *pickColorButton;
     @property (nonatomic,strong) UIButton           *pickEraserButton;
     @property (nonatomic,strong) UIButton           *pickImageButton;
     @property (nonatomic,strong) UIButton           *clearBtn;
+    @property (nonatomic,strong) UIButton           *eraseBtn;
     @property (nonatomic,strong) UIColor            *selectedColor;
     @property (nonatomic,strong) UIImageView        *backGroundImageView;
 
@@ -41,17 +44,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    drawView=[[PIDrawerView alloc]init];
+    drawView.backgroundColor=[UIColor clearColor];
+
     [self.view addSubview:self.teacherView];
     [self.view addSubview:self.studentView];
     [self.view addSubview:self.backGroundImageView];
-    [self.view addSubview:self.drawView];
+    [self.view addSubview:drawView];
     [self.view addSubview:self.pickImageButton];
     [self.view addSubview:self.writeButton];
     [self.view addSubview:self.pickColorButton];
+    [self.view addSubview:self.clearBtn];
+    [self.view addSubview:self.eraseBtn];
     [self.view addSubview:self.backBtn];
     
     self.selectedColor = [UIColor redColor];
-    self.drawView.selectedColor=self.selectedColor;
+    drawView.selectedColor=self.selectedColor;
     [self.view addSubview:self.rightView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnColor:) name:@"returnColor" object:nil];
     
@@ -82,10 +90,12 @@
     
     self.backBtn.frame = CGRectMake(600, 100, 190, 40);
     self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
-    self.drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
+    drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     self.pickImageButton.frame = CGRectMake(260, screenWidth-50, 100, 50);
+    self.eraseBtn.frame = CGRectMake(140, screenWidth-50, 100, 50);
     self.writeButton.frame=CGRectMake(380, screenWidth-50, 100, 50);
     self.pickColorButton.frame=CGRectMake(500, screenWidth-50, 100, 50);
+    self.clearBtn.frame=CGRectMake(600, screenWidth-50, 100, 50);
     
 }
 #pragma mark - Observer
@@ -93,7 +103,7 @@
     
     UIColor *receiveColor=(UIColor *)[notification object];
     self.selectedColor=receiveColor;
-    self.drawView.selectedColor=self.selectedColor;
+    drawView.selectedColor=self.selectedColor;
     [self.hubView removeFromSuperview];
     self.hubView = nil;
     [UIView animateWithDuration:0.3 animations:^{
@@ -105,7 +115,23 @@
     
 }
 #pragma mark - click
+-(void)eraseBtnClick{
+    [drawView setDrawingMode:DrawingModeErase];
+}
+
 -(void)clearBtnClick{
+//    self.drawView=nil;
+    [drawView removeFromSuperview];
+    drawView=[[PIDrawerView alloc]init];
+    drawView.backgroundColor=[UIColor clearColor];
+    drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
+    [self.view addSubview:drawView];
+    drawView.selectedColor=self.selectedColor;
+    [drawView setDrawingMode:DrawingModePaint];
+//    self.drawView=[[PIDrawerView alloc]init];
+//    self.drawView.backgroundColor=[UIColor clearColor];
+//    [self.view addSubview:self.drawView];
+
     
 }
 -(void)backBtnClick{
@@ -121,10 +147,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)writeBtnClick{
-    [self.drawView setDrawingMode:DrawingModePaint];
+    [drawView setDrawingMode:DrawingModePaint];
 }
 -(void)imagePickClick{
-    [self addimage];
+    //[self addimage];
+    NSArray *need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:@"rr"];
+    NSLog(@"%@",need_arr);
 }
 
 -(void)pickColorBtnClick{
@@ -135,6 +163,7 @@
         
         [self.view addSubview:self.hubView];
         [self.view bringSubviewToFront:self.rightView];
+        [self.view bringSubviewToFront:self.backBtn];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"getColor" object:self.selectedColor];
         [UIView animateWithDuration:0.3 animations:^{
             self.rightView.transform =CGAffineTransformMakeTranslation(-200, 0);
@@ -324,13 +353,7 @@
     }
     return _studentView;
 }
--(PIDrawerView *)drawView{
-    if(!_drawView){
-        _drawView=[[PIDrawerView alloc]init];
-        _drawView.backgroundColor=[UIColor clearColor];
-    }
-    return _drawView;
-}
+
 
 -(UIButton *)pickImageButton{
     if(!_pickImageButton){
@@ -398,7 +421,16 @@
     }
     return _clearBtn;
 }
-
+-(UIButton *)eraseBtn{
+    if(!_eraseBtn){
+        _eraseBtn=[[UIButton alloc]init];
+        [_eraseBtn addTarget:self action:@selector(eraseBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_eraseBtn setTitle:@"橡皮" forState:UIControlStateNormal];
+        _eraseBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+        [_eraseBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }
+    return _eraseBtn;
+}
 
 
 @end

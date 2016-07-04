@@ -31,8 +31,8 @@
         if([db open])
         {
             //创建数据表
-            NSString *sql = @"create table if not exists Datebase_materallist_info(materallist_id TEXT , materallist_name TEXT primary key)";
-            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id TEXT , materal_name TEXT ,materal_imagepath TEXT,materal_time TEXT)";
+            NSString *sql = @"create table if not exists Datebase_materallist_info(materallist_id varchar , materallist_name varchar primary key)";
+            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id varchar , materal_name varchar ,materal_imagepath varchar,materal_time varchar)";
             
             if (![db executeUpdate:sql]) {
                 NSLog(@"create table error :%@",[db lastErrorMessage]);
@@ -156,7 +156,7 @@
     FMDatabase *db = [self getDatebase];
     [db open];
     
-    NSString *sql=[NSString stringWithFormat:@"select * from Datebase_details_info where materal_id = %@ and materal_name = %@",user_id,path_name];
+    NSString *sql=[NSString stringWithFormat:@"select * from Datebase_details_info where materal_id = '%@' and materal_name = '%@'",user_id,path_name];
     
     FMResultSet *set = [db executeQuery:sql];
     NSMutableArray *detailsArr = [NSMutableArray array];
