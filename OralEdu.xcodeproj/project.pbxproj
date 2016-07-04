@@ -98,8 +98,8 @@
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
 		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
 		FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94721D264953006F955A /* CoreGraphics.framework */; };
-		FECC94751D26496F006F955A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94741D26496F006F955A /* UIKit.framework */; };
 		FECC947A1D266938006F955A /* videoRightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94791D266938006F955A /* videoRightView.m */; };
+		FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947C1D2A5D57006F955A /* pickImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -268,9 +268,10 @@
 		FECC946E1D2636F7006F955A /* PIDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PIDrawerView.m; sourceTree = "<group>"; };
 		FECC94701D264936006F955A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		FECC94721D264953006F955A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		FECC94741D26496F006F955A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FECC94781D266937006F955A /* videoRightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoRightView.h; sourceTree = "<group>"; };
 		FECC94791D266938006F955A /* videoRightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoRightView.m; sourceTree = "<group>"; };
+		FECC947B1D2A5D57006F955A /* pickImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pickImageView.h; sourceTree = "<group>"; };
+		FECC947C1D2A5D57006F955A /* pickImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pickImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,10 +279,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
-
 				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
@@ -296,7 +295,6 @@
 				53B22C311D2618A800E8EBA5 /* libz.tbd in Frameworks */,
 				53B22C2E1D26182100E8EBA5 /* MOBFoundation.framework in Frameworks */,
 				53B22C2F1D26182100E8EBA5 /* SMS_SDK.framework in Frameworks */,
-
 				53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */,
 				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
@@ -893,7 +891,6 @@
 			children = (
 				FECC94661D2611DF006F955A /* videoConnect */,
 				53B22C4C1D2663DF00E8EBA5 /* Personal signature */,
-
 				53B9C87A1D24FFD7003C629B /* webService */,
 				538D2E991D1EBB0D00BB9588 /* specificmateral详细素材 */,
 				538D2E731D1E522A00BB9588 /* name修改用户名 */,
@@ -926,10 +923,8 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
-
 				FECC94721D264953006F955A /* CoreGraphics.framework */,
 				FECC94701D264936006F955A /* MobileCoreServices.framework */,
-
 				5379B5271D2939CA00D38D4C /* ZCYlocation */,
 				530F6E451D268D5500A3A2AE /* SVPullToRefresh */,
 				53B22C461D264FB300E8EBA5 /* MapKit.framework */,
@@ -946,7 +941,6 @@
 				53B22C301D2618A800E8EBA5 /* libz.tbd */,
 				53B22C211D26182100E8EBA5 /* SMSSDK.2.0.0 */,
 				53B22C181D2617E900E8EBA5 /* MBProgressHUD */,
-
 				53B9C8661D24FF56003C629B /* AFNetworking */,
 				53D2ACCB1D235CC0001BA2C2 /* fmdb */,
 				53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */,
@@ -1125,6 +1119,8 @@
 				FECC946E1D2636F7006F955A /* PIDrawerView.m */,
 				FECC94781D266937006F955A /* videoRightView.h */,
 				FECC94791D266938006F955A /* videoRightView.m */,
+				FECC947B1D2A5D57006F955A /* pickImageView.h */,
+				FECC947C1D2A5D57006F955A /* pickImageView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1275,6 +1271,7 @@
 				53E91A201D1B70E40091E85A /* main.m in Sources */,
 				53E91A401D1B72A50091E85A /* homeViewController.m in Sources */,
 				FECC947A1D266938006F955A /* videoRightView.m in Sources */,
+				FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */,
 				53B9C8761D24FF56003C629B /* AFSecurityPolicy.m in Sources */,
 				538D2E511D1D38B400BB9588 /* aboutViewController.m in Sources */,
 				530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */,
@@ -1405,10 +1402,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1416,7 +1409,6 @@
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
-
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
@@ -1429,10 +1421,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1440,7 +1428,6 @@
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
-
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
