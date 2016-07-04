@@ -51,7 +51,7 @@ static NSString *collectionview = @"imagecell";
     
     for(int i=0;i<self.need_arr.count;i++){
         materal_model *need_model=self.need_arr[i];
-        NSString *needPatch=[NSString stringWithFormat:@"%@",need_model.materal_imagepath];
+        NSString *needPatch=[NSString stringWithFormat:@"%@%@",docDir,need_model.materal_imagepath];
         UIImage *image= [[UIImage alloc]initWithContentsOfFile:needPatch];
         [self.image_arr addObject:image];
     }
@@ -269,10 +269,10 @@ static NSString *collectionview = @"imagecell";
     NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
     NSString *path = self.navitionBar.title_label.text;
     NSString *user_id = @"12136";
-//    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
-      NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *savePath=[NSString stringWithFormat:@"%@/%@/%@/%@",docDir,user_id,path,needImageName];
-    [imageData writeToFile:savePath atomically:NO];
+    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
+      //NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *savePath=[NSString stringWithFormat:@"/%@/%@/%@",user_id,path,needImageName];
+    [imageData writeToFile:fullPath atomically:NO];
     
     self.m_model.materal_imagepath = savePath;
 }
