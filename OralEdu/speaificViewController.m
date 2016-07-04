@@ -38,20 +38,21 @@ static NSString *collectionview = @"imagecell";
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navitionBar.right_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
 
-    
     self.image_arr = [NSMutableArray array];
     [self addTheCollectionView];
     
     [self.view addSubview:self.add_btn];
     
     self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
     for(int i=0;i<self.need_arr.count;i++){
         materal_model *need_model=self.need_arr[i];
-        UIImage *image= [[UIImage alloc]initWithContentsOfFile:need_model.materal_imagepath];
+        NSString *needPatch=[NSString stringWithFormat:@"%@",need_model.materal_imagepath];
+        UIImage *image= [[UIImage alloc]initWithContentsOfFile:needPatch];
         [self.image_arr addObject:image];
     }
 }
@@ -268,10 +269,12 @@ static NSString *collectionview = @"imagecell";
     NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
     NSString *path = self.navitionBar.title_label.text;
     NSString *user_id = @"12136";
-    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
-    [imageData writeToFile:fullPath atomically:NO];
+//    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
+      NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *savePath=[NSString stringWithFormat:@"%@/%@/%@/%@",docDir,user_id,path,needImageName];
+    [imageData writeToFile:savePath atomically:NO];
     
-    self.m_model.materal_imagepath = fullPath;
+    self.m_model.materal_imagepath = savePath;
 }
 
 //获取图片路径

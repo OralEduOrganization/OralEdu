@@ -57,7 +57,7 @@
      [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
     self.navitionBar.title_label.text = titlein.title_name;
     
-    [self.view addSubview:self.m_btn];
+   // [self.view addSubview:self.m_btn];
     [self.view addSubview:self.homeTableview];
     
     __weak homeViewController *weakSelf = self;
@@ -78,8 +78,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.homeTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 400);
-    self.m_btn.frame = CGRectMake(20, 500, 100, 50);
+    self.homeTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
+    //self.m_btn.frame = CGRectMake(20, 500, 100, 50);
 }
 
 

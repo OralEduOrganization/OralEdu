@@ -21,7 +21,7 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.m_pic_image];
     [self.view addSubview:self.m_label];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,7 +47,6 @@
     }
     return _m_pic_image;
 }
-
 
 -(UILabel *)m_label
 {
