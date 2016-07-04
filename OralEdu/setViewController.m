@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navitionBar.right_btn removeFromSuperview];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor grayColor];
     [self loadDataFromWeb];
     self.navitionBar.title_label.text = @"设置";
@@ -48,7 +48,6 @@
 {
     [super viewWillAppear:animated];
     self.setTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-    
 }
 
 #pragma  mark - 数据源方法
@@ -148,6 +147,7 @@
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid3];
+            cell.imageView.image = [UIImage imageNamed:@"身份认证"];
             cell.textLabel.text = @"身份认证";
         }
         return cell;
@@ -158,6 +158,7 @@
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid4];
+            cell.imageView.image = [UIImage imageNamed:@"帮助"];
             cell.textLabel.text = @"帮助与反馈";
         }
         return cell;
@@ -167,6 +168,7 @@
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid5];
+            cell.imageView.image = [UIImage imageNamed:@"清除缓存"];
             cell.textLabel.text = @"清理缓存";
         }
         return cell;

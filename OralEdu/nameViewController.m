@@ -21,7 +21,7 @@
     [self.view addGestureRecognizer:TapGestureTecognizer];
     [self.view addSubview:self.nametext];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
 }
 

@@ -88,7 +88,7 @@
     
     
     
-    self.backBtn.frame = CGRectMake(600, 100, 190, 40);
+    self.backBtn.frame = CGRectMake(400, 100, 190, 40);
     self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     self.pickImageButton.frame = CGRectMake(260, screenWidth-50, 100, 50);

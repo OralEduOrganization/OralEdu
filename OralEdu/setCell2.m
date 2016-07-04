@@ -41,7 +41,8 @@
     if(!_image1)
     {
         _image1 = [[UIImageView alloc] init];
-        _image1.backgroundColor = [UIColor greenColor];
+       // _image1.backgroundColor = [UIColor greenColor];
+        _image1.image = [UIImage imageNamed:@"打赏"];
     }
     return _image1;
 }
@@ -51,7 +52,8 @@
     if(!_image2)
     {
         _image2 = [[UIImageView alloc] init];
-        _image2.backgroundColor = [UIColor greenColor];
+        //_image2.backgroundColor = [UIColor greenColor];
+        _image2.image = [UIImage imageNamed:@"打赏记录"];
     }
     return _image2;
 }

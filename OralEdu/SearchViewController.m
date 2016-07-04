@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];

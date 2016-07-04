@@ -32,7 +32,7 @@
 {
     [super layoutSubviews];
     self.m_imageview.frame = CGRectMake(50, 20, 30, 30);
-    self.m_label.frame = CGRectMake(130, 20, 80, 30);
+    self.m_label.frame = CGRectMake(100, 20, 80, 30);
     
 }
 #pragma mark - gertter
@@ -43,7 +43,7 @@
     if(!_m_label)
     {
         _m_label = [[UILabel alloc] init];
-        _m_label.backgroundColor = [UIColor greenColor];
+       // _m_label.backgroundColor = [UIColor greenColor];
     }
     return _m_label;
 }
@@ -53,7 +53,7 @@
     if(!_m_imageview)
     {
         _m_imageview = [[UIImageView alloc] init];
-        _m_imageview.backgroundColor = [UIColor greenColor];
+        //_m_imageview.backgroundColor = [UIColor greenColor];
     }
     return _m_imageview;
 }
