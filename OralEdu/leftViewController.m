@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadDataFromWeb];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroud2.jpg"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
     //self.view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:self.left_tableview];
    // [self.view addSubview:self.leftV];
@@ -81,6 +81,7 @@
         _left_tableview.delegate = self;
         _left_tableview.dataSource = self;
         _left_tableview.scrollEnabled =NO;
+        _left_tableview.separatorStyle = UITableViewCellSelectionStyleNone;//去掉分割线
     }
     return _left_tableview;
 }
@@ -142,6 +143,7 @@
         cell = [[leftCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor =[UIColor clearColor];
         cell.m_label.text = self.leftarr[indexPath.row];
+        cell.m_label.textColor = [UIColor whiteColor];
         cell.m_imageview.image = self.pic_arr[indexPath.row];
     }
  

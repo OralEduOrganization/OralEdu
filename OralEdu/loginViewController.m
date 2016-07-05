@@ -20,6 +20,7 @@
 @property (nonatomic,strong) NSString *user_str;
 @property (nonatomic,strong) NSString *user_paseword;
 @property (nonatomic,strong) UIButton *goback_btn;
+@property (nonatomic,strong) UIImageView *groundimage;
 @end
 
 @implementation loginViewController
@@ -27,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //self.view.backgroundColor = [UIColor whiteColor];
-      self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2.jpg"]];
+    [self.view addSubview:self.groundimage];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
@@ -50,7 +51,7 @@
     [super viewWillAppear:animated];
     
     _login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
-    _Tview.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-256)/2, 190, 256, 100);
+    _Tview.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-256)/2, 180, 256, 100);
     _registered_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 500, 80, 50);
     self.goback_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 600, 80, 50);
     
@@ -65,7 +66,7 @@
     if(!_Tview)
     {
         _Tview = [[TextView alloc] init];
-        _Tview.backgroundColor = [UIColor blueColor];
+       // _Tview.backgroundColor = [UIColor blueColor];
         _Tview.layer.masksToBounds = YES;
         _Tview.layer.cornerRadius = 20;
         [_Tview.user_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -73,14 +74,26 @@
     return _Tview;
 }
 
+-(UIImageView *)groundimage
+{
+    if(!_groundimage)
+    {
+        _groundimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"背景"]];
+        _groundimage.frame = [UIScreen mainScreen].bounds;
+    }
+    return _groundimage;
+}
+
+
+
 -(UIButton *)login_btn
 {
     if(!_login_btn)
     {
         _login_btn = [[UIButton alloc] init];
-        _login_btn.backgroundColor = [UIColor orangeColor];
-        [_login_btn setTitle:@"登录" forState:UIControlStateNormal];
-        [_login_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _login_btn.backgroundColor = [UIColor brownColor];
+        [_login_btn setTitle:@"登     录" forState:UIControlStateNormal];
+        [_login_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _login_btn.layer.masksToBounds = YES;
         _login_btn.layer.cornerRadius = 15;
         [_login_btn addTarget:self action:@selector(go_homeClick) forControlEvents:UIControlEventTouchUpInside];
@@ -95,7 +108,7 @@
         _registered_btn = [[UIButton alloc] init];
        // _registered_btn.backgroundColor = [UIColor blueColor];
         [_registered_btn setTitle:@"点击注册" forState:UIControlStateNormal];
-        [_registered_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_registered_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _registered_btn.layer.masksToBounds = YES;
         _registered_btn.layer.cornerRadius = 15;
         [_registered_btn addTarget:self action:@selector(go_registerview) forControlEvents:UIControlEventTouchUpInside];

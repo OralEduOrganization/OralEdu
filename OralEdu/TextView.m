@@ -35,7 +35,7 @@
     if(!_user_text)
     {
         _user_text = [[UITextField alloc] init];
-        _user_text.backgroundColor = [UIColor lightGrayColor];
+        _user_text.backgroundColor = [UIColor whiteColor];
         _user_text.delegate = self;
         _user_text.borderStyle = UITextBorderStyleBezel;
         _user_text.placeholder = @"请输入帐号";
@@ -52,7 +52,7 @@
     if(!_pass_text)
     {
         _pass_text = [[UITextField alloc] init];
-        _pass_text.backgroundColor = [UIColor lightGrayColor];
+        _pass_text.backgroundColor = [UIColor whiteColor];
         _pass_text.delegate = self;
         _pass_text.borderStyle = UITextBorderStyleBezel;
         _pass_text.placeholder = @"请输入密码";

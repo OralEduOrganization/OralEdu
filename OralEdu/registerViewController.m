@@ -26,14 +26,14 @@
 @property (nonatomic,strong) UIImageView *valid_image;
 @property (nonatomic,strong) NSString *user_str;
 @property (nonatomic,strong) NSString *user_password;
+@property (nonatomic,strong) UIImageView *groudimage;
 @end
 
 @implementation registerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   // self.view.backgroundColor = [UIColor lightGrayColor];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2.jpg"]];
+    [self.view addSubview:self.groudimage];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
@@ -69,6 +69,17 @@
 
 #pragma mark - getters
 
+-(UIImageView *)groudimage
+{
+    if(!_groudimage)
+    {
+        _groudimage = [[UIImageView alloc] init];
+        _groudimage.frame = [UIScreen mainScreen].bounds;
+        _groudimage.image = [UIImage imageNamed:@"groud3"];
+    }
+    return _groudimage;
+}
+
 -(UIButton *)login_btn
 {
     if(!_login_btn)
@@ -76,10 +87,10 @@
         _login_btn = [[UIButton alloc] init];
        // _login_btn.backgroundColor = [UIColor orangeColor];
         [_login_btn setTitle:@"已有密码，点击登录" forState:UIControlStateNormal];
-        [_login_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_login_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_login_btn addTarget:self action:@selector(go_login) forControlEvents:UIControlEventTouchUpInside];
         _login_btn.layer.masksToBounds = YES;
-        _login_btn.layer.cornerRadius = 15;
+        _login_btn.layer.cornerRadius = 20;
     }
     return _login_btn;
 }
@@ -94,7 +105,7 @@
         [_reist_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_reist_btn addTarget:self action:@selector(regis) forControlEvents:UIControlEventTouchUpInside];
         _reist_btn.layer.masksToBounds = YES;
-        _reist_btn.layer.cornerRadius = 15;
+        _reist_btn.layer.cornerRadius = 20;
     }
     return _reist_btn;
 }
@@ -108,12 +119,15 @@
         _phone_text.placeholder = @"请输入手机号";
         _phone_text.keyboardType = UIKeyboardTypePhonePad;
         _phone_text.returnKeyType =UIReturnKeyDone;
-        _phone_text.backgroundColor = [UIColor orangeColor];
+        _phone_text.backgroundColor = [UIColor whiteColor];
         _phone_text.clearButtonMode = UITextFieldViewModeWhileEditing;
         _phone_text.borderStyle = UITextBorderStyleRoundedRect;
         _phone_text.leftView = self.phone_image;
         _phone_text.leftViewMode=UITextFieldViewModeAlways;
         [_phone_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+        _phone_text.layer.masksToBounds = YES;
+        _phone_text.layer.cornerRadius = 15;
+
     }
     return _phone_text;
 }
@@ -126,12 +140,14 @@
         _pass_text.delegate = self;
         _pass_text.placeholder = @"请输入密码";
         _pass_text.returnKeyType = UIReturnKeyGo;
-        _pass_text.backgroundColor = [UIColor orangeColor];
+        _pass_text.backgroundColor = [UIColor whiteColor];
         _pass_text.clearButtonMode = UITextFieldViewModeWhileEditing;
         _pass_text.borderStyle = UITextBorderStyleRoundedRect;
         _pass_text.secureTextEntry = YES;
         _pass_text.leftView = self.pass_image;
         _pass_text.leftViewMode=UITextFieldViewModeAlways;
+        _pass_text.layer.masksToBounds = YES;
+        _pass_text.layer.cornerRadius = 15;
     }
     return _pass_text;
 }
@@ -144,11 +160,14 @@
         _valid_text.delegate = self;
         _valid_text.placeholder = @"请输入验证码";
         _valid_text.returnKeyType = UIReturnKeyGo;
-        _valid_text.backgroundColor = [UIColor orangeColor];
+        _valid_text.backgroundColor = [UIColor whiteColor];
         _valid_text.clearButtonMode = UITextFieldViewModeWhileEditing;
         _valid_text.borderStyle = UITextBorderStyleRoundedRect;
         _valid_text.leftView = self.valid_image;
         _valid_text.leftViewMode=UITextFieldViewModeAlways;
+        _valid_text.layer.masksToBounds = YES;
+        _valid_text.layer.cornerRadius = 15;
+
     }
     return _valid_text;
 }
@@ -160,7 +179,7 @@
         _get_btn = [[UIButton alloc] init];
         _get_btn.backgroundColor = [UIColor orangeColor];
         _get_btn.layer.masksToBounds = YES;
-        _get_btn.layer.cornerRadius = 15;
+        _get_btn.layer.cornerRadius = 20;
         [_get_btn addTarget:self action:@selector(startTime) forControlEvents:UIControlEventTouchUpInside];
         [_get_btn setTitle:@"发送验证码" forState:UIControlStateNormal];
         [_get_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -173,7 +192,7 @@
     if(!_phone_image)
     {
         _phone_image = [[UIImageView alloc] init];
-        _phone_image.frame = CGRectMake(10, 10, 30, 30);
+        _phone_image.frame = CGRectMake(15, 10, 30, 30);
         _phone_image.image = [UIImage imageNamed:@"phone1"];
         
     }
@@ -185,7 +204,7 @@
     if(!_pass_image)
     {
         _pass_image = [[UIImageView alloc] init];
-        _pass_image.frame = CGRectMake(10, 10, 30, 30);
+        _pass_image.frame = CGRectMake(15, 10, 30, 30);
         _pass_image.image = [UIImage imageNamed:@"lock1"];
     }
     return _pass_image;
@@ -196,7 +215,7 @@
     if(!_valid_image)
     {
         _valid_image = [[UIImageView alloc] init];
-        _valid_image.frame = CGRectMake(10, 10, 30, 30);
+        _valid_image.frame = CGRectMake(15, 10, 30, 30);
         _valid_image.image = [UIImage imageNamed:@"lock1"];
     }
     return _valid_image;

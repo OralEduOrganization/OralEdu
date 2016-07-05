@@ -84,11 +84,11 @@
 		53D2ACE41D239187001BA2C2 /* materal_finder.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACE31D239187001BA2C2 /* materal_finder.m */; };
 		53D2ACEA1D239E0D001BA2C2 /* materal_model.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACE91D239E0D001BA2C2 /* materal_model.m */; };
 		53D2ACF31D23A02E001BA2C2 /* Datebase_materallist.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACF21D23A02E001BA2C2 /* Datebase_materallist.m */; };
+		53DC007D1D2B586700989E31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53DC007C1D2B586700989E31 /* Assets.xcassets */; };
 		53E91A201D1B70E40091E85A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A1F1D1B70E40091E85A /* main.m */; };
 		53E91A231D1B70E40091E85A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A221D1B70E40091E85A /* AppDelegate.m */; };
 		53E91A261D1B70E40091E85A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A251D1B70E40091E85A /* ViewController.m */; };
 		53E91A291D1B70E40091E85A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53E91A271D1B70E40091E85A /* Main.storyboard */; };
-		53E91A2B1D1B70E40091E85A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53E91A2A1D1B70E40091E85A /* Assets.xcassets */; };
 		53E91A2E1D1B70E40091E85A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53E91A2C1D1B70E40091E85A /* LaunchScreen.storyboard */; };
 		53E91A401D1B72A50091E85A /* homeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A3F1D1B72A50091E85A /* homeViewController.m */; };
 		53E91A441D1B72D50091E85A /* ITRAirSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A431D1B72D50091E85A /* ITRAirSideMenu.m */; };
@@ -245,6 +245,7 @@
 		53D2ACE91D239E0D001BA2C2 /* materal_model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = materal_model.m; sourceTree = "<group>"; };
 		53D2ACF11D23A02E001BA2C2 /* Datebase_materallist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Datebase_materallist.h; path = ../Datebase_materallist.h; sourceTree = "<group>"; };
 		53D2ACF21D23A02E001BA2C2 /* Datebase_materallist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Datebase_materallist.m; path = ../Datebase_materallist.m; sourceTree = "<group>"; };
+		53DC007C1D2B586700989E31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = OralEdu/Assets.xcassets; sourceTree = "<group>"; };
 		53E91A1B1D1B70E40091E85A /* OralEdu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OralEdu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E91A1F1D1B70E40091E85A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		53E91A211D1B70E40091E85A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OralEdu/AppDelegate.h; sourceTree = "<group>"; };
@@ -252,7 +253,6 @@
 		53E91A241D1B70E40091E85A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = OralEdu/ViewController.h; sourceTree = "<group>"; };
 		53E91A251D1B70E40091E85A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = OralEdu/ViewController.m; sourceTree = "<group>"; };
 		53E91A281D1B70E40091E85A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		53E91A2A1D1B70E40091E85A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = OralEdu/Assets.xcassets; sourceTree = "<group>"; };
 		53E91A2D1D1B70E40091E85A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		53E91A2F1D1B70E40091E85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = OralEdu/Info.plist; sourceTree = "<group>"; };
 		53E91A3E1D1B72A50091E85A /* homeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homeViewController.h; sourceTree = "<group>"; };
@@ -961,9 +961,9 @@
 				53E91A241D1B70E40091E85A /* ViewController.h */,
 				53E91A251D1B70E40091E85A /* ViewController.m */,
 				53E91A271D1B70E40091E85A /* Main.storyboard */,
-				53E91A2A1D1B70E40091E85A /* Assets.xcassets */,
 				53E91A2C1D1B70E40091E85A /* LaunchScreen.storyboard */,
 				53E91A2F1D1B70E40091E85A /* Info.plist */,
+				53DC007C1D2B586700989E31 /* Assets.xcassets */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -1201,8 +1201,8 @@
 				53E91A2E1D1B70E40091E85A /* LaunchScreen.storyboard in Resources */,
 				53B22C1F1D2617E900E8EBA5 /* MBProgressHUD.bundle in Resources */,
 				53B22C2D1D26182100E8EBA5 /* SMS_SDKLocalizable.strings in Resources */,
-				53E91A2B1D1B70E40091E85A /* Assets.xcassets in Resources */,
 				53E91A291D1B70E40091E85A /* Main.storyboard in Resources */,
+				53DC007D1D2B586700989E31 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
