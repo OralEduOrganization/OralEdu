@@ -100,6 +100,7 @@
 		FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94721D264953006F955A /* CoreGraphics.framework */; };
 		FECC947A1D266938006F955A /* videoRightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94791D266938006F955A /* videoRightView.m */; };
 		FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947C1D2A5D57006F955A /* pickImageView.m */; };
+		FECC94801D2B8D97006F955A /* imageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947F1D2B8D97006F955A /* imageMenuView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -272,6 +273,8 @@
 		FECC94791D266938006F955A /* videoRightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoRightView.m; sourceTree = "<group>"; };
 		FECC947B1D2A5D57006F955A /* pickImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pickImageView.h; sourceTree = "<group>"; };
 		FECC947C1D2A5D57006F955A /* pickImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pickImageView.m; sourceTree = "<group>"; };
+		FECC947E1D2B8D97006F955A /* imageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageMenuView.h; sourceTree = "<group>"; };
+		FECC947F1D2B8D97006F955A /* imageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageMenuView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1121,6 +1124,8 @@
 				FECC94791D266938006F955A /* videoRightView.m */,
 				FECC947B1D2A5D57006F955A /* pickImageView.h */,
 				FECC947C1D2A5D57006F955A /* pickImageView.m */,
+				FECC947E1D2B8D97006F955A /* imageMenuView.h */,
+				FECC947F1D2B8D97006F955A /* imageMenuView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1217,6 +1222,7 @@
 				539313621D1BC7000035D874 /* BaseViewController.m in Sources */,
 				530F6E4B1D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				538D2E7C1D1E5EF100BB9588 /* infoCell1.m in Sources */,
+				FECC94801D2B8D97006F955A /* imageMenuView.m in Sources */,
 				53B22C201D2617E900E8EBA5 /* MBProgressHUD.m in Sources */,
 				538D2E611D1D69D300BB9588 /* infoTableViewCell2.m in Sources */,
 				53E91A441D1B72D50091E85A /* ITRAirSideMenu.m in Sources */,
