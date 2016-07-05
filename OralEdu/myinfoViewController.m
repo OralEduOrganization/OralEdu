@@ -125,7 +125,7 @@
         _name_label = [[UILabel alloc] init];
         //_name_label.backgroundColor = [UIColor greenColor];
         _name_label.textAlignment = NSTextAlignmentCenter;
-        
+        _name_label.textColor = [UIColor whiteColor];
         _name_label.text = self.picM.name_str;
     }
     return _name_label;
@@ -212,7 +212,12 @@
         {
             cell = [[infoTableViewCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic2];
             cell.m_label1.text = self.infoarr[indexPath.row];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if([cell.m_label1.text isEqualToString:@"退出登录"]){
+                [cell getChange];
+                cell.m_label3.text=@"退出登录";
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
             if (indexPath.row==1) {
                 [cell.m_label2 removeFromSuperview];
             }
@@ -236,6 +241,7 @@
                 cell.m_label2.text = _picM.signature_str;
             }
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
 //    }
 //    return nil;

@@ -26,6 +26,7 @@ static NSString *collectionview = @"imagecell";
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         self.backgroundColor=[UIColor whiteColor];
         self.image_arr = [NSMutableArray array];
         [self addTheCollectionView];

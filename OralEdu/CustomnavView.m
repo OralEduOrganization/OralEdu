@@ -29,7 +29,7 @@
     
     self.title_label.frame = CGRectMake((screenWidth-120)/2, 20, 120, 30);
     self.left_btn.frame = CGRectMake(10 , 20, 30, 30);
-    self.right_btn.frame = CGRectMake(screenWidth-10-40, 20, 30, 30);
+    self.right_btn.frame = CGRectMake(screenWidth-10-40, 25, 30, 30);
     
 }
 

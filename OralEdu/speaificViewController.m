@@ -35,9 +35,10 @@ static NSString *collectionview = @"imagecell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
 
@@ -60,7 +61,7 @@ static NSString *collectionview = @"imagecell";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
+    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 40, 40);
     
     self.image_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
 }
@@ -79,8 +80,8 @@ static NSString *collectionview = @"imagecell";
     if(!_add_btn)
     {
         _add_btn = [[UIButton alloc] init];
-        _add_btn.backgroundColor = [UIColor grayColor];
-        [_add_btn setTitle:@"add" forState:UIControlStateNormal];
+        [_add_btn setImage:[UIImage imageNamed:@"添加"] forState:UIControlStateNormal];
+        _add_btn.backgroundColor=[UIColor clearColor];
         [_add_btn addTarget:self action:@selector(addimage) forControlEvents:UIControlEventTouchUpInside];
     }
     return _add_btn;
@@ -107,7 +108,7 @@ static NSString *collectionview = @"imagecell";
     //创建一个块状表格布局对象
     UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
     //格子的大小 (长，高)
-    flowL.itemSize = CGSizeMake(80,80);
+    flowL.itemSize = CGSizeMake(100,100);
     //横向最小距离
     //flowL.minimumInteritemSpacing = 1.f;
     //    flowL.minimumLineSpacing=60.f;//代表的是纵向的空间间隔
@@ -118,12 +119,12 @@ static NSString *collectionview = @"imagecell";
     //可以左右拉动
     // [flowL setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     
-    _image_collectionview = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) collectionViewLayout:flowL];
+    _image_collectionview = [[UICollectionView alloc] initWithFrame:CGRectMake(15, 64, self.view.frame.size.width-25, self.view.frame.size.height-64) collectionViewLayout:flowL];
     //设置代理为当前控制器
     _image_collectionview.delegate = self;
     _image_collectionview.dataSource = self;
     //设置背景
-    _image_collectionview.backgroundColor =[UIColor grayColor];
+    _image_collectionview.backgroundColor =[UIColor clearColor];
     
 #pragma mark -- 注册单元格
     [_image_collectionview registerClass:[imageCollectionViewCell class] forCellWithReuseIdentifier:collectionview];

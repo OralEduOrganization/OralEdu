@@ -11,5 +11,7 @@
 @interface infoTableViewCell2 : UITableViewCell
 @property (nonatomic,strong) UILabel *m_label1;
 @property (nonatomic,strong) UILabel *m_label2;
+@property (nonatomic,strong) UILabel *m_label3;
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+-(void)getChange;
 @end

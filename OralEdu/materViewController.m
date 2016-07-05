@@ -74,11 +74,8 @@
     if(!_add_btn)
     {
         _add_btn = [[UIButton alloc] init];
-        _add_btn.backgroundColor = [UIColor grayColor];
-        [_add_btn setTitle:@"add" forState:UIControlStateNormal];
-        [_add_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _add_btn.layer.masksToBounds = YES;
-        _add_btn.layer.cornerRadius = 25;
+        _add_btn.backgroundColor = [UIColor clearColor];
+        [_add_btn setImage:[UIImage imageNamed:@"添加"] forState:UIControlStateNormal];
         [_add_btn addTarget:self action:@selector(addanew) forControlEvents:UIControlEventTouchUpInside];
     }
     return _add_btn;
@@ -91,8 +88,13 @@
         _matertableview = [[UITableView alloc] init];
         _matertableview.delegate = self;
         _matertableview.dataSource = self;
+        
+        _matertableview.tableFooterView = [[UIView alloc]init];
+
         //_matertableview.backgroundColor = [UIColor orangeColor];
-        _matertableview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2.jpg"]];
+        _matertableview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3.jpg"]];
+        _matertableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
     }
     return _matertableview;
 }
@@ -109,14 +111,32 @@
     _cell = [tableView dequeueReusableCellWithIdentifier:identfider];
     
     _cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
-    _cell.textLabel.text = self.mater_arr[indexPath.row];
-    _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    _cell.backgroundColor=[UIColor clearColor];
+    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    _cell.textLabel.text = self.mater_arr[indexPath.row];
+//    _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    [_cell.layer setBorderColor: UIColorFromRGB(0X2a2624).CGColor];
+//    [_cell.layer setBorderWidth:1];
+//    [_cell.layer setMasksToBounds:YES];
+    
+    UIView *needview=[[UIView alloc]initWithFrame:CGRectMake(10, 5, _cell.bounds.size.width+35, _cell.bounds.size.height-3)];
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(10, -8, 100, 50)];
+    label.text=self.mater_arr[indexPath.row];
+    needview.backgroundColor=[UIColor lightGrayColor];
+//    label.textAlignment = NSTextAlignmentCenter;
+    needview.layer.cornerRadius = 5;
+//    [needview.layer setBorderWidth:1];
+//    self.m_label3.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    needview.layer.masksToBounds = YES;
+
+    [needview addSubview:label];
+    [_cell addSubview:needview];
     return _cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80.0f;
+    return 50.0f;
 }
 
 //点击cell方法

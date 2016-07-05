@@ -55,11 +55,21 @@
 {
     if(!_m_label)
     {
+        
         _m_label = [[UILabel alloc] init];
         //_m_label.backgroundColor = [UIColor greenColor];
+         NSString *str = @"    OralEdu(远程在线教育系统)，采用c2c的模式搭建一个用来学习相关口语知识的平台，我们有最专业的社会从业者，有最严格的审核机制，为广大用户提供专业性更强，视角更广的学习机会，每一个人通过我们的平台都可以成为知识的传播者和接收者，利用碎片化的时间来学习，提高自己。利用互联网的特点，彻底解决您时间不足的困扰和资源利用率不高的问题。让用户足不出户就能给接触到最专业的指导，回归语言学习的本质。";
         _m_label.numberOfLines = 0;
-        _m_label.layer.borderWidth = 0.5;
-        _m_label.text = @"    OralEdu(远程在线教育系统)，采用c2c的模式搭建一个用来学习相关口语知识的平台，我们有最专业的社会从业者，有最严格的审核机制，为广大用户提供专业性更强，视角更广的学习机会，每一个人通过我们的平台都可以成为知识的传播者和接收者，利用碎片化的时间来学习，提高自己。利用互联网的特点，彻底解决您时间不足的困扰和资源利用率不高的问题。让用户足不出户就能给接触到最专业的指导，回归语言学习的本质。";
+//        _m_label.layer.borderWidth = 0.5;
+        _m_label.font=[UIFont systemFontOfSize:15];
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
+        _m_label.attributedText = attributedString;
+        
+       
     }
     return _m_label;
 }

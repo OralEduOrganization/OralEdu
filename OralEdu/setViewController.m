@@ -31,7 +31,7 @@
     [super viewDidLoad];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor =UIColorFromRGB(0XE6E6E7);
     [self loadDataFromWeb];
     self.navitionBar.title_label.text = @"设置";
     [self.view addSubview:self.setTableview];
@@ -71,7 +71,10 @@
         //_setTableview.backgroundColor = [UIColor orangeColor];
         _setTableview.dataSource = self;
         _setTableview.delegate = self;
+        _setTableview.tableFooterView = [[UIView alloc]init];
+
         _setTableview.backgroundColor = [UIColor clearColor];
+        _setTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
 //        _setTableview.scrollEnabled =NO;
     }
     return _setTableview;
@@ -125,8 +128,9 @@
             cell = [[setCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid];
             
             [cell setCellDate:self.modelarr[indexPath.row]];
-            cell.backgroundColor = [UIColor clearColor];
+            cell.backgroundColor = [UIColor whiteColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
         }
         return cell;
     }

@@ -20,6 +20,9 @@
         [self.contentView addSubview:self.btn_01];
         [self.contentView addSubview:self.btn_02];
         [self.contentView addSubview:self.record_label];
+        
+        UITableView *tableView;
+        tableView.tableFooterView = [[UIView alloc]init];
     }
     return self;
 }
@@ -29,8 +32,8 @@
     [super layoutSubviews];
     self.image1.frame = CGRectMake(15, 15, 45, 45);
     self.image2.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width+10)/2 ,15, 45, 45);
-    self.btn_01.frame = CGRectMake(75, 10, 100, 25);
-    self.record_label.frame = CGRectMake(75, 35, 100, 25);
+    self.btn_01.frame = CGRectMake(55, 10, 100, 25);
+    self.record_label.frame = CGRectMake(55, 35, 100, 25);
     self.btn_02.frame = CGRectMake(250, 10, 100, 50);
 }
 

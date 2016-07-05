@@ -127,7 +127,10 @@
         _homeTableview = [[UITableView alloc] init];
         _homeTableview.dataSource = self;
         _homeTableview.delegate = self;
+        _homeTableview.tableFooterView = [[UIView alloc]init];
+
         _homeTableview.backgroundColor = [UIColor whiteColor];
+        _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _homeTableview;
 }
@@ -165,7 +168,7 @@
         
         [_cell.home_btn addTarget:self action:@selector(toinfoBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
-    
+    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return _cell;
 }
 
