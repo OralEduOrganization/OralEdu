@@ -5,7 +5,7 @@
 //  Created by 王俊钢 on 16/6/23.
 //  Copyright © 2016年 wangjungang. All rights reserved.
 //
-
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #import "CustomnavView.h"
 
 @implementation CustomnavView
@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor darkGrayColor];
+        self.backgroundColor = UIColorFromRGB(0X2a2624);
         [self addSubview:self.title_label];
         [self addSubview:self.left_btn];
         [self addSubview:self.right_btn];
@@ -43,6 +43,7 @@
         _title_label = [[UILabel alloc] init];
        // _title_label.backgroundColor = [UIColor orangeColor];
         _title_label.textAlignment =   NSTextAlignmentCenter;
+        _title_label.textColor = [UIColor whiteColor];
     }
     return _title_label;
 }
