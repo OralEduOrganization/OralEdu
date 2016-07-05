@@ -27,10 +27,10 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.image1.frame = CGRectMake(10, 15, 45, 45);
+    self.image1.frame = CGRectMake(15, 15, 45, 45);
     self.image2.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width+10)/2 ,15, 45, 45);
-    self.btn_01.frame = CGRectMake(70, 10, 100, 25);
-    self.record_label.frame = CGRectMake(70, 35, 100, 25);
+    self.btn_01.frame = CGRectMake(75, 10, 100, 25);
+    self.record_label.frame = CGRectMake(75, 35, 100, 25);
     self.btn_02.frame = CGRectMake(250, 10, 100, 50);
 }
 
