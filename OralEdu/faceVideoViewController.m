@@ -11,6 +11,9 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "videoRightView.h"
 #import "Datebase_materallist.h"
+#import "pickImageView.h"
+#import "materal_finder.h"
+#import "imageMenuView.h"
 
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
@@ -31,11 +34,14 @@
     @property (nonatomic,strong) UIButton           *pickImageButton;
     @property (nonatomic,strong) UIButton           *clearBtn;
     @property (nonatomic,strong) UIButton           *eraseBtn;
+    @property (nonatomic,strong) UIButton           *pickImageMenuBtn;
     @property (nonatomic,strong) UIColor            *selectedColor;
     @property (nonatomic,strong) UIImageView        *backGroundImageView;
 
     @property (nonatomic,strong) UIView             *hubView;
     @property (nonatomic,strong) videoRightView     *rightView;
+    @property (nonatomic,strong) pickImageView      *imageSelectView;
+    @property (nonatomic,strong) imageMenuView      *imageMenuView;
 
 @end
 
@@ -52,16 +58,21 @@
     [self.view addSubview:self.backGroundImageView];
     [self.view addSubview:drawView];
     [self.view addSubview:self.pickImageButton];
+    [self.view addSubview:self.pickImageMenuBtn];
     [self.view addSubview:self.writeButton];
     [self.view addSubview:self.pickColorButton];
     [self.view addSubview:self.clearBtn];
     [self.view addSubview:self.eraseBtn];
+    [self.view addSubview:self.imageSelectView];
     [self.view addSubview:self.backBtn];
     
     self.selectedColor = [UIColor redColor];
     drawView.selectedColor=self.selectedColor;
     [self.view addSubview:self.rightView];
+    [self.view addSubview:self.imageMenuView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnColor:) name:@"returnColor" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnImage:) name:@"returnImage" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
     
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
         SEL selector = NSSelectorFromString(@"setOrientation:");
@@ -88,7 +99,7 @@
     
     
     
-    self.backBtn.frame = CGRectMake(400, 100, 190, 40);
+    self.backBtn.frame = CGRectMake(300, 100, 190, 40);
     self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     self.pickImageButton.frame = CGRectMake(260, screenWidth-50, 100, 50);
@@ -96,6 +107,7 @@
     self.writeButton.frame=CGRectMake(380, screenWidth-50, 100, 50);
     self.pickColorButton.frame=CGRectMake(500, screenWidth-50, 100, 50);
     self.clearBtn.frame=CGRectMake(600, screenWidth-50, 100, 50);
+    self.pickImageMenuBtn.frame = CGRectMake(40, screenWidth-50, 100, 50);
     
 }
 #pragma mark - Observer
@@ -114,6 +126,36 @@
     
     
 }
+-(void)toReturnImage:(NSNotification *)notification{
+    
+    UIImage *receiveImage=(UIImage *)[notification object];
+    self.backGroundImageView.image=receiveImage;
+    [self.hubView removeFromSuperview];
+    self.hubView = nil;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageSelectView.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    self.pickImageButton.selected=!self.pickImageButton.selected;
+    
+}
+-(void)toReturnDocument:(NSNotification *)notification{
+    
+//    NSString *receiveStr=(NSString *)[notification object];
+    
+    [self imagePickClick];
+    
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageMenuView.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    self.pickImageMenuBtn.selected=!self.pickImageMenuBtn.selected;
+    
+}
+
 #pragma mark - click
 -(void)eraseBtnClick{
     [drawView setDrawingMode:DrawingModeErase];
@@ -149,10 +191,65 @@
 -(void)writeBtnClick{
     [drawView setDrawingMode:DrawingModePaint];
 }
+
+-(void)imageMenuPickClick{
+    
+    self.pickImageMenuBtn.selected=!self.pickImageMenuBtn.selected;
+    
+    if(self.pickImageMenuBtn.selected){
+        
+        [self.view addSubview:self.hubView];
+        [self.view bringSubviewToFront:self.imageMenuView];
+        [self.view bringSubviewToFront:self.backBtn];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.imageMenuView.transform =CGAffineTransformMakeTranslation(-200, 0);
+        }completion:^(BOOL finished) {
+            
+        }];
+    }else{
+        
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.imageMenuView.transform =CGAffineTransformIdentity;
+        }completion:^(BOOL finished) {
+            
+        }];
+        
+        
+    }
+
+}
+
 -(void)imagePickClick{
     //[self addimage];
-    NSArray *need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:@"rr"];
-    NSLog(@"%@",need_arr);
+    
+    
+    
+    self.pickImageButton.selected=!self.pickImageButton.selected;
+    
+    if(self.pickImageButton.selected){
+        
+        [self.view addSubview:self.hubView];
+        [self.view bringSubviewToFront:self.imageSelectView];
+        [self.view bringSubviewToFront:self.backBtn];
+
+        [UIView animateWithDuration:0.3 animations:^{
+            self.imageSelectView.transform =CGAffineTransformMakeTranslation(-200, 0);
+        }completion:^(BOOL finished) {
+            
+        }];
+    }else{
+        
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.imageSelectView.transform =CGAffineTransformIdentity;
+        }completion:^(BOOL finished) {
+            
+        }];
+        
+        
+    }
 }
 
 -(void)pickColorBtnClick{
@@ -191,7 +288,24 @@
     
     [self.hubView removeFromSuperview];
     self.hubView = nil;
-    [self pickColorBtnClick];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.rightView.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageSelectView.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageMenuView.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    self.pickImageMenuBtn.selected=NO;
+    self.pickColorButton.selected=NO;
+    self.pickImageButton.selected=NO;
     
 }
 
@@ -431,6 +545,31 @@
     }
     return _eraseBtn;
 }
+-(pickImageView*)imageSelectView{
+    
+    if (!_imageSelectView) {
+        _imageSelectView = [[pickImageView alloc]initWithFrame:CGRectMake(screenHeight, 0,200, screenWidth)];
+    }
+    return _imageSelectView;
+}
+-(imageMenuView*)imageMenuView{
+    
+    if (!_imageMenuView) {
+        _imageMenuView = [[imageMenuView alloc]initWithFrame:CGRectMake(screenHeight, 0,200, screenWidth)];
+    }
+    return _imageMenuView;
+}
 
+
+-(UIButton *)pickImageMenuBtn{
+    if(!_pickImageMenuBtn){
+        _pickImageMenuBtn=[[UIButton alloc]init];
+        [_pickImageMenuBtn addTarget:self action:@selector(imageMenuPickClick) forControlEvents:UIControlEventTouchUpInside];
+        [_pickImageMenuBtn setTitle:@"选取图片" forState:UIControlStateNormal];
+        _pickImageMenuBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+        [_pickImageMenuBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }
+    return _pickImageMenuBtn;
+}
 
 @end
