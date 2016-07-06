@@ -10,6 +10,7 @@
 #import "homeViewController.h"
 #import "leftViewController.h"
 #import <SMS_SDK/SMSSDK.h>
+#import "iflyMSC/IFlyMSC.h"
 @interface AppDelegate ()
 
 @end
@@ -50,6 +51,10 @@
     
     //初始化应用，appKey和appSecret从后台申请得
     [SMSSDK registerApp:@"14797912782c8" withSecret:@"398b1d6e9521d5d868bae9812d60fff3"];
+    
+    NSString *appid = @"577ca611";//自己申请的appId
+    NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
+    [IFlySpeechUtility createUtility:initString];
     
     return YES;
 }

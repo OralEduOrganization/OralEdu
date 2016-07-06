@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ITRAirSideMenu.h"
+#import "iflyMSC/IFlyRecognizerViewDelegate.h"
+#import "iflyMSC/IFlyRecognizerView.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

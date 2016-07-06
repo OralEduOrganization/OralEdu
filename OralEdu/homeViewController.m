@@ -19,6 +19,8 @@
 #import "faceVideoViewController.h"
 #import "SVPullToRefresh.h"
 
+#import "voiceViewController.h"
+
 @interface homeViewController ()
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
@@ -247,9 +249,11 @@
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
+    
+    voiceViewController *voiceController=[[voiceViewController alloc]init];
     faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
     myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:myFaceVideoController animated:YES completion:^{
+    [self presentViewController:voiceController animated:YES completion:^{
         
     }];
 }

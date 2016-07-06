@@ -101,6 +101,8 @@
 		FECC947A1D266938006F955A /* videoRightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94791D266938006F955A /* videoRightView.m */; };
 		FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947C1D2A5D57006F955A /* pickImageView.m */; };
 		FECC94801D2B8D97006F955A /* imageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947F1D2B8D97006F955A /* imageMenuView.m */; };
+		FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94841D2CE448006F955A /* iflyMSC.framework */; };
+		FECC94B81D2CF71E006F955A /* voiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94B71D2CF71E006F955A /* voiceViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -275,6 +277,9 @@
 		FECC947C1D2A5D57006F955A /* pickImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pickImageView.m; sourceTree = "<group>"; };
 		FECC947E1D2B8D97006F955A /* imageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageMenuView.h; sourceTree = "<group>"; };
 		FECC947F1D2B8D97006F955A /* imageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageMenuView.m; sourceTree = "<group>"; };
+		FECC94841D2CE448006F955A /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
+		FECC94B61D2CF71E006F955A /* voiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = voiceViewController.h; sourceTree = "<group>"; };
+		FECC94B71D2CF71E006F955A /* voiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = voiceViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +291,7 @@
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
 				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
+				FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
 				53B22C411D264F9100E8EBA5 /* CoreGraphics.framework in Frameworks */,
 				53B22C3F1D264F8700E8EBA5 /* CoreLocation.framework in Frameworks */,
@@ -926,6 +932,7 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				FECC94841D2CE448006F955A /* iflyMSC.framework */,
 				FECC94721D264953006F955A /* CoreGraphics.framework */,
 				FECC94701D264936006F955A /* MobileCoreServices.framework */,
 				5379B5271D2939CA00D38D4C /* ZCYlocation */,
@@ -1135,6 +1142,8 @@
 			children = (
 				FECC946A1D26125D006F955A /* faceVideoViewController.h */,
 				FECC946B1D26125D006F955A /* faceVideoViewController.m */,
+				FECC94B61D2CF71E006F955A /* voiceViewController.h */,
+				FECC94B71D2CF71E006F955A /* voiceViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1258,6 +1267,7 @@
 				53E91A4B1D1B73790091E85A /* leftViewController.m in Sources */,
 				53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */,
 				53D2ACDB1D235CC0001BA2C2 /* FMResultSet.m in Sources */,
+				FECC94B81D2CF71E006F955A /* voiceViewController.m in Sources */,
 				FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */,
 				538D2E431D1CCC8F00BB9588 /* leftviewModel.m in Sources */,
 				538D2E9F1D1EBB6A00BB9588 /* speaificViewController.m in Sources */,
@@ -1413,6 +1423,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
 				INFOPLIST_FILE = OralEdu/Info.plist;
@@ -1432,6 +1443,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
 				INFOPLIST_FILE = OralEdu/Info.plist;
