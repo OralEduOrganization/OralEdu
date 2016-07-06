@@ -24,6 +24,7 @@
 
 @property (nonatomic,strong) materal_finder *m_finder;
 @property (nonatomic,strong) UITableViewCell *cell;
+@property (nonatomic,strong) NSMutableArray *delete_arr;
 @end
 
 @implementation materViewController
@@ -34,7 +35,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
     [self.navitionBar.right_btn removeFromSuperview];
-
+    self.delete_arr = [[NSMutableArray alloc]init];
     
     self.navitionBar.title_label.text = @"素材库";
     //self.mater_arr = [NSMutableArray arrayWithObjects:@"1",@"2" ,@"3",@"4",nil];
@@ -131,6 +132,7 @@
 
     [needview addSubview:label];
     [_cell addSubview:needview];
+    [self.delete_arr addObject:label.text];
     return _cell;
 }
 
@@ -165,11 +167,14 @@
         
         // 1. 更新数据
         self.cell=[self.matertableview cellForRowAtIndexPath:indexPath];
-       // NSString *aaa=self.cell.textLabel.text;
-        [Datebase_materallist deletematerallist:self.cell.textLabel.text];
+
+        [Datebase_materallist deletematerallist:self.mater_arr[indexPath.row]];
         
-        [self deleteFileWithObjetName:self.cell.textLabel.text];
+        NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
         
+        NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,@"12136",self.mater_arr[indexPath.row]];
+        
+        [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
         [_mater_arr removeObjectAtIndex:indexPath.row];
         
         // 2. 更新UI
@@ -325,19 +330,19 @@
 }
 
 
--(void)deleteFileWithObjetName:(NSString *)name {
+-(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{
     NSFileManager* fileManager=[NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    
+
+   
     //文件名
-    NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:name];
-    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:uniquePath];
+    
+    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:patch];
     if (!blHave) {
         NSLog(@"no  have");
         return ;
     }else {
         NSLog(@" have");
-        BOOL blDele= [fileManager removeItemAtPath:uniquePath error:nil];
+        BOOL blDele= [fileManager removeItemAtPath:patch error:nil];
         if (blDele) {
             NSLog(@"dele success");
         }else {

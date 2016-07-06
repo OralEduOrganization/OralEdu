@@ -143,7 +143,7 @@ static NSString *collectionview = @"imagecell";
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         //支持访问相机与相册情况
-        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:    UIAlertControllerStyleAlert];
+        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择图片" preferredStyle:    UIAlertControllerStyleAlert];
         
         [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             

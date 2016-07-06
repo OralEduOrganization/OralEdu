@@ -15,7 +15,7 @@
 +(void)savematerallist:(materal_finder *)materallist;
 +(void)updatematerallist:(materal_finder *)materallist;
 +(NSMutableArray*)readmaderallist;
-+(void)deletematerallist:(NSString*)Id;
++(void)deletematerallist:(NSString*)name;
 
 
 +(void)savemateraldetails:(materal_model *)details;

@@ -232,9 +232,9 @@
     
     // 将设置好的按钮放到数组中返回
     
-     return @[deleteRowAction, topRowAction, moreRowAction];
+    // return @[deleteRowAction, topRowAction, moreRowAction];
     
-    //return @[deleteRowAction,moreRowAction];
+    return @[deleteRowAction,topRowAction];
     
 }
 
