@@ -192,7 +192,7 @@ static NSString *collectionview = @"imagecell";
     else
     {
         //只支持访问相册情况
-        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择图片" preferredStyle:UIAlertControllerStyleAlert];
+        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:UIAlertControllerStyleAlert];
         
         [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
@@ -239,10 +239,7 @@ static NSString *collectionview = @"imagecell";
   
     [self.image_arr addObject:image];
     [self.image_tableview reloadData];
-    
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *user_id = [defaultes objectForKey:@"name"];
-    
+    NSString *user_id = @"12136";
     //int x =  arc4random() % 100;
     NSString *needTime;
     needTime=[self getCurrentTime];
@@ -272,9 +269,7 @@ static NSString *collectionview = @"imagecell";
     
     NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
     NSString *path = self.navitionBar.title_label.text;
-    
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *user_id = [defaultes objectForKey:@"name"];
+    NSString *user_id = @"12136";
     NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
       //NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *savePath=[NSString stringWithFormat:@"/%@/%@/%@",user_id,path,needImageName];

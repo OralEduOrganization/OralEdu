@@ -20,7 +20,7 @@
 #import "SVPullToRefresh.h"
 
 #import "voiceViewController.h"
-#import "HttpTool.h"
+
 @interface homeViewController ()
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
@@ -108,34 +108,6 @@
 #pragma  mark - 数据源方法
 -(void)loadDataFromWeb
 {
-    
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *name = [defaultes objectForKey:@"name"];
-
-    
-    
-    NSDictionary *para=@{@"user_moblie":name};
-    [HttpTool postWithparamsWithURL:@"UserHomepage/HomepageShow?" andParam:para success:^(id responseObject) {
-        
-        NSData *data = [[NSData alloc] initWithData:responseObject];
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
-        
-//        NSString *imageurl = [para objectForKey:<#(nonnull id)#>];
-        NSLog(@"dic = %@",para);
-        //导航栏数据装
-        self.titlearr = [NSMutableArray array];
-        titleModel *tinfo1 = [[titleModel alloc] initWithtitle_imageurl:@"http://ww2.sinaimg.cn/crop.0.0.1080.1080.1024/b724073bjw8euog8n84bqj20u00u0jtu.jpg" title_name:@"涛桑"];
-        [_titlearr addObject:tinfo1];
-
-        
-        
-    } failure:^(NSError *error) {
-        NSLog(@"失败");
-    }];
-    
-
-    
     self.homearr = [NSMutableArray array];
     //实际上这里进行网络调用
     //数据装
@@ -144,15 +116,10 @@
     homeModel *order2 = [[homeModel alloc] initWithhome_head_imageurl:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg" home_name:@"李老师" home_time:@"13:50"];
     [_homearr addObject:order2];
     
-//    //导航栏数据装
-//    self.titlearr = [NSMutableArray array];
-//    titleModel *tinfo1 = [[titleModel alloc] initWithtitle_imageurl:@"http://ww2.sinaimg.cn/crop.0.0.1080.1080.1024/b724073bjw8euog8n84bqj20u00u0jtu.jpg" title_name:@"涛桑"];
-//    [_titlearr addObject:tinfo1];
-    
-    
-    
-    
-    
+    //导航栏数据装
+    self.titlearr = [NSMutableArray array];
+    titleModel *tinfo1 = [[titleModel alloc] initWithtitle_imageurl:@"http://ww2.sinaimg.cn/crop.0.0.1080.1080.1024/b724073bjw8euog8n84bqj20u00u0jtu.jpg" title_name:@"涛桑"];
+    [_titlearr addObject:tinfo1];
 }
 
 #pragma mark - getters

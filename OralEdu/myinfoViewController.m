@@ -14,7 +14,6 @@
 #import "passwordViewController.h"
 #import "nameViewController.h"
 #import "PersonalsignatureViewController.h"
-#import "APIClient.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -446,8 +445,6 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     self.pic_image.image = image;
 //    self.cell.pic_imageview.image = image;
-    NSData *data = UIImageJPEGRepresentation(image, 0.7);
-    
 }
 
 #pragma mark - 退出登录
