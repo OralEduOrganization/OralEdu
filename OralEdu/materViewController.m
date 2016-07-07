@@ -282,7 +282,9 @@
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
-        NSString *user_id = @"12136";
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *user_id = [defaultes objectForKey:@"name"];
+        
         NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.add_str];
         NSLog(@"str = %@",self.add_str);
         // 判断文件夹是否存在，如果不存在，则创建
