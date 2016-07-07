@@ -37,7 +37,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex:0];
+
     //验证登录信息
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
@@ -284,11 +286,12 @@
     NSLog(@"点击了cell");
     
     voiceViewController *voiceController=[[voiceViewController alloc]init];
-    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
-    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:voiceController animated:YES completion:^{
-        
-    }];
+//    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
+//    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    [self presentViewController:voiceController animated:YES completion:^{
+//        
+//    }];
+    [self.navigationController pushViewController:voiceController animated:YES];
 }
 
 #pragma mark - 响应事件
