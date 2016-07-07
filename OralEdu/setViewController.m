@@ -203,7 +203,7 @@
 }
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"点击了cell");
+    NSLog(@"aaa");
     
     if (indexPath.section == 0)
     {
