@@ -46,11 +46,10 @@
     if (name == nil) {
         
         [self go_login];
-    }
-    
-    
+    }else{
     //数据加载
      [self loadDataFromWeb];
+    }
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;
     self.navitionBar.left_btn.layer.cornerRadius = 15;
@@ -137,7 +136,7 @@
         self.name1 = [dit objectForKey:@"user_nickname"];
         NSLog(@"url = %@",_url1);
         NSLog(@"name = %@",_name1);
-        
+        self.navitionBar.title_label.text=_name1;
         
         
     } failure:^(NSError *error) {
