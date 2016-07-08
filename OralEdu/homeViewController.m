@@ -20,6 +20,7 @@
 #import "SVPullToRefresh.h"
 #import "voiceViewController.h"
 #import "HttpTool.h"
+#import "MBProgressHUD+XMG.h"
 @interface homeViewController ()
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
@@ -36,43 +37,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDir = [paths objectAtIndex:0];
+       self.view.backgroundColor = [UIColor whiteColor];
 
     //验证登录信息
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
     if (name == nil) {
-        
         [self go_login];
-    }
-    
-    
+        [self loadDataFromWeb];
+    }else{
     //数据加载
      [self loadDataFromWeb];
+     
+    }
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;
     self.navitionBar.left_btn.layer.cornerRadius = 15;
-    //[self.navitionBar.right_btn setTitle:@"add" forState:UIControlStateNormal];
     [self.navitionBar.right_btn setImage:[UIImage imageNamed:@"加号.png"] forState:UIControlStateNormal];
-    titleModel *titlein = self.titlearr[0];
-    NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
-     [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
-    self.navitionBar.title_label.text = titlein.title_name;
-    
-   // [self.view addSubview:self.m_btn];
     [self.view addSubview:self.homeTableview];
-    
     __weak homeViewController *weakSelf = self;
     // setup pull-to-refresh
     [self.homeTableview addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
+    
 }
 
-
+-(void)login{
+    [self loadDataFromWeb];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -86,7 +81,6 @@
     //self.m_btn.frame = CGRectMake(20, 500, 100, 50);
 }
 
-
 - (void)insertRowAtTop {
     __weak homeViewController *weakSelf = self;
     
@@ -96,26 +90,26 @@
         [weakSelf.homeTableview beginUpdates];
         //[weakSelf.dataSource insertObject:[NSDate date] atIndex:0];
 //        [weakSelf.homeTableview insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-        [weakSelf.homeTableview endUpdates];
-        
-        [weakSelf.homeTableview.pullToRefreshView stopAnimating];
+        [self loadDataFromWeb];
+//        [weakSelf.homeTableview endUpdates];
+//        
+//        [weakSelf.homeTableview.pullToRefreshView stopAnimating];
     });
 }
-
-
-
 
 #pragma  mark - 数据源方法
 -(void)loadDataFromWeb
 {
     
-    
-    
-    
-    
+    //[MBProgressHUD showMessage:@"正在请求数据"];
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
-    
+    if (name==nil) {
+      self.navitionBar.title_label.text = @"请登录";
+    [self.navitionBar.left_btn setTitle:@"请登录" forState:UIControlStateNormal];
+    }
+    else
+    {
     
     NSDictionary *para=@{@"user_moblie":name};
     [HttpTool postWithparamsWithURL:@"UserHomepage/HomepageShow?" andParam:para success:^(id responseObject) {
@@ -126,8 +120,6 @@
         self.url1 = [[NSString alloc] init];
         self.name1 = [[NSString alloc] init];
         
-        
-        
         NSLog(@"dic = %@",dic);
         
         NSDictionary *dit = [dic objectForKey:@"data"];
@@ -137,18 +129,21 @@
         self.name1 = [dit objectForKey:@"user_nickname"];
         NSLog(@"url = %@",_url1);
         NSLog(@"name = %@",_name1);
-        
-        
+        self.titlearr = [NSMutableArray array];
+        titleModel *tinfo1 = [[titleModel alloc] initWithtitle_imageurl:_url1 title_name:_name1];
+        [_titlearr addObject:tinfo1];
+        titleModel *titlein = self.titlearr[0];
+        NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
+        [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
+        self.navitionBar.title_label.text = titlein.title_name;
+
+        //[MBProgressHUD hideHUD];
         
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
-    
-    //导航栏数据装
-    self.titlearr = [NSMutableArray array];
-    titleModel *tinfo1 = [[titleModel alloc] initWithtitle_imageurl:_url1 title_name:_name1];
-    [_titlearr addObject:tinfo1];
-    
+
+    }
    
     
     

@@ -166,6 +166,9 @@
             [defaultes setObject:self.user_str forKey:@"name"];
             [defaultes setObject:self.user_paseword forKey:@"password"];
             [defaultes synchronize];
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"login" object:nil];
+            
         }
     } failure:^(NSError *error) {
         NSLog(@"%@",error);

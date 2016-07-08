@@ -15,6 +15,7 @@
 #import "leftviewModel.h"
 #import "materViewController.h"
 #import "aboutViewController.h"
+#import "HttpTool.h"
 @interface leftViewController ()
 @property (nonatomic,strong) UITableView *left_tableview;
 @property (nonatomic,strong) NSMutableArray *leftarr;
@@ -24,6 +25,8 @@
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) UILabel *login_label;
 @property (nonatomic,strong) NSMutableArray *pic_arr;
+@property (nonatomic,strong) NSString *url1;
+@property (nonatomic,strong) NSString *name1;
 @end
 
 @implementation leftViewController
@@ -32,15 +35,28 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadDataFromWeb];
+    _leftarr = [NSMutableArray arrayWithObjects:@"主页",@"素材库",@"设置", @"关于我们",nil];
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    if (name==nil) {
+        [self loadDataFromWeb];
+    }
+    else
+    {
+        [self loadDataFromWeb];
+    }
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
-    //self.view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:self.left_tableview];
-   // [self.view addSubview:self.leftV];
     [self.view addSubview:self.user_image];
     [self.view addSubview:self.login_label];
-    
     self.pic_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"主页icon"],[UIImage imageNamed:@"心"],[UIImage imageNamed:@"设置齿轮"],[UIImage imageNamed:@"关于"], nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
+
+}
+
+-(void)login{
+    [self loadDataFromWeb];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,7 +67,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-   // self.leftV.frame = CGRectMake(80, 80, 230, 200);
     self.user_image.frame = CGRectMake(70, 70, 130, 130);
     _left_tableview.frame = CGRectMake(0, 300, self.view.frame.size.width, 80 * 3);
     self.login_label.frame = CGRectMake(80, 220, 100, 40);
@@ -61,13 +76,45 @@
 
 -(void)loadDataFromWeb
 {
-    _leftarr = [NSMutableArray arrayWithObjects:@"主页",@"素材库",@"设置", @"关于我们",nil];
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    if (name==nil) {
+        leftviewModel *leftm = [[leftviewModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" Identity:@"老师" Signature:@"阿迪耐克 i 恩老师的课分离出来才能，；OK吃呢吗肯定是短裤 v 难受；"];
+        self.leftviewarr = [NSMutableArray array];
+        [self.leftviewarr addObject:leftm];
+        self.login_label.text = @"请登录";
+    }
+    else
+    {
+        NSDictionary *para=@{@"user_moblie":name};
+        [HttpTool postWithparamsWithURL:@"UserHomepage/HomepageShow?" andParam:para success:^(id responseObject) {
+            
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            self.url1 = [[NSString alloc] init];
+            self.name1 = [[NSString alloc] init];
+            NSLog(@"dic = %@",dic);
+            NSDictionary *dit = [dic objectForKey:@"data"];
+            NSLog(@"dit = %@",dit);
+            self.url1 = [dit objectForKey:@"url"];
+            self.name1 = [dit objectForKey:@"user_nickname"];
+            NSLog(@"url111 = %@",_url1);
+            NSLog(@"name111 = %@",_name1);
+            leftviewModel *leftm = [[leftviewModel alloc] initWithPicurl:_url1 Name:_name1 Identity:@"老师" Signature:@"阿迪耐克 i 恩老师的课分离出来才能，；OK吃呢吗肯定是短裤 v 难受；"];
+            self.leftviewarr = [NSMutableArray array];
+            [self.leftviewarr addObject:leftm];
+            NSURL *url = [NSURL URLWithString:_url1];
+            _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+            self.login_label.text = @"登录成功";
+
+            
+        } failure:^(NSError *error) {
+            NSLog(@"失败");
+        }];
+
+        
+    }
     
-    
-    
-    leftviewModel *leftm = [[leftviewModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" Identity:@"老师" Signature:@"阿迪耐克 i 恩老师的课分离出来才能，；OK吃呢吗肯定是短裤 v 难受；"];
-    self.leftviewarr = [NSMutableArray array];
-    [self.leftviewarr addObject:leftm];
 }
 
 #pragma mark - getters
@@ -85,22 +132,6 @@
     }
     return _left_tableview;
 }
-
-//-(leftView *)leftV
-//{
-//    if(!_leftV)
-//    {
-//        _leftV = [[leftView alloc] init];
-//        //_leftV.backgroundColor = [UIColor lightGrayColor];
-  //      leftviewModel *model = self.leftviewarr[0];
-//        _leftV.name_label.text = model.leftname_str;
-//        _leftV.identity_label.text = model.leftidentity_str;
-//        _leftV.signature_label.text = model.leftsignature_str;
-//        NSURL *url = [NSURL URLWithString:model.leftpic_urlstr];
-//        _leftV.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-//    }
-//    return _leftV;
-//}
 
 -(UIImageView *)user_image
 {
