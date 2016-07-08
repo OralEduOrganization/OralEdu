@@ -68,7 +68,7 @@
     [self.homeTableview addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
-    
+    self.view.backgroundColor=[UIColor clearColor];
 }
 
 
@@ -173,7 +173,7 @@
         _homeTableview.delegate = self;
         _homeTableview.tableFooterView = [[UIView alloc]init];
 
-        _homeTableview.backgroundColor = [UIColor whiteColor];
+        _homeTableview.backgroundColor = [UIColor clearColor];
         _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _homeTableview;

@@ -115,6 +115,7 @@
 
 #pragma mark - Click
 -(void)confirmBtnClick{
+    
     self.currentSelectedColor=self.resultColorImageView.backgroundColor;
      [[NSNotificationCenter defaultCenter]postNotificationName:@"returnColor" object:self.currentSelectedColor];
     
