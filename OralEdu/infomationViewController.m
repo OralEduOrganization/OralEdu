@@ -39,7 +39,8 @@
     [self.view addSubview:self.name_label];
     [self.view addSubview:self.left_btn];
     [self.view addSubview:self.go_viewbtn];
-    [self.navitionBar.left_btn setTitle:@"返回" forState:UIControlStateNormal];
+
+    [self.navitionBar.left_btn setTitle:@"个人信息" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

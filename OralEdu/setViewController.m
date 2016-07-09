@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navitionBar.right_btn removeFromSuperview];
-    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     self.view.backgroundColor =UIColorFromRGB(0XE6E6E7);
     [self loadDataFromWeb];
     self.navitionBar.title_label.text = @"设置";

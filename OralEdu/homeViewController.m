@@ -79,7 +79,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.homeTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-    //self.m_btn.frame = CGRectMake(20, 500, 100, 50);
+    
+    
 }
 
 - (void)insertRowAtTop {
@@ -172,8 +173,7 @@
         _homeTableview.dataSource = self;
         _homeTableview.delegate = self;
         _homeTableview.tableFooterView = [[UIView alloc]init];
-
-        _homeTableview.backgroundColor = [UIColor clearColor];
+        _homeTableview.backgroundColor = [UIColor whiteColor];
         _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _homeTableview;

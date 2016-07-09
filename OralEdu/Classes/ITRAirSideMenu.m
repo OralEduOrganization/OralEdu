@@ -126,6 +126,19 @@
 
 #pragma mark View life cycle
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+}
+
+-(void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    self.leftMenuViewController.view.frame = self.view.bounds;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

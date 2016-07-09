@@ -33,6 +33,8 @@
 #define PLAIN_RESULT_VALUE    @"1"
 #define ASR_SCH_VALUE         @"1"
 
+#import "AppDelegate.h"
+
 #ifdef __IPHONE_6_0
 # define IFLY_ALIGN_CENTER NSTextAlignmentCenter
 #else

@@ -21,7 +21,9 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.m_pic_image];
     [self.view addSubview:self.m_label];
-    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
+    
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"列表"] forState:UIControlStateNormal];
+ 
     self.navitionBar.title_label.text = @"关于我们";
     [self.view addSubview:self.development_label];
 }

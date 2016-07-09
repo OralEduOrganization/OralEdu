@@ -54,6 +54,14 @@
 
 }
 
+-(void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    
+    
+}
+
 -(void)login{
     [self loadDataFromWeb];
 }

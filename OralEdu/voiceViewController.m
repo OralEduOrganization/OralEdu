@@ -43,8 +43,10 @@
         [invocation invoke];
     }
 
+    ITRAirSideMenu *itrSideMenu = ((AppDelegate *)[UIApplication sharedApplication].delegate).itrAirSideMenu;
     
-    
+
+    UIViewController *tempViewController = itrSideMenu.leftMenuViewController;
     
     self.iflyRecognizerView = [[IFlyRecognizerView alloc]initWithCenter:CGPointMake(200, 200)];
     self.iflyRecognizerView.delegate = self;
