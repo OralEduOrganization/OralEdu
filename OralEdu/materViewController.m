@@ -31,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"列表.png"] forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"bai"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
     [self.navitionBar.right_btn removeFromSuperview];
