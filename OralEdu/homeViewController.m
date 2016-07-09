@@ -62,7 +62,8 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
-    
+    self.view.backgroundColor=[UIColor clearColor];
+
 }
 
 -(void)login{
@@ -172,7 +173,7 @@
         _homeTableview.delegate = self;
         _homeTableview.tableFooterView = [[UIView alloc]init];
 
-        _homeTableview.backgroundColor = [UIColor whiteColor];
+        _homeTableview.backgroundColor = [UIColor clearColor];
         _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _homeTableview;
