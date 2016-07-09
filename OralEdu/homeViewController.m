@@ -150,8 +150,6 @@
 
     }
    
-    
-    
     self.homearr = [NSMutableArray array];
     //实际上这里进行网络调用
     //数据装
@@ -160,7 +158,6 @@
     homeModel *order2 = [[homeModel alloc] initWithhome_head_imageurl:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg" home_name:@"李老师" home_time:@"13:50"];
     [_homearr addObject:order2];
     
-   
 }
 
 #pragma mark - getters
