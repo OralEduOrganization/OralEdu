@@ -14,6 +14,8 @@
 #import "passwordViewController.h"
 #import "nameViewController.h"
 #import "PersonalsignatureViewController.h"
+#import "AFNetworking.h"
+#import "AFHTTPSessionManager.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -23,7 +25,6 @@
 @property (nonatomic,strong) infoTableViewCell1 *cell;
 @property (nonatomic,strong) NSString *createPa;
 @property (nonatomic,strong) UIImage *saveImage;
-
 @property (nonatomic,strong) UIImageView *pic_image;
 @property (nonatomic,strong) UILabel *name_label;
 @property (nonatomic,strong) UIButton *left_btn;
@@ -40,10 +41,10 @@
 
     [self.navitionBar.left_btn removeFromSuperview];
     [self.navitionBar.title_label removeFromSuperview];
-    self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
+    //self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
-    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"修改密码",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
+    self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"个性签名",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
     [self.view addSubview:self.pic_image];
     [self.view addSubview:self.name_label];
     [self.view addSubview:self.left_btn];
@@ -59,12 +60,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.infotableview.frame = CGRectMake(0, 160, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-130);
-    
+    self.infotableview.frame = CGRectMake(0, 130, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-130);
     self.left_btn.frame = CGRectMake(10, 50, 30, 30);
-    self.pic_image.frame = CGRectMake(50, 50, 100, 100);
+    self.pic_image.frame = CGRectMake(50, 30, 70, 70);
     self.name_label.frame = CGRectMake(160, 70, 100, 30);
-    self.signature_label.frame = CGRectMake(160, 100, 180, 50);
+    self.signature_label.frame = CGRectMake(160, 64, 180, 50);
 }
 
 #pragma  mark - 数据源方法
@@ -106,7 +106,7 @@
         _pic_image = [[UIImageView alloc] init];
         _pic_image.backgroundColor = [UIColor greenColor];
         _pic_image.layer.masksToBounds = YES;
-        _pic_image.layer.cornerRadius = 50;
+        _pic_image.layer.cornerRadius = 35;
         NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
         _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
         //点击图片事件
@@ -278,8 +278,7 @@
     }
     if(indexPath.row == 1)
     {
-        passwordViewController *passVC = [[passwordViewController alloc] initWithTitle:@"修改密码" isNeedBack:YES btn_image:nil];
-        [self.navigationController pushViewController:passVC animated:YES];
+        NSLog(@"个性签名");
 
     }
     if(indexPath.row == 2)
@@ -444,8 +443,44 @@
     
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     self.pic_image.image = image;
-//    self.cell.pic_imageview.image = image;
+    //    self.cell.pic_imageview.image = image;
+    
+    
+    NSURL *URL = [NSURL URLWithString:@"http://127.0.0.1/OralEduServer/upload.php"];
+    AFSecurityPolicy *securityPolicy = [[AFSecurityPolicy alloc] init];
+    [securityPolicy setAllowInvalidCertificates:YES];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager setSecurityPolicy:securityPolicy];
+    [manager POST:URL.absoluteString parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        //获取当前时间所闻文件名，防止图片重复
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        
+        //        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
+        //        UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
+        
+        
+        //NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        
+        [formData appendPartWithFileData:data name:@"file" fileName:@"aaa" mimeType:@"image/png"];
+        
+        //        Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." UserInfo={NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
+    
+    
+    
 }
+
 
 #pragma mark - 退出登录
 -(void)Logout
@@ -460,6 +495,9 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"login" object:nil];
+
+        
     }];
     [control addAction:action1];
     [control addAction:action2];
@@ -467,6 +505,9 @@
 }
 
 
+-(void)login{
+    [self loadDataFromWeb];
+}
 
 
 @end

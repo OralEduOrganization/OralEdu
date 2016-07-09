@@ -88,12 +88,11 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [weakSelf.homeTableview beginUpdates];
-        //[weakSelf.dataSource insertObject:[NSDate date] atIndex:0];
-//        [weakSelf.homeTableview insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+ 
         [self loadDataFromWeb];
-//        [weakSelf.homeTableview endUpdates];
-//        
-//        [weakSelf.homeTableview.pullToRefreshView stopAnimating];
+        [weakSelf.homeTableview endUpdates];
+        
+        [weakSelf.homeTableview.pullToRefreshView stopAnimating];
     });
 }
 
@@ -138,6 +137,10 @@
         self.navitionBar.title_label.text = titlein.title_name;
 
         //[MBProgressHUD hideHUD];
+
+        self.navitionBar.title_label.text=_name1;
+        
+
         
     } failure:^(NSError *error) {
         NSLog(@"失败");

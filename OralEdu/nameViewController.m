@@ -7,9 +7,12 @@
 //
 
 #import "nameViewController.h"
-
+#import "HttpTool.h"
+#import "MBProgressHUD+XMG.h"
 @interface nameViewController ()
 @property (nonatomic,strong) UITextField *nametext;
+@property (nonatomic,strong) NSString *nickname;
+@property (nonatomic,strong) NSString *mobilephone;
 @end
 
 @implementation nameViewController
@@ -77,6 +80,30 @@
 {
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改用户名" message:@"您确定要修用户名吗" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        self.mobilephone = [[NSString alloc] init];
+        self.nickname = [[NSString alloc] init];
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        self.mobilephone = [defaultes objectForKey:@"name"];
+        self.nickname = self.nametext.text;
+        
+        NSDictionary *para=@{@"user_moblie":self.mobilephone,@"user_newnickname":self.nickname};
+        
+        [HttpTool postWithparamsWithURL:@"NicknameUpdate/NicknameUpdate" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            //NSString *code=dic[@"code"];
+            NSLog(@"%@",dic);
+            
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        
+        
+        
+        
+        
         //返回上一页
         
         [self.navigationController popViewControllerAnimated:YES];
@@ -96,4 +123,6 @@
 {
     [self.nametext resignFirstResponder];
 }
+
+
 @end

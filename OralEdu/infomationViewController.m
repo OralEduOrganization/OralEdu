@@ -13,6 +13,7 @@
 #import "infoModel.h"
 #import "ZCYlocation.h"
 #import "faceVideoViewController.h"
+#import "passwordViewController.h"
 @interface infomationViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) infoModel *model1;
@@ -29,9 +30,9 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.navitionBar.left_btn removeFromSuperview];
-    [self.navitionBar.title_label removeFromSuperview];
-    self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
     
+//     self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 64);
+   // self.navitionBar.title_label.text = @"李老师";
     [self loadDataFromWeb];
     [self.view addSubview:self.infotableview];
     [self.view addSubview:self.pic_image];
@@ -51,7 +52,7 @@
     [super viewWillAppear:animated];
     self.infotableview.frame = CGRectMake(0, 160, [UIScreen mainScreen].bounds.size.width, 150);
     self.left_btn.frame = CGRectMake(10, 50, 30, 30);
-    self.pic_image.frame = CGRectMake(50, 50, 100, 100);
+    self.pic_image.frame = CGRectMake(50, 30, 70, 70);
     self.name_label.frame = CGRectMake(160, 70, 100, 30);
     self.go_viewbtn.frame = CGRectMake(15, 380, [UIScreen mainScreen].bounds.size.width-30, 50);
 }
@@ -86,7 +87,7 @@
         _pic_image = [[UIImageView alloc] init];
         _pic_image.backgroundColor = [UIColor greenColor];
         _pic_image.layer.masksToBounds = YES;
-        _pic_image.layer.cornerRadius = 50;
+        _pic_image.layer.cornerRadius = 35;
        NSURL *url = [NSURL URLWithString:self.model1.pic_imageurlstr];
        _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
     }

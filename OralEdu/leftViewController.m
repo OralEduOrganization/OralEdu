@@ -20,7 +20,6 @@
 @property (nonatomic,strong) UITableView *left_tableview;
 @property (nonatomic,strong) NSMutableArray *leftarr;
 @property (nonatomic,strong) UIImageView *pic_image;
-//@property (nonatomic,strong) leftView *leftV;
 @property (nonatomic,strong) NSMutableArray *leftviewarr;
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) UILabel *login_label;

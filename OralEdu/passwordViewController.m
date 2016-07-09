@@ -161,9 +161,17 @@
 
 -(void)savenewpass
 {
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *pass = [[NSString alloc] init];
+        pass = [defaultes objectForKey:@"password"];
+        if (self.oldpass_text.text!=pass) {
+            [MBProgressHUD showError:@"请输入正确的密码"];
+
+        }
         
         if (self.newpass_text2.text!=self.newpass_text1.text) {
             NSLog(@"请确认新密码");
@@ -187,7 +195,7 @@
                 if ([code isEqualToString:@"400"]) {
                     
                     [MBProgressHUD showError:@"密码错误"];
-                    
+        
                 }
                 else
                 {

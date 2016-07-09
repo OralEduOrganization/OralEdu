@@ -14,6 +14,7 @@
 #import "setCell1.h"
 #import "setCell2.h"
 #import "myinfoViewController.h"
+#import "passwordViewController.h"
 @interface setViewController ()
 @property (nonatomic,strong) UITableView *setTableview;
 @property (nonatomic,strong) NSMutableArray *setarr;
@@ -54,13 +55,18 @@
 
 -(void)loadDataFromWeb
 {
-    self.setarr = [NSMutableArray arrayWithObjects:@"身份认证",@"帮助与反馈",@"清理缓存",nil];
+    self.setarr = [NSMutableArray arrayWithObjects:@"身份认证",@"修改手机号",@"修改密码",nil];
+    self.image_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"认证"],[UIImage imageNamed:@"phone"],[UIImage imageNamed:@"账单"], nil];
+    
+    
+    
     self.modelarr = [NSMutableArray array];
     setModel *smodel = [[setModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" phone:@"15510922836" language:@"英文|日语|粤语"];
     [self.modelarr addObject:smodel];
     
     
 }
+
 #pragma mark - gerrers
 
 -(UITableView *)setTableview
@@ -99,7 +105,7 @@
     }
     else if(section == 2)
     {
-        return 1;
+        return 3;
     }
     else if (section ==3)
     {
@@ -151,8 +157,9 @@
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid3];
-            cell.imageView.image = [UIImage imageNamed:@"身份认证"];
-            cell.textLabel.text = @"身份认证";
+    
+            cell.imageView.image = self.image_arr[indexPath.row];
+            cell.textLabel.text = self.setarr[indexPath.row];
         }
         return cell;
     }
@@ -162,17 +169,17 @@
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid4];
-            cell.imageView.image = [UIImage imageNamed:@"帮助"];
+            cell.imageView.image = [UIImage imageNamed:@"help"];
             cell.textLabel.text = @"帮助与反馈";
         }
         return cell;
-    }else
+    }else if(indexPath.section == 4)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid5];
         if(!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid5];
-            cell.imageView.image = [UIImage imageNamed:@"清除缓存"];
+            cell.imageView.image = [UIImage imageNamed:@"clean"];
             cell.textLabel.text = @"清理缓存";
         }
         return cell;
@@ -185,9 +192,13 @@
     if (indexPath.section == 0) {
         return 120.0f;
     }
-    else
+    else if(indexPath.section == 1)
     {
     return 70.0f;
+    }
+    else
+    {
+        return 40.0f;
     }
 }
 
@@ -201,6 +212,7 @@
         return @"   ";
     }
 }
+
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"aaa");
@@ -216,20 +228,28 @@
     }
     else if(indexPath.section == 2)
     {
+        
+        
+        
+        if (indexPath.row==2) {
+                    passwordViewController *passVC = [[passwordViewController alloc] initWithTitle:@"修改密码" isNeedBack:YES btn_image:nil];
+                    [self.navigationController pushViewController:passVC animated:YES];
+        }
         NSLog(@"身份认证");
     }
     else if (indexPath.section == 3)
     {
         NSLog(@"帮助与反馈");
     }
-    else
+    else if(indexPath.section==4)
     {
         NSLog(@"清理缓存");
         [self cache];
     }
-
 }
+
 #pragma mark - 实现方法
+
 -(void)leftbtnClick
 {
     [self presentLeftMenuViewController];
