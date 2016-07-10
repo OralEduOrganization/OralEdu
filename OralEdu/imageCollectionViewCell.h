@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class imageCollectionViewCell;
+@protocol imageCollectionCellDelegate <NSObject>
+
+-(void)moveImageBtnClick:(imageCollectionViewCell *)aCell;
+
+@end
 
 @interface imageCollectionViewCell : UICollectionViewCell
 @property (nonatomic,strong) UIImageView *imageview;
+@property(nonatomic ,strong)UILabel *text;
+@property(nonatomic ,strong)UIButton *btn;
+@property(nonatomic,strong)UIButton * close;
+@property(nonatomic,assign)id<imageCollectionCellDelegate>delegate;
 @end

@@ -12,6 +12,7 @@
 @property (nonatomic,strong) UITextView *person_view;
 @property (nonatomic,strong) UILabel *number_label;
 @end
+
 #define MAX_LIMIT_NUMS 140
 
 @implementation PersonalsignatureViewController

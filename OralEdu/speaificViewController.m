@@ -11,27 +11,34 @@
 #import "Datebase_materallist.h"
 #import "materal_model.h"
 #import "imageCollectionViewCell.h"
-@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
-
+#define StatusBarHeight (IOS7==YES ? 0 : 20)
+#define BackHeight      (IOS7==YES ? 0 : 15)
+#define fNavBarHeigth (IOS7==YES ? 64 : 44)
+#define fDeviceWidth ([UIScreen mainScreen].bounds.size.width)
+#define fDeviceHeight ([UIScreen mainScreen].bounds.size.height)
+@interface speaificViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,imageCollectionCellDelegate>
+{
+    
+    CGFloat nowImgViewFrameY;
+    int imageName;
+    
+}
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
 @property (nonatomic,strong) NSMutableArray *name_arr;
 @property (nonatomic,strong) NSMutableArray *image_arr;
 @property (nonatomic,strong) NSMutableArray *time_arr;
-@property (nonatomic,strong) imageTableViewCell *cell;
+//@property (nonatomic,strong) imageTableViewCell *cell;
 @property (nonatomic,strong) materal_model *m_model;
 @property (nonatomic,strong) NSMutableArray *need_arr;
 @property (nonatomic,strong) UICollectionView *image_collectionview;
+@property (nonatomic,strong) imageCollectionViewCell *cell;
 @end
 static NSString *collectionview = @"imagecell";
 
-@implementation speaificViewController{
-    
-     CGFloat nowImgViewFrameY;
-      int imageName;
-    
-}
+@implementation speaificViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,9 +50,11 @@ static NSString *collectionview = @"imagecell";
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
 
     self.image_arr = [NSMutableArray array];
+    
     [self addTheCollectionView];
     
     [self.view addSubview:self.add_btn];
+    
     
     self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -56,6 +65,7 @@ static NSString *collectionview = @"imagecell";
         UIImage *image= [[UIImage alloc]initWithContentsOfFile:needPatch];
         [self.image_arr addObject:image];
     }
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -95,42 +105,30 @@ static NSString *collectionview = @"imagecell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    imageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
-    cell.imageview.image = self.image_arr[indexPath.item];
-    return cell;
+    _cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
+    _cell.delegate = self;
+    _cell.imageview.image = self.image_arr[indexPath.item];
+    return _cell;
 }
 
 //创建uicollectionview
 
 -(void)addTheCollectionView{
     
-    //=======================1===========================
-    //创建一个块状表格布局对象
-    UICollectionViewFlowLayout *flowL = [UICollectionViewFlowLayout new];
-    //格子的大小 (长，高)
-    flowL.itemSize = CGSizeMake(100,100);
-    //横向最小距离
-    //flowL.minimumInteritemSpacing = 1.f;
-    //    flowL.minimumLineSpacing=60.f;//代表的是纵向的空间间隔
-    //设置，上／左／下／右 边距 空间间隔数是多少
-    //flowL.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    //如果有多个 区 就可以拉动
-    [flowL setScrollDirection:UICollectionViewScrollDirectionVertical];
-    //可以左右拉动
-    // [flowL setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    
-    _image_collectionview = [[UICollectionView alloc] initWithFrame:CGRectMake(15, 64, self.view.frame.size.width-25, self.view.frame.size.height-64) collectionViewLayout:flowL];
-    //设置代理为当前控制器
-    _image_collectionview.delegate = self;
-    _image_collectionview.dataSource = self;
-    //设置背景
-    _image_collectionview.backgroundColor =[UIColor clearColor];
-    
+    UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    self.image_collectionview = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, fDeviceWidth, fDeviceHeight) collectionViewLayout:flowLayout];
+    //设置代理
+    self.image_collectionview.delegate = self;
+    self.image_collectionview.dataSource = self;
+    self.image_collectionview.backgroundColor = [UIColor clearColor];
+    //注册cell和ReusableView（相当于头部）
+    _image_collectionview.allowsMultipleSelection = YES;//默认为NO,是否可以多选
+
 #pragma mark -- 注册单元格
     [_image_collectionview registerClass:[imageCollectionViewCell class] forCellWithReuseIdentifier:collectionview];
-    //添加视图
-    [self.view addSubview:_image_collectionview];
-    
+    [self.view addSubview:self.image_collectionview];
+ 
 }
 
 -(void)addimage
@@ -192,7 +190,7 @@ static NSString *collectionview = @"imagecell";
     else
     {
         //只支持访问相册情况
-        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:UIAlertControllerStyleAlert];
+        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择图片" preferredStyle:UIAlertControllerStyleAlert];
         
         [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
@@ -288,6 +286,47 @@ static NSString *collectionview = @"imagecell";
 -(void)leftbtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark --UICollectionViewDelegateFlowLayout
+//定义每个UICollectionView 的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //边距占5*4=20 ，2个
+    //图片为正方形，边长：(fDeviceWidth-20)/2-5-5 所以总高(fDeviceWidth-20)/2-5-5 +20+30+5+5 label高20 btn高30 边
+    return CGSizeMake((fDeviceWidth-20)/3, (fDeviceWidth-20)/3);
+}
+
+//定义每个UICollectionView 的间距
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0, 5, 5, 5);
+}
+
+//定义每个UICollectionView 纵向的间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0;
+}
+
+#pragma mark --UICollectionViewDelegate
+//UICollectionView被选中时调用的方法
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //        UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    //        cell.backgroundColor = [UIColor redColor];
+    NSLog(@"选择%ld",indexPath.row);
+}
+//返回这个UICollectionView是否可以被选择
+-(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+//取消选择了某个cell
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    _cell = [collectionView cellForItemAtIndexPath:indexPath];
+    _cell.backgroundColor=[UIColor clearColor];
 }
 
 @end
