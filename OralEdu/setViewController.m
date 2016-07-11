@@ -18,6 +18,7 @@
 #import "IndividualitysignatureViewController.h"
 #import "mobilephoneViewController.h"
 #import "feedbackViewController.h"
+#import "HttpTool.h"
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
@@ -28,7 +29,8 @@ static NSString *cellIdentfid3 = @"setcell3";
 @property (nonatomic,strong) NSMutableArray *modelarr;
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) NSMutableArray *image_arr;
-
+@property (nonatomic,strong) NSString *url1;
+@property (nonatomic,strong) NSString *name1;
 @end
 
 @implementation setViewController
@@ -38,13 +40,11 @@ static NSString *cellIdentfid3 = @"setcell3";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navitionBar.right_btn removeFromSuperview];
-    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"bai"] forState:UIControlStateNormal];
     self.view.backgroundColor =UIColorFromRGB(0XE6E6E7);
     [self loadDataFromWeb];
     self.navitionBar.title_label.text = @"设置";
     [self.view addSubview:self.setTableview];
-    
-    
     [self.setTableview registerClass:[setCell3 class] forCellReuseIdentifier:cellIdentfid3];
 }
 
@@ -57,18 +57,48 @@ static NSString *cellIdentfid3 = @"setcell3";
 {
     [super viewWillAppear:animated];
     self.setTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
+    
 }
 
 #pragma  mark - 数据源方法
 
 -(void)loadDataFromWeb
 {
+    
+    
     self.setarr = [NSMutableArray arrayWithObjects:@"身份认证",@"修改手机号",@"修改密码",nil];
     self.image_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"认证"],[UIImage imageNamed:@"phone"],[UIImage imageNamed:@"账单"], nil];
-    
-    self.modelarr = [NSMutableArray array];
-    setModel *smodel = [[setModel alloc] initWithPicurl:@"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg" Name:@"涛桑" phone:@"15510922836" language:@"英文|日语|粤语"];
-    [self.modelarr addObject:smodel];
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    NSDictionary *para=@{@"user_moblie":name};
+    [HttpTool postWithparamsWithURL:@"UserHomepage/HomepageShow?" andParam:para success:^(id responseObject) {
+        
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        self.url1 = [[NSString alloc] init];
+        self.name1 = [[NSString alloc] init];
+        
+        NSLog(@"dic = %@",dic);
+        
+        NSDictionary *dit = [dic objectForKey:@"data"];
+        
+        NSLog(@"dit = %@",dit);
+        self.url1 = [dit objectForKey:@"url"];
+        self.name1 = [dit objectForKey:@"user_nickname"];
+        NSLog(@"url = %@",_url1);
+        NSLog(@"name = %@",_name1);
+        
+        
+        self.modelarr = [NSMutableArray array];
+        setModel *smodel = [[setModel alloc] initWithPicurl:_url1 Name:_name1 phone:name];
+        [self.modelarr addObject:smodel];
+        [self.setTableview reloadData];
+        
+        
+    } failure:^(NSError *error) {
+        NSLog(@"失败");
+    }];
     
     
 }
@@ -80,11 +110,9 @@ static NSString *cellIdentfid3 = @"setcell3";
     if(!_setTableview)
     {
         _setTableview = [[UITableView alloc] init];
-        //_setTableview.backgroundColor = [UIColor orangeColor];
         _setTableview.dataSource = self;
         _setTableview.delegate = self;
         _setTableview.tableFooterView = [[UIView alloc]init];
-
         _setTableview.backgroundColor = [UIColor clearColor];
         _setTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
@@ -124,15 +152,12 @@ static NSString *cellIdentfid3 = @"setcell3";
     {
         setCell1 *cell = nil;
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid];
-        if(!cell)
-        {
+        
             cell = [[setCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid];
-            
             [cell setCellDate:self.modelarr[indexPath.row]];
             cell.backgroundColor = [UIColor whiteColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-        }
         return cell;
     }
     
@@ -143,7 +168,7 @@ static NSString *cellIdentfid3 = @"setcell3";
         CGSize size=cell.viewimage.frame.size;
         cell.viewimage.image=[image imageByScalingToSize:size];
         cell.labeltext.text = self.setarr[indexPath.row];
-
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     if (indexPath.section == 2)
@@ -152,6 +177,7 @@ static NSString *cellIdentfid3 = @"setcell3";
         CGSize size=cell.viewimage.frame.size;
         cell.viewimage.image=[image imageByScalingToSize:size];
         cell.labeltext.text = @"帮助与反馈";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     if (indexPath.section == 3)

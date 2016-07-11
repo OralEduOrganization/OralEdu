@@ -16,6 +16,7 @@
 #import "PersonalsignatureViewController.h"
 #import "AFNetworking.h"
 #import "AFHTTPSessionManager.h"
+#import "HttpTool.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -71,17 +72,58 @@
 
 -(void)loadDataFromWeb
 {
-    _picM = [[picModel alloc] init];
-    _picM.image_urlstr = @"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg";
-    self.arr = [NSMutableArray array];
-    _picM.name_str = @"涛桑";
-    _picM.address_str = @"天津";
-    _picM.gender_str = @"男";
-    _picM.signature_str = @"”我要在你身上去做，春天在樱桃树上做的事情“";
-    [self.arr addObject:_picM.name_str];
-    [self.arr addObject:_picM.gender_str];
-    [self.arr addObject:_picM.address_str];
-    [self.arr addObject:_picM.signature_str];
+
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    NSDictionary *para=@{@"user_moblie":name};
+    [HttpTool postWithparamsWithURL:@"Userpage/UserpageShow?" andParam:para success:^(id responseObject) {
+        
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        NSLog(@"dic = %@",dic);
+        
+        NSDictionary *dit = [dic objectForKey:@"data"];
+       
+        NSLog(@"dit = %@",dit);
+        NSString *url = [dic objectForKey:@"url"];
+        NSString *user_address = [dic objectForKey:@"user_address"];
+        NSString *user_gender = [dic objectForKey:@"user_gender"];
+//        NSString *user_identity = [dic objectForKey:@"user_identity"];
+        NSString *user_introduction = [dic objectForKey:@"user_introduction"];
+        NSString *user_nickname = [dic objectForKey:@"user_nickname"];
+//        NSString *user_signed = [dic objectForKey:@"user_signed"];
+        
+        _picM = [[picModel alloc] init];
+        _picM.image_urlstr = url;
+        self.arr = [NSMutableArray array];
+        _picM.name_str = user_nickname;
+        _picM.signature_str = user_introduction;
+        _picM.address_str = user_address;
+        _picM.gender_str = user_gender;
+        [self.arr addObject:_picM.name_str];
+        [self.arr addObject:_picM.gender_str];
+        [self.arr addObject:_picM.address_str];
+        [self.arr addObject:_picM.signature_str];
+        
+    } failure:^(NSError *error) {
+        NSLog(@"失败");
+    }];
+
+    
+    
+//    _picM = [[picModel alloc] init];
+//    _picM.image_urlstr = @"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg";
+//    self.arr = [NSMutableArray array];
+//    _picM.name_str = @"涛桑";
+//    _picM.address_str = @"天津";
+//    _picM.gender_str = @"男";
+//    _picM.signature_str = @"”我要在你身上去做，春天在樱桃树上做的事情“";
+//    [self.arr addObject:_picM.name_str];
+//    [self.arr addObject:_picM.gender_str];
+//    [self.arr addObject:_picM.address_str];
+//    [self.arr addObject:_picM.signature_str];
 
 }
 
@@ -212,10 +254,8 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-//    }
-//    return nil;
-}
 
+}
 
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,10 +305,7 @@
 }
 
 #pragma mark - 实现方法
-//-(void)leftbtnClick
-//{
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
+
 -(void)leftclick
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -279,17 +316,53 @@
     [self changeIcon];
     NSLog(@"12");
 }
+
 //修改性别
+
 -(void)Modifygender
 {
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改性别" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改性别" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSString *newgender = @"男";
         
+        NSDictionary *para=@{@"user_moblie":name,@"user_newgender":newgender};
+        
+        [HttpTool postWithparamsWithURL:@"Update/GenderUpdate?" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            //NSString *code=dic[@"code"];
+            NSLog(@"%@",dic);
+            
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+
     }];
+    
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSString *newgender = @"女";
         
+        NSDictionary *para=@{@"user_moblie":name,@"user_newgender":newgender};
+        
+        [HttpTool postWithparamsWithURL:@"Update/GenderUpdate?" andParam:para success:^(id responseObject) {
+            
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            
+            NSLog(@"%@",dic);
+            
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
     }];
     UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
