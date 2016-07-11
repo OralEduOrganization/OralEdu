@@ -12,11 +12,11 @@
 #import "setModel.h"
 #import "myinfoViewController.h"
 #import "setCell1.h"
-//#import "setCell2.h"
 #import "setCell3.h"
 #import "myinfoViewController.h"
 #import "passwordViewController.h"
-
+#import "IndividualitysignatureViewController.h"
+#import "mobilephoneViewController.h"
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
@@ -86,7 +86,6 @@ static NSString *cellIdentfid3 = @"setcell3";
 
         _setTableview.backgroundColor = [UIColor clearColor];
         _setTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        _setTableview.scrollEnabled =NO;
     }
     return _setTableview;
 }
@@ -190,33 +189,31 @@ static NSString *cellIdentfid3 = @"setcell3";
 
 //点击cell的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"aaa");
     
     if (indexPath.section == 0)
     {
         myinfoViewController *myinfoVC = [[myinfoViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
         [self.navigationController pushViewController:myinfoVC animated:YES];
     }
-    else if (indexPath.section ==1 )
+    else if(indexPath.section == 1)
     {
-        
-    }
-    else if(indexPath.section == 2)
-    {
-        
-        
+        if (indexPath.row==1) {
+            mobilephoneViewController *mobileVC = [[mobilephoneViewController alloc] initWithTitle:@"修改手机号" isNeedBack:YES btn_image:nil];
+            [self.navigationController pushViewController:mobileVC animated:YES];
+        }
         
         if (indexPath.row==2) {
                     passwordViewController *passVC = [[passwordViewController alloc] initWithTitle:@"修改密码" isNeedBack:YES btn_image:nil];
+            
                     [self.navigationController pushViewController:passVC animated:YES];
         }
         NSLog(@"身份认证");
     }
-    else if (indexPath.section == 3)
+    else if (indexPath.section == 2)
     {
         NSLog(@"帮助与反馈");
     }
-    else if(indexPath.section==4)
+    else if(indexPath.section==3)
     {
         NSLog(@"清理缓存");
         [self cache];
@@ -241,7 +238,9 @@ static NSString *cellIdentfid3 = @"setcell3";
     myinfoViewController *myinfoVC = [[myinfoViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
     [self.navigationController pushViewController:myinfoVC animated:YES];
 }
+
 //清理缓存
+
 -(void)cache
 {
     UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:@"该操作不可逆" preferredStyle:UIAlertControllerStyleAlert];
@@ -290,11 +289,5 @@ static NSString *cellIdentfid3 = @"setcell3";
 }
 
 
-//-(UIImage *)releaseImageToSize:(CGSize)size andImage:(UIImage*)img{
-//    CGRect rect=CGRectMake(0, 0, size.width, size.height);
-////    UIGraphicsPopContext(rect.size);
-//    
-//    
-//}
 
 @end
