@@ -48,9 +48,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.oldpass_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-240)/2, 100, 240, 50);
-    self.newpass_text1.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-240)/2, 170 , 240, 50);
-    self.newpass_text2.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-240)/2, 240 , 240, 50);
+    
+    self.oldpass_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.1, 100,
+                                         ([UIScreen mainScreen].bounds.size.width)*0.8, 50);
+    self.newpass_text1.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.1, 190 ,
+                                         ([UIScreen mainScreen].bounds.size.width)*0.8, 50);
+    self.newpass_text2.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.1, 280 ,
+                                          (([UIScreen mainScreen].bounds.size.width)*0.8), 50);
 }
 
 #pragma mark - getters
@@ -66,7 +70,7 @@
         _oldpass_text.layer.masksToBounds = YES;
         _oldpass_text.layer.cornerRadius = 15;
         _oldpass_text.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _oldpass_text.borderStyle = UITextBorderStyleBezel;
+        //_oldpass_text.borderStyle = UITextBorderStyleBezel;
         _oldpass_text.secureTextEntry = YES;
         _oldpass_text.leftView = self.leftview1;
         _oldpass_text.leftViewMode=UITextFieldViewModeAlways;
