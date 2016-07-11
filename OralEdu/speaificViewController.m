@@ -284,7 +284,7 @@ static NSString *collectionview = @"imagecell";
 //获取时间
 -(NSString *)getCurrentTime{
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *dateTime=[formatter stringFromDate:[NSDate date]];
     return dateTime;
 }
@@ -369,8 +369,8 @@ static NSString *collectionview = @"imagecell";
     
     
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
-    
-    NSString *pa = [NSString stringWithFormat:@"%@/%@",paths,aCell.nameStr];
+    //NSString *realName=[aCell.nameStr stringByReplacingOccurrencesOfString:@":" withString:@"/"];
+    NSString *pa = [NSString stringWithFormat:@"%@/12136/%@/%@",paths,self.navitionBar.title_label.text,aCell.nameStr];
 
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
 
