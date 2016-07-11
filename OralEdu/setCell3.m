@@ -26,7 +26,10 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    
+    CGFloat height = self.frame.size.height;
+    CGFloat widht = self.frame.size.width;
+    self.labeltext.frame = CGRectMake(widht *0.17, (height-30)/2, 100, 30);
+  
 }
 
 #pragma mark - gertter
@@ -36,7 +39,9 @@
     if(!_labeltext)
     {
         _labeltext = [[UILabel alloc] init];
+        //_labeltext.backgroundColor = [UIColor redColor];
     }
+    
     return _labeltext;
 }
 
@@ -44,8 +49,10 @@
 {
     if(!_viewimage)
     {
-        _viewimage = [[UIImageView alloc] init];
-        
+        CGFloat height = self.frame.size.height;
+        CGFloat widht = self.frame.size.width;
+        _viewimage = [[UIImageView alloc] initWithFrame:CGRectMake(widht*0.07, (height-20)/2, 20, 20)];
+       // _viewimage.backgroundColor = [UIColor blueColor];
     }
     return _viewimage;
 }
