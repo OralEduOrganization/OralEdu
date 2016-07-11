@@ -22,7 +22,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.imageview = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, CGRectGetWidth(self.frame)-10, CGRectGetWidth(self.frame)-10)];
-        
+        self.nameUrl=[[NSString alloc]init];
+        self.nameStr=[[NSString alloc]init];
         [self addSubview:self.imageview];
 //        self.text = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.imageview.frame), CGRectGetWidth(self.frame)-10, 20)];
 //        self.text.textAlignment = NSTextAlignmentCenter;

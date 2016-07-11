@@ -53,14 +53,19 @@ static NSString *collectionview = @"imagecell";
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
 
-    self.image_arr = [NSMutableArray array];
-    self.name_arr = [NSMutableArray array];
-    self.url_arr = [NSMutableArray array];
+    
     [self addTheCollectionView];
     
     [self.view addSubview:self.add_btn];
     
-    
+    [self reloadData];
+
+   
+}
+-(void)reloadData{
+    self.image_arr = [NSMutableArray array];
+    self.name_arr = [NSMutableArray array];
+    self.url_arr = [NSMutableArray array];
     self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
@@ -74,7 +79,6 @@ static NSString *collectionview = @"imagecell";
         [self.name_arr addObject:name];
         [self.url_arr addObject:need_model.materal_imagepath];
     }
-   
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -254,7 +258,12 @@ static NSString *collectionview = @"imagecell";
     
   
     [self.image_arr addObject:image];
-    [self.image_tableview reloadData];
+    //[self.image_tableview reloadData];
+    
+
+    
+    
+    
     NSString *user_id = @"12136";
     //int x =  arc4random() % 100;
     NSString *needTime;
@@ -267,9 +276,8 @@ static NSString *collectionview = @"imagecell";
     
     self.m_model.materal_name = self.navitionBar.title_label.text;
     self.m_model.materal_time = needTime;
-    
-    
     [Datebase_materallist savemateraldetails:self.m_model];
+    [self reloadData];
     [self.image_collectionview reloadData];
     
 }
