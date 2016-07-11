@@ -43,6 +43,8 @@
     @property (nonatomic,strong) pickImageView      *imageSelectView;
     @property (nonatomic,strong) imageMenuView      *imageMenuView;
 
+
+@property (nonatomic,strong) UIView *hidview;
 @end
 
 @implementation faceVideoViewController
@@ -52,9 +54,12 @@
     
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
-
+    
     [self.view addSubview:self.teacherView];
     [self.view addSubview:self.studentView];
+    
+    [self.view addSubview:self.hidview];
+    
     [self.view addSubview:self.backGroundImageView];
     [self.view addSubview:drawView];
     [self.view addSubview:self.pickImageButton];
@@ -96,13 +101,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    
-    
-    self.backBtn.frame = CGRectMake(300, 100, 190, 40);
     self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
-    self.pickImageButton.frame = CGRectMake(260, screenWidth-50, 100, 50);
+    self.hidview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 50);
+    
+    self.backBtn.frame = CGRectMake(300, 100, 190, 40);
     self.eraseBtn.frame = CGRectMake(140, screenWidth-50, 100, 50);
     self.writeButton.frame=CGRectMake(380, screenWidth-50, 100, 50);
     self.pickColorButton.frame=CGRectMake(500, screenWidth-50, 100, 50);
@@ -162,7 +165,6 @@
 }
 
 -(void)clearBtnClick{
-//    self.drawView=nil;
     [drawView removeFromSuperview];
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
@@ -170,12 +172,8 @@
     [self.view addSubview:drawView];
     drawView.selectedColor=self.selectedColor;
     [drawView setDrawingMode:DrawingModePaint];
-//    self.drawView=[[PIDrawerView alloc]init];
-//    self.drawView.backgroundColor=[UIColor clearColor];
-//    [self.view addSubview:self.drawView];
-
-    
 }
+
 -(void)backBtnClick{
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
         SEL selector = NSSelectorFromString(@"setOrientation:");
@@ -188,6 +186,7 @@
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 -(void)writeBtnClick{
     [drawView setDrawingMode:DrawingModePaint];
 }
@@ -434,6 +433,21 @@
 }
 
 #pragma mark - getters
+
+
+-(UIView *)hidview
+{
+    if(!_hidview)
+    {
+        _hidview = [[UIView alloc] init];
+        _hidview.backgroundColor = [UIColor blackColor];
+        _hidview.alpha = 0.4;
+    }
+    return _hidview;
+}
+
+
+
 
 -(UIButton *)backBtn{
     if(!_backBtn){
