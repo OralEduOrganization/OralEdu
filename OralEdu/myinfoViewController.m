@@ -167,45 +167,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if (section == 0) {
-//        // 第0组有多少行
-//        return 1;
-//    }else
-//    {
-//        // 第1组有多少行
-//        return self.infoarr.count;
-//    }
+
     return self.infoarr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-//    if(indexPath.section == 0)
-//    {
-//    static NSString *cellidentfic = @"infoTableViewCell1";
-//    _cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic];
-//        if(!_cell)
-//        {
-//            _cell = [[infoTableViewCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic];
-//            _cell.m_label.text = @"头像";
-//            NSURL *url = [NSURL URLWithString:_picM.image_urlstr];
-//            
-//            if (!_saveImage) {
-//                _cell.pic_imageview.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-//                _cell.pic_imageview.layer.masksToBounds = YES;
-//                _cell.pic_imageview.layer.cornerRadius = 40;
-//            }else
-//            {
-//                _cell.pic_imageview.image = self.saveImage;
-//            }
-//            _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//
-//        }
-//    return _cell;
-//    }
-//    else
-//    {
+
         static NSString *cellidentfic2 = @"infoTableViewCell2";
         infoTableViewCell2 *cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic2];
         if(!cell)
@@ -247,20 +216,7 @@
 //    return nil;
 }
 
-/**
- *  第section组头部显示什么标题
- *
- */
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    // return @"标题";
-//    if (section == 0) {
-//        return nil;
-//    }else
-//    {
-//        return @"   ";
-//    }
-//}
+
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

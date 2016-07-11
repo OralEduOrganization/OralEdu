@@ -76,6 +76,7 @@
 		53B9C8791D24FF56003C629B /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B9C8731D24FF56003C629B /* AFURLSessionManager.m */; };
 		53B9C87D1D2500E8003C629B /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B9C87C1D2500E8003C629B /* APIClient.m */; };
 		53B9C8801D250108003C629B /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B9C87F1D250108003C629B /* HttpTool.m */; };
+		53C2E1961D3372AB0059EA9A /* IndividualitysignatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C2E1951D3372AB0059EA9A /* IndividualitysignatureViewController.m */; };
 		53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */; };
 		53D2ACD81D235CC0001BA2C2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCF1D235CC0001BA2C2 /* FMDatabaseAdditions.m */; };
 		53D2ACD91D235CC0001BA2C2 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACD11D235CC0001BA2C2 /* FMDatabasePool.m */; };
@@ -235,6 +236,8 @@
 		53B9C87C1D2500E8003C629B /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		53B9C87E1D250108003C629B /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
 		53B9C87F1D250108003C629B /* HttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpTool.m; sourceTree = "<group>"; };
+		53C2E1941D3372AB0059EA9A /* IndividualitysignatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualitysignatureViewController.h; sourceTree = "<group>"; };
+		53C2E1951D3372AB0059EA9A /* IndividualitysignatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualitysignatureViewController.m; sourceTree = "<group>"; };
 		53D2ACCC1D235CC0001BA2C2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		53D2ACCE1D235CC0001BA2C2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -910,6 +913,29 @@
 			name = webService;
 			sourceTree = "<group>";
 		};
+		53C2E1911D33728B0059EA9A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				53C2E1941D3372AB0059EA9A /* IndividualitysignatureViewController.h */,
+				53C2E1951D3372AB0059EA9A /* IndividualitysignatureViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		53C2E1921D3372920059EA9A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		53C2E1931D3372950059EA9A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		53D2ACCB1D235CC0001BA2C2 /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,11 +955,14 @@
 			path = OralEdu/fmdb;
 			sourceTree = "<group>";
 		};
-		53E5EA2E1D30F6A000FA06D8 /* New Group */ = {
+		53E5EA2E1D30F6A000FA06D8 /* Individuality signature个性签名 */ = {
 			isa = PBXGroup;
 			children = (
+				53C2E1931D3372950059EA9A /* Model */,
+				53C2E1921D3372920059EA9A /* View */,
+				53C2E1911D33728B0059EA9A /* Controller */,
 			);
-			name = "New Group";
+			name = "Individuality signature个性签名";
 			sourceTree = "<group>";
 		};
 		53E91A121D1B70E40091E85A = {
@@ -961,7 +990,7 @@
 		53E91A1D1D1B70E40091E85A /* OralEdu */ = {
 			isa = PBXGroup;
 			children = (
-				53E5EA2E1D30F6A000FA06D8 /* New Group */,
+				53E5EA2E1D30F6A000FA06D8 /* Individuality signature个性签名 */,
 				538C3CFD1D2FA65700AEBE47 /* mobilephone修改手机号 */,
 				FECC94661D2611DF006F955A /* videoConnect */,
 				53B22C4C1D2663DF00E8EBA5 /* Personal signature */,
@@ -1346,6 +1375,7 @@
 				53B9C8741D24FF56003C629B /* AFHTTPSessionManager.m in Sources */,
 				534522D61D1BFD440055C0EE /* homeCell.m in Sources */,
 				5856151C1D332E1500B54508 /* setCell4.m in Sources */,
+				53C2E1961D3372AB0059EA9A /* IndividualitysignatureViewController.m in Sources */,
 				538D2E721D1E22E100BB9588 /* passwordViewController.m in Sources */,
 				538D2E791D1E526400BB9588 /* nameViewController.m in Sources */,
 				539313661D1BC7D30035D874 /* loginViewController.m in Sources */,
