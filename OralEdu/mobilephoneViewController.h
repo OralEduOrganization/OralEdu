@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface mobilephoneViewController : BaseViewController
+@interface mobilephoneViewController : BaseViewController<UITextFieldDelegate>
 
 @end

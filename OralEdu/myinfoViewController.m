@@ -17,6 +17,7 @@
 #import "AFNetworking.h"
 #import "AFHTTPSessionManager.h"
 #import "HttpTool.h"
+#import "IndividualitysignatureViewController.h"
 @interface myinfoViewController ()
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
@@ -30,6 +31,7 @@
 @property (nonatomic,strong) UILabel *name_label;
 @property (nonatomic,strong) UIButton *left_btn;
 @property (nonatomic,strong) UILabel *signature_label;
+@property (nonatomic,strong) NSString *url;
 @end
 
 @implementation myinfoViewController
@@ -72,8 +74,6 @@
 
 -(void)loadDataFromWeb
 {
-
-    
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
     NSDictionary *para=@{@"user_moblie":name};
@@ -87,43 +87,37 @@
         NSDictionary *dit = [dic objectForKey:@"data"];
        
         NSLog(@"dit = %@",dit);
-        NSString *url = [dic objectForKey:@"url"];
-        NSString *user_address = [dic objectForKey:@"user_address"];
-        NSString *user_gender = [dic objectForKey:@"user_gender"];
-//        NSString *user_identity = [dic objectForKey:@"user_identity"];
-        NSString *user_introduction = [dic objectForKey:@"user_introduction"];
-        NSString *user_nickname = [dic objectForKey:@"user_nickname"];
-//        NSString *user_signed = [dic objectForKey:@"user_signed"];
+        self.url = [dit objectForKey:@"url"];
+        NSString *user_address = [dit objectForKey:@"user_address"];
+        NSString *user_gender = [dit objectForKey:@"user_gender"];
+       // NSString *user_identity = [dic objectForKey:@"user_identity"];
+        NSString *user_introduction = [dit objectForKey:@"user_introduction"];
+        NSString *user_nickname = [dit objectForKey:@"user_nickname"];
+       // NSString *user_signed = [dit objectForKey:@"user_signed"];
         
+        NSLog(@"username = %@",user_nickname);
         _picM = [[picModel alloc] init];
-        _picM.image_urlstr = url;
+        _picM.image_urlstr = self.url;
         self.arr = [NSMutableArray array];
         _picM.name_str = user_nickname;
         _picM.signature_str = user_introduction;
         _picM.address_str = user_address;
         _picM.gender_str = user_gender;
+        
         [self.arr addObject:_picM.name_str];
         [self.arr addObject:_picM.gender_str];
         [self.arr addObject:_picM.address_str];
         [self.arr addObject:_picM.signature_str];
+
+         NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
+         self.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+         self.name_label.text = self.picM.name_str;
+         self.signature_label.text = self.picM.signature_str;
+         [self.infotableview reloadData];
         
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
-
-    
-    
-//    _picM = [[picModel alloc] init];
-//    _picM.image_urlstr = @"http://ww1.sinaimg.cn/crop.0.0.1080.1080.1024/006cxmWbjw8evactf4t2ij30u00u0jtj.jpg";
-//    self.arr = [NSMutableArray array];
-//    _picM.name_str = @"涛桑";
-//    _picM.address_str = @"天津";
-//    _picM.gender_str = @"男";
-//    _picM.signature_str = @"”我要在你身上去做，春天在樱桃树上做的事情“";
-//    [self.arr addObject:_picM.name_str];
-//    [self.arr addObject:_picM.gender_str];
-//    [self.arr addObject:_picM.address_str];
-//    [self.arr addObject:_picM.signature_str];
 
 }
 
@@ -149,8 +143,7 @@
         _pic_image.backgroundColor = [UIColor greenColor];
         _pic_image.layer.masksToBounds = YES;
         _pic_image.layer.cornerRadius = 35;
-        NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
-        _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        
         //点击图片事件
         UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imagereplace)];
         TapGestureTecognizer.cancelsTouchesInView=NO;
@@ -165,10 +158,9 @@
     if(!_name_label)
     {
         _name_label = [[UILabel alloc] init];
-        //_name_label.backgroundColor = [UIColor greenColor];
         _name_label.textAlignment = NSTextAlignmentCenter;
         _name_label.textColor = [UIColor whiteColor];
-        _name_label.text = self.picM.name_str;
+        
     }
     return _name_label;
 }
@@ -178,9 +170,8 @@
     if(!_signature_label)
     {
         _signature_label = [[UILabel alloc] init];
-        //_signature_label.backgroundColor = [UIColor greenColor];
         _signature_label.font = [UIFont systemFontOfSize:14];
-        _signature_label.text = self.picM.signature_str;
+
         _signature_label.lineBreakMode = NSLineBreakByWordWrapping;
         _signature_label.numberOfLines = 0;
     }
@@ -219,8 +210,7 @@
 
         static NSString *cellidentfic2 = @"infoTableViewCell2";
         infoTableViewCell2 *cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic2];
-        if(!cell)
-        {
+    
             cell = [[infoTableViewCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellidentfic2];
             cell.m_label1.text = self.infoarr[indexPath.row];
             if([cell.m_label1.text isEqualToString:@"退出登录"]){
@@ -251,7 +241,7 @@
             {
                 cell.m_label2.text = _picM.signature_str;
             }
-        }
+    
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
 
@@ -275,7 +265,8 @@
     if(indexPath.row == 1)
     {
         NSLog(@"个性签名");
-
+        IndividualitysignatureViewController *individVC = [[IndividualitysignatureViewController alloc] initWithTitle:@"个性签名" isNeedBack:YES btn_image:nil];
+        [self.navigationController pushViewController:individVC animated:YES];
     }
     if(indexPath.row == 2)
     {

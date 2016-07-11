@@ -36,7 +36,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.nametext.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 50);
+    self.nametext.frame = CGRectMake(0, 74, [UIScreen mainScreen].bounds.size.width, 50);
     [self.nametext becomeFirstResponder];
 }
 

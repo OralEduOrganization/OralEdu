@@ -26,22 +26,20 @@
     @property (nonatomic,strong) UIButton           *backBtn;
     @property (nonatomic,strong) UIView             *teacherView;
     @property (nonatomic,strong) UIView             *studentView;
-
-
     @property (nonatomic,strong) UIButton           *writeButton;
     @property (nonatomic,strong) UIButton           *pickColorButton;
     @property (nonatomic,strong) UIButton           *pickEraserButton;
-    @property (nonatomic,strong) UIButton           *pickImageButton;
     @property (nonatomic,strong) UIButton           *clearBtn;
     @property (nonatomic,strong) UIButton           *eraseBtn;
     @property (nonatomic,strong) UIButton           *pickImageMenuBtn;
     @property (nonatomic,strong) UIColor            *selectedColor;
     @property (nonatomic,strong) UIImageView        *backGroundImageView;
-
     @property (nonatomic,strong) UIView             *hubView;
     @property (nonatomic,strong) videoRightView     *rightView;
     @property (nonatomic,strong) pickImageView      *imageSelectView;
     @property (nonatomic,strong) imageMenuView      *imageMenuView;
+
+@property (nonatomic,strong) UIButton *camerabtn;
 
 
 @property (nonatomic,strong) UIView *hidview;
@@ -61,15 +59,21 @@
     [self.view addSubview:self.hidview];
     
     [self.view addSubview:self.backGroundImageView];
+    
     [self.view addSubview:drawView];
-    [self.view addSubview:self.pickImageButton];
+    
+    
     [self.view addSubview:self.pickImageMenuBtn];
+    
     [self.view addSubview:self.writeButton];
     [self.view addSubview:self.pickColorButton];
     [self.view addSubview:self.clearBtn];
     [self.view addSubview:self.eraseBtn];
     [self.view addSubview:self.imageSelectView];
+    
     [self.view addSubview:self.backBtn];
+    
+    [self.view addSubview:self.camerabtn];
     
     self.selectedColor = [UIColor redColor];
     drawView.selectedColor=self.selectedColor;
@@ -105,15 +109,22 @@
     drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     self.hidview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 50);
     
-    self.backBtn.frame = CGRectMake(300, 100, 190, 40);
-    self.eraseBtn.frame = CGRectMake(140, screenWidth-50, 100, 50);
-    self.writeButton.frame=CGRectMake(380, screenWidth-50, 100, 50);
-    self.pickColorButton.frame=CGRectMake(500, screenWidth-50, 100, 50);
-    self.clearBtn.frame=CGRectMake(600, screenWidth-50, 100, 50);
-    self.pickImageMenuBtn.frame = CGRectMake(40, screenWidth-50, 100, 50);
+    self.backBtn.frame = CGRectMake(0, 0, 50, 50);
+    self.eraseBtn.frame = CGRectMake(screenHeight-300, screenWidth-50, 50, 50);
+
+    self.writeButton.frame=CGRectMake(screenHeight-250, screenWidth-50, 50, 50);
     
+    self.pickColorButton.frame=CGRectMake(screenHeight-200, screenWidth-50, 50, 50);
+    
+    self.clearBtn.frame=CGRectMake(screenHeight-150, screenWidth-50, 50, 50);
+    
+    self.pickImageMenuBtn.frame = CGRectMake(screenHeight-100, screenWidth-50, 50, 50);
+    
+    self.camerabtn.frame = CGRectMake(0, screenWidth-50, 50, 50);
 }
+
 #pragma mark - Observer
+
 -(void)toReturnColor:(NSNotification *)notification{
     
     UIColor *receiveColor=(UIColor *)[notification object];
@@ -140,7 +151,7 @@
     }completion:^(BOOL finished) {
         
     }];
-    self.pickImageButton.selected=!self.pickImageButton.selected;
+  //  self.pickImageButton.selected=!self.pickImageButton.selected;
     
 }
 -(void)toReturnDocument:(NSNotification *)notification{
@@ -225,9 +236,9 @@
     
     
     
-    self.pickImageButton.selected=!self.pickImageButton.selected;
+    //self.pickImageButton.selected=!self.pickImageButton.selected;
     
-    if(self.pickImageButton.selected){
+    if(self.pickImageMenuBtn.selected){
         
         [self.view addSubview:self.hubView];
         [self.view bringSubviewToFront:self.imageSelectView];
@@ -304,7 +315,6 @@
     }];
     self.pickImageMenuBtn.selected=NO;
     self.pickColorButton.selected=NO;
-    self.pickImageButton.selected=NO;
     
 }
 
@@ -441,24 +451,33 @@
     {
         _hidview = [[UIView alloc] init];
         _hidview.backgroundColor = [UIColor blackColor];
-        _hidview.alpha = 0.4;
+        _hidview.alpha = 0.6;
     }
     return _hidview;
 }
 
 
-
+-(UIButton *)camerabtn
+{
+    if(!_camerabtn)
+    {
+        _camerabtn = [[UIButton alloc] init];
+        [_camerabtn setImage:[UIImage imageNamed:@"摄像头－关"] forState:UIControlStateNormal];
+    }
+    return _camerabtn;
+}
 
 -(UIButton *)backBtn{
     if(!_backBtn){
         _backBtn=[[UIButton alloc]init];
         [_backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_backBtn setTitle:@"返回" forState:UIControlStateNormal];
-        _backBtn.titleLabel.font=[UIFont systemFontOfSize:45];
+        _backBtn.titleLabel.font=[UIFont systemFontOfSize:20];
         [_backBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
     return _backBtn;
 }
+
 -(UIView *)teacherView{
     if(!_teacherView){
         _teacherView=[[UIView alloc]init];
@@ -483,16 +502,7 @@
 }
 
 
--(UIButton *)pickImageButton{
-    if(!_pickImageButton){
-        _pickImageButton=[[UIButton alloc]init];
-        [_pickImageButton addTarget:self action:@selector(imagePickClick) forControlEvents:UIControlEventTouchUpInside];
-        [_pickImageButton setTitle:@"选取图片" forState:UIControlStateNormal];
-        _pickImageButton.titleLabel.font=[UIFont systemFontOfSize:20];
-        [_pickImageButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    }
-    return _pickImageButton;
-}
+
 -(UIImageView *)backGroundImageView{
     if(!_backGroundImageView){
         _backGroundImageView=[[UIImageView alloc]init];
@@ -503,16 +513,19 @@
     if(!_writeButton){
         _writeButton=[[UIButton alloc]init];
         [_writeButton addTarget:self action:@selector(writeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_writeButton setImage:[UIImage imageNamed:@"画笔"] forState:UIControlStateNormal];
         [_writeButton setTitle:@"开始涂鸦" forState:UIControlStateNormal];
         _writeButton.titleLabel.font=[UIFont systemFontOfSize:20];
         [_writeButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
     return _writeButton;
 }
+
 -(UIButton *)pickColorButton{
     if(!_pickColorButton){
         _pickColorButton=[[UIButton alloc]init];
         [_pickColorButton addTarget:self action:@selector(pickColorBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_pickColorButton setImage:[UIImage imageNamed:@"颜色"] forState:UIControlStateNormal];
         [_pickColorButton setTitle:@"选取颜色" forState:UIControlStateNormal];
         _pickColorButton.titleLabel.font=[UIFont systemFontOfSize:20];
         [_pickColorButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -543,22 +556,26 @@
     if(!_clearBtn){
         _clearBtn=[[UIButton alloc]init];
         [_clearBtn addTarget:self action:@selector(clearBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_clearBtn setImage:[UIImage imageNamed:@"clean"] forState:UIControlStateNormal];
         [_clearBtn setTitle:@"清空涂鸦" forState:UIControlStateNormal];
         _clearBtn.titleLabel.font=[UIFont systemFontOfSize:20];
         [_clearBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
     return _clearBtn;
 }
+
 -(UIButton *)eraseBtn{
     if(!_eraseBtn){
         _eraseBtn=[[UIButton alloc]init];
         [_eraseBtn addTarget:self action:@selector(eraseBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_eraseBtn setImage:[UIImage imageNamed:@"橡皮"] forState:UIControlStateNormal];
         [_eraseBtn setTitle:@"橡皮" forState:UIControlStateNormal];
         _eraseBtn.titleLabel.font=[UIFont systemFontOfSize:20];
         [_eraseBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
     return _eraseBtn;
 }
+
 -(pickImageView*)imageSelectView{
     
     if (!_imageSelectView) {
@@ -580,6 +597,7 @@
         _pickImageMenuBtn=[[UIButton alloc]init];
         [_pickImageMenuBtn addTarget:self action:@selector(imageMenuPickClick) forControlEvents:UIControlEventTouchUpInside];
         [_pickImageMenuBtn setTitle:@"选取图片" forState:UIControlStateNormal];
+        [_pickImageMenuBtn setImage:[UIImage imageNamed:@"图库"] forState:UIControlStateNormal];
         _pickImageMenuBtn.titleLabel.font=[UIFont systemFontOfSize:20];
         [_pickImageMenuBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }

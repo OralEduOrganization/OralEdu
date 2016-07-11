@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,6 +25,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void)leftbtnClick
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //self.view.backgroundColor = [UIColor colorWithRed:197 green:174 blue:124 alpha:1];
+    [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.btn_tijiao];
     [self.view addSubview:self.view_fankui];
