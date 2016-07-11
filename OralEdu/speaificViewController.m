@@ -24,6 +24,7 @@
     BOOL isEdit;
     
 }
+
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
@@ -115,6 +116,7 @@ static NSString *collectionview = @"imagecell";
 {
     _cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
     _cell.delegate = self;
+
     if(isEdit==YES){
         [_cell changeView];
     }else{
@@ -122,6 +124,7 @@ static NSString *collectionview = @"imagecell";
     }
     _cell.nameStr=self.name_arr[indexPath.item];
     _cell.nameUrl=self.url_arr[indexPath.item];
+
     _cell.imageview.image = self.image_arr[indexPath.item];
     return _cell;
 }
@@ -307,6 +310,7 @@ static NSString *collectionview = @"imagecell";
     [self.image_collectionview reloadData];
 }
 
+
 #pragma mark --UICollectionViewDelegateFlowLayout
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -355,4 +359,14 @@ static NSString *collectionview = @"imagecell";
     _cell.backgroundColor=[UIColor clearColor];
 }
 
+//-(void)moveImageBtnClick:(imageCollectionViewCell *)aCell
+//{
+//    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+//    NSLog(@"_____%ld",indexPath.row);
+//    [_image_arr removeObjectAtIndex:indexPath.row];
+//    
+//    
+//    [self.image_collectionview reloadData];
+//
+//}
 @end

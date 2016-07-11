@@ -174,13 +174,13 @@
 }
 
 //删除数据
-+(void)deletemateraldetails:(NSString*)Id
++(void)deletemateraldetails:(NSString*)materal_name
 {
     FMDatabase *db = [self getDatebase];
     [db open];
     NSString *sql = @"delete from Datebase_details_info where materal_name = ?";
     
-    if(![db executeUpdate:sql withArgumentsInArray:@[Id]])
+    if(![db executeUpdate:sql withArgumentsInArray:@[materal_name]])
     {
         NSLog(@"delete Date error :%@",[db lastErrorMessage]);
     }
