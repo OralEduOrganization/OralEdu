@@ -362,7 +362,7 @@ static NSString *collectionview = @"imagecell";
     [_image_arr removeObjectAtIndex:indexPath.row];
     
     
-        [self.image_collectionview reloadData];
+    [self.image_collectionview reloadData];
     
     
     [Datebase_materallist deletemateraldetails:aCell.nameUrl];
@@ -373,7 +373,7 @@ static NSString *collectionview = @"imagecell";
     NSString *pa = [NSString stringWithFormat:@"%@/%@",paths,aCell.nameStr];
 
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
-    
+
 }
 
 -(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{

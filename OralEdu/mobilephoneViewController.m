@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     
 }
@@ -29,7 +30,8 @@
 
 -(void)leftbtnClick
 {
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end
