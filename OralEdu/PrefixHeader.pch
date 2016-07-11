@@ -32,7 +32,7 @@
 #define VAD_EOS_VALUE         @"1800"
 #define PLAIN_RESULT_VALUE    @"1"
 #define ASR_SCH_VALUE         @"1"
-
+#import "UIImage+needkit.h"
 #import "AppDelegate.h"
 
 #ifdef __IPHONE_6_0
