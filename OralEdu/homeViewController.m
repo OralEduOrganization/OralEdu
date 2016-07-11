@@ -48,7 +48,6 @@
     }else{
     //数据加载
      [self loadDataFromWeb];
-     
     }
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;

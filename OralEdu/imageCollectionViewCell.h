@@ -19,5 +19,11 @@
 @property(nonatomic ,strong)UILabel *text;
 @property(nonatomic ,strong)UIButton *btn;
 @property(nonatomic,strong)UIButton * close;
+@property(nonatomic,strong)NSString *nameStr;
+@property(nonatomic,strong)NSString *nameUrl;
 @property(nonatomic,assign)id<imageCollectionCellDelegate>delegate;
+
+-(void)changeView;
+-(void)releaseView;
+
 @end

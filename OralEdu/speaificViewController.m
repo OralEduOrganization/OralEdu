@@ -21,13 +21,16 @@
     
     CGFloat nowImgViewFrameY;
     int imageName;
+    BOOL isEdit;
     
 }
+
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
 @property (nonatomic,strong) NSMutableArray *name_arr;
 @property (nonatomic,strong) NSMutableArray *image_arr;
+@property (nonatomic,strong) NSMutableArray *url_arr;
 @property (nonatomic,strong) NSMutableArray *time_arr;
 //@property (nonatomic,strong) imageTableViewCell *cell;
 @property (nonatomic,strong) materal_model *m_model;
@@ -42,6 +45,7 @@ static NSString *collectionview = @"imagecell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    isEdit=NO;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
@@ -49,23 +53,32 @@ static NSString *collectionview = @"imagecell";
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
 
-    self.image_arr = [NSMutableArray array];
     
     [self addTheCollectionView];
     
     [self.view addSubview:self.add_btn];
     
-    
+    [self reloadData];
+
+   
+}
+-(void)reloadData{
+    self.image_arr = [NSMutableArray array];
+    self.name_arr = [NSMutableArray array];
+    self.url_arr = [NSMutableArray array];
     self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
     for(int i=0;i<self.need_arr.count;i++){
         materal_model *need_model=self.need_arr[i];
         NSString *needPatch=[NSString stringWithFormat:@"%@%@",docDir,need_model.materal_imagepath];
+        NSArray *needNameArr=[need_model.materal_imagepath componentsSeparatedByString:@"/"];
+        NSString *name=needNameArr[3];
         UIImage *image= [[UIImage alloc]initWithContentsOfFile:needPatch];
         [self.image_arr addObject:image];
+        [self.name_arr addObject:name];
+        [self.url_arr addObject:need_model.materal_imagepath];
     }
-   
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -107,6 +120,15 @@ static NSString *collectionview = @"imagecell";
 {
     _cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
     _cell.delegate = self;
+
+    if(isEdit==YES){
+        [_cell changeView];
+    }else{
+        [_cell releaseView];
+    }
+    _cell.nameStr=self.name_arr[indexPath.item];
+    _cell.nameUrl=self.url_arr[indexPath.item];
+
     _cell.imageview.image = self.image_arr[indexPath.item];
     return _cell;
 }
@@ -236,7 +258,12 @@ static NSString *collectionview = @"imagecell";
     
   
     [self.image_arr addObject:image];
-    [self.image_tableview reloadData];
+    //[self.image_tableview reloadData];
+    
+
+    
+    
+    
     NSString *user_id = @"12136";
     //int x =  arc4random() % 100;
     NSString *needTime;
@@ -249,9 +276,8 @@ static NSString *collectionview = @"imagecell";
     
     self.m_model.materal_name = self.navitionBar.title_label.text;
     self.m_model.materal_time = needTime;
-    
-    
     [Datebase_materallist savemateraldetails:self.m_model];
+    [self reloadData];
     [self.image_collectionview reloadData];
     
 }
@@ -287,6 +313,11 @@ static NSString *collectionview = @"imagecell";
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)rightbtnClick{
+    isEdit=!isEdit;
+    [self.image_collectionview reloadData];
+}
+
 
 #pragma mark --UICollectionViewDelegateFlowLayout
 //定义每个UICollectionView 的大小
@@ -321,12 +352,56 @@ static NSString *collectionview = @"imagecell";
 {
     return YES;
 }
+-(void)moveImageBtnClick:(imageCollectionViewCell *)aCell{
+    NSLog(@"delClick");
+    NSLog(@"%@",aCell.nameStr);
+    NSLog(@"%@",aCell.nameUrl);
+    
+    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+    NSLog(@"_____%ld",indexPath.row);
+    [_image_arr removeObjectAtIndex:indexPath.row];
+    
+    
+        [self.image_collectionview reloadData];
+    
+    
+    [Datebase_materallist deletemateraldetails:aCell.nameUrl];
+    
+    
+    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSString *pa = [NSString stringWithFormat:@"%@/%@",paths,aCell.nameStr];
 
+    [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
+    
+}
+
+-(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    
+    //文件名
+    
+    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:patch];
+    if (!blHave) {
+        NSLog(@"no  have");
+        return ;
+    }else {
+        NSLog(@" have");
+        BOOL blDele= [fileManager removeItemAtPath:patch error:nil];
+        if (blDele) {
+            NSLog(@"dele success");
+        }else {
+            NSLog(@"dele fail");
+        }
+        
+    }
+}
 //取消选择了某个cell
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    _cell = [collectionView cellForItemAtIndexPath:indexPath];
+//    _cell = [collectionView cellForItemAtIndexPath:indexPath];
     _cell.backgroundColor=[UIColor clearColor];
 }
+
 
 @end
