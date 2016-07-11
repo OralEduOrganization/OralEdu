@@ -170,17 +170,17 @@
     NSLog(@"stu = %@",detailsArr);
     return detailsArr;
     
-    
 }
 
 //删除数据
-+(void)deletemateraldetails:(NSString*)materal_name
+
++(void)deletemateraldetails:(NSString*)materal_imagepath
 {
     FMDatabase *db = [self getDatebase];
     [db open];
-    NSString *sql = @"delete from Datebase_details_info where materal_name = ?";
+    NSString *sql = @"delete from Datebase_details_info where materal_imagepath = ?";
     
-    if(![db executeUpdate:sql withArgumentsInArray:@[materal_name]])
+    if(![db executeUpdate:sql withArgumentsInArray:@[materal_imagepath]])
     {
         NSLog(@"delete Date error :%@",[db lastErrorMessage]);
     }

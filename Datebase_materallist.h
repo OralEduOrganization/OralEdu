@@ -24,6 +24,6 @@
 
 
 
-+(void)deletemateraldetails:(NSString*)materal_name;
++(void)deletemateraldetails:(NSString*)materal_imagepath;
 
 @end

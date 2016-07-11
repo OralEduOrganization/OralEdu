@@ -349,9 +349,45 @@ static NSString *collectionview = @"imagecell";
     NSLog(@"%@",aCell.nameStr);
     NSLog(@"%@",aCell.nameUrl);
     
+    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+    NSLog(@"_____%ld",indexPath.row);
+    [_image_arr removeObjectAtIndex:indexPath.row];
+    
+    
+        [self.image_collectionview reloadData];
+    
+    
+    [Datebase_materallist deletemateraldetails:aCell.nameUrl];
+    
+    
+    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSString *pa = [NSString stringWithFormat:@"%@/%@",paths,aCell.nameStr];
+
+    [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
     
 }
 
+-(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    
+    //文件名
+    
+    BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:patch];
+    if (!blHave) {
+        NSLog(@"no  have");
+        return ;
+    }else {
+        NSLog(@" have");
+        BOOL blDele= [fileManager removeItemAtPath:patch error:nil];
+        if (blDele) {
+            NSLog(@"dele success");
+        }else {
+            NSLog(@"dele fail");
+        }
+        
+    }
+}
 //取消选择了某个cell
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -359,14 +395,5 @@ static NSString *collectionview = @"imagecell";
     _cell.backgroundColor=[UIColor clearColor];
 }
 
-//-(void)moveImageBtnClick:(imageCollectionViewCell *)aCell
-//{
-//    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
-//    NSLog(@"_____%ld",indexPath.row);
-//    [_image_arr removeObjectAtIndex:indexPath.row];
-//    
-//    
-//    [self.image_collectionview reloadData];
-//
-//}
+
 @end
