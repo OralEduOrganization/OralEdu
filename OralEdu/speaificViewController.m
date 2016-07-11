@@ -373,7 +373,7 @@ static NSString *collectionview = @"imagecell";
     NSString *pa = [NSString stringWithFormat:@"%@/%@",paths,aCell.nameStr];
 
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
-    
+
 }
 
 -(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{
