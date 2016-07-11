@@ -17,6 +17,7 @@
 #import "passwordViewController.h"
 #import "IndividualitysignatureViewController.h"
 #import "mobilephoneViewController.h"
+#import "feedbackViewController.h"
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
@@ -207,10 +208,12 @@ static NSString *cellIdentfid3 = @"setcell3";
             
                     [self.navigationController pushViewController:passVC animated:YES];
         }
-        NSLog(@"身份认证");
     }
     else if (indexPath.section == 2)
     {
+        feedbackViewController *feedbackVC = [[feedbackViewController alloc] initWithTitle:@"帮助与反馈" isNeedBack:YES btn_image:nil];
+
+        [self.navigationController pushViewController:feedbackVC animated:YES];
         NSLog(@"帮助与反馈");
     }
     else if(indexPath.section==3)
