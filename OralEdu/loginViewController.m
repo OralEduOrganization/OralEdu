@@ -50,10 +50,17 @@
 {
     [super viewWillAppear:animated];
     
-    _login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
-    _Tview.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-256)/2, 180, 256, 100);
-    _registered_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 500, 80, 50);
-    self.goback_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 600, 80, 50);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height =[UIScreen mainScreen].bounds.size.height;
+    _login_btn.frame = CGRectMake(width /4, height*0.6, width/2, 50);
+    _Tview.frame = CGRectMake(width *0.16, height *0.18, width*0.68, height*0.18);
+    _registered_btn.frame = CGRectMake(width/4, height *0.75, width/2, height*0.075);
+    self.goback_btn.frame = CGRectMake(width *0.4, height*0.9, width*0.21, height*0.075);
+    
+//    _login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
+//    _Tview.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-256)/2, 180, 256, 100);
+//    _registered_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 500, 80, 50);
+//    self.goback_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 600, 80, 50);
     
     //设置为第一响应者
     [self.Tview.user_text becomeFirstResponder];

@@ -12,18 +12,14 @@
 #import "setModel.h"
 #import "myinfoViewController.h"
 #import "setCell1.h"
-#import "setCell2.h"
+//#import "setCell2.h"
 #import "setCell3.h"
-//#import "setCell4.h"
-//#import "setCell5.h"
 #import "myinfoViewController.h"
 #import "passwordViewController.h"
 
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
-static NSString *cellIdentfid4 = @"setcell4";
-static NSString *cellIdentfid5 = @"setcell5";
 
 @interface setViewController ()
 @property (nonatomic,strong) UITableView *setTableview;
@@ -49,8 +45,6 @@ static NSString *cellIdentfid5 = @"setcell5";
     
     
     [self.setTableview registerClass:[setCell3 class] forCellReuseIdentifier:cellIdentfid3];
-    //[self.setTableview registerClass:[setCell4 class] forCellReuseIdentifier:cellIdentfid4];
-    //[self.setTableview registerClass:[setCell5 class] forCellReuseIdentifier:cellIdentfid5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,7 +95,7 @@ static NSString *cellIdentfid5 = @"setcell5";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -112,13 +106,9 @@ static NSString *cellIdentfid5 = @"setcell5";
     }
     else if(section == 1)
     {
-        return 1;
-    }
-    else if(section == 2)
-    {
         return 3;
     }
-    else if (section ==3)
+    else if (section ==2)
     {
         return 1;
     }
@@ -130,8 +120,6 @@ static NSString *cellIdentfid5 = @"setcell5";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
-
     if (indexPath.section==0 )
     {
         setCell1 *cell = nil;
@@ -147,89 +135,41 @@ static NSString *cellIdentfid5 = @"setcell5";
         }
         return cell;
     }
-    else if (indexPath.section == 1)
-    {
-        setCell2 *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid2];
-        if (!cell) {
-            cell = [[setCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid2];
-            [cell.btn_01 setTitle:@"打赏" forState:UIControlStateNormal];
-            [cell.btn_02 setTitle:@"打赏记录" forState:UIControlStateNormal];
-            cell.record_label.text = @"$130";
-        }
-        return cell;
-    }
+    
     setCell3 *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid3 forIndexPath:indexPath];
-    if(indexPath.section == 2)
+    if(indexPath.section == 1)
     {
         UIImage *image=self.image_arr[indexPath.row];
         CGSize size=cell.viewimage.frame.size;
         cell.viewimage.image=[image imageByScalingToSize:size];
-        //cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
-        
-        // cell.imageView.image = self.image_arr[indexPath.row];
         cell.labeltext.text = self.setarr[indexPath.row];
 
         return cell;
     }
-    else if (indexPath.section == 3)
+    if (indexPath.section == 2)
     {
-        //setCell4 *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid4 forIndexPath:indexPath];
-        cell.imageView.image = [UIImage imageNamed:@"help"];
-        cell.textLabel.text = @"帮助与反馈";
+        UIImage *image=[UIImage imageNamed:@"help"];
+        CGSize size=cell.viewimage.frame.size;
+        cell.viewimage.image=[image imageByScalingToSize:size];
+        cell.labeltext.text = @"帮助与反馈";
         return cell;
     }
-    else if (indexPath.section == 4)
+    if (indexPath.section == 3)
     {
-        //setCell5 *cell= [tableView dequeueReusableCellWithIdentifier:cellIdentfid5 forIndexPath:indexPath];
-        cell.imageView.image = [UIImage imageNamed:@"clean"];
-        cell.textLabel.text = @"清理缓存";
+        UIImage *image=[UIImage imageNamed:@"clean"];
+        CGSize size=cell.viewimage.frame.size;
+        cell.viewimage.image=[image imageByScalingToSize:size];
+        cell.labeltext.text = @"清理缓存";
         return cell;
     }
-//    else if(indexPath.section == 2)
-//    {
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid3];
-//        if(!cell)
-//        {
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid3];
-//    
-//            cell.imageView.image = self.image_arr[indexPath.row];
-//            cell.textLabel.text = self.setarr[indexPath.row];
-//        }
-//        return cell;
-//        
-//    }
-//    else if (indexPath.section == 3)
-//    {
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid4];
-//        if(!cell)
-//        {
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid4];
-//            cell.imageView.image = [UIImage imageNamed:@"help"];
-//            cell.textLabel.text = @"帮助与反馈";
-//        }
-//        return cell;
-//    }else if(indexPath.section == 4)
-//    {
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentfid5];
-//        if(!cell)
-//        {
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentfid5];
-//            cell.imageView.image = [UIImage imageNamed:@"clean"];
-//            cell.textLabel.text = @"清理缓存";
-//        }
-//        return cell;
-//    }
     return nil;
 }
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 120.0f;
-    }
-    else if(indexPath.section == 1)
-    {
-    return 70.0f;
+        CGFloat height11 = [UIScreen mainScreen].bounds.size.height;
+        return (height11*0.18);
     }
     else
     {

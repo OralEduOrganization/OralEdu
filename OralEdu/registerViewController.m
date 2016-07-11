@@ -55,13 +55,16 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
-    self.login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 500, 220, 50);
-    self.reist_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
-    self.phone_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 150, 300, 50);
-    self.pass_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 220, 300, 50);
-    self.valid_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 290, 170, 50);
-    self.get_btn.frame = CGRectMake(210, 290, 130, 50);
+   // _Tview.frame = CGRectMake(width *0.16, height *0.18, width*0.68, height*0.18);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    self.login_btn.frame = CGRectMake((width - (width*0.58))/2, height *0.75, width *0.58,height*0.08);
+    self.reist_btn.frame = CGRectMake((width - (width*0.58))/2, height *0.6, width *0.58,height*0.08);
+    self.phone_text.frame = CGRectMake((width - (width *0.85))/2, height *0.1, width*0.85, height*0.08);
+   // self.phone_text.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-300)/2, 150, 300, 50);
+    self.pass_text.frame = CGRectMake((width - (width *0.85))/2, height *0.23,width*0.85, height*0.08);
+    self.valid_text.frame = CGRectMake((width - (width *0.85))/2, height *0.36, width*0.46, height*0.08);
+    self.get_btn.frame = CGRectMake(width *0.55,height *0.36, width*0.38,height *0.08);
     //设置为第一响应者
     [self.phone_text becomeFirstResponder];
     
