@@ -38,7 +38,6 @@
     self.delete_arr = [[NSMutableArray alloc]init];
     
     self.navitionBar.title_label.text = @"素材库";
-    //self.mater_arr = [NSMutableArray arrayWithObjects:@"1",@"2" ,@"3",@"4",nil];
     self.mater_arr = [NSMutableArray array];
     [self.view addSubview:self.add_btn];
     
@@ -58,7 +57,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -91,8 +90,7 @@
         _matertableview.dataSource = self;
         
         _matertableview.tableFooterView = [[UIView alloc]init];
-
-        //_matertableview.backgroundColor = [UIColor orangeColor];
+        
         _matertableview.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3.jpg"]];
         _matertableview.separatorStyle = UITableViewCellSeparatorStyleNone;
         
@@ -114,20 +112,11 @@
     _cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
     _cell.backgroundColor=[UIColor clearColor];
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    _cell.textLabel.text = self.mater_arr[indexPath.row];
-//    _cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    [_cell.layer setBorderColor: UIColorFromRGB(0X2a2624).CGColor];
-//    [_cell.layer setBorderWidth:1];
-//    [_cell.layer setMasksToBounds:YES];
-    
     UIView *needview=[[UIView alloc]initWithFrame:CGRectMake(10, 5, _cell.bounds.size.width+35, _cell.bounds.size.height-3)];
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(10, -8, 100, 50)];
     label.text=self.mater_arr[indexPath.row];
     needview.backgroundColor=[UIColor lightGrayColor];
-//    label.textAlignment = NSTextAlignmentCenter;
     needview.layer.cornerRadius = 5;
-//    [needview.layer setBorderWidth:1];
-//    self.m_label3.layer.borderColor=[UIColor lightGrayColor].CGColor;
     needview.layer.masksToBounds = YES;
 
     [needview addSubview:label];
@@ -172,7 +161,11 @@
         
         NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
         
-        NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,@"12136",self.mater_arr[indexPath.row]];
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *user_id = [defaultes objectForKey:@"name"];
+        
+        NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,user_id,self.mater_arr[indexPath.row]];
         
         [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
         [_mater_arr removeObjectAtIndex:indexPath.row];
@@ -282,7 +275,9 @@
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
-        NSString *user_id = @"12136";
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *user_id = [defaultes objectForKey:@"name"];
+        
         NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.add_str];
         NSLog(@"str = %@",self.add_str);
         // 判断文件夹是否存在，如果不存在，则创建

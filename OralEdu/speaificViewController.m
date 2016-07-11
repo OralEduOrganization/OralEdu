@@ -66,7 +66,9 @@ static NSString *collectionview = @"imagecell";
     self.image_arr = [NSMutableArray array];
     self.name_arr = [NSMutableArray array];
     self.url_arr = [NSMutableArray array];
-    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:self.navitionBar.title_label.text];
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:user_id Name:self.navitionBar.title_label.text];
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
     for(int i=0;i<self.need_arr.count;i++){
@@ -264,7 +266,9 @@ static NSString *collectionview = @"imagecell";
     
     
     
-    NSString *user_id = @"12136";
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
     //int x =  arc4random() % 100;
     NSString *needTime;
     needTime=[self getCurrentTime];
@@ -293,9 +297,12 @@ static NSString *collectionview = @"imagecell";
     
     NSData *imageData=UIImageJPEGRepresentation(currentImage, 1);
     NSString *path = self.navitionBar.title_label.text;
-    NSString *user_id = @"12136";
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
     NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,path]]stringByAppendingPathComponent:needImageName];
-      //NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
     NSString *savePath=[NSString stringWithFormat:@"/%@/%@/%@",user_id,path,needImageName];
     [imageData writeToFile:fullPath atomically:NO];
     
@@ -369,10 +376,15 @@ static NSString *collectionview = @"imagecell";
     
     
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
-    //NSString *realName=[aCell.nameStr stringByReplacingOccurrencesOfString:@":" withString:@"/"];
-    NSString *pa = [NSString stringWithFormat:@"%@/12136/%@/%@",paths,self.navitionBar.title_label.text,aCell.nameStr];
+   
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
+    
+    NSString *pa = [NSString stringWithFormat:@"%@/%@/%@/%@",paths,user_id,self.navitionBar.title_label.text,aCell.nameStr];
 
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
+    
 
 }
 

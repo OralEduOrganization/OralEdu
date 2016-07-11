@@ -95,7 +95,10 @@ static NSString *collectionview = @"imagecell";
     
     NSString *receiveStr=(NSString *)[notification object];
     
-    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:@"12136" Name:receiveStr];
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
+    self.need_arr = [Datebase_materallist readmateraldetailsWithuser_id:user_id Name:receiveStr];
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
     for(int i=0;i<self.need_arr.count;i++){
