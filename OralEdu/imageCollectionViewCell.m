@@ -8,6 +8,14 @@
 
 #import "imageCollectionViewCell.h"
 
+@interface imageCollectionViewCell()
+
+@property (nonatomic,strong)UIView          *hubView;
+@property (nonatomic,strong)UIButton        *deleteBtn;
+
+@end
+
+
 @implementation imageCollectionViewCell
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -16,17 +24,12 @@
         self.imageview = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, CGRectGetWidth(self.frame)-10, CGRectGetWidth(self.frame)-10)];
         
         [self addSubview:self.imageview];
-        self.text = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.imageview.frame), CGRectGetWidth(self.frame)-10, 20)];
-        self.text.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:self.text];
+//        self.text = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.imageview.frame), CGRectGetWidth(self.frame)-10, 20)];
+//        self.text.textAlignment = NSTextAlignmentCenter;
+//        [self addSubview:self.text];
         
-        _close  = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage * image = [UIImage imageNamed:@"delete"];
-        [_close setImage:image forState:UIControlStateNormal];
-        [_close setFrame:CGRectMake(self.frame.size.width-image.size.width, 0, image.size.width, image.size.height)];
-        [_close sizeToFit];
-        [_close addTarget:self action:@selector(closeBtn:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_close];
+        //[self changeView];
+        
     }
     return self;
 }
@@ -41,4 +44,48 @@
         [_delegate moveImageBtnClick:self];
     }
 }
+-(void)hideLoginView{
+    if (_delegate && [_delegate respondsToSelector:@selector(moveImageBtnClick:)]) {
+        [_delegate moveImageBtnClick:self];
+    }
+}
+
+-(void)changeView{
+//    [self addSubview:self.hubView];
+//    [self addSubview:self.deleteBtn];
+    _close  = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage * image = [UIImage imageNamed:@"delete"];
+    [_close setImage:image forState:UIControlStateNormal];
+    [_close setFrame:CGRectMake(self.frame.size.width-image.size.width, 0, image.size.width, image.size.height)];
+    [_close sizeToFit];
+    [_close addTarget:self action:@selector(closeBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_close];
+
+}
+-(void)releaseView{
+    [_close removeFromSuperview];
+}
+
+-(UIView *)hubView{
+    if(!_hubView){
+        _hubView = [[UIView alloc]initWithFrame:self.bounds];
+        _hubView.backgroundColor = [UIColor blackColor];
+        _hubView.alpha = 0.7f;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideLoginView)];
+        [_hubView addGestureRecognizer:tap];
+    }
+    return _hubView;
+}
+-(UIButton *)deleteBtn{
+    if(!_deleteBtn){
+        _deleteBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage * image = [UIImage imageNamed:@"delete"];
+        [_deleteBtn setImage:image forState:UIControlStateNormal];
+        [_deleteBtn setFrame:CGRectMake(self.frame.size.width-image.size.width, 0, image.size.width, image.size.height)];
+        [_deleteBtn sizeToFit];
+        [_deleteBtn addTarget:self action:@selector(closeBtn:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _deleteBtn;
+}
+
 @end
