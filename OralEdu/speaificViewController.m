@@ -23,6 +23,7 @@
     int imageName;
     
 }
+
 @property (nonatomic,strong) UIButton *btn;
 @property (nonatomic,strong) UIButton *add_btn;
 @property (nonatomic,strong) UITableView *image_tableview;
@@ -329,4 +330,8 @@ static NSString *collectionview = @"imagecell";
     _cell.backgroundColor=[UIColor clearColor];
 }
 
+-(void)moveImageBtnClick:(imageCollectionViewCell *)aCell
+{
+    NSLog(@"删除图片");
+}
 @end
