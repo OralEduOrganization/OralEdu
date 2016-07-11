@@ -12,13 +12,10 @@
 @property (nonatomic,strong) NSString *pic_imageurlstr;
 @property (nonatomic,strong) NSString *name_str;
 @property (nonatomic,strong) NSString *phone_str;
-@property (nonatomic,strong) NSString *language_str;
 
-@property (nonatomic,strong) NSString *record_str;
 
 - (instancetype)initWithPicurl:(NSString *)setview_url
                           Name:(NSString *)setview_name
-                     phone:(NSString *)setview_phone
-                      language:(NSString *)setview_language;
+                         phone:(NSString *)setview_phone;
 
 @end
