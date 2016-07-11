@@ -108,6 +108,7 @@ static NSString *collectionview = @"imagecell";
 {
     _cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
     _cell.delegate = self;
+    [_cell.close setHidden:YES];
     _cell.imageview.image = self.image_arr[indexPath.item];
     return _cell;
 }
@@ -289,6 +290,11 @@ static NSString *collectionview = @"imagecell";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)rightbtnClick
+{
+    [_cell.close setHidden:NO];
+}
+
 #pragma mark --UICollectionViewDelegateFlowLayout
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -332,6 +338,12 @@ static NSString *collectionview = @"imagecell";
 
 -(void)moveImageBtnClick:(imageCollectionViewCell *)aCell
 {
-    NSLog(@"删除图片");
+    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+    NSLog(@"_____%ld",indexPath.row);
+    [_image_arr removeObjectAtIndex:indexPath.row];
+    
+    
+    [self.image_collectionview reloadData];
+
 }
 @end
