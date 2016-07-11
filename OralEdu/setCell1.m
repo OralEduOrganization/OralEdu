@@ -18,7 +18,7 @@
         [self.contentView addSubview:self.user_image];
         [self.contentView addSubview:self.name_label];
         [self.contentView addSubview:self.phone_label];
-        [self.contentView addSubview:self.language_label];
+       // [self.contentView addSubview:self.language_label];
     }
     return self;
 }
@@ -26,10 +26,18 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.user_image.frame = CGRectMake(20, 20, 80, 80);
-    self.name_label.frame = CGRectMake(120, 25, 150, 30);
-    self.phone_label.frame = CGRectMake(120, 55, 180, 20);
-    self.language_label.frame = CGRectMake(120, 80, 180, 20);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+   // NSLog(@"width = %f,height = %f",width,height);
+    self.user_image.frame = CGRectMake(width*0.04, height *0.025, width*0.19, height*0.11);
+    self.name_label.frame = CGRectMake(width*0.35, height *0.034, width*0.36, height*0.04);
+    self.phone_label.frame = CGRectMake(width *0.35, height *0.1, width*0.43, height*0.023);
+    //self.language_label.frame = CGRectMake(width *0.29, height *0.11, 180, 20);
+
+//    self.user_image.frame = CGRectMake(20, 20, 80, 80);
+//    self.name_label.frame = CGRectMake(120, 25, 150, 30);
+//    self.phone_label.frame = CGRectMake(120, 55, 180, 20);
+//    self.language_label.frame = CGRectMake(120, 80, 180, 20);
 }
 
 -(void)setCellDate:(setModel *)order
@@ -37,7 +45,7 @@
     self.phone_label.text = order.phone_str;
     self.user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:order.pic_imageurlstr]]];
     self.name_label.text = order.name_str;
-    self.language_label.text = order.language_str;
+   // self.language_label.text = order.language_str;
     [self layoutIfNeeded];
 }
 #pragma mark - gertter
@@ -74,15 +82,15 @@
     return _phone_label;
 }
 
--(UILabel *)language_label
-{
-    if(!_language_label)
-    {
-        _language_label = [[UILabel alloc] init];
-       // _language_label.backgroundColor = [UIColor greenColor];
-    }
-    return _language_label;
-}
+//-(UILabel *)language_label
+//{
+//    if(!_language_label)
+//    {
+//        _language_label = [[UILabel alloc] init];
+//       // _language_label.backgroundColor = [UIColor greenColor];
+//    }
+//    return _language_label;
+//}
 
 
 

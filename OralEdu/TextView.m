@@ -23,8 +23,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.user_text.frame= CGRectMake(0, 0, 256, 50);
-    self.pass_text.frame = CGRectMake(0, 50, 256, 50);
+    self.user_text.frame= CGRectMake(0, 0,self.bounds.size.width, self.bounds.size.height / 2);
+    self.pass_text.frame = CGRectMake(0, self.bounds.size.height/2, self.bounds.size.width, self.bounds.size.height/2);
 }
 
 

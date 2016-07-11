@@ -12,6 +12,6 @@
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) UILabel *name_label;
 @property (nonatomic,strong) UILabel *phone_label;
-@property (nonatomic,strong) UILabel *language_label;
+//@property (nonatomic,strong) UILabel *language_label;
 -(void)setCellDate:(setModel *)order;
 @end
