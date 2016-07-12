@@ -100,7 +100,6 @@ static NSString *cellIdentfid3 = @"setcell3";
         NSLog(@"失败");
     }];
     
-    
 }
 
 #pragma mark - gerrers
@@ -316,7 +315,5 @@ static NSString *cellIdentfid3 = @"setcell3";
 {
     NSLog(@"清理成功");
 }
-
-
 
 @end

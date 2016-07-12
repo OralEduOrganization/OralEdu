@@ -42,6 +42,8 @@
     @property (nonatomic,strong) UIView             *hidview;
 
     @property (nonatomic,strong) setview            *sview;
+    @property (nonatomic,strong) UIButton           *rigntbtn;
+
 @end
 
 @implementation faceVideoViewController
@@ -99,11 +101,11 @@
     
     self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
     
-    drawView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
+    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
     
     self.sview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 50);
     
-    self.studentView.frame=CGRectMake(0, 185, [UIScreen mainScreen].bounds.size.width/4, screenWidth/2);
+    self.studentView.frame=CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, screenWidth/2);
     
     self.teacherView.frame=CGRectMake(0, 0, screenHeight/4, screenWidth/2);
     
@@ -250,8 +252,6 @@
 }
 
 -(void)pickColorBtnClick{
-    
-    
     self.sview.pickColorButton.selected=!self.sview.pickColorButton.selected;
     if(!self.pickColorButton.selected){
         
@@ -444,6 +444,7 @@
         [_sview.eraseBtn addTarget:self action:@selector(eraseBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.pickColorButton addTarget:self action:@selector(pickColorBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.pickImageMenuBtn addTarget:self action:@selector(imageMenuPickClick) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.leftbtn addTarget:self action:@selector(suofang) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sview;
 }
@@ -493,6 +494,10 @@
     return _hubView;
 }
 
+
+
+
+
 -(videoRightView*)rightView{
     
     if (!_rightView) {
@@ -518,4 +523,32 @@
     return _imageMenuView;
 }
 
+
+-(void)suofang
+{
+    _rigntbtn = [[UIButton alloc] init];
+    [_rigntbtn setImage:[UIImage imageNamed:@"外拉"] forState:UIControlStateNormal];
+    _rigntbtn.frame = CGRectMake(screenHeight-30, screenWidth-30, 30, 30);
+    [_rigntbtn addTarget:self action:@selector(huanyuan) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_rigntbtn];
+    _rigntbtn.alpha = 0;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.sview.transform = CGAffineTransformMakeTranslation(screenHeight, 0);
+        _rigntbtn.alpha = 1;
+    }completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)huanyuan
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.sview.transform = CGAffineTransformIdentity;
+
+    }completion:^(BOOL finished) {
+        //[self.view addSubview:self.rigntbtn];
+        [self.rigntbtn removeFromSuperview];
+    }];
+  
+}
 @end

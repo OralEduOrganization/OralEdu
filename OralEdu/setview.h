@@ -21,5 +21,5 @@
 @property (nonatomic,strong) UIButton           *leftbtn;
 @property (nonatomic,strong) UIButton           *tackbtn;
 @property (nonatomic,strong) UIButton           *stopbtn;
-
+@property (nonatomic,strong) UIButton           *microphone;
 @end

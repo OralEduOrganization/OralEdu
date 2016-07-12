@@ -74,8 +74,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.user_image.frame = CGRectMake(70, 70, 130, 130);
+    
+    self.user_image.frame = CGRectMake(70, 70, 100, 100);
+    
     _left_tableview.frame = CGRectMake(0, 300, self.view.frame.size.width, 80 * 3);
+    
     self.login_label.frame = CGRectMake(80, 220, 100, 40);
 }
 
@@ -147,7 +150,7 @@
         _user_image = [[UIImageView alloc] init];
         _user_image.backgroundColor = [UIColor greenColor];
         _user_image.layer.masksToBounds = YES;
-        _user_image.layer.cornerRadius = 65;
+        _user_image.layer.cornerRadius = 50;
         leftviewModel *model = self.leftviewarr[0];
         NSURL *url = [NSURL URLWithString:model.leftpic_urlstr];
         _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
