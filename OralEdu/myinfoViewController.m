@@ -235,6 +235,7 @@
                 cell.m_label2.text = _picM.address_str;
             }
             if (indexPath.row == 4) {
+                
                 cell.m_label2.text = @"老师";
             }
             if(indexPath.row == 5)
@@ -281,7 +282,7 @@
     }
     if(indexPath.row == 4)
     {
-        
+        [self shenfeng];
     }
     if(indexPath.row == 5)
     {
@@ -531,5 +532,22 @@
     [self loadDataFromWeb];
 }
 
+-(void)shenfeng
+{
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"选择身份" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"老师" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"学生" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [control addAction:action1];
+    [control addAction:action2];
+    [control addAction:action3];
+    [self presentViewController:control animated:YES completion:nil];
 
+}
 @end
