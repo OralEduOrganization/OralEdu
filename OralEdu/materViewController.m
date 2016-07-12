@@ -112,7 +112,8 @@
     _cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identfider];
     _cell.backgroundColor=[UIColor clearColor];
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UIView *needview=[[UIView alloc]initWithFrame:CGRectMake(10, 5, _cell.bounds.size.width+35, _cell.bounds.size.height-3)];
+    UIView *needview=[[UIView alloc]initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.075, 5,
+                                                             ([UIScreen mainScreen].bounds.size.width)*0.85, _cell.bounds.size.height-3)];
     UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(10, -8, 100, 50)];
     label.text=self.mater_arr[indexPath.row];
     needview.backgroundColor=[UIColor lightGrayColor];

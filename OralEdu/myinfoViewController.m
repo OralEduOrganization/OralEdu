@@ -64,7 +64,7 @@
 {
     [super viewWillAppear:animated];
     self.infotableview.frame = CGRectMake(0, 130, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-130);
-    self.left_btn.frame = CGRectMake(10, 50, 30, 30);
+    self.left_btn.frame = CGRectMake(10, 33, 30, 30);
     self.pic_image.frame = CGRectMake(50, 30, 70, 70);
     self.name_label.frame = CGRectMake(160, 70, 100, 30);
     self.signature_label.frame = CGRectMake(160, 64, 180, 50);

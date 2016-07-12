@@ -13,6 +13,8 @@
 @property (nonatomic,strong) UITextField *nametext;
 @property (nonatomic,strong) NSString *nickname;
 @property (nonatomic,strong) NSString *mobilephone;
+@property (nonatomic,strong) UILabel *label;
+@property (nonatomic,strong) UILabel *xianlabel;
 @end
 
 @implementation nameViewController
@@ -26,6 +28,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
+    [self.view addSubview:self.label];
+    [self.view addSubview:self.xianlabel];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,22 +40,44 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.nametext.frame = CGRectMake(0, 74, [UIScreen mainScreen].bounds.size.width, 50);
+    self.nametext.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04,([UIScreen mainScreen].bounds.size.height)*0.14,
+                                     ([UIScreen mainScreen].bounds.size.width)*0.9, 50);
     [self.nametext becomeFirstResponder];
+    self.label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04, ([UIScreen mainScreen].bounds.size.height)*0.19, 400, 50);
+    self.xianlabel.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04,([UIScreen mainScreen].bounds.size.height)*0.2,
+                                    ([UIScreen mainScreen].bounds.size.width)*0.9,1.2);
 }
-
+-(UILabel *)xianlabel
+{
+    if (!_xianlabel) {
+        _xianlabel=[[UILabel alloc]init];
+        _xianlabel.backgroundColor=[UIColor greenColor];
+    }
+    return _xianlabel;
+}
+-(UILabel *)label
+{
+    if (!_label) {
+        _label=[[UILabel alloc]init];
+       // _label.backgroundColor=[UIColor grayColor];
+        _label.font=[UIFont systemFontOfSize:16];
+        _label.textColor=[UIColor grayColor];
+        _label.text=@"好的名字让你的朋友更容易记住你。";
+    }
+    return _label;
+}
 -(UITextField *)nametext
 {
     if(!_nametext)
     {
         _nametext = [[UITextField alloc] init];
         _nametext.delegate = self;
-        _nametext.backgroundColor= [UIColor lightGrayColor];
+        //_nametext.backgroundColor= [UIColor lightGrayColor];
         _nametext.layer.masksToBounds = YES;
 //        _nametext.layer.cornerRadius = 30;
         _nametext.placeholder = @"请输入新的用户名";
         _nametext.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _nametext.borderStyle = UITextBorderStyleBezel;
+        //_nametext.borderStyle = UITextBorderStyleBezel;
 
     }
     return _nametext;
