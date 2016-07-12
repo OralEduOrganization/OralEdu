@@ -20,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    TapGestureTecognizer.cancelsTouchesInView=NO;
+    [self.view addGestureRecognizer:TapGestureTecognizer];
+
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
 
     [self.view addSubview:self.oldphonetext];
@@ -105,5 +109,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)keyboardHide:(id)sender
+{
+    [self.oldphonetext resignFirstResponder];
+    [self.newphonetext resignFirstResponder];
+}
 
 @end
