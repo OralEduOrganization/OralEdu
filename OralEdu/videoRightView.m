@@ -207,9 +207,10 @@
     }
     return _aimColorLabel;
 }
+
 -(UIButton *)confirmBtn{
     if(!_confirmBtn){
-        _confirmBtn=[[UIButton alloc]initWithFrame:CGRectMake(47, 360, 100, 50)];
+        _confirmBtn=[[UIButton alloc]initWithFrame:CGRectMake(0, 5, 100, 50)];
         [_confirmBtn addTarget:self action:@selector(confirmBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_confirmBtn setTitle:@"确认颜色" forState:UIControlStateNormal];
         _confirmBtn.titleLabel.font=[UIFont systemFontOfSize:15];
