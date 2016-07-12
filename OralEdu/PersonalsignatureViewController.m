@@ -14,7 +14,7 @@
 @property (nonatomic,strong) UILabel *xian_label;
 @end
 
-#define MAX_LIMIT_NUMS 140
+#define MAX_LIMIT_NUMS 30
 
 @implementation PersonalsignatureViewController
 

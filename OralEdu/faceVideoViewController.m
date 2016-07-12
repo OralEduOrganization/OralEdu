@@ -44,6 +44,7 @@
     @property (nonatomic,strong) setview            *sview;
     @property (nonatomic,strong) UIButton           *rigntbtn;
 
+
 @end
 
 @implementation faceVideoViewController

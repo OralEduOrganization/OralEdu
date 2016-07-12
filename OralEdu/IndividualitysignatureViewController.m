@@ -21,6 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
+    TapGestureTecognizer.cancelsTouchesInView=NO;
+    [self.view addGestureRecognizer:TapGestureTecognizer];
+
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     [self.view addSubview:self.person_view];
     [self.view addSubview:self.number_label];
@@ -36,6 +40,7 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -44,10 +49,13 @@
                                         ([UIScreen mainScreen].bounds.size.width)*0.9, 50);
     self.number_label.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.81,
                                          ([UIScreen mainScreen].bounds.size.height)*0.15, 55, 30);
+    
     self.xian_label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.05,
-                                     ([UIScreen mainScreen].bounds.size.height*0.19),
+                                     ([UIScreen mainScreen].bounds.size.height*0.29),
                                      ([UIScreen mainScreen].bounds.size.width)*0.9,1);
+    
 }
+
 -(UILabel *)xian_label
 {
     if (!_xian_label) {
@@ -56,6 +64,7 @@
     }
     return _xian_label;
 }
+
 -(UILabel *)number_label
 {
     if (!_number_label) {
@@ -133,8 +142,6 @@
     //不让显示负数
     self.number_label.text = [NSString stringWithFormat:@"%ld/%d",MAX(0,MAX_LIMIT_NUMS - existTextNum),MAX_LIMIT_NUMS];
 }
-
-
 
 //点击空白处回收键盘
 -(void)keyboardHide

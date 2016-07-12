@@ -477,10 +477,10 @@
         //获取当前时间所闻文件名，防止图片重复
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
-        
-        //        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
-        //        UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-        
+//        
+//                NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
+//                UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
+//        
         
         //NSString *str = [formatter stringFromDate:[NSDate date]];
         NSData *data = UIImageJPEGRepresentation(image, 0.1);
@@ -493,8 +493,10 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
         
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
+        
     }];
     
     

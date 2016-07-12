@@ -43,8 +43,8 @@
     self.nametext.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04,([UIScreen mainScreen].bounds.size.height)*0.14,
                                      ([UIScreen mainScreen].bounds.size.width)*0.9, 50);
     [self.nametext becomeFirstResponder];
-    self.label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04, ([UIScreen mainScreen].bounds.size.height)*0.19, 400, 50);
-    self.xianlabel.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04,([UIScreen mainScreen].bounds.size.height)*0.2,
+    self.label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04, ([UIScreen mainScreen].bounds.size.height)*0.29, 400, 50);
+    self.xianlabel.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.04,([UIScreen mainScreen].bounds.size.height)*0.25,
                                     ([UIScreen mainScreen].bounds.size.width)*0.9,1.2);
 }
 -(UILabel *)xianlabel
