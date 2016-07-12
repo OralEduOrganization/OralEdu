@@ -92,7 +92,7 @@ static NSString *collectionview = @"imagecell";
 #pragma mark - privateMethod
 
 -(void)toReturnDocument:(NSNotification *)notification{
-    
+    self.image_arr = [NSMutableArray array];
     NSString *receiveStr=(NSString *)[notification object];
     
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];

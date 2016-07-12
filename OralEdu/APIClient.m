@@ -16,8 +16,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedClient = [[APIClient alloc]initWithBaseURL:
-                         [NSURL URLWithString:@"http://127.0.0.1"]];
-                         //[NSURL URLWithString:@"http://10.1.34.24"]];
+                         //[NSURL URLWithString:@"http://127.0.0.1"]];
+                         [NSURL URLWithString:@"http://10.1.33.133"]];
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         [_sharedClient.requestSerializer setValue:@"2" forHTTPHeaderField:@"Accept"];
@@ -25,6 +25,5 @@
     return _sharedClient;
     
 }
-
 
 @end
