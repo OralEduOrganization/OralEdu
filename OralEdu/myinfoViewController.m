@@ -478,17 +478,18 @@
         //获取当前时间所闻文件名，防止图片重复
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
-//        
-//                NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
-//                UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-//        
-        
-        //NSString *str = [formatter stringFromDate:[NSDate date]];
+
         NSData *data = UIImageJPEGRepresentation(image, 0.1);
         
-        [formData appendPartWithFileData:data name:@"file" fileName:@"aaa" mimeType:@"image/png"];
         
-        //        Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." UserInfo={NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        
+        [formData appendPartWithFileData:data name:@"file" fileName:name mimeType:@"image/png"];
+        
+       
+        
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -526,7 +527,6 @@
     [control addAction:action2];
     [self presentViewController:control animated:YES completion:nil];
 }
-
 
 -(void)login{
     [self loadDataFromWeb];

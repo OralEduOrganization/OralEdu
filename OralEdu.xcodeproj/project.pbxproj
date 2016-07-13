@@ -14,6 +14,9 @@
 		530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E4A1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m */; };
 		530F6E771D27DAD900A3A2AE /* setCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E761D27DAD900A3A2AE /* setCell1.m */; };
 		530F6E7A1D27DAE600A3A2AE /* setCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E791D27DAE600A3A2AE /* setCell2.m */; };
+		53269B501D3633FC000D9EBA /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53269B4B1D3633FC000D9EBA /* ChatCell.m */; };
+		53269B511D3633FC000D9EBA /* SRChatFrameInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 53269B4D1D3633FC000D9EBA /* SRChatFrameInfo.m */; };
+		53269B521D3633FC000D9EBA /* SRChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53269B4F1D3633FC000D9EBA /* SRChatModel.m */; };
 		53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53371D491D226DFE0040F7A7 /* QuartzCore.framework */; };
 		53371D4D1D22BD800040F7A7 /* imageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53371D4C1D22BD800040F7A7 /* imageTableViewCell.m */; };
 		53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53371D4E1D22D1540040F7A7 /* libsqlite3.0.tbd */; };
@@ -128,6 +131,12 @@
 		530F6E761D27DAD900A3A2AE /* setCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = setCell1.m; sourceTree = "<group>"; };
 		530F6E781D27DAE600A3A2AE /* setCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setCell2.h; sourceTree = "<group>"; };
 		530F6E791D27DAE600A3A2AE /* setCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = setCell2.m; sourceTree = "<group>"; };
+		53269B4A1D3633FC000D9EBA /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		53269B4B1D3633FC000D9EBA /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
+		53269B4C1D3633FC000D9EBA /* SRChatFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRChatFrameInfo.h; sourceTree = "<group>"; };
+		53269B4D1D3633FC000D9EBA /* SRChatFrameInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRChatFrameInfo.m; sourceTree = "<group>"; };
+		53269B4E1D3633FC000D9EBA /* SRChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRChatModel.h; sourceTree = "<group>"; };
+		53269B4F1D3633FC000D9EBA /* SRChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRChatModel.m; sourceTree = "<group>"; };
 		53371D491D226DFE0040F7A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		53371D4B1D22BD800040F7A7 /* imageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageTableViewCell.h; sourceTree = "<group>"; };
 		53371D4C1D22BD800040F7A7 /* imageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageTableViewCell.m; sourceTree = "<group>"; };
@@ -1249,6 +1258,12 @@
 		FECC94681D261210006F955A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				53269B4A1D3633FC000D9EBA /* ChatCell.h */,
+				53269B4B1D3633FC000D9EBA /* ChatCell.m */,
+				53269B4C1D3633FC000D9EBA /* SRChatFrameInfo.h */,
+				53269B4D1D3633FC000D9EBA /* SRChatFrameInfo.m */,
+				53269B4E1D3633FC000D9EBA /* SRChatModel.h */,
+				53269B4F1D3633FC000D9EBA /* SRChatModel.m */,
 				FECC946D1D2636F7006F955A /* PIDrawerView.h */,
 				FECC946E1D2636F7006F955A /* PIDrawerView.m */,
 				FECC94781D266937006F955A /* videoRightView.h */,
@@ -1353,6 +1368,7 @@
 				530F6E771D27DAD900A3A2AE /* setCell1.m in Sources */,
 				530538E01D1C096E001736B3 /* leftCell.m in Sources */,
 				53E91A261D1B70E40091E85A /* ViewController.m in Sources */,
+				53269B501D3633FC000D9EBA /* ChatCell.m in Sources */,
 				538C3D031D2FA68A00AEBE47 /* mobilephoneViewController.m in Sources */,
 				53D2ACE11D2373D1001BA2C2 /* NSString+SZYKit.m in Sources */,
 				53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */,
@@ -1403,6 +1419,7 @@
 				538D2E641D1E12E300BB9588 /* picModel.m in Sources */,
 				535FE8DF1D254070004C6100 /* imageCollectionViewCell.m in Sources */,
 				538D2E5E1D1D648D00BB9588 /* infoTableViewCell1.m in Sources */,
+				53269B511D3633FC000D9EBA /* SRChatFrameInfo.m in Sources */,
 				53D2ACD81D235CC0001BA2C2 /* FMDatabaseAdditions.m in Sources */,
 				53B9C8741D24FF56003C629B /* AFHTTPSessionManager.m in Sources */,
 				534522D61D1BFD440055C0EE /* homeCell.m in Sources */,
@@ -1419,6 +1436,7 @@
 				53E91A401D1B72A50091E85A /* homeViewController.m in Sources */,
 				FECC947A1D266938006F955A /* videoRightView.m in Sources */,
 				FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */,
+				53269B521D3633FC000D9EBA /* SRChatModel.m in Sources */,
 				53B9C8761D24FF56003C629B /* AFSecurityPolicy.m in Sources */,
 				538D2E511D1D38B400BB9588 /* aboutViewController.m in Sources */,
 				530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */,

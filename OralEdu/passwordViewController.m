@@ -207,6 +207,7 @@
                     [self.navigationController popViewControllerAnimated:YES];
                     //保存登录信息
                     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+                    
                     [defaultes setObject:self.user_namestr forKey:@"name"];
                     [defaultes setObject:self.newpassword_str forKey:@"password"];
                     [defaultes synchronize];

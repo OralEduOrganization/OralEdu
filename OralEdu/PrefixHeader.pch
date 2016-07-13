@@ -45,4 +45,27 @@
 # define IFLY_ALIGN_LEFT NSTextAlignmentLeft
 #else
 # define IFLY_ALIGN_LEFT UITextAlignmentLeft
+#define  screenW    [UIScreen mainScreen].bounds.size.width
+
+//屏幕宽高
+#define  screenW     [UIScreen mainScreen].bounds.size.width
+#define  screenH     [UIScreen mainScreen].bounds.size.height
+
+//设置比例
+#define  scaleW  414/640
+#define scaleH   736/1136
+
+//设置图片大小
+#define kPictureImageViewMaxWidth 200*scaleW
+#define kPictureImageViewMaxHeight 200*scaleW
+
+
+
+//RGB设置
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#define UIThemeColor UIColorFromRGB(0x26252A) //背景黑色
+#define UIBottomViewColor UIColorFromRGB(0xF2F2F5) //底部白色
+#define UIChatViewColor UIColorFromRGB(0xE6E6E6) //聊天窗口白色
+
+
 #endif

@@ -17,9 +17,10 @@
 @property (nonatomic,strong) UIButton           *pickImageMenuBtn;
 @property (nonatomic,strong) UIButton           *camerabtn;
 @property (nonatomic,strong) UIButton           *backBtn;
-
 @property (nonatomic,strong) UIButton           *leftbtn;
 @property (nonatomic,strong) UIButton           *tackbtn;
 @property (nonatomic,strong) UIButton           *stopbtn;
 @property (nonatomic,strong) UIButton           *microphone;
+@property (nonatomic,strong) UIButton           *speakbtn;
+@property (nonatomic,strong) UIButton           *speakbackbtn;
 @end

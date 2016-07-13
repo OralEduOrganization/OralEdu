@@ -25,6 +25,8 @@
         [self addSubview:self.tackbtn];
         [self addSubview:self.stopbtn];
         [self addSubview:self.microphone];
+        [self addSubview:self.speakbtn];
+        [self addSubview:self.speakbackbtn];
     }
     return self;
 }
@@ -42,6 +44,8 @@
     self.tackbtn.frame = CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
     self.stopbtn.frame = CGRectMake(self.frame.size.width/4+10, 10, 30, 30);
     self.microphone.frame = CGRectMake(self.frame.size.width/4+50, 10, 30, 30);
+    self.speakbtn.frame = CGRectMake(10, 10, 120, 30);
+    self.speakbackbtn.frame =  CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
 }
 
 -(UIButton *)writeButton
@@ -145,6 +149,33 @@
     }
     return _microphone;
 }
+
+
+-(UIButton *)speakbtn
+{
+    if(!_speakbtn)
+    {
+        _speakbtn = [[UIButton alloc] init];
+        [_speakbtn setHidden:YES];
+        [_speakbtn setImage:[UIImage imageNamed:@"按住说话"] forState:UIControlStateNormal];
+    }
+    return _speakbtn;
+}
+
+-(UIButton *)speakbackbtn
+{
+    if(!_speakbackbtn)
+    {
+        _speakbackbtn = [[UIButton alloc] init];
+        [_speakbackbtn setImage:[UIImage imageNamed:@"聊天返回"] forState:UIControlStateNormal];
+        [_speakbackbtn setHidden:YES];
+    }
+    return _speakbackbtn;
+}
+
+
+
+
 
 @end
 
