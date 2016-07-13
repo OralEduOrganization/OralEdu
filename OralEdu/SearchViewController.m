@@ -10,6 +10,9 @@
 #import "hisModel.h"
 #import "hisView.h"
 #import "searchcell.h"
+static NSString *identfider = @"historycell";
+static NSString *identfider2 = @"scarchcell";
+
 @interface SearchViewController ()
 {
     int a;//1搜索完成
@@ -28,8 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
@@ -40,7 +41,6 @@
     [self.view addSubview:self.searchbar];
     [self.view addSubview:self.hisv];
     [self.hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,9 +55,8 @@
     [self.searchbar becomeFirstResponder];
     
     self.hid_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 65, 20, 20);
-    self.history_tableview.frame = CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, 150);
+    self.history_tableview.frame = CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, 200);
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
-    
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
 
@@ -94,13 +93,11 @@
     return _searchbar;
 }
 
-
 -(hisView *)hisv
 {
     if(!_hisv)
     {
         _hisv = [[hisView alloc] init];
-        //_hisv.backgroundColor  = [UIColor lightGrayColor];
         _hisv.his_tableview.dataSource = self;
         _hisv.his_tableview.delegate = self;
       
@@ -113,7 +110,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (a==1) {
-        return self.array1.count;
+        return 1;
     }
     else
     {
@@ -124,17 +121,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    static NSString *identfider = @"historycell";
-    static NSString *identfider2 = @"scarchcell";
     
     if(a==1){
         searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
         cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
-        cell.identity_label.text = self.array1[indexPath.row];
         return cell;
     
     }else{
-    
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
         if(!cell)
         {
@@ -143,11 +136,7 @@
         }
         
         return cell;
-
     }
-    
-    
-    
 }
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -193,7 +182,7 @@
     });
     
 
-   // [self.hisv.his_tableview reloadData];
+    [self.hisv.his_tableview reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -232,7 +221,7 @@
 -(void)hidtableview
 {
     NSLog(@"123");
-    //[self.hisv setHidden:YES];
+    [self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
 }
 

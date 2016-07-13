@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "ITRAirSideMenu.h"
-@interface aboutViewController : BaseViewController
+@interface aboutViewController : BaseViewController<UITextViewDelegate>
 
 @end

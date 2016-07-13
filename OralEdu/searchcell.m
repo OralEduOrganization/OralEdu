@@ -9,16 +9,18 @@
 #import "searchcell.h"
 
 @implementation searchcell
-- (instancetype)initWithFrame:(CGRect)frame
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithFrame:frame];
+    self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self addSubview:self.xingming_label];
         [self addSubview:self.head_image];
         [self addSubview:self.identity_label];
-        [self addSubview:self.line_view];
+       [self addSubview:self.line_view];
         [self addSubview:self.intro_label];
         [self addSubview:self.in_text];
+        UITableView *tableView;
+        tableView.tableFooterView = [[UIView alloc]init];
     }
     return self;
 }
@@ -29,7 +31,7 @@
     
     CGFloat width = self.frame.size.width;
     CGFloat height = self.frame.size.height;
-    //NSLog(@"width = %f,height = %f",width,height);
+   // NSLog(@"width = %f,height = %f",width,height);
     self.xingming_label.frame = CGRectMake(width *0.37, (height*0.6-(height*0.24))/2, width *0.2, height *0.24);
     self.identity_label.frame = CGRectMake(width *0.62,(height*0.6-(height*0.18))/2, width *0.3, height *0.18);
     self.head_image.frame = CGRectMake(width *0.04 , height *0.06, width*0.23, width*0.23);
@@ -37,13 +39,17 @@
     self.intro_label.frame = CGRectMake(width *0.04, height*0.65,width *0.25, height *0.15);
     self.in_text.frame = CGRectMake(width*0.25, height *0.63, 235, height*0.35);
 }
+#pragma mark-UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    return NO;
+}
 #pragma mark - getters
 -(UILabel *)xingming_label
 {
     if (!_xingming_label) {
         _xingming_label = [[UILabel alloc]init];
         _xingming_label.text = @"姓名";
-        _xingming_label.font = [UIFont systemFontOfSize:17];
+       _xingming_label.font = [UIFont systemFontOfSize:17];
     }
     return _xingming_label;
 }
@@ -68,20 +74,12 @@
     }
     return _head_image;
 }
--(UIView *)line_view
-{
-    if (!_line_view) {
-        _line_view = [[UIView alloc]init];
-        _line_view.backgroundColor = [UIColor blackColor];
-    }
-    return _line_view;
-}
 -(UILabel *)intro_label
 {
     if (!_intro_label) {
         _intro_label = [[UILabel alloc]init];
         _intro_label.font = [UIFont systemFontOfSize:13];
-//        _intro_label.text = @"个人简介:";
+        _intro_label.text = @"个人简介:";
         _intro_label.textColor = [UIColor grayColor];
         
     }
@@ -96,4 +94,5 @@
     }
     return _in_text;
 }
+
 @end
