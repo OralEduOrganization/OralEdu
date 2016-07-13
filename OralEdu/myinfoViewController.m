@@ -140,7 +140,7 @@
     if(!_pic_image)
     {
         _pic_image = [[UIImageView alloc] init];
-        _pic_image.backgroundColor = [UIColor greenColor];
+       // _pic_image.backgroundColor = [UIColor greenColor];
         _pic_image.layer.masksToBounds = YES;
         _pic_image.layer.cornerRadius = 35;
         

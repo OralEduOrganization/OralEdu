@@ -148,7 +148,7 @@
     if(!_user_image)
     {
         _user_image = [[UIImageView alloc] init];
-        _user_image.backgroundColor = [UIColor greenColor];
+        //_user_image.backgroundColor = [UIColor greenColor];
         _user_image.layer.masksToBounds = YES;
         _user_image.layer.cornerRadius = 50;
         leftviewModel *model = self.leftviewarr[0];

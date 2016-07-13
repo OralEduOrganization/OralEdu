@@ -9,13 +9,21 @@
 #import "SearchViewController.h"
 #import "hisModel.h"
 #import "hisView.h"
+#import "searchcell.h"
+static NSString *identfider = @"historycell";
+static NSString *identfider2 = @"scarchcell";
+
 @interface SearchViewController ()
+{
+    int a;//1搜索完成
+}
 @property (nonatomic,strong) UISearchBar *searchbar;
 @property (nonatomic,strong) UITableView *history_tableview;
 @property (nonatomic,strong) NSMutableArray *his_arr;
 @property (nonatomic,strong) UIButton *hid_btn;
 @property (nonatomic,strong) UILabel *m_label;
 @property (nonatomic,strong) hisView *hisv;
+@property (nonatomic,strong) NSMutableArray *array1;
 @end
 
 @implementation SearchViewController
@@ -47,9 +55,8 @@
     [self.searchbar becomeFirstResponder];
     
     self.hid_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 65, 20, 20);
-    self.history_tableview.frame = CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, 150);
+    self.history_tableview.frame = CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, 200);
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
-    
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
 
@@ -86,13 +93,11 @@
     return _searchbar;
 }
 
-
 -(hisView *)hisv
 {
     if(!_hisv)
     {
         _hisv = [[hisView alloc] init];
-        //_hisv.backgroundColor  = [UIColor lightGrayColor];
         _hisv.his_tableview.dataSource = self;
         _hisv.his_tableview.delegate = self;
       
@@ -104,19 +109,45 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (a==1) {
+        return 1;
+    }
+    else
+    {
     return self.his_arr.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identfider = @"historycell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
-    if(!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
-        cell.textLabel.text = self.his_arr[indexPath.row];
+    
+    
+    if(a==1){
+        searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
+        cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
+        return cell;
+    
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
+        if(!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
+            cell.textLabel.text = self.his_arr[indexPath.row];
+        }
+        
+        return cell;
     }
-    return cell;
+}
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (a==1) {
+        return 200;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 #pragma mark - 实现方法
@@ -127,9 +158,9 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
+    
     NSLog(@"shouldBeginEditing");
     return YES;
-    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -137,6 +168,21 @@
     //点击搜索按钮
     [self.searchbar resignFirstResponder];
     [self.hisv setHidden:YES];
+    a=1;
+    NSLog(@"123");
+    
+    [self.view addSubview:self.history_tableview];
+    
+    
+    
+    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+        
+           [self.history_tableview reloadData];
+        
+    });
+    
+
+    [self.hisv.his_tableview reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -175,7 +221,16 @@
 -(void)hidtableview
 {
     NSLog(@"123");
-    //[self.hisv setHidden:YES];
+    [self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
+}
+
+-(UITableView *)history_tableview{
+    if(!_history_tableview){
+        _history_tableview = [[UITableView alloc] init];
+        _history_tableview.delegate=self;
+        _history_tableview.dataSource=self;
+    }
+    return _history_tableview;
 }
 @end

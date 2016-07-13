@@ -49,13 +49,14 @@
         
         //验证登录信息
         NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-      //  NSString *password = [defaultes objectForKey:@"password"];
+        NSString *password = [defaultes objectForKey:@"password"];
         NSString *oldmobile = [defaultes objectForKey:@"name"];
-//        if (self.passworetext.text!=password) {
-//            NSLog(@"密码不正确");
-//        }
-//        else
-//        {
+        if (self.passworetext.text!=password) {
+            NSLog(@"密码不正确");
+            [MBProgressHUD showError:@"密码错误"];
+        }
+        else
+        {
         
             NSDictionary *para=@{@"user_moblie":oldmobile,@"user_newmoblie":self.newphonetext.text};
 
@@ -89,7 +90,7 @@
             
             
         
-//        }
+        }
         
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -128,6 +129,7 @@
         _newphonetext.clearButtonMode=UITextFieldViewModeWhileEditing;
         _newphonetext.leftView = self.leftview;
         _newphonetext.leftViewMode=UITextFieldViewModeAlways;
+        _newphonetext.keyboardType = UIKeyboardTypePhonePad;
     }
     return _newphonetext;
 }
