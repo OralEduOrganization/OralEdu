@@ -9,13 +9,18 @@
 #import "SearchViewController.h"
 #import "hisModel.h"
 #import "hisView.h"
+#import "searchcell.h"
 @interface SearchViewController ()
+{
+    int a;//1搜索完成
+}
 @property (nonatomic,strong) UISearchBar *searchbar;
 @property (nonatomic,strong) UITableView *history_tableview;
 @property (nonatomic,strong) NSMutableArray *his_arr;
 @property (nonatomic,strong) UIButton *hid_btn;
 @property (nonatomic,strong) UILabel *m_label;
 @property (nonatomic,strong) hisView *hisv;
+@property (nonatomic,strong) NSMutableArray *array1;
 @end
 
 @implementation SearchViewController
@@ -23,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
@@ -33,6 +40,7 @@
     [self.view addSubview:self.searchbar];
     [self.view addSubview:self.hisv];
     [self.hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,19 +112,53 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (a==1) {
+        return self.array1.count;
+    }
+    else
+    {
     return self.his_arr.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *identfider = @"historycell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
-    if(!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
-        cell.textLabel.text = self.his_arr[indexPath.row];
+    static NSString *identfider2 = @"scarchcell";
+    
+    if(a==1){
+        searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
+        cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
+        cell.identity_label.text = self.array1[indexPath.row];
+        return cell;
+    
+    }else{
+    
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
+        if(!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
+            cell.textLabel.text = self.his_arr[indexPath.row];
+        }
+        
+        return cell;
+
     }
-    return cell;
+    
+    
+    
+}
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (a==1) {
+        return 200;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 #pragma mark - 实现方法
@@ -127,9 +169,9 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
+    
     NSLog(@"shouldBeginEditing");
     return YES;
-    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -137,6 +179,21 @@
     //点击搜索按钮
     [self.searchbar resignFirstResponder];
     [self.hisv setHidden:YES];
+    a=1;
+    NSLog(@"123");
+    
+    [self.view addSubview:self.history_tableview];
+    
+    
+    
+    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+        
+           [self.history_tableview reloadData];
+        
+    });
+    
+
+   // [self.hisv.his_tableview reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -177,5 +234,14 @@
     NSLog(@"123");
     //[self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
+}
+
+-(UITableView *)history_tableview{
+    if(!_history_tableview){
+        _history_tableview = [[UITableView alloc] init];
+        _history_tableview.delegate=self;
+        _history_tableview.dataSource=self;
+    }
+    return _history_tableview;
 }
 @end

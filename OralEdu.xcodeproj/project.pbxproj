@@ -99,6 +99,7 @@
 		53E91A441D1B72D50091E85A /* ITRAirSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A431D1B72D50091E85A /* ITRAirSideMenu.m */; };
 		53E91A4B1D1B73790091E85A /* leftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A4A1D1B73790091E85A /* leftViewController.m */; };
 		53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A571D1BB9860091E85A /* SearchViewController.m */; };
+		5828C3C71D34E6130075942B /* searchcell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5828C3C61D34E6130075942B /* searchcell.m */; };
 		585615171D332D4D00B54508 /* UIImage+needkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 585615161D332D4D00B54508 /* UIImage+needkit.m */; };
 		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
@@ -281,6 +282,8 @@
 		53E91A4A1D1B73790091E85A /* leftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftViewController.m; sourceTree = "<group>"; };
 		53E91A561D1BB9860091E85A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		53E91A571D1BB9860091E85A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		5828C3C51D34E6130075942B /* searchcell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchcell.h; sourceTree = "<group>"; };
+		5828C3C61D34E6130075942B /* searchcell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchcell.m; sourceTree = "<group>"; };
 		585615151D332D4D00B54508 /* UIImage+needkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+needkit.h"; sourceTree = "<group>"; };
 		585615161D332D4D00B54508 /* UIImage+needkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+needkit.m"; sourceTree = "<group>"; };
 		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
@@ -670,6 +673,8 @@
 			children = (
 				538D2E931D1EAC6000BB9588 /* hisView.h */,
 				538D2E941D1EAC6000BB9588 /* hisView.m */,
+				5828C3C51D34E6130075942B /* searchcell.h */,
+				5828C3C61D34E6130075942B /* searchcell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1371,6 +1376,7 @@
 				539313701D1BCB860035D874 /* registerViewController.m in Sources */,
 				538D2E5B1D1D5CFC00BB9588 /* myinfoViewController.m in Sources */,
 				53B9C87D1D2500E8003C629B /* APIClient.m in Sources */,
+				5828C3C71D34E6130075942B /* searchcell.m in Sources */,
 				5379B5261D29318D00D38D4C /* infoCell3.m in Sources */,
 				53B9C8791D24FF56003C629B /* AFURLSessionManager.m in Sources */,
 				53D402A51D34830A00B91958 /* setview.m in Sources */,
