@@ -25,7 +25,7 @@
     [self.view addGestureRecognizer:TapGestureTecognizer];
 
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
-
+    [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
     [self.view addSubview:self.oldphonetext];
     [self.view addSubview:self.newphonetext];
 }
@@ -40,6 +40,11 @@
                                        ([UIScreen mainScreen].bounds.size.width)*0.8, 50);
     self.newphonetext.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.1, 190,
                                        ([UIScreen mainScreen].bounds.size.width)*0.8, 50);
+}
+-(void)rightbtnClick
+{
+    
+    NSLog(@"xiugai");
 }
 
 -(UITextField *)oldphonetext

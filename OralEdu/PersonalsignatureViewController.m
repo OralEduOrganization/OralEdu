@@ -11,9 +11,10 @@
 @interface PersonalsignatureViewController ()<UITextViewDelegate>
 @property (nonatomic,strong) UITextView *person_view;
 @property (nonatomic,strong) UILabel *number_label;
+@property (nonatomic,strong) UILabel *xian_label;
 @end
 
-#define MAX_LIMIT_NUMS 140
+#define MAX_LIMIT_NUMS 30
 
 @implementation PersonalsignatureViewController
 
@@ -27,6 +28,7 @@
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.view addSubview:self.person_view];
     [self.view addSubview:self.number_label];
+    [self.view addSubview:self.xian_label];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,9 +40,20 @@
 {
     [super viewWillAppear:animated];
     self.person_view.frame = CGRectMake(0, 79,[UIScreen mainScreen].bounds.size.width, 150);
-    self.number_label.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-80, 179, 80, 50);
+    self.number_label.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-80,
+                                         ([UIScreen mainScreen].bounds.size.height)*0.42, 80, 50);
+    self.xian_label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.05,
+                                     ([UIScreen mainScreen].bounds.size.height*0.39),
+                                     ([UIScreen mainScreen].bounds.size.width)*0.9,1);
 }
-
+-(UILabel *)xian_label
+{
+    if (!_xian_label) {
+        _xian_label=[[UILabel alloc] init];
+        _xian_label.backgroundColor=[UIColor greenColor];
+    }
+    return _xian_label;
+}
 
 -(UITextView *)person_view
 {
@@ -49,6 +62,7 @@
         _person_view = [[UITextView alloc] init];
         _person_view.delegate = self;
         _person_view.backgroundColor = [UIColor lightGrayColor];
+        _person_view.font=[UIFont systemFontOfSize:30];
         _person_view.returnKeyType = UIReturnKeyJoin;//返回键的类型
         
     }

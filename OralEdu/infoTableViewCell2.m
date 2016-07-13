@@ -56,7 +56,8 @@
     [self.m_label1 removeFromSuperview];
     [self.m_label2 removeFromSuperview];
     
-    self.m_label3=[[UILabel alloc]initWithFrame:CGRectMake(90, 10, 200, 50)];
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    self.m_label3=[[UILabel alloc]initWithFrame:CGRectMake((width-200)/2, 10, 200, 50)];
     self.m_label3.textAlignment = NSTextAlignmentCenter;
 //    self.m_label3.backgroundColor=[UIColor whiteColor];
        self.m_label3.layer.cornerRadius = 26;

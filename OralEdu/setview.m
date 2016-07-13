@@ -23,6 +23,8 @@
         [self addSubview:self.camerabtn];
         [self addSubview:self.leftbtn];
         [self addSubview:self.tackbtn];
+        [self addSubview:self.stopbtn];
+        [self addSubview:self.microphone];
     }
     return self;
 }
@@ -30,15 +32,16 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.pickImageMenuBtn.frame = CGRectMake(self.frame.size.width-100, 10, 30, 30);
-    self.pickColorButton.frame = CGRectMake(self.frame.size.width-200, 10, 30, 30);
-    self.eraseBtn.frame = CGRectMake(self.frame.size.width-300, 10, 30, 30);
-    self.writeButton.frame = CGRectMake(self.frame.size.width-250, 10, 30, 30);
-    self.clearBtn.frame = CGRectMake(self.frame.size.width-150, 10, 30, 30);
+    self.pickImageMenuBtn.frame = CGRectMake(self.frame.size.width*0.85, 10, 30, 30);
+    self.pickColorButton.frame = CGRectMake(self.frame.size.width*0.75, 10, 30, 30);
+    self.eraseBtn.frame = CGRectMake(self.frame.size.width*0.55, 10, 30, 30);
+    self.writeButton.frame = CGRectMake(self.frame.size.width*0.65, 10, 30, 30);
+    self.clearBtn.frame = CGRectMake(self.frame.size.width*0.45, 10, 30, 30);
     self.camerabtn.frame = CGRectMake(0, 10, 30, 30);
     self.leftbtn.frame = CGRectMake(self.frame.size.width-30, 10, 30, 30);
     self.tackbtn.frame = CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
-    
+    self.stopbtn.frame = CGRectMake(self.frame.size.width/4+10, 10, 30, 30);
+    self.microphone.frame = CGRectMake(self.frame.size.width/4+50, 10, 30, 30);
 }
 
 -(UIButton *)writeButton
@@ -123,6 +126,25 @@
     return _tackbtn;
 }
 
+-(UIButton *)stopbtn
+{
+    if(!_stopbtn)
+    {
+        _stopbtn = [[UIButton alloc] init];
+        [_stopbtn setImage:[UIImage imageNamed:@"挂断"] forState:UIControlStateNormal];
+    }
+    return _stopbtn;
+}
+
+-(UIButton *)microphone
+{
+    if(!_microphone)
+    {
+        _microphone = [[UIButton alloc] init];
+        [_microphone setImage:[UIImage imageNamed:@"麦克风"] forState:UIControlStateNormal];
+    }
+    return _microphone;
+}
 
 @end
 

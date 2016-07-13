@@ -64,7 +64,7 @@
 {
     [super viewWillAppear:animated];
     self.infotableview.frame = CGRectMake(0, 130, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-130);
-    self.left_btn.frame = CGRectMake(10, 50, 30, 30);
+    self.left_btn.frame = CGRectMake(10, 33, 30, 30);
     self.pic_image.frame = CGRectMake(50, 30, 70, 70);
     self.name_label.frame = CGRectMake(160, 70, 100, 30);
     self.signature_label.frame = CGRectMake(160, 64, 180, 50);
@@ -235,6 +235,7 @@
                 cell.m_label2.text = _picM.address_str;
             }
             if (indexPath.row == 4) {
+                
                 cell.m_label2.text = @"老师";
             }
             if(indexPath.row == 5)
@@ -281,7 +282,7 @@
     }
     if(indexPath.row == 4)
     {
-        
+        [self shenfeng];
     }
     if(indexPath.row == 5)
     {
@@ -477,10 +478,10 @@
         //获取当前时间所闻文件名，防止图片重复
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
-        
-        //        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
-        //        UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-        
+//        
+//                NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
+//                UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
+//        
         
         //NSString *str = [formatter stringFromDate:[NSDate date]];
         NSData *data = UIImageJPEGRepresentation(image, 0.1);
@@ -493,8 +494,10 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
         
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
+        
     }];
     
     
@@ -529,5 +532,22 @@
     [self loadDataFromWeb];
 }
 
+-(void)shenfeng
+{
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"选择身份" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"老师" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"学生" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [control addAction:action1];
+    [control addAction:action2];
+    [control addAction:action3];
+    [self presentViewController:control animated:YES completion:nil];
 
+}
 @end
