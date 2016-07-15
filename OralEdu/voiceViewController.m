@@ -199,8 +199,8 @@
 //       NSString *url = [NSString stringWithFormat:@"http://openapi.baidu.com/public/2.0/bmt/translate?client_id= 7XG4uEkp5GzKrVdOn_18&q=%@&from=auto&to=%@",str,language];
     
     NSString *need_str=[NSString stringWithFormat:@"20160714000025224%@1234567897XG4uEkp5GzKrVdOn_18",str];
-    NSString *qwe = [need_str stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSString *asd=[self md5:qwe];
+//    NSString *qwe = [need_str stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *asd=[self md5:need_str];
     
     
     NSString *url = [NSString stringWithFormat:@"http://api.fanyi.baidu.com/api/trans/vip/translate?q=%@&from=auto&to=%@&appid=20160714000025224&salt=123456789&sign=%@",str,language,asd];
@@ -210,8 +210,10 @@
     //url = [url stringByAddingPercentEncodingWithAllowedCharacters:NSUTF8StringEncoding];
     
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+        NSString *urlString = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//    NSString* urlString = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    [mgr GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    [mgr GET:urlString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = (NSDictionary *)responseObject;
