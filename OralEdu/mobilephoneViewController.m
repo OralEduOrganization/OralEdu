@@ -110,8 +110,11 @@
         _passworetext.placeholder=@"请输入密码";
         _passworetext.layer.masksToBounds=YES;
         _passworetext.layer.cornerRadius=15;
+         _passworetext.secureTextEntry = YES;
         _passworetext.clearButtonMode=UITextFieldViewModeWhileEditing;
         _passworetext.leftView = self.leftview2;
+        _passworetext.clearsOnBeginEditing = YES;
+        _passworetext.clearButtonMode = UITextFieldViewModeAlways;
         _passworetext.leftViewMode=UITextFieldViewModeAlways;
     }
     return _passworetext;
@@ -126,8 +129,10 @@
         _newphonetext.placeholder=@"请输入新手机号";
         _newphonetext.layer.masksToBounds=YES;
         _newphonetext.layer.cornerRadius=15;
+        _newphonetext.clearButtonMode = UITextFieldViewModeAlways;
         _newphonetext.clearButtonMode=UITextFieldViewModeWhileEditing;
         _newphonetext.leftView = self.leftview;
+        _newphonetext.clearsOnBeginEditing = YES;
         _newphonetext.leftViewMode=UITextFieldViewModeAlways;
         _newphonetext.keyboardType = UIKeyboardTypePhonePad;
     }
