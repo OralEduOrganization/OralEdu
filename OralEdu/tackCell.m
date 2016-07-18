@@ -14,7 +14,7 @@
     self =  [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self)
     {
-        [self.contentView addSubview:self.tacklabel];
+        //[self.contentView addSubview:self.tacklabel];
 
     }
     return self;
@@ -23,7 +23,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.tacklabel.frame = CGRectMake(10, 5, 100, 30);
+    //self.tacklabel.frame = CGRectMake(10, 5, 100, 30);
 
     
 }
@@ -33,7 +33,7 @@
     if(!_tacklabel)
     {
         _tacklabel = [[UILabel alloc] init];
-        _tacklabel.backgroundColor = [UIColor redColor];
+       // _tacklabel.backgroundColor = [UIColor redColor];
         _tacklabel.numberOfLines = 0;
         _tacklabel.font = [UIFont fontWithName:@"Helvetica" size:12];
 
