@@ -37,9 +37,8 @@
 #import "materal_finder.h"
 #import "imageMenuView.h"
 #import "setview.h"
-#import "ChatCell.h"
-#import "SRChatFrameInfo.h"
-#import "SRChatModel.h"
+#import "tackCell.h"
+#import "tackCell2.h"
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate>{
     
     NSInteger screenWidth;
@@ -75,10 +74,9 @@
 
 
 @property (nonatomic, strong) UIView *topView;
-@property (nonatomic, strong) UITableView *frientTableView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIButton *callButton;
-@property (nonatomic, strong) UIButton *writeButton1;
+
 @property (nonatomic, strong) UIView *inputView;
 @property (nonatomic, strong) UITextField *inputTextField;
 @property (nonatomic, strong) UIButton *faceButton;
@@ -92,7 +90,9 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;
-@property (nonatomic, strong) UILabel *voiceTextLabel;
+
+
+@property (nonatomic, strong) NSMutableArray *tackarray;
 
 @end
 
@@ -144,16 +144,12 @@
     
     
     
-    self.senderID = @"0001";
+   self.senderID = @"0001";
     NSArray *arr = [self getData];
-    [self.view addSubview:self.inputView];
     _dataArr = [NSMutableArray arrayWithArray:arr];
-    _dataSource = [[NSMutableArray alloc]init];
-    [self reloadDataSourceWithNumber:20];
-   // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
-    [self addAllControl];
-    [self.tacktableview setContentOffset:CGPointMake(0,self.tacktableview.bounds.size.height)];
 
+    self.tackarray = [NSMutableArray array];
+    
     [self.view addSubview:self.tacktableview];
 
     [self.view addSubview:self.sview];
@@ -170,7 +166,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.backGroundImageView.frame = CGRectMake(260, 0, screenHeight-260, screenWidth-50);
+    self.backGroundImageView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
     
     drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
     
@@ -214,17 +210,12 @@
     }completion:^(BOOL finished) {
         
     }];
-   // self.sview.pickImageButton.selected=!self.sview.pickImageButton.selected;
     self.sview.pickImageMenuBtn.selected =!self.sview.pickImageMenuBtn.selected;
 }
 
 -(void)toReturnDocument:(NSNotification *)notification{
-    
-//    NSString *receiveStr=(NSString *)[notification object];
-    
     [self imagePickClick];
-    
-    
+
     [UIView animateWithDuration:0.3 animations:^{
         self.imageMenuView.transform =CGAffineTransformIdentity;
     }completion:^(BOOL finished) {
@@ -296,10 +287,7 @@
 }
 
 -(void)imagePickClick{
-    //[self addimage];
-    
-    //self.pickImageButton.selected=!self.pickImageButton.selected;
-    
+ 
     if(!self.pickImageMenuBtn.selected){
         
         [self.view addSubview:self.hubView];
@@ -567,13 +555,11 @@
     return _hubView;
 }
 
-
 //聊天界面的tableview
 -(UITableView *)tacktableview{
     
     if (!_tacktableview) {
         _tacktableview=[[UITableView alloc]init];
-        [_tacktableview registerClass:[ChatCell class] forCellReuseIdentifier:@"Cell"];
         _tacktableview.backgroundColor = [UIColor orangeColor];
         _tacktableview.separatorStyle=UITableViewCellSeparatorStyleNone;
         _tacktableview.allowsSelection = NO;
@@ -582,10 +568,6 @@
         _tacktableview.showsVerticalScrollIndicator = NO;
         _tacktableview.contentInset = UIEdgeInsetsMake(12,0, 0, 0);
         [_tacktableview setHidden:YES];
-      //  NSIndexPath * index  = [NSIndexPath indexPathForRow:1 inSection:0];
-//        [_tacktableview scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        [_tacktableview addSubview:self.refreshControl];
-        
     }
     return _tacktableview;
 }
@@ -665,249 +647,70 @@
 
 #pragma mark - tableview DataSource
 
-//加载datasource
--(void)reloadDataSourceWithNumber:(long)count{
-    _dataSource = [[NSMutableArray alloc]init];
-    long dataCount = _dataArr.count;
-    if (dataCount>=count) {
-        long j=0;
-        long m=count;
-        for (long i=count; i >0; i--) {
-            
-            [_dataSource insertObject:_dataArr[dataCount-m] atIndex:j];
-            m--;
-            j++;
-        }
-    }else{
-        for (int i=0; i<_dataArr.count; i++) {
-            [_dataSource insertObject:_dataArr[i] atIndex:i];
-        }
-    }
-}
-
-
-//开始识别
-- (void)startListenning:(id)sender{
-    [self.iflyRecognizerView start];
-    NSLog(@"开始识别");
-}
-
-//返回文字处理
-- (void)onResult:(NSArray *)resultArray isLast:(BOOL)isLast
-{
-    NSMutableString *result = [NSMutableString new];
-    NSDictionary *dic = [resultArray objectAtIndex:0];
-    NSLog(@"DIC:%@",dic);
-    for (NSString *key in dic) {
-        [result appendFormat:@"%@",key];
-    }
-    //把相应的控件赋值为result.例如:label.text = result;
-    if(self.voiceTextLabel.text){
-        self.voiceTextLabel.text=[NSString stringWithFormat:@"%@%@",self.voiceTextLabel.text,result];
-    }else{
-        self.voiceTextLabel.text=result;
-    }
-    [self.voiceTextLabel removeFromSuperview];
-    self.inputTextField.text = self.voiceTextLabel.text;
-    
-}
-//出错处理
-- (void)onError:(IFlySpeechError *)error{
-    
-}
-
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [self.view endEditing:YES];
-}
-
-//加载所有控件
--(void)addAllControl{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    self.inputTextField.delegate = self;
-    [self.view setBackgroundColor:UIChatViewColor];
-    [self.view addSubview:self.chatView];
-    
-    
-}
 
 //代理实现
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return _dataSource.count;
+    return self.dataArr.count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    long i= indexPath.row;
-    static NSString *CellIdentifier = @"Cell";
-    NSDictionary *object = _dataSource[i];
-    SRChatModel *model = [[SRChatModel alloc]init];
-    if ([object[@"senderID"] isEqualToString:self.senderID]) {
-        model.isSender = 1;
-    }else{
-        model.isSender = 0;
-    }
-    model.senderID = object[@"senderID"];
-    model.chatText = object[@"chatText"];
-    model.chatContent = object[@"chatContent"];
-    model.chatPictureUrl = object[@"chatPictureUrl"];
-    ChatCell *cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Model:model];
-    
-    return cell.height+30*scaleH;
+
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //获得dataSource；
-    long i= indexPath.row;
+
     static NSString *CellIdentifier = @"Cell";
-    NSDictionary *object = _dataSource[i];
-    SRChatModel *model = [[SRChatModel alloc]init];
-    if ([object[@"senderID"] isEqualToString:self.senderID]) {
-        model.isSender = 1;
-    }else{
-        model.isSender = 0;
+    static NSString *CellIdentifier2 = @"Cell2";
+    
+    NSDictionary *dic = [[NSDictionary alloc] init];
+    dic=self.dataArr[indexPath.row];
+    NSString *string=dic[@"chatText"];
+    NSLog(@"%@",string);
+    
+    NSDictionary *dic2 = [[NSDictionary alloc] init];
+    dic2=self.dataArr[indexPath.row];
+    NSString *sender = dic2[@"senderID"];
+    NSLog(@"%@",sender);
+    
+    
+    
+    if ([sender isEqual:@"0001"]) {
+        tackCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        cell = [[tackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.tacklabel.text = string;
+        cell.backgroundColor = [UIColor greenColor];
+        
+        
+        
+        return cell;
     }
-    model.senderID = object[@"senderID"];
-    model.chatText = object[@"chatText"];
-    model.chatContent = object[@"chatContent"];
-    model.chatPictureUrl = object[@"chatPictureUrl"];
-    ChatCell *cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Model:model];
-    return cell;
-}
-
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    //点击键盘中send时的事件。
-    NSString *innerText = textField.text;
-    int count = 0;
-    for (int i=0; i<_dataArr.count; i++) {
-        count = i+1;
+    else
+    {
+        tackCell2 *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+        
+        cell = [[tackCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
+        
+        cell.tacklabel.text = string;
+        cell.backgroundColor = [UIColor greenColor];
+ 
+        
+        
+        return cell;
     }
-    NSDictionary *dictionary = @{@"senderID":self.senderID,@"chatText":innerText,@"chatContent":@"text",@"chatPictureUrl":@""};
-    [_dataArr insertObject:dictionary atIndex:count];
-    textField.text = nil;
-    //    int nowCount = (int)_dataSource.count;
-    [self reloadDataSourceWithNumber:20];
-    
-    [self.tacktableview reloadData];
-    NSIndexPath * index  = [NSIndexPath indexPathForRow:_dataSource.count-1 inSection:0];
-    [self.tacktableview scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
-    
-    return YES;
-}
-
-
-//发送语音按钮的点击时间
--(void)turnToCall:(id)sender{
-    
-    [self.inputView removeFromSuperview];
-    [self.callButton removeFromSuperview];
-    self.inputTextField.text = nil;
-    [self.bottomView addSubview:self.writeButton];
-    [self.bottomView addSubview:self.spokenButton];
-}
-
-
--(void)startSpoken{
-    
-    //[self addVoiceDiscriminate];
-}
-
-
--(void)turnToWrite:(id)sender{
-    
-    [self.spokenButton removeFromSuperview];
-    [self.writeButton removeFromSuperview];
-    [self.bottomView addSubview:self.callButton];
-    [self.bottomView addSubview:self.inputView];
-   // [self.inputTextField becomeFirstResponder];
     
 }
-
--(void)hideKeyboard:(id)sender{
-    
-    [self.inputTextField resignFirstResponder];
-}
-
--(void)showFace:(id)sender{
-    
-    
-}
-
--(void)addImage:(id)sender{
-    
-    
-}
-
--(void)showPersonInformation:(id)sender{
-    
-    
-}
-
--(void)keyboardWillShow:(NSNotification*)notification{
-    //    NSDictionary*info=[notification userInfo];
-    //调整UI位置
-    self.bottomView.transform = CGAffineTransformMakeTranslation(0, -271);
-    
-    self.chatView.transform = CGAffineTransformMakeTranslation(0, -271);
-   // self.tacktableview.frame = CGRectMake(0, 0, screenW, 911*scaleH);
-}
--(void)keyboardWillHide:(NSNotification*)notification{
-    //self.tacktableview.frame = CGRectMake(0, 0*scaleH, screenW, 911*scaleH);
-    self.bottomView.transform = CGAffineTransformIdentity;
-    self.chatView.transform = CGAffineTransformIdentity;
-    //在这里调整UI位置
-}
-
--(void) refreshView:(UIRefreshControl *)refresh
-{
-    long count = _dataSource.count;
-    [self reloadDataSourceWithNumber:count+10];
-    [self.tacktableview reloadData];
-    [refresh endRefreshing];
-}
-
-
-//个人信息按钮
--(UIButton *)personButton{
-    
-    if (!_personButton) {
-        _personButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _personButton.frame = CGRectMake(570*scaleW, 65*scaleH, 38*scaleW, 38*scaleH);
-        [_personButton setImage:[UIImage imageNamed:@"头像"] forState:UIControlStateNormal];
-        [_personButton addTarget:self action:@selector(showPersonInformation:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _personButton;
-}
-
-
-//底端输入文字的view
--(UIView *)bottomView{
-    
-    if (!_bottomView) {
-        _bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, 1036*scaleH, screenW, 100*screenH)];
-        [_bottomView setBackgroundColor:[UIColor blackColor]];
-        [_bottomView addSubview:self.callButton];
-        [_bottomView addSubview:self.inputView];
-        [_bottomView addSubview:self.addImageButton];
-        [_bottomView addSubview:self.faceButton];
-    }
-    return _bottomView;
-}
-
 
 -(NSArray *)getData{
     
     NSArray *arr= @[
                     @{@"senderID":@"0001",@"chatText":@"你好韦富钟",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行",@"chatContent":@"text",@"chatPictureUrl":@""},
+                    @{@"senderID":@"0002",@"chatText":@"行",@"chatContent":@"text",@"chatPictureUrl":@""},
                     @{@"senderID":@"0001",@"chatText":@"这段儿短点",@"chatContent":@"text",@"chatPictureUrl":@""},
                     @{@"senderID":@"0002",@"chatText":@"嗯哼",@"chatContent":@"text",@"chatPictureUrl":@""},
                     @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－",@"chatContent":@"text",@"chatPictureUrl":@""},
@@ -922,31 +725,6 @@
                     @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－",@"chatContent":@"text",@"chatPictureUrl":@""}
                     ];
     return arr;
-}
-
--(UIRefreshControl *)refreshControl{
-    
-    if (!_refreshControl) {
-        _refreshControl = [[UIRefreshControl alloc]init];
-        [_refreshControl addTarget:self
-                            action:@selector(refreshView:)
-                  forControlEvents:UIControlEventValueChanged];
-        [_refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"松开加载更多"]];
-        
-    }
-    return _refreshControl;
-}
-
--(UILabel *)voiceTextLabel{
-    
-    if (!_voiceTextLabel) {
-        _voiceTextLabel = [[UILabel alloc]init];
-        _voiceTextLabel.backgroundColor = [UIColor grayColor];
-        _voiceTextLabel.alpha = 0.8 ;
-        _voiceTextLabel.font = [UIFont systemFontOfSize:50*scaleW];
-        _voiceTextLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _voiceTextLabel;
 }
 
 @end
