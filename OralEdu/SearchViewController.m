@@ -10,6 +10,7 @@
 #import "hisModel.h"
 #import "hisView.h"
 #import "searchcell.h"
+#import "HttpTool.h"
 static NSString *identfider = @"historycell";
 static NSString *identfider2 = @"scarchcell";
 
@@ -88,7 +89,7 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setBackgroundColor:[UIColor clearColor]];
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-         [_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
+         [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
     }
     return _searchbar;
 }
@@ -159,6 +160,7 @@ static NSString *identfider2 = @"scarchcell";
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
     
+    
     NSLog(@"shouldBeginEditing");
     return YES;
 }
@@ -184,10 +186,29 @@ static NSString *identfider2 = @"scarchcell";
 
     [self.hisv.his_tableview reloadData];
 }
-
+//搜索框内输入信息
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    
+    [_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
     [self.hisv setHidden:YES];
+    a=1;
+    NSLog(@"123");
+    
+    [self.view addSubview:self.history_tableview];
+    
+    
+    
+    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+        
+        [self.history_tableview reloadData];
+        
+    });
+    
+    
+    [self.hisv.his_tableview reloadData];
+    
+    
 }
 
 -(void)keyboardHide
@@ -223,6 +244,14 @@ static NSString *identfider2 = @"scarchcell";
     NSLog(@"123");
     [self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
+}
+//点击取消按钮
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
+{
+    [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+    [self.history_tableview setHidden:YES];
+   // [self.hisv setHidden:NO];
+     NSLog(@"取消按钮");
 }
 
 -(UITableView *)history_tableview{
