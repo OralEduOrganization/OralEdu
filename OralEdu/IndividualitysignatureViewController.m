@@ -7,7 +7,7 @@
 //
 
 #import "IndividualitysignatureViewController.h"
-
+#import "HttpTool.h"
 @interface IndividualitysignatureViewController ()<UITextViewDelegate>
 @property (nonatomic,strong) UITextView *person_view;
 @property (nonatomic,strong) UILabel *number_label;
@@ -24,8 +24,10 @@
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
-
+    
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
+    [self.navitionBar.right_btn setTitle:@"保存" forState:UIControlStateNormal];
+    
     [self.view addSubview:self.person_view];
     [self.view addSubview:self.number_label];
     [self.view addSubview:self.xian_label];
@@ -48,7 +50,7 @@
                                         ([UIScreen mainScreen].bounds.size.height)*0.135,
                                         ([UIScreen mainScreen].bounds.size.width)*0.9, 50);
     self.number_label.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.81,
-                                         ([UIScreen mainScreen].bounds.size.height)*0.15, 55, 30);
+                                         ([UIScreen mainScreen].bounds.size.height)*0.25, 55, 30);
     
     self.xian_label.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width)*0.05,
                                      ([UIScreen mainScreen].bounds.size.height*0.29),
@@ -69,7 +71,8 @@
 {
     if (!_number_label) {
         _number_label=[[UILabel alloc]init];
-        //_number_label.backgroundColor=[UIColor redColor];
+        
+       // _number_label.backgroundColor=[UIColor redColor];
         
     }
     return _number_label;
@@ -79,10 +82,7 @@
     if (!_person_view) {
         _person_view=[[UITextView alloc]init];
         _person_view.delegate = self;
-        //_person_view.backgroundColor = [UIColor lightGrayColor];
-        _person_view.font=[UIFont systemFontOfSize:22];
-        //_person_view.layer.borderColor=UIColor.orangeColor.CGColor;
-        //_person_view.layer.borderWidth=3;
+        _person_view.font=[UIFont systemFontOfSize:18];
         _person_view.layer.masksToBounds=YES;
         _person_view.layer.cornerRadius=15;
         _person_view.returnKeyType = UIReturnKeyJoin;//返回键的类型
@@ -96,7 +96,6 @@
         [textView resignFirstResponder];
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
-    
     
     NSString *comcatstr = [textView.text stringByReplacingCharactersInRange:range withString:text];
     
@@ -149,5 +148,39 @@
     [self.person_view resignFirstResponder];
 }
 
+-(void)rightbtnClick
+{
+   
+    
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存修改信息" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //取出用户账号
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        
+
+        NSDictionary *para=@{@"user_moblie":name,@"user_newsigned":self.person_view.text};
+        
+        [HttpTool postWithparamsWithURL:@"Update/SignedUpdate" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+          
+            NSLog(@"%@",dic);
+            
+         
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        
+    }];
+    
+    [control addAction:action1];
+    [control addAction:action2];
+    [self presentViewController:control animated:YES completion:nil];
+
+}
 
 @end

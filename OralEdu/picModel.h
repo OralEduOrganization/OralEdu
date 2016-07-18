@@ -14,4 +14,6 @@
 @property (nonatomic,strong) NSString *gender_str;
 @property (nonatomic,strong) NSString *address_str;
 @property (nonatomic,strong) NSString *signature_str;
+@property (nonatomic,strong) NSString *user_introduction;
+@property (nonatomic,strong) NSString *identity;
 @end

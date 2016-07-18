@@ -90,25 +90,33 @@
         self.url = [dit objectForKey:@"url"];
         NSString *user_address = [dit objectForKey:@"user_address"];
         NSString *user_gender = [dit objectForKey:@"user_gender"];
-       // NSString *user_identity = [dic objectForKey:@"user_identity"];
+        NSString *identity = [dit objectForKey:@"user_identity"];
         NSString *user_introduction = [dit objectForKey:@"user_introduction"];
         NSString *user_nickname = [dit objectForKey:@"user_nickname"];
-       // NSString *user_signed = [dit objectForKey:@"user_signed"];
+        NSString *user_signed = [dit objectForKey:@"user_signed"];
+        
         
         NSLog(@"username = %@",user_nickname);
         _picM = [[picModel alloc] init];
         _picM.image_urlstr = self.url;
         self.arr = [NSMutableArray array];
         _picM.name_str = user_nickname;
-        _picM.signature_str = user_introduction;
+        _picM.signature_str = user_signed;
         _picM.address_str = user_address;
         _picM.gender_str = user_gender;
+        _picM.user_introduction = user_introduction;
+        _picM.identity =identity;
+        
+        NSLog(@"identy = %@",identity);
         
         [self.arr addObject:_picM.name_str];
         [self.arr addObject:_picM.gender_str];
         [self.arr addObject:_picM.address_str];
         [self.arr addObject:_picM.signature_str];
-
+        [self.arr addObject:_picM.user_introduction];
+        [self.arr addObject:_picM.identity];
+        
+        
          NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
          self.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
          self.name_label.text = self.picM.name_str;
@@ -220,7 +228,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             if (indexPath.row==1) {
-                [cell.m_label2 removeFromSuperview];
+                cell.m_label2.text = _picM.signature_str;
             }
             if(indexPath.row == 0)
             {
@@ -236,11 +244,11 @@
             }
             if (indexPath.row == 4) {
                 
-                cell.m_label2.text = @"老师";
+                cell.m_label2.text = _picM.identity;
             }
             if(indexPath.row == 5)
             {
-                cell.m_label2.text = _picM.signature_str;
+                cell.m_label2.text = _picM.user_introduction;
             }
     
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

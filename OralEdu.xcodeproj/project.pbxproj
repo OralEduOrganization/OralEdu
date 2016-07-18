@@ -1580,7 +1580,7 @@
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang11.OralEdu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1602,7 +1602,7 @@
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang11.OralEdu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
