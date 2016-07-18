@@ -40,8 +40,8 @@
     [super layoutSubviews];
     self.home_headimage.frame = CGRectMake(20, 10, 50, 50);
     self.home_namelabel.frame = CGRectMake(120,20, 80, 20);
-    self.home_timelabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-80, 20, 50, 20);
-    self.home_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-30, 20, 20, 20);
+    self.home_timelabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-105, 20, 50, 20);
+    self.home_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 12, 30, 30);
 }
 #pragma mark - gertter
 -(UIImageView *)home_headimage

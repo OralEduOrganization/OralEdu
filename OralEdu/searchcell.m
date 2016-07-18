@@ -71,7 +71,7 @@
         _head_image = [[UIImageView alloc]init];
         _head_image.backgroundColor = [UIColor grayColor];
         _head_image.layer.masksToBounds = YES;
-        _head_image.layer.cornerRadius = 35;
+        _head_image.layer.cornerRadius = 40;
         _head_image.image = [UIImage imageNamed:@"头像"];
     }
     return _head_image;

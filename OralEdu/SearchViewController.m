@@ -24,6 +24,7 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) UILabel *m_label;
 @property (nonatomic,strong) hisView *hisv;
 @property (nonatomic,strong) NSMutableArray *array1;
+//@property (nonatomic,strong)UISearchController *searchVC;
 @end
 
 @implementation SearchViewController
@@ -47,7 +48,6 @@ static NSString *identfider2 = @"scarchcell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -59,7 +59,6 @@ static NSString *identfider2 = @"scarchcell";
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
-
 #pragma  mark - 数据源方法
 
 -(void)loadDataFromWeb
@@ -86,6 +85,7 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setBackgroundImage:searchBarBg];
         //设置背景色
         [_searchbar setBackgroundColor:[UIColor clearColor]];
+        [_searchbar setShowsCancelButton:YES];//搜索框取消按钮
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
         
@@ -109,12 +109,12 @@ static NSString *identfider2 = @"scarchcell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (a==1) {
-        return 1;
+    if (a == 1) {
+      return 1;
     }
     else
     {
-    return self.his_arr.count;
+      return self.his_arr.count;
     }
 }
 
@@ -122,12 +122,14 @@ static NSString *identfider2 = @"scarchcell";
 {
     
     
-    if(a==1){
+    if(a == 1){
+        
         searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
         cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
         return cell;
     
-    }else{
+    }
+   else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
         if(!cell)
         {
@@ -137,6 +139,8 @@ static NSString *identfider2 = @"scarchcell";
         
         return cell;
     }
+
+    
 }
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,12 +173,8 @@ static NSString *identfider2 = @"scarchcell";
     [self.searchbar resignFirstResponder];
     [self.hisv setHidden:YES];
     a=1;
-    NSLog(@"123");
-    
+    NSLog(@"search = %@",searchBar.text);
     [self.view addSubview:self.history_tableview];
-    
-    
-    
     dispatch_after(0.2, dispatch_get_main_queue(), ^{
         
            [self.history_tableview reloadData];
@@ -184,10 +184,10 @@ static NSString *identfider2 = @"scarchcell";
 
     [self.hisv.his_tableview reloadData];
 }
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self.hisv setHidden:YES];
+    a = 0;
+    NSLog(@"sdsaf");
 }
 
 -(void)keyboardHide

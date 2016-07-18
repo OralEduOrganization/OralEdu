@@ -19,7 +19,7 @@
                          //[NSURL URLWithString:@"http://127.0.0.1"]];
 
 
-                         [NSURL URLWithString:@"http://10.1.43.30"]];
+                         [NSURL URLWithString:@"http://10.1.39.155"]];
 
 
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
