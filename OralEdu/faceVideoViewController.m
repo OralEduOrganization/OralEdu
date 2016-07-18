@@ -95,7 +95,7 @@
 
 @property (nonatomic, strong) NSMutableArray *tackarray;
 
-@property (strong,nonatomic) UIRefreshControl *refresh;
+//@property (strong,nonatomic) UIRefreshControl *refresh;
 
 
 @property (nonatomic, strong) UIRefreshControl* refreshControl;

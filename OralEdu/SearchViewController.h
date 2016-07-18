@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-@interface SearchViewController : BaseViewController<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
+@interface SearchViewController : BaseViewController
 
 @end
