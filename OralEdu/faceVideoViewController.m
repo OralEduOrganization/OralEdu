@@ -176,6 +176,7 @@
     [refresh endRefreshing];
 }
 
+
 ////加载datasource
 //-(void)reloadDataSourceWithNumber:(long)count{
 //    _dataSource = [[NSMutableArray alloc]init];
@@ -195,6 +196,7 @@
 //        }
 //    }
 //}
+
 -(UIRefreshControl *)refreshControl{
     
     if (!_refreshControl) {
@@ -207,8 +209,6 @@
     }
     return _refreshControl;
 }
-
-
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

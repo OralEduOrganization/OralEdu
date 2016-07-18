@@ -30,9 +30,7 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.navitionBar.left_btn removeFromSuperview];
-    
-//     self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 64);
-   // self.navitionBar.title_label.text = @"李老师";
+
     [self loadDataFromWeb];
     [self.view addSubview:self.infotableview];
     [self.view addSubview:self.pic_image];
@@ -45,7 +43,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -54,10 +52,12 @@
     self.infotableview.frame = CGRectMake(0, 160, [UIScreen mainScreen].bounds.size.width, 150);
     self.left_btn.frame = CGRectMake(10, 50, 30, 30);
     self.pic_image.frame = CGRectMake(50, 30, 70, 70);
-    self.name_label.frame = CGRectMake(160, 70, 100, 30);
+    self.name_label.frame = CGRectMake((self.view.frame.size.width-100)/2, 70, 100, 30);
     self.go_viewbtn.frame = CGRectMake(15, 380, [UIScreen mainScreen].bounds.size.width-30, 50);
 }
+
 #pragma  mark - 数据源方法
+
 -(void)loadDataFromWeb
 {
     _model1 = [[infoModel alloc] init];
@@ -155,33 +155,6 @@
 {
     static NSString *identfider = @"infocell1";
     static NSString *identfider3 = @"infocell3";
-//    if (indexPath.section == 0) {
-//        infoCell1 *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
-//        if(!cell)
-//        {
-//            cell = [[infoCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
-//            cell.pic_image.layer.masksToBounds = YES;
-//            cell.pic_image.layer.cornerRadius = 40;
-//            cell.name_label.text = _model1.name_str;
-//            cell.identity_label.text = _model1.identfid_str;
-//            NSURL *url = [NSURL URLWithString:_model1.pic_imageurlstr];
-//            cell.pic_image.image =[ UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-//        }
-//        return cell;
-//    }
-//    else
-//    {
-//        static NSString *identfider2 = @"infocell2";
-//        infoCell2 *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
-//        if(!cell)
-//        {
-//            cell = [[infoCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
-//            cell.label1.text = @"地区";
-//            cell.label2.text = _model1.address_str;
-//        }
-//        return cell;
-//    }
-    
     if (indexPath.section == 0) {
         infoCell2 *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
         if (!cell) {
