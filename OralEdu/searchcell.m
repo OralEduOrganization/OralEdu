@@ -27,18 +27,19 @@
 }
 -(void)setCellDate:(hisModel *)order
 {
-    self.xingming_label.text = order.xingming;
+    self.xingming_label.text = order.name;
     self.identity_label.text = order.identity;
-    self.in_text.text = order.in_text;
-    self.head_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:order.head]]];
+    self.in_text.text = order.sigen;
+    self.head_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:order.pic_url]]];
     [self layoutIfNeeded];
 }
+
 -(void)layoutSubviews
 {
-    [super layoutSubviews];
- 
-    _in_text.delegate = self;
     
+    
+    [super layoutSubviews];
+    _in_text.delegate = self;
     CGFloat width = self.frame.size.width;
     CGFloat height = self.frame.size.height;
    // NSLog(@"width = %f,height = %f",width,height);
@@ -48,7 +49,6 @@
     self.line_view.frame = CGRectMake((width - width*0.94)/2,height *0.6, width *0.94, 1);
     self.intro_label.frame = CGRectMake(width *0.04, height*0.65,width *0.25, height *0.15);
     self.in_text.frame = CGRectMake(width*0.25, height *0.63, 235, height*0.35);
-    
     
 }
 

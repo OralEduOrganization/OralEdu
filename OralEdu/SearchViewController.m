@@ -58,7 +58,8 @@ static NSString *identfider2 = @"scarchcell";
     [self.searchbar becomeFirstResponder];
     
     self.hid_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 65, 20, 20);
-    self.history_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
+    self.history_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width,
+                                              self.view.frame.size.height-64);
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
@@ -74,9 +75,6 @@ static NSString *identfider2 = @"scarchcell";
     model2.history_arr = @"456";
     [self.his_arr addObject:model2.history_arr];
     
-    self.arr = [NSMutableArray array];
-    hisModel *data = [[hisModel alloc]initWithXingming:@"李老师" identity:@"teacher" in:@"新东方在职讲师，已带过超过100个申请出国的高中生、大学生。为大家圆一个出国梦" head:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg"];
-    [self.arr addObject:data];
 }
 
 #pragma mark - getters
@@ -205,20 +203,63 @@ static NSString *identfider2 = @"scarchcell";
     if(![searchText isEqualToString:@""]){
     
         [_searchbar setShowsCancelButton:YES animated:YES];
-        //[_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
         [self.hisv setHidden:YES];
         a=1;
         NSLog(@"123");
     
         [self.view addSubview:self.history_tableview];
-    
-    
-    
-//        dispatch_after(0.2, dispatch_get_main_queue(), ^{
         
+        [self.history_tableview reloadData];
+        
+
+        
+        NSDictionary *para=@{@"user_nickname":searchText};
+        
+        [HttpTool postWithparamsWithURL:@"Search/UserSearch" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSLog(@"%@",dic);
+            
+            NSArray *dit  = [dic objectForKey:@"data"];
+            
+            NSLog(@"data = %@",dit);
+            
+            
+            
+            self.his_arr = [NSMutableArray array];
+            hisModel *model = [[hisModel alloc] init];
+            model.history_arr = @"123";
+            [self.his_arr addObject:model.history_arr];
+            hisModel *model2 = [[hisModel alloc] init];
+            model2.history_arr = @"456";
+            [self.his_arr addObject:model2.history_arr];
+            
+            
+            self.arr = [NSMutableArray array];
+            
+            for (int i=0; i<dit.count; i++) {
+                
+                hisModel *model=[[hisModel alloc]init];
+                
+                NSDictionary *aaa=dit[i];
+                
+                model.name=aaa[@"user_nickname"];
+                model.identity=aaa[@"user_identity"];
+                model.pic_url=aaa[@"url"];
+                model.sigen=aaa[@"user_introduction"];
+                
+                [self.arr addObject:model];
+
+            }
+            
             [self.history_tableview reloadData];
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+
         
-//        });
     
         [self.history_tableview setHidden:NO];
         [self.hisv setHidden:YES];
@@ -226,7 +267,6 @@ static NSString *identfider2 = @"scarchcell";
     }else{
         a=0;
         [_searchbar setShowsCancelButton:NO animated:YES];
-        //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
         
         [self.hisv.his_tableview reloadData];
         [self.history_tableview setHidden:YES];
@@ -275,9 +315,7 @@ static NSString *identfider2 = @"scarchcell";
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
 {
     [_searchbar setShowsCancelButton:NO animated:YES];
-    //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
     [self.history_tableview setHidden:YES];
-   // [self.hisv setHidden:NO];
      NSLog(@"取消按钮");
 }
 
@@ -286,6 +324,8 @@ static NSString *identfider2 = @"scarchcell";
         _history_tableview = [[UITableView alloc] init];
         _history_tableview.delegate=self;
         _history_tableview.dataSource=self;
+        _history_tableview.showsVerticalScrollIndicator = NO;
+        _history_tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _history_tableview;
 }

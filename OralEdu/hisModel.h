@@ -12,15 +12,15 @@
 @property NSString *history_arr;
 
 
-@property (nonatomic,strong)NSString *xingming;
+@property (nonatomic,strong)NSString *name;
 @property (nonatomic,strong)NSString *identity;
-@property (nonatomic,strong)NSString *in_text;
-@property (nonatomic,strong)NSString *head;
+@property (nonatomic,strong)NSString *sigen;
+@property (nonatomic,strong)NSString *pic_url;
 
--(instancetype)initWithXingming:(NSString *)xingming
+-(instancetype)initWithXingming:(NSString *)name
                        identity:(NSString *)identity
-                             in:(NSString *)in_text
-                           head:(NSString *)head;
+                             in:(NSString *)sigen
+                           head:(NSString *)pic_url;
 
 
 @end

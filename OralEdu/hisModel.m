@@ -9,17 +9,17 @@
 #import "hisModel.h"
 
 @implementation hisModel
--(instancetype)initWithXingming:(NSString *)xingming
+-(instancetype)initWithXingming:(NSString *)name
                        identity:(NSString *)identity
-                             in:(NSString *)in_text
-                           head:(NSString *)head
+                             in:(NSString *)sigen
+                           head:(NSString *)pic_url
 {
     self = [super init];
     if (self) {
-        _xingming = xingming;
+        _name = name;
         _identity = identity;
-        _in_text = in_text;
-        _head = head;
+        _sigen = sigen;
+        _pic_url = pic_url;
     }
     return  self;
 }

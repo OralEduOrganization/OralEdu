@@ -38,7 +38,7 @@
     if(!_his_label)
     {
         _his_label = [[UILabel alloc] init];
-       // _his_label.backgroundColor = [UIColor redColor];
+
         _his_label.text = @"历史搜索";
     }
     return _his_label;
@@ -49,7 +49,7 @@
     if(!_del_btn)
     {
         _del_btn = [[UIButton alloc] init];
-        //_del_btn.backgroundColor = [UIColor redColor];
+
         [_del_btn setTitle:@"清空历史记录" forState:UIControlStateNormal];
         [_del_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
@@ -62,7 +62,8 @@
     {
         _his_tableview = [[UITableView alloc] init];
        // _his_tableview.backgroundColor = [UIColor blueColor];
-
+        _his_tableview.showsVerticalScrollIndicator = NO;
+        _his_tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _his_tableview;
 }
