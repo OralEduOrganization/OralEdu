@@ -61,14 +61,11 @@
     if(!_his_tableview)
     {
         _his_tableview = [[UITableView alloc] init];
+       // _his_tableview.backgroundColor = [UIColor blueColor];
 
     }
     return _his_tableview;
 }
-
-
-
-
 
 
 @end

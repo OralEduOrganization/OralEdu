@@ -48,7 +48,7 @@
 {
     if (!_xingming_label) {
         _xingming_label = [[UILabel alloc]init];
-        _xingming_label.text = @"姓名";
+        _xingming_label.text = @"李老师";
        _xingming_label.font = [UIFont systemFontOfSize:17];
     }
     return _xingming_label;
@@ -61,6 +61,7 @@
         _identity_label.layer.borderColor = [[UIColor grayColor]CGColor];
         _identity_label.layer.borderWidth = 0.5f;
         _identity_label.layer.masksToBounds = YES;
+        _identity_label.text = @"teacher";
     }
     return _identity_label;
 }
@@ -71,6 +72,7 @@
         _head_image.backgroundColor = [UIColor grayColor];
         _head_image.layer.masksToBounds = YES;
         _head_image.layer.cornerRadius = 35;
+        _head_image.image = [UIImage imageNamed:@"头像"];
     }
     return _head_image;
 }
@@ -81,7 +83,6 @@
         _intro_label.font = [UIFont systemFontOfSize:13];
         _intro_label.text = @"个人简介:";
         _intro_label.textColor = [UIColor grayColor];
-        
     }
     return _intro_label;
 }
@@ -91,8 +92,17 @@
         _in_text = [[UITextView alloc]init];
         _in_text.font = [UIFont systemFontOfSize:13];
         _in_text.textColor = [UIColor grayColor];
+        _in_text.text = @"新东方在职讲师，已带过超过100个申请出国的高中生、大学生。为大家圆一个出国梦";
     }
     return _in_text;
 }
-
+-(UIView *)line_view
+{
+    if (!_line_view) {
+        _line_view = [[UIView alloc]init];
+        _line_view.backgroundColor = [UIColor lightGrayColor];
+        
+    }
+    return _line_view;
+}
 @end

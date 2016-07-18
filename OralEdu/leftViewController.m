@@ -58,8 +58,6 @@
 {
     [super viewWillLayoutSubviews];
     
-    
-    
 }
 
 -(void)login{
