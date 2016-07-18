@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class hisModel;
 @interface searchcell : UITableViewCell<UITextViewDelegate>
 @property (nonatomic,strong) UILabel *xingming_label;
 @property (nonatomic,strong) UILabel *identity_label;
@@ -15,4 +15,8 @@
 @property (nonatomic,strong) UITextView *in_text;
 @property (nonatomic,strong) UIImageView *head_image;
 @property (nonatomic,strong) UIView *line_view;
+
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+-(void)setCellDate:(hisModel *)order;
 @end

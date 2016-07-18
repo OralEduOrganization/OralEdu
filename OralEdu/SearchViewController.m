@@ -10,6 +10,7 @@
 #import "hisModel.h"
 #import "hisView.h"
 #import "searchcell.h"
+#import "HttpTool.h"
 static NSString *identfider = @"historycell";
 static NSString *identfider2 = @"scarchcell";
 
@@ -24,6 +25,8 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) UILabel *m_label;
 @property (nonatomic,strong) hisView *hisv;
 @property (nonatomic,strong) NSMutableArray *array1;
+
+@property (nonatomic,strong) NSMutableArray *arr;
 //@property (nonatomic,strong)UISearchController *searchVC;
 @end
 
@@ -55,7 +58,7 @@ static NSString *identfider2 = @"scarchcell";
     [self.searchbar becomeFirstResponder];
     
     self.hid_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-50, 65, 20, 20);
-    self.history_tableview.frame = CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, 200);
+    self.history_tableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
@@ -70,6 +73,10 @@ static NSString *identfider2 = @"scarchcell";
     hisModel *model2 = [[hisModel alloc] init];
     model2.history_arr = @"456";
     [self.his_arr addObject:model2.history_arr];
+    
+    self.arr = [NSMutableArray array];
+    hisModel *data = [[hisModel alloc]initWithXingming:@"李老师" identity:@"teacher" in:@"新东方在职讲师，已带过超过100个申请出国的高中生、大学生。为大家圆一个出国梦" head:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg"];
+    [self.arr addObject:data];
 }
 
 #pragma mark - getters
@@ -88,7 +95,7 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setShowsCancelButton:YES];//搜索框取消按钮
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-        
+         [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
     }
     return _searchbar;
 }
@@ -110,7 +117,7 @@ static NSString *identfider2 = @"scarchcell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (a == 1) {
-      return 1;
+      return self.arr.count;
     }
     else
     {
@@ -126,6 +133,7 @@ static NSString *identfider2 = @"scarchcell";
         
         searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
         cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
+        [cell setCellDate:self.arr[indexPath.row]];
         return cell;
     
     }
@@ -142,6 +150,8 @@ static NSString *identfider2 = @"scarchcell";
 
     
 }
+
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -161,6 +171,7 @@ static NSString *identfider2 = @"scarchcell";
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    
     
     
     NSLog(@"shouldBeginEditing");
@@ -184,10 +195,32 @@ static NSString *identfider2 = @"scarchcell";
 
     [self.hisv.his_tableview reloadData];
 }
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+
+
+//搜索框内输入信息
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    a = 0;
-    NSLog(@"sdsaf");
+    
+    [_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
+    [self.hisv setHidden:YES];
+    a=1;
+    NSLog(@"123");
+    
+    [self.view addSubview:self.history_tableview];
+    
+    
+    
+    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+        
+        [self.history_tableview reloadData];
+        
+    });
+    
+    
+    [self.hisv.his_tableview reloadData];
+    
+    
+
 }
 
 -(void)keyboardHide
@@ -223,6 +256,14 @@ static NSString *identfider2 = @"scarchcell";
     NSLog(@"123");
     [self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
+}
+//点击取消按钮
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
+{
+    [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+    [self.history_tableview setHidden:YES];
+   // [self.hisv setHidden:NO];
+     NSLog(@"取消按钮");
 }
 
 -(UITableView *)history_tableview{

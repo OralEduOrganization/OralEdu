@@ -12,4 +12,6 @@
 @property (nonatomic,strong) UILabel *his_label;
 @property (nonatomic,strong) UIButton *del_btn;
 @property (nonatomic,strong) UITableView *his_tableview;
+
+
 @end

@@ -39,6 +39,7 @@
 #import "setview.h"
 #import "tackCell.h"
 #import "tackCell2.h"
+#import "SVPullToRefresh.h"
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate>{
     
     NSInteger screenWidth;
@@ -47,28 +48,28 @@
     
 }
 
-    @property (nonatomic,strong) UIButton           *backBtn;
-    @property (nonatomic,strong) UIView             *teacherView;
-    @property (nonatomic,strong) UIView             *studentView;
-    @property (nonatomic,strong) UIButton           *writeButton;
-    @property (nonatomic,strong) UIButton           *pickColorButton;
-    @property (nonatomic,strong) UIButton           *clearBtn;
-    @property (nonatomic,strong) UIButton           *eraseBtn;
-    @property (nonatomic,strong) UIButton           *pickImageMenuBtn;
-    @property (nonatomic,strong) UIColor            *selectedColor;
-    @property (nonatomic,strong) UIImageView        *backGroundImageView;
-    @property (nonatomic,strong) UIView             *hubView;
-    @property (nonatomic,strong) videoRightView     *rightView;
-    @property (nonatomic,strong) pickImageView      *imageSelectView;
-    @property (nonatomic,strong) imageMenuView      *imageMenuView;
+@property (nonatomic,strong) UIButton           *backBtn;
+@property (nonatomic,strong) UIView             *teacherView;
+@property (nonatomic,strong) UIView             *studentView;
+@property (nonatomic,strong) UIButton           *writeButton;
+@property (nonatomic,strong) UIButton           *pickColorButton;
+@property (nonatomic,strong) UIButton           *clearBtn;
+@property (nonatomic,strong) UIButton           *eraseBtn;
+@property (nonatomic,strong) UIButton           *pickImageMenuBtn;
+@property (nonatomic,strong) UIColor            *selectedColor;
+@property (nonatomic,strong) UIImageView        *backGroundImageView;
+@property (nonatomic,strong) UIView             *hubView;
+@property (nonatomic,strong) videoRightView     *rightView;
+@property (nonatomic,strong) pickImageView      *imageSelectView;
+@property (nonatomic,strong) imageMenuView      *imageMenuView;
 
-    @property (nonatomic,strong) UIButton           *camerabtn;
-    @property (nonatomic,strong) UIView             *hidview;
+@property (nonatomic,strong) UIButton           *camerabtn;
+@property (nonatomic,strong) UIView             *hidview;
 
-    @property (nonatomic,strong) setview            *sview;
-    @property (nonatomic,strong) UIButton           *rigntbtn;
+@property (nonatomic,strong) setview            *sview;
+@property (nonatomic,strong) UIButton           *rigntbtn;
 
-    @property (nonatomic,strong) UITableView        *tacktableview;
+@property (nonatomic,strong) UITableView        *tacktableview;
 
 
 
@@ -88,12 +89,16 @@
 @property (nonatomic, assign) NSString * senderID;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, strong) UIRefreshControl* refreshControl;
+
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;
 
 
 @property (nonatomic, strong) NSMutableArray *tackarray;
 
+@property (strong,nonatomic) UIRefreshControl *refresh;
+
+
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
 @end
 
 @implementation faceVideoViewController
@@ -103,12 +108,12 @@
     
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
-
+    
     [self.view addSubview:self.teacherView];
     
     [self.view addSubview:self.studentView];
     
-   
+    
     
     
     
@@ -122,15 +127,15 @@
     
     [self.view addSubview:self.backBtn];
     
-
-
+    
+    
     self.selectedColor = [UIColor redColor];
     drawView.selectedColor=self.selectedColor;
     [self.view addSubview:self.rightView];
     [self.view addSubview:self.imageMenuView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnColor:) name:@"returnColor" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnImage:) name:@"returnImage" object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
     
     if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
         SEL selector = NSSelectorFromString(@"setOrientation:");
@@ -144,14 +149,14 @@
     
     
     
-   self.senderID = @"0001";
+    self.senderID = @"0001";
     NSArray *arr = [self getData];
     _dataArr = [NSMutableArray arrayWithArray:arr];
-
+    
     self.tackarray = [NSMutableArray array];
     
     [self.view addSubview:self.tacktableview];
-
+    
     [self.view addSubview:self.sview];
     
 }
@@ -162,6 +167,48 @@
     screenHeight = self.view.bounds.size.height;
     
 }
+
+-(void) refreshView:(UIRefreshControl *)refresh
+{
+   // long count = _dataSource.count;
+   // [self reloadDataSourceWithNumber:count+1];
+//    [self.chatTableView reloadData];
+    [refresh endRefreshing];
+}
+
+////加载datasource
+//-(void)reloadDataSourceWithNumber:(long)count{
+//    _dataSource = [[NSMutableArray alloc]init];
+//    long dataCount = _dataArr.count;
+//    if (dataCount>=count) {
+//        long j=0;
+//        long m=count;
+//        for (long i=count; i >0; i--) {
+//            
+//            [_dataSource insertObject:_dataArr[dataCount-m] atIndex:j];
+//            m--;
+//            j++;
+//        }
+//    }else{
+//        for (int i=0; i<_dataArr.count; i++) {
+//            [_dataSource insertObject:_dataArr[i] atIndex:i];
+//        }
+//    }
+//}
+-(UIRefreshControl *)refreshControl{
+    
+    if (!_refreshControl) {
+        _refreshControl = [[UIRefreshControl alloc]init];
+        [_refreshControl addTarget:self
+                            action:@selector(refreshView:)
+                  forControlEvents:UIControlEventValueChanged];
+        [_refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"松开加载更多"]];
+        
+    }
+    return _refreshControl;
+}
+
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -176,8 +223,7 @@
     
     self.teacherView.frame=CGRectMake(0, 0, screenHeight/4, screenWidth/2);
     
-    self.tacktableview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, screenWidth);
-
+    self.tacktableview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height/2-50);
     self.backBtn.frame = CGRectMake(0, 0, 50, 50);
     
 }
@@ -215,7 +261,7 @@
 
 -(void)toReturnDocument:(NSNotification *)notification{
     [self imagePickClick];
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.imageMenuView.transform =CGAffineTransformIdentity;
     }completion:^(BOOL finished) {
@@ -283,17 +329,17 @@
         
         
     }
-
+    
 }
 
 -(void)imagePickClick{
- 
+    
     if(!self.pickImageMenuBtn.selected){
         
         [self.view addSubview:self.hubView];
         [self.view bringSubviewToFront:self.imageSelectView];
         [self.view bringSubviewToFront:self.backBtn];
-
+        
         [UIView animateWithDuration:0.3 animations:^{
             self.imageSelectView.transform =CGAffineTransformMakeTranslation(-200, 0);
         }completion:^(BOOL finished) {
@@ -496,7 +542,7 @@
         _sview = [[setview alloc] init];
         _sview.backgroundColor = [UIColor blackColor];
         _sview.alpha = 0.8;
-         _sview.pickColorButton.selected=true;
+        _sview.pickColorButton.selected=true;
         _sview.pickImageMenuBtn.selected=true;
         [_sview.writeButton addTarget:self action:@selector(writeBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.clearBtn addTarget:self action:@selector(clearBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -560,14 +606,18 @@
     
     if (!_tacktableview) {
         _tacktableview=[[UITableView alloc]init];
-        _tacktableview.backgroundColor = [UIColor orangeColor];
+        //_tacktableview.backgroundColor = [UIColor orangeColor];
         _tacktableview.separatorStyle=UITableViewCellSeparatorStyleNone;
         _tacktableview.allowsSelection = NO;
         _tacktableview.dataSource=self;
         _tacktableview.delegate=self;
+        
+        _tacktableview.tableFooterView = [[UIView alloc]init];
+
         _tacktableview.showsVerticalScrollIndicator = NO;
-        _tacktableview.contentInset = UIEdgeInsetsMake(12,0, 0, 0);
+        //_tacktableview.contentInset = UIEdgeInsetsMake(12,0, 0, 0);
         [_tacktableview setHidden:YES];
+        [_tacktableview addSubview:self.refreshControl];
     }
     return _tacktableview;
 }
@@ -617,12 +667,12 @@
 {
     [UIView animateWithDuration:0.5 animations:^{
         self.sview.transform = CGAffineTransformIdentity;
-
+        
     }completion:^(BOOL finished) {
         //[self.view addSubview:self.rigntbtn];
         [self.rigntbtn removeFromSuperview];
     }];
-  
+    
 }
 
 -(void)tackbenclick
@@ -657,13 +707,19 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-
-    return 50;
+    NSDictionary *dic = [[NSDictionary alloc] init];
+    dic=self.dataArr[indexPath.row];
+    NSString *string=dic[@"chatText"];
+    CGRect rect=[self getObjectFrameOfTextViewWithInfo:string];
+    
+    NSLog(@"%f~~~~~%f",rect.size.height,rect.size.width);
+    return rect.size.height+5;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-
+    
     static NSString *CellIdentifier = @"Cell";
     static NSString *CellIdentifier2 = @"Cell2";
     
@@ -684,8 +740,14 @@
         
         cell = [[tackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.tacklabel.text = string;
-        cell.backgroundColor = [UIColor greenColor];
+        CGRect rect=[self getObjectFrameOfTextViewWithInfo:string];
         
+        
+        cell.tacklabel.frame=rect;
+        
+        
+        //cell.backgroundColor = [UIColor greenColor];
+        [cell.contentView addSubview:cell.tacklabel];
         
         
         return cell;
@@ -697,8 +759,12 @@
         cell = [[tackCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         
         cell.tacklabel.text = string;
-        cell.backgroundColor = [UIColor greenColor];
- 
+        CGRect rect=[self getObjectFrameOfTextViewWithInfo2:string];
+        
+        
+        cell.tacklabel.frame=rect;
+        // cell.backgroundColor = [UIColor greenColor];
+        [cell.contentView addSubview:cell.tacklabel];
         
         
         return cell;
@@ -709,22 +775,53 @@
 -(NSArray *)getData{
     
     NSArray *arr= @[
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"行",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－",@"chatContent":@"text",@"chatPictureUrl":@""},      @{@"senderID":@"0001",@"chatText":@"你好韦富钟",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼",@"chatContent":@"text",@"chatPictureUrl":@""},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－",@"chatContent":@"text",@"chatPictureUrl":@""}
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"}
                     ];
     return arr;
 }
+
+
+-(CGRect )getObjectFrameOfTextViewWithInfo:(NSString *)info{
+    
+    
+    //如果发送内容为文字，计算文字高度。
+    CGSize textLabelSize;
+    
+    textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;
+    
+    CGRect needRect=CGRectMake(5, 5, textLabelSize.width, textLabelSize.height);
+    
+    return needRect;
+    
+}
+-(CGRect )getObjectFrameOfTextViewWithInfo2:(NSString *)info{
+    
+    
+    //如果发送内容为文字，计算文字高度。
+    CGSize textLabelSize;
+    
+    textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    //    self.textLabelWidth =
+    CGRect needRect=CGRectMake(screenW/4-textLabelSize.width-5, 5, textLabelSize.width, textLabelSize.height);
+    
+    return needRect;
+    
+}
+
+
+
 
 @end
