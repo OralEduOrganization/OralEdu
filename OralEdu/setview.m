@@ -44,7 +44,7 @@
     self.tackbtn.frame = CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
     self.stopbtn.frame = CGRectMake(self.frame.size.width/4+10, 10, 30, 30);
     self.microphone.frame = CGRectMake(self.frame.size.width/4+50, 10, 30, 30);
-    self.speakbtn.frame = CGRectMake(10, 10, 120, 30);
+    self.speakbtn.frame = CGRectMake(10, 10, self.frame.size.width/4-40, 30);
     self.speakbackbtn.frame =  CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
 }
 

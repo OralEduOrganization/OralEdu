@@ -14,7 +14,7 @@
 static NSString *identfider = @"historycell";
 static NSString *identfider2 = @"scarchcell";
 
-@interface SearchViewController ()
+@interface SearchViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 {
     int a;//1搜索完成
 }
@@ -95,7 +95,9 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setShowsCancelButton:YES];//搜索框取消按钮
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-         [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+        
+         //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+      
     }
     return _searchbar;
 }
@@ -200,24 +202,36 @@ static NSString *identfider2 = @"scarchcell";
 //搜索框内输入信息
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    if(![searchText isEqualToString:@""]){
     
-    [_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
-    [self.hisv setHidden:YES];
-    a=1;
-    NSLog(@"123");
+        [_searchbar setShowsCancelButton:YES animated:YES];
+        //[_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
+        [self.hisv setHidden:YES];
+        a=1;
+        NSLog(@"123");
     
-    [self.view addSubview:self.history_tableview];
+        [self.view addSubview:self.history_tableview];
     
     
     
-    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+//        dispatch_after(0.2, dispatch_get_main_queue(), ^{
         
-        [self.history_tableview reloadData];
+            [self.history_tableview reloadData];
         
-    });
+//        });
     
-    
-    [self.hisv.his_tableview reloadData];
+        [self.history_tableview setHidden:NO];
+        [self.hisv setHidden:YES];
+        [self.hisv.his_tableview reloadData];
+    }else{
+        a=0;
+        [_searchbar setShowsCancelButton:NO animated:YES];
+        //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+        
+        [self.hisv.his_tableview reloadData];
+        [self.history_tableview setHidden:YES];
+        [self.hisv setHidden:NO];
+    }
     
     
 
@@ -260,7 +274,8 @@ static NSString *identfider2 = @"scarchcell";
 //点击取消按钮
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
 {
-    [_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+    [_searchbar setShowsCancelButton:NO animated:YES];
+    //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
     [self.history_tableview setHidden:YES];
    // [self.hisv setHidden:NO];
      NSLog(@"取消按钮");
