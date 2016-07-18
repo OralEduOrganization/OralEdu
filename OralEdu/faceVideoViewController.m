@@ -97,6 +97,8 @@
 
 @property (strong,nonatomic) UIRefreshControl *refresh;
 
+
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
 @end
 
 @implementation faceVideoViewController
@@ -157,16 +159,6 @@
     
     [self.view addSubview:self.sview];
     
-    
-    
-    
-    __weak faceVideoViewController *weakSelf = self;
-    // setup pull-to-refresh
-    [self.tacktableview addPullToRefreshWithActionHandler:^{
-        [weakSelf insertRowAtTop];
-    }];
-    
-    
 }
 -(void)loadView{
     [super loadView];
@@ -176,22 +168,46 @@
     
 }
 
-
-- (void)insertRowAtTop {
-    __weak faceVideoViewController *weakSelf = self;
-    
-    int64_t delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [weakSelf.tacktableview beginUpdates];
-        
-        //此处数据源方法
-        
-        [weakSelf.tacktableview endUpdates];
-        
-        [weakSelf.tacktableview.pullToRefreshView stopAnimating];
-    });
+-(void) refreshView:(UIRefreshControl *)refresh
+{
+   // long count = _dataSource.count;
+   // [self reloadDataSourceWithNumber:count+1];
+//    [self.chatTableView reloadData];
+    [refresh endRefreshing];
 }
+
+////加载datasource
+//-(void)reloadDataSourceWithNumber:(long)count{
+//    _dataSource = [[NSMutableArray alloc]init];
+//    long dataCount = _dataArr.count;
+//    if (dataCount>=count) {
+//        long j=0;
+//        long m=count;
+//        for (long i=count; i >0; i--) {
+//            
+//            [_dataSource insertObject:_dataArr[dataCount-m] atIndex:j];
+//            m--;
+//            j++;
+//        }
+//    }else{
+//        for (int i=0; i<_dataArr.count; i++) {
+//            [_dataSource insertObject:_dataArr[i] atIndex:i];
+//        }
+//    }
+//}
+-(UIRefreshControl *)refreshControl{
+    
+    if (!_refreshControl) {
+        _refreshControl = [[UIRefreshControl alloc]init];
+        [_refreshControl addTarget:self
+                            action:@selector(refreshView:)
+                  forControlEvents:UIControlEventValueChanged];
+        [_refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"松开加载更多"]];
+        
+    }
+    return _refreshControl;
+}
+
 
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -601,6 +617,7 @@
         _tacktableview.showsVerticalScrollIndicator = NO;
         //_tacktableview.contentInset = UIEdgeInsetsMake(12,0, 0, 0);
         [_tacktableview setHidden:YES];
+        [_tacktableview addSubview:self.refreshControl];
     }
     return _tacktableview;
 }

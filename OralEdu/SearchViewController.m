@@ -88,7 +88,7 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setBackgroundColor:[UIColor clearColor]];
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-        
+         [_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
     }
     return _searchbar;
 }
