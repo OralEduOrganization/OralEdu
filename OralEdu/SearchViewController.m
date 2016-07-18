@@ -191,24 +191,36 @@ static NSString *identfider2 = @"scarchcell";
 //搜索框内输入信息
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [_searchbar setShowsCancelButton:YES animated:YES];
-    //[_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
-    [self.hisv setHidden:YES];
-    a=1;
-    NSLog(@"123");
+    if(![searchText isEqualToString:@""]){
     
-    [self.view addSubview:self.history_tableview];
+        [_searchbar setShowsCancelButton:YES animated:YES];
+        //[_searchbar setShowsCancelButton:YES];//显示右侧取消按钮
+        [self.hisv setHidden:YES];
+        a=1;
+        NSLog(@"123");
+    
+        [self.view addSubview:self.history_tableview];
     
     
     
-    dispatch_after(0.2, dispatch_get_main_queue(), ^{
+//        dispatch_after(0.2, dispatch_get_main_queue(), ^{
         
-        [self.history_tableview reloadData];
+            [self.history_tableview reloadData];
         
-    });
+//        });
     
-    
-    [self.hisv.his_tableview reloadData];
+        [self.history_tableview setHidden:NO];
+        [self.hisv setHidden:YES];
+        [self.hisv.his_tableview reloadData];
+    }else{
+        a=0;
+        [_searchbar setShowsCancelButton:NO animated:YES];
+        //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
+        
+        [self.hisv.his_tableview reloadData];
+        [self.history_tableview setHidden:YES];
+        [self.hisv setHidden:NO];
+    }
     
     
 }
