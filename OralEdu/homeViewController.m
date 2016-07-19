@@ -22,6 +22,7 @@
 #import "HttpTool.h"
 #import "MBProgressHUD+XMG.h"
 @interface homeViewController ()
+
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
 @property (nonatomic,strong) NSMutableArray *titlearr;
@@ -31,6 +32,7 @@
 @property (strong,nonatomic) UIRefreshControl *refresh;
 @property (nonatomic,strong) NSString *url1;
 @property (nonatomic,strong) NSString *name1;
+
 @end
 
 @implementation homeViewController
@@ -315,10 +317,12 @@
     SearchViewController *SearchVC = [[SearchViewController alloc] initWithTitle:@"第二" isNeedBack:YES btn_image:nil];
     [self.navigationController pushViewController:SearchVC animated:YES];
 }
+
 -(void)leftbtnClick
 {
     [self presentLeftMenuViewController];
 }
+
 -(void)toinfoBtnClick
 {
     infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];

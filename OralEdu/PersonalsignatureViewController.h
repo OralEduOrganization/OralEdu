@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface PersonalsignatureViewController : BaseViewController
-
+-(void)setperson:(NSString *)str;
 @end

@@ -65,11 +65,22 @@ static NSString *cellIdentfid3 = @"setcell3";
 -(void)loadDataFromWeb
 {
     
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
     
     self.setarr = [NSMutableArray arrayWithObjects:@"身份认证",@"修改手机号",@"修改密码",nil];
     self.image_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"认证"],[UIImage imageNamed:@"phone"],[UIImage imageNamed:@"账单"], nil];
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *name = [defaultes objectForKey:@"name"];
+    if (name==nil) {
+        self.modelarr = [NSMutableArray array];
+
+        self.modelarr = [NSMutableArray array];
+        setModel *smodel = [[setModel alloc] initWithPicurl:@"http://img.zcool.cn/community/01096455d4612e32f875a132accf76.jpg" Name:@"无" phone:@"无"];
+        [self.modelarr addObject:smodel];
+        [self.setTableview reloadData];
+    }
+    else
+    {
+    
     NSDictionary *para=@{@"user_moblie":name};
     [HttpTool postWithparamsWithURL:@"UserHomepage/HomepageShow?" andParam:para success:^(id responseObject) {
         
@@ -99,6 +110,7 @@ static NSString *cellIdentfid3 = @"setcell3";
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
+    }
     
 }
 
@@ -271,13 +283,14 @@ static NSString *cellIdentfid3 = @"setcell3";
 
 -(void)cache
 {
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:@"该操作不可逆" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
-        //清除登录信息
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        //清除登录信息
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         
         dispatch_async(
                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
@@ -299,6 +312,7 @@ static NSString *cellIdentfid3 = @"setcell3";
         
         
         
+        
     }];
     
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"back" style:    UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -314,6 +328,31 @@ static NSString *cellIdentfid3 = @"setcell3";
 -(void)clearCacheSuccess
 {
     NSLog(@"清理成功");
+}
+
+- (long long) fileSizeAtPath:(NSString*) filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        
+        //        //取得一个目录下得所有文件名
+        //        NSArray *files = [manager subpathsAtPath:filePath];
+        //        NSLog(@"files1111111%@ == %ld",files,files.count);
+        //
+        //        // 从路径中获得完整的文件名（带后缀）
+        //        NSString *exe = [filePath lastPathComponent];
+        //        NSLog(@"exeexe ====%@",exe);
+        //
+        //        // 获得文件名（不带后缀）
+        //        exe = [exe stringByDeletingPathExtension];
+        //
+        //        // 获得文件名（不带后缀）
+        //        NSString *exestr = [[files objectAtIndex:1] stringByDeletingPathExtension];
+        //        NSLog(@"files2222222%@  ==== %@",[files objectAtIndex:1],exestr);
+        
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    
+    return 0;
 }
 
 @end

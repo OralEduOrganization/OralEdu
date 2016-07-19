@@ -47,7 +47,7 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
     [self.view addSubview:self.left_tableview];
     [self.view addSubview:self.user_image];
-   // [self.view addSubview:self.login_label];
+
     self.pic_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"主页icon"],[UIImage imageNamed:@"心"],[UIImage imageNamed:@"设置齿轮"],[UIImage imageNamed:@"关于"], nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];

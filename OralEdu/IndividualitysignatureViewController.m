@@ -166,22 +166,21 @@
         else
         {
         //取出用户账号
+            
         NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
         NSString *name = [defaultes objectForKey:@"name"];
-        
-
         NSDictionary *para=@{@"user_moblie":name,@"user_newsigned":self.person_view.text};
-        
         [HttpTool postWithparamsWithURL:@"Update/SignedUpdate" andParam:para success:^(id responseObject) {
             NSData *data = [[NSData alloc] initWithData:responseObject];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
           
             NSLog(@"%@",dic);
             
-         
+          [[NSNotificationCenter defaultCenter]postNotificationName:@"usersigen" object:self.person_view.text];
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
         }];
+        [self.navigationController popViewControllerAnimated:YES];
         }
     }];
     
@@ -191,4 +190,8 @@
 
 }
 
+-(void)setindividure:(NSString *)str
+{
+    self.person_view.text = str;
+}
 @end

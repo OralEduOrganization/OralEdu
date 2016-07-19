@@ -131,6 +131,8 @@
         [self.navigationController popViewControllerAnimated:YES];
         //保存修改的用户名
         
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"username" object:self.nametext.text];
+        
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -145,5 +147,11 @@
 {
     [self.nametext resignFirstResponder];
 }
+
+
+-(void)setName:(NSString *)str{
+    self.nametext.text = str;
+}
+
 
 @end

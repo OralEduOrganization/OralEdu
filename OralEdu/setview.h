@@ -23,4 +23,5 @@
 @property (nonatomic,strong) UIButton           *microphone;
 @property (nonatomic,strong) UIButton           *speakbtn;
 @property (nonatomic,strong) UIButton           *speakbackbtn;
+@property (nonatomic,strong) UIButton           *languagebtn;
 @end

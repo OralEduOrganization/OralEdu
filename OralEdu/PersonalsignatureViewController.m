@@ -177,9 +177,12 @@
                 
                 NSLog(@"%@",dic);
                 
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"userperson" object:self.person_view.text];
+                
             } failure:^(NSError *error) {
                 NSLog(@"%@",error);
             }];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         
         
@@ -188,6 +191,11 @@
     [control addAction:action2];
     [self presentViewController:control animated:YES completion:nil];
 
+}
+
+-(void)setperson:(NSString *)str
+{
+    self.person_view.text = str;
 }
 
 @end

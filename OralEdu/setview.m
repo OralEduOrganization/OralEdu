@@ -27,6 +27,7 @@
         [self addSubview:self.microphone];
         [self addSubview:self.speakbtn];
         [self addSubview:self.speakbackbtn];
+        [self addSubview:self.languagebtn];
     }
     return self;
 }
@@ -46,6 +47,7 @@
     self.microphone.frame = CGRectMake(self.frame.size.width/4+50, 10, 30, 30);
     self.speakbtn.frame = CGRectMake(10, 10, self.frame.size.width/4-40, 30);
     self.speakbackbtn.frame =  CGRectMake(self.frame.size.width/4-30, 10, 30, 30);
+    self.languagebtn.frame = CGRectMake(self.frame.size.width/4-70, self.frame.size.height-40, 30, 30);
 }
 
 -(UIButton *)writeButton
@@ -173,8 +175,16 @@
     return _speakbackbtn;
 }
 
-
-
+-(UIButton *)languagebtn
+{
+    if(!_languagebtn)
+    {
+        _languagebtn = [[UIButton alloc] init];
+        [_languagebtn setTitle:@"英" forState:UIControlStateNormal];
+        _languagebtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:23];
+    }
+    return _languagebtn;
+}
 
 
 @end

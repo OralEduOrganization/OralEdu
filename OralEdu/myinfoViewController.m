@@ -53,6 +53,9 @@
     [self.view addSubview:self.left_btn];
     [self.view addSubview:self.signature_label];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(nameasd:) name:@"username" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sigenasd:) name:@"usersigen" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(personasd:) name:@"userperson" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +79,30 @@
 {
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
+    
+    
+    if (name==nil) {
+        _picM = [[picModel alloc] init];
+        _picM.image_urlstr = self.url;
+        self.arr = [NSMutableArray array];
+        _picM.name_str = @"无";
+        _picM.signature_str = @"无";
+        _picM.address_str = @"无";
+        _picM.gender_str = @"无";
+        _picM.user_introduction = @"无";
+        _picM.identity =@"无";
+        
+        [self.arr addObject:_picM.name_str];
+        [self.arr addObject:_picM.gender_str];
+        [self.arr addObject:_picM.address_str];
+        [self.arr addObject:_picM.signature_str];
+        [self.arr addObject:_picM.user_introduction];
+        [self.arr addObject:_picM.identity];
+        [self.infotableview reloadData];
+        
+    }
+    else
+    {
     NSDictionary *para=@{@"user_moblie":name};
     [HttpTool postWithparamsWithURL:@"Userpage/UserpageShow?" andParam:para success:^(id responseObject) {
         
@@ -126,7 +153,7 @@
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
-
+    }
 }
 
 #pragma mark - getters
@@ -233,6 +260,7 @@
             if(indexPath.row == 0)
             {
                 cell.m_label2.text = _picM.name_str;
+           
             }
             if(indexPath.row == 2)
             {
@@ -269,12 +297,18 @@
     {
         nameViewController *nameVC = [[nameViewController alloc] initWithTitle:@"用户名" isNeedBack:YES btn_image:nil];
         
+        [nameVC setName:_picM.name_str];
+        
         [self.navigationController pushViewController:nameVC animated:YES];
+
     }
     if(indexPath.row == 1)
     {
         NSLog(@"个性签名");
         IndividualitysignatureViewController *individVC = [[IndividualitysignatureViewController alloc] initWithTitle:@"个性签名" isNeedBack:YES btn_image:nil];
+        
+        [individVC setindividure:_picM.signature_str];
+        
         [self.navigationController pushViewController:individVC animated:YES];
     }
     if(indexPath.row == 2)
@@ -295,6 +329,7 @@
     if(indexPath.row == 5)
     {
         PersonalsignatureViewController *PersonVC = [[PersonalsignatureViewController alloc] initWithTitle:@"个人简介" isNeedBack:YES btn_image:nil];
+        [PersonVC setperson:_picM.user_introduction];
         [self.navigationController pushViewController:PersonVC animated:YES];
         
     }
@@ -517,7 +552,7 @@
 #pragma mark - 退出登录
 -(void)Logout
 {
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"退出登录" message:@"您确定要退出登录吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"退出登录" message:@"您确定要退出登录吗" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
@@ -528,11 +563,15 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [[NSNotificationCenter defaultCenter]postNotificationName:@"login" object:nil];
-
+        
+        [self loadDataFromWeb];
+        [self.infotableview reloadData];
         
     }];
+    
     [control addAction:action1];
     [control addAction:action2];
+    
     [self presentViewController:control animated:YES completion:nil];
 }
 
@@ -558,4 +597,26 @@
     [self presentViewController:control animated:YES completion:nil];
 
 }
+
+-(void)nameasd:(NSNotification *)notifocation
+{
+    NSString *name = (NSString *)[notifocation object];
+    _picM.name_str = name;
+    [self.infotableview reloadData];
+}
+
+-(void)sigenasd:(NSNotification *)notifocation
+{
+    NSString *sigen = (NSString *)[notifocation object];
+    _picM.signature_str = sigen;
+    [self.infotableview reloadData];
+}
+
+-(void)personasd:(NSNotification *)notifocation
+{
+    NSString *person = (NSString *)[notifocation object];
+    _picM.user_introduction = person;
+    [self.infotableview reloadData];
+}
+
 @end

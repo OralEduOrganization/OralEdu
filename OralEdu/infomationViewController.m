@@ -7,9 +7,7 @@
 //
 
 #import "infomationViewController.h"
-#import "infoCell1.h"
 #import "infoCell2.h"
-#import "infoCell3.h"
 #import "infoModel.h"
 #import "ZCYlocation.h"
 #import "faceVideoViewController.h"
@@ -37,7 +35,7 @@
     [self.view addSubview:self.name_label];
     [self.view addSubview:self.left_btn];
     [self.view addSubview:self.go_viewbtn];
-
+    self.name_label.frame = CGRectMake((self.view.frame.size.width-100)/2, 70, 100, 30);
     [self.navitionBar.left_btn setTitle:@"个人信息" forState:UIControlStateNormal];
 }
 
@@ -49,10 +47,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.infotableview.frame = CGRectMake(0, 160, [UIScreen mainScreen].bounds.size.width, 150);
+    self.infotableview.frame = CGRectMake(0, 120, [UIScreen mainScreen].bounds.size.width, 120);
     self.left_btn.frame = CGRectMake(10, 50, 30, 30);
     self.pic_image.frame = CGRectMake(50, 30, 70, 70);
-    self.name_label.frame = CGRectMake((self.view.frame.size.width-100)/2, 70, 100, 30);
     self.go_viewbtn.frame = CGRectMake(15, 380, [UIScreen mainScreen].bounds.size.width-30, 50);
 }
 
@@ -136,26 +133,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return 1;
-    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identfider = @"infocell1";
-    static NSString *identfider3 = @"infocell3";
-    if (indexPath.section == 0) {
+
         infoCell2 *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
         if (!cell) {
             cell = [[infoCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
@@ -163,40 +152,22 @@
             cell.label2.text = _model1.address_str;
         }
         return cell;
-    }
-    if (indexPath.section == 1) {
-        infoCell3 *cell = [tableView dequeueReusableCellWithIdentifier:identfider3];
-        if (!cell) {
-            cell = [[infoCell3 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider3];
-            cell.label1.text = @"累计授课";
-            cell.label2.text = @"200次";
-        }
-        return cell;
-    }
+ 
+  
     return nil;
 }
 
 //设置cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 80;
-    }
-    else
-    {
-    return 45.0f;
-    }
+    return 120;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    // return @"标题";
-    if (section == 0) {
+
         return @"";
-    }else
-    {
-        return @"   ";
-    }
+   
 }
 
 #pragma mark - 实现方法

@@ -10,4 +10,6 @@
 
 @interface IndividualitysignatureViewController : BaseViewController
 
+-(void)setindividure:(NSString *)str;
+
 @end

@@ -10,4 +10,6 @@
 #import "BaseViewController.h"
 @interface nameViewController : BaseViewController<UITextFieldDelegate>
 
+-(void)setName:(NSString *)str;
+
 @end

@@ -11,6 +11,7 @@
 #import "hisView.h"
 #import "searchcell.h"
 #import "HttpTool.h"
+#import "infomationViewController.h"
 static NSString *identfider = @"historycell";
 static NSString *identfider2 = @"scarchcell";
 
@@ -228,7 +229,7 @@ static NSString *identfider2 = @"scarchcell";
             NSLog(@"data = %@",dit);
             
             
-            
+           
             self.his_arr = [NSMutableArray array];
             hisModel *model = [[hisModel alloc] init];
             model.history_arr = @"123";
@@ -275,8 +276,6 @@ static NSString *identfider2 = @"scarchcell";
         [self.hisv setHidden:NO];
     }
     
-    
-
 }
 
 -(void)keyboardHide
@@ -330,6 +329,17 @@ static NSString *identfider2 = @"scarchcell";
         _history_tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _history_tableview;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView==self.hisv.his_tableview) {
+        self.searchbar.text = self.his_arr[indexPath.row];
+    }
+    if (tableView==self.history_tableview) {
+        infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"离" isNeedBack:YES btn_image:nil];
+        [self.navigationController pushViewController:infoVC animated:YES];
+    }
 }
 
 @end

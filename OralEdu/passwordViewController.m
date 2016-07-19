@@ -165,7 +165,7 @@
 
 -(void)savenewpass
 {
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"保存密码" message:@"您确定要修改密码吗" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         

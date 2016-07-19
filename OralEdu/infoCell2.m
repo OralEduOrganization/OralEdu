@@ -24,8 +24,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.label1.frame = CGRectMake(20, 20, 80, 50);
-    self.label2.frame = CGRectMake(120, 20, self.frame.size.width-120-30, 50);
+    self.label1.frame = CGRectMake(20, 40, 80, 50);
+    self.label2.frame = CGRectMake(120, 40, self.frame.size.width-120-30, 60);
 }
 
 #pragma mark - getters

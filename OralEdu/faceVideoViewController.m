@@ -18,15 +18,11 @@
 #define kPictureImageViewMaxWidth 200*scaleW
 #define kPictureImageViewMaxHeight 200*scaleW
 
-
-
 //RGB设置
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define UIThemeColor UIColorFromRGB(0x26252A) //背景黑色
 #define UIBottomViewColor UIColorFromRGB(0xF2F2F5) //底部白色
 #define UIChatViewColor UIColorFromRGB(0xE6E6E6) //聊天窗口白色
-
-
 
 #import "faceVideoViewController.h"
 #import "PIDrawerView.h"
@@ -41,11 +37,9 @@
 #import "tackCell2.h"
 #import "SVPullToRefresh.h"
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate>{
-    
     NSInteger screenWidth;
     NSInteger screenHeight;
     PIDrawerView *drawView;
-    
 }
 @property (nonatomic,strong) UIButton           *backBtn;
 @property (nonatomic,strong) UIView             *teacherView;
@@ -85,6 +79,7 @@
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
 @property (nonatomic,strong) UITableView *languageTableview;
 @property (nonatomic,strong) NSMutableArray *languagearr;
+
 @end
 
 @implementation faceVideoViewController
@@ -108,9 +103,8 @@
     
     [self.view addSubview:self.imageSelectView];
     
-    [self.view addSubview:self.backBtn];
-    
-    
+    //[self.view addSubview:self.backBtn];
+
     self.selectedColor = [UIColor redColor];
     drawView.selectedColor=self.selectedColor;
     [self.view addSubview:self.rightView];
@@ -195,22 +189,23 @@
     [super viewWillAppear:animated];
     
     self.backGroundImageView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
-    
+
     drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
     
     self.sview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 50);
     
-    self.studentView.frame=CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, screenWidth/2);
-    
-    self.teacherView.frame=CGRectMake(0, 0, screenHeight/4, screenWidth/2);
-    
-    self.tacktableview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height/2-50);
-    
+    self.studentView.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height-50)/2,screenHeight/4 , (screenWidth-50)/2);
 
+    self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
+    
+    self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height-50)/2, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height/2-50);
+    
     self.backBtn.frame = CGRectMake(0, 0, 50, 50);
-   
+    
     self.languageTableview.frame = CGRectMake(screenHeight, 0, screenHeight/4, screenWidth);
+    
 }
+
 #pragma mark - Observer
 
 -(void)toReturnColor:(NSNotification *)notification{
@@ -254,7 +249,6 @@
     
 }
 
-
 #pragma mark - click
 
 -(void)eraseBtnClick{
@@ -271,17 +265,30 @@
     [drawView setDrawingMode:DrawingModePaint];
 }
 
+//挂断通话，返回上个界面
+
 -(void)backBtnClick{
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = UIInterfaceOrientationPortrait;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"确定要挂掉通话吗" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+            SEL selector = NSSelectorFromString(@"setOrientation:");
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+            [invocation setSelector:selector];
+            [invocation setTarget:[UIDevice currentDevice]];
+            int val = UIInterfaceOrientationPortrait;
+            [invocation setArgument:&val atIndex:2];
+            [invocation invoke];
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [control addAction:action1];
+    [control addAction:action2];
+    
+    [self presentViewController:control animated:YES completion:nil];
 }
 
 -(void)writeBtnClick{
@@ -542,7 +549,8 @@
         [_sview.leftbtn addTarget:self action:@selector(suofang) forControlEvents:UIControlEventTouchUpInside];
         [_sview.tackbtn addTarget:self action:@selector(tackbenclick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.speakbackbtn addTarget:self action:@selector(speakbackbtnclick) forControlEvents:UIControlEventTouchUpInside];
-        [_sview.microphone addTarget:self action:@selector(languagexuanze) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.languagebtn addTarget:self action:@selector(languagexuanze) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.stopbtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sview;
 }
@@ -592,21 +600,18 @@
     return _hubView;
 }
 
+
 //聊天界面的tableview
 -(UITableView *)tacktableview{
     
     if (!_tacktableview) {
         _tacktableview=[[UITableView alloc]init];
-        //_tacktableview.backgroundColor = [UIColor orangeColor];
         _tacktableview.separatorStyle=UITableViewCellSeparatorStyleNone;
         _tacktableview.allowsSelection = NO;
         _tacktableview.dataSource=self;
         _tacktableview.delegate=self;
-        
         _tacktableview.tableFooterView = [[UIView alloc]init];
-
         _tacktableview.showsVerticalScrollIndicator = NO;
-        //_tacktableview.contentInset = UIEdgeInsetsMake(12,0, 0, 0);
         [_tacktableview setHidden:YES];
         [_tacktableview addSubview:self.refreshControl];
     }
@@ -621,7 +626,6 @@
         _languageTableview = [[UITableView alloc] init];
         _languageTableview.dataSource = self;
         _languageTableview.delegate = self;
-       // [_languageTableview setHidden:YES];
     }
     return _languageTableview;
 }
@@ -699,6 +703,7 @@
     [self.sview.speakbackbtn setHidden:NO];
     [self.studentView setHidden:YES];
     [self.tacktableview setHidden:NO];
+    [self.sview.languagebtn setHidden:YES];
 }
 
 -(void)speakbackbtnclick
@@ -709,6 +714,7 @@
     [self.sview.camerabtn setHidden:NO];
     [self.studentView setHidden:NO];
     [self.tacktableview setHidden:YES];
+    [self.sview.languagebtn setHidden:NO];
 }
 
 #pragma mark - tableview DataSource
@@ -726,8 +732,9 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == self.languageTableview ) {
-        return 60;
+    if (tableView == self.languageTableview )
+    {
+        return screenWidth/self.languagearr.count;
     }
     else
     {
@@ -826,9 +833,7 @@
     return arr;
 }
 
-
 -(CGRect )getObjectFrameOfTextViewWithInfo:(NSString *)info{
-    
     
     //如果发送内容为文字，计算文字高度。
     CGSize textLabelSize;
@@ -840,17 +845,61 @@
     return needRect;
     
 }
+
 -(CGRect )getObjectFrameOfTextViewWithInfo2:(NSString *)info{
-    
     
     //如果发送内容为文字，计算文字高度。
     CGSize textLabelSize;
     
-    textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    //    self.textLabelWidth =
+    textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    
     CGRect needRect=CGRectMake(screenW/4-textLabelSize.width-5, 5, textLabelSize.width, textLabelSize.height);
     
     return needRect;
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView==self.languageTableview) {
+        if (indexPath.row==0) {
+            NSLog(@"中文");
+            [self.sview.languagebtn setTitle:@"中" forState:UIControlStateNormal];
+        }
+        if (indexPath.row==1) {
+            NSLog(@"英文");
+            [self.sview.languagebtn setTitle:@"英" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==2) {
+            NSLog(@"俄语");
+            [self.sview.languagebtn setTitle:@"俄" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==3) {
+            NSLog(@"西班牙语");
+            [self.sview.languagebtn setTitle:@"西" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==4) {
+            NSLog(@"日语");
+            [self.sview.languagebtn setTitle:@"日" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==5) {
+            NSLog(@"法语");
+            [self.sview.languagebtn setTitle:@"法" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==6) {
+            NSLog(@"韩语");
+            [self.sview.languagebtn setTitle:@"韩" forState:UIControlStateNormal];
+
+        }
+        if (indexPath.row==7) {
+            NSLog(@"阿拉伯语");
+            [self.sview.languagebtn setTitle:@"阿" forState:UIControlStateNormal];
+
+        }
+    }
+}
 @end
