@@ -8,6 +8,7 @@
 
 #import "IndividualitysignatureViewController.h"
 #import "HttpTool.h"
+#import "MBProgressHUD+XMG.h"
 @interface IndividualitysignatureViewController ()<UITextViewDelegate>
 @property (nonatomic,strong) UITextView *person_view;
 @property (nonatomic,strong) UILabel *number_label;
@@ -157,6 +158,13 @@
         
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if (self.person_view.text.length==0) {
+            NSLog(@"不能为空");
+            [MBProgressHUD showError:@"不能为空"];
+        }
+        else
+        {
         //取出用户账号
         NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
         NSString *name = [defaultes objectForKey:@"name"];
@@ -174,7 +182,7 @@
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
         }];
-        
+        }
     }];
     
     [control addAction:action1];

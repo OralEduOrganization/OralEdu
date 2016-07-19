@@ -47,7 +47,6 @@
     PIDrawerView *drawView;
     
 }
-
 @property (nonatomic,strong) UIButton           *backBtn;
 @property (nonatomic,strong) UIView             *teacherView;
 @property (nonatomic,strong) UIView             *studentView;
@@ -62,22 +61,14 @@
 @property (nonatomic,strong) videoRightView     *rightView;
 @property (nonatomic,strong) pickImageView      *imageSelectView;
 @property (nonatomic,strong) imageMenuView      *imageMenuView;
-
 @property (nonatomic,strong) UIButton           *camerabtn;
 @property (nonatomic,strong) UIView             *hidview;
-
 @property (nonatomic,strong) setview            *sview;
 @property (nonatomic,strong) UIButton           *rigntbtn;
-
 @property (nonatomic,strong) UITableView        *tacktableview;
-
-
-
-
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIButton *callButton;
-
 @property (nonatomic, strong) UIView *inputView;
 @property (nonatomic, strong) UITextField *inputTextField;
 @property (nonatomic, strong) UIButton *faceButton;
@@ -89,16 +80,11 @@
 @property (nonatomic, assign) NSString * senderID;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *dataSource;
-
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;
-
-
 @property (nonatomic, strong) NSMutableArray *tackarray;
-
-//@property (strong,nonatomic) UIRefreshControl *refresh;
-
-
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
+@property (nonatomic,strong) UITableView *languageTableview;
+@property (nonatomic,strong) NSMutableArray *languagearr;
 @end
 
 @implementation faceVideoViewController
@@ -108,14 +94,11 @@
     
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
+    self.languagearr = [NSMutableArray arrayWithObjects:@"中文",@"English",@"русский",@"español",@"日本语",@"français",@"한국어",@"عربي/عربى", nil];
     
     [self.view addSubview:self.teacherView];
     
     [self.view addSubview:self.studentView];
-    
-    
-    
-    
     
     [self.view addSubview:self.backGroundImageView];
     
@@ -126,7 +109,6 @@
     [self.view addSubview:self.imageSelectView];
     
     [self.view addSubview:self.backBtn];
-    
     
     
     self.selectedColor = [UIColor redColor];
@@ -147,8 +129,6 @@
         [invocation invoke];
     }
     
-    
-    
     self.senderID = @"0001";
     NSArray *arr = [self getData];
     _dataArr = [NSMutableArray arrayWithArray:arr];
@@ -159,6 +139,7 @@
     
     [self.view addSubview:self.sview];
     
+    [self.view addSubview:self.languageTableview];
 }
 -(void)loadView{
     [super loadView];
@@ -224,10 +205,12 @@
     self.teacherView.frame=CGRectMake(0, 0, screenHeight/4, screenWidth/2);
     
     self.tacktableview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height/2, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height/2-50);
-    self.backBtn.frame = CGRectMake(0, 0, 50, 50);
     
-}
 
+    self.backBtn.frame = CGRectMake(0, 0, 50, 50);
+   
+    self.languageTableview.frame = CGRectMake(screenHeight, 0, screenHeight/4, screenWidth);
+}
 #pragma mark - Observer
 
 -(void)toReturnColor:(NSNotification *)notification{
@@ -270,6 +253,7 @@
     self.pickImageMenuBtn.selected=!self.pickImageMenuBtn.selected;
     
 }
+
 
 #pragma mark - click
 
@@ -405,6 +389,12 @@
     }completion:^(BOOL finished) {
         
     }];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.languageTableview.transform =CGAffineTransformIdentity;
+    }completion:^(BOOL finished) {
+        
+    }];
+    
     self.pickImageMenuBtn.selected=NO;
     self.pickColorButton.selected=NO;
     
@@ -552,6 +542,7 @@
         [_sview.leftbtn addTarget:self action:@selector(suofang) forControlEvents:UIControlEventTouchUpInside];
         [_sview.tackbtn addTarget:self action:@selector(tackbenclick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.speakbackbtn addTarget:self action:@selector(speakbackbtnclick) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.microphone addTarget:self action:@selector(languagexuanze) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sview;
 }
@@ -622,6 +613,19 @@
     return _tacktableview;
 }
 
+
+-(UITableView *)languageTableview
+{
+    if(!_languageTableview)
+    {
+        _languageTableview = [[UITableView alloc] init];
+        _languageTableview.dataSource = self;
+        _languageTableview.delegate = self;
+       // [_languageTableview setHidden:YES];
+    }
+    return _languageTableview;
+}
+
 -(videoRightView*)rightView{
     
     if (!_rightView) {
@@ -663,6 +667,18 @@
     }];
 }
 
+-(void)languagexuanze
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.languageTableview.transform =CGAffineTransformMakeTranslation(-screenHeight/4, 0);
+    }completion:^(BOOL finished) {
+        
+    }];
+    [self.view addSubview:self.hubView];
+    [self.view bringSubviewToFront:self.languageTableview];
+    
+}
+
 -(void)huanyuan
 {
     [UIView animateWithDuration:0.5 animations:^{
@@ -697,32 +713,49 @@
 
 #pragma mark - tableview DataSource
 
-
 //代理实现
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return self.dataArr.count;
+    if (tableView==self.languageTableview) {
+        return self.languagearr.count;
+    }
+    else
+    {
+        return self.dataArr.count;
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if (tableView == self.languageTableview ) {
+        return 60;
+    }
+    else
+    {
     NSDictionary *dic = [[NSDictionary alloc] init];
     dic=self.dataArr[indexPath.row];
     NSString *string=dic[@"chatText"];
     CGRect rect=[self getObjectFrameOfTextViewWithInfo:string];
-    
     NSLog(@"%f~~~~~%f",rect.size.height,rect.size.width);
     return rect.size.height+5;
-    
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
     static NSString *CellIdentifier = @"Cell";
     static NSString *CellIdentifier2 = @"Cell2";
-    
+    static NSString *CellIdentifier3 = @"Cell3";
+
+    if (tableView==self.languageTableview) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier3];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier3];
+            cell.textLabel.text = self.languagearr[indexPath.row];
+        }
+        return cell;
+    }
+    else
+    {
     NSDictionary *dic = [[NSDictionary alloc] init];
     dic=self.dataArr[indexPath.row];
     NSString *string=dic[@"chatText"];
@@ -732,8 +765,6 @@
     dic2=self.dataArr[indexPath.row];
     NSString *sender = dic2[@"senderID"];
     NSLog(@"%@",sender);
-    
-    
     
     if ([sender isEqual:@"0001"]) {
         tackCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -769,7 +800,8 @@
         
         return cell;
     }
-    
+    }
+    return nil;
 }
 
 -(NSArray *)getData{
@@ -820,8 +852,5 @@
     return needRect;
     
 }
-
-
-
 
 @end

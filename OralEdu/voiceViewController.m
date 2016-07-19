@@ -48,18 +48,13 @@
         [invocation invoke];
     }
 
-    ITRAirSideMenu *itrSideMenu = ((AppDelegate *)[UIApplication sharedApplication].delegate).itrAirSideMenu;
-    
-
-    UIViewController *tempViewController = itrSideMenu.leftMenuViewController;
-    
     self.iflyRecognizerView = [[IFlyRecognizerView alloc]initWithCenter:CGPointMake(200, 200)];
     self.iflyRecognizerView.delegate = self;
-    
-
-    [self.view addSubview:self.speakbtn];
+    //[self.view addSubview:self.speakbtn];
 }
+
 #pragma mark - privateMethod
+
 -(void)voiceBtnClick{
     [self.view addSubview:self.iflyRecognizerView];
     [self.iflyRecognizerView setParameter: @"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];

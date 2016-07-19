@@ -25,9 +25,7 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) UILabel *m_label;
 @property (nonatomic,strong) hisView *hisv;
 @property (nonatomic,strong) NSMutableArray *array1;
-
 @property (nonatomic,strong) NSMutableArray *arr;
-//@property (nonatomic,strong)UISearchController *searchVC;
 @end
 
 @implementation SearchViewController
@@ -51,6 +49,7 @@ static NSString *identfider2 = @"scarchcell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -63,6 +62,7 @@ static NSString *identfider2 = @"scarchcell";
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
 }
+
 #pragma  mark - 数据源方法
 
 -(void)loadDataFromWeb
@@ -153,6 +153,7 @@ static NSString *identfider2 = @"scarchcell";
 
 
 #pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (a==1) {
@@ -165,6 +166,7 @@ static NSString *identfider2 = @"scarchcell";
 }
 
 #pragma mark - 实现方法
+
 -(void)leftbtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -329,4 +331,5 @@ static NSString *identfider2 = @"scarchcell";
     }
     return _history_tableview;
 }
+
 @end

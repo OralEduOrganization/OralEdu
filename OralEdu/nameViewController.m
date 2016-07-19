@@ -104,7 +104,7 @@
 
 -(void)savename
 {
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改用户名" message:@"您确定要修用户名吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"修改用户名" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         self.mobilephone = [[NSString alloc] init];
@@ -126,10 +126,6 @@
             NSLog(@"%@",error);
         }];
         
-        
-        
-        
-        
         //返回上一页
         
         [self.navigationController popViewControllerAnimated:YES];
@@ -149,6 +145,5 @@
 {
     [self.nametext resignFirstResponder];
 }
-
 
 @end
