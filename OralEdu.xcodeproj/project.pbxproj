@@ -10,6 +10,7 @@
 		530538DD1D1C02EB001736B3 /* titleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538DC1D1C02EB001736B3 /* titleModel.m */; };
 		530538E01D1C096E001736B3 /* leftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538DF1D1C096E001736B3 /* leftCell.m */; };
 		530538F11D1C0F7B001736B3 /* setViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530538F01D1C0F7B001736B3 /* setViewController.m */; };
+		53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */; };
 		530F6E4B1D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E481D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.m */; };
 		530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E4A1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m */; };
 		530F6E771D27DAD900A3A2AE /* setCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 530F6E761D27DAD900A3A2AE /* setCell1.m */; };
@@ -119,6 +120,7 @@
 		530538DF1D1C096E001736B3 /* leftCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftCell.m; sourceTree = "<group>"; };
 		530538EF1D1C0F7B001736B3 /* setViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setViewController.h; sourceTree = "<group>"; };
 		530538F01D1C0F7B001736B3 /* setViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = setViewController.m; sourceTree = "<group>"; };
+		53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		530F6E461D268D5500A3A2AE /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
 		530F6E471D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
 		530F6E481D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */,
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
 				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
@@ -1057,6 +1060,7 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */,
 				FECC94841D2CE448006F955A /* iflyMSC.framework */,
 				FECC94721D264953006F955A /* CoreGraphics.framework */,
 				FECC94701D264936006F955A /* MobileCoreServices.framework */,
@@ -1310,7 +1314,7 @@
 				TargetAttributes = {
 					53E91A1A1D1B70E40091E85A = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = H4U7SMXJX3;
+						DevelopmentTeam = 3637W6NRU9;
 					};
 				};
 			};

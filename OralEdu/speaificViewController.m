@@ -32,7 +32,6 @@
 @property (nonatomic,strong) NSMutableArray *image_arr;
 @property (nonatomic,strong) NSMutableArray *url_arr;
 @property (nonatomic,strong) NSMutableArray *time_arr;
-//@property (nonatomic,strong) imageTableViewCell *cell;
 @property (nonatomic,strong) materal_model *m_model;
 @property (nonatomic,strong) NSMutableArray *need_arr;
 @property (nonatomic,strong) UICollectionView *image_collectionview;
@@ -49,18 +48,11 @@ static NSString *collectionview = @"imagecell";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
      self.need_arr=[[NSMutableArray alloc]init];
      self.m_model = [[materal_model alloc] init];
-    
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回.png"] forState:UIControlStateNormal];
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
-
-    
     [self addTheCollectionView];
-    
     [self.view addSubview:self.add_btn];
-    
     [self reloadData];
-
-   
 }
 -(void)reloadData{
     self.image_arr = [NSMutableArray array];
@@ -96,9 +88,7 @@ static NSString *collectionview = @"imagecell";
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark - getters
-
 
 -(UIButton *)add_btn
 {
@@ -262,9 +252,6 @@ static NSString *collectionview = @"imagecell";
     [self.image_arr addObject:image];
     //[self.image_tableview reloadData];
     
-
-    
-    
     
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *user_id = [defaultes objectForKey:@"name"];
@@ -320,9 +307,16 @@ static NSString *collectionview = @"imagecell";
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)rightbtnClick{
     isEdit=!isEdit;
     [self.image_collectionview reloadData];
+    if (isEdit==NO) {
+        [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
+    }else
+    {
+        [self.navitionBar.right_btn setTitle:@"取消" forState:UIControlStateNormal];
+    }
 }
 
 
@@ -368,12 +362,8 @@ static NSString *collectionview = @"imagecell";
     NSLog(@"_____%ld",indexPath.row);
     [_image_arr removeObjectAtIndex:indexPath.row];
     
-    
     [self.image_collectionview reloadData];
-    
-    
     [Datebase_materallist deletemateraldetails:aCell.nameUrl];
-    
     
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
    

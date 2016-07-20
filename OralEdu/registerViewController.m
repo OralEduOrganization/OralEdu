@@ -13,8 +13,14 @@
 #import "MBProgressHUD+XMG.h"
 #import "AFNetworking.h"
 #import "HttpTool.h"
-
+#import <AudioToolbox/AudioToolbox.h>
+#import "MBProgressHUD.h"
 @interface registerViewController ()
+{
+    SystemSoundID sound;//系统声音的id 取值范围为：1000-2000
+    
+    MBProgressHUD *HUD;
+}
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIButton *reist_btn;
 @property (nonatomic,strong) UITextField *phone_text;
@@ -256,6 +262,8 @@
                 if ([code isEqualToString:@"600"])
                 {
                    NSLog(@"用户已经存在");
+                    //手机震动
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                     [MBProgressHUD showError:@"用户已经存在"];
                 }else
                 {
@@ -269,13 +277,26 @@
                 
             } failure:^(NSError *error) {
                 NSLog(@"%@",error);
+                //手机震动
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                HUD = [[MBProgressHUD alloc] initWithView:self.view];
+                HUD.labelText = @"请检查网络设置";
+                [self.view addSubview:HUD];
+                HUD.mode = MBProgressHUDModeCustomView;
+                HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+                [HUD showAnimated:YES whileExecutingBlock:^{
+                    sleep(2);
+                } completionBlock:^{
+                    [HUD removeFromSuperViewOnHide];
+                }];
+                
             }];
-            
-            
             
             
         }else{
             NSLog(@"验证失败:%@",error);
+            //手机震动
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [MBProgressHUD showError:@"注册失败，请检查输入"];
         }
     }];
@@ -299,19 +320,12 @@
     [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:_phone_text.text zone:@"86" customIdentifier:nil result:^(NSError *error) {
         if (!error) {
             NSLog(@"获取验证码成功");
-//            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"获取验证码成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                
-//            }];
-//            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                
-//            }];
-//            [control addAction:action1];
-//            [control addAction:action2];
-//            [self presentViewController:control animated:YES completion:nil];
+
             [MBProgressHUD showSuccess:@"获取成功"];
         }else{
             NSLog(@"获取验证码失败");
+            //手机震动
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [MBProgressHUD showError:@"请确认您输入的手机号"];
         }
         

@@ -22,7 +22,9 @@
 #import "HttpTool.h"
 #import "MBProgressHUD+XMG.h"
 @interface homeViewController ()
-
+{
+     int currentClickIndex;
+}
 @property (nonatomic,strong) UITableView *homeTableview;
 @property (nonatomic,strong) NSMutableArray *homearr;
 @property (nonatomic,strong) NSMutableArray *titlearr;
@@ -40,7 +42,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
        self.view.backgroundColor = [UIColor whiteColor];
-
+    currentClickIndex = -1;
     //验证登录信息
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
@@ -64,7 +66,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
     self.view.backgroundColor=[UIColor clearColor];
-
+    
 }
 
 -(void)login{
@@ -276,7 +278,7 @@
     
     // return @[deleteRowAction, topRowAction, moreRowAction];
     
-    return @[deleteRowAction,topRowAction];
+    return @[deleteRowAction];
     
 }
 

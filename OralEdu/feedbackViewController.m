@@ -7,6 +7,7 @@
 //
 
 #import "feedbackViewController.h"
+#import "HttpTool.h"
 
 @interface feedbackViewController ()
 @property(nonatomic,strong)UIButton *btn_tijiao;
@@ -17,12 +18,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.view.backgroundColor = [UIColor colorWithRed:197 green:174 blue:124 alpha:1];
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"白色返回"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.btn_tijiao];
     [self.view addSubview:self.view_fankui];
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     self.view_fankui.delegate = self;
@@ -33,6 +34,7 @@
     self.btn_tijiao.frame = CGRectMake((width - (width*0.58))/2, height *0.7, width *0.58,height*0.08);
     
 }
+
 #pragma mark - getters
 -(UIButton *)btn_tijiao
 {
@@ -47,10 +49,26 @@
     }
     return _btn_tijiao;
 }
+
 -(void)tijiao
 {
     NSLog(@"提交");
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    NSDictionary *para=@{@"user_moblie":name,@"Feedback":self.view_fankui.text};
+    [HttpTool postWithparamsWithURL:@"Update/Feedback" andParam:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        NSLog(@"%@",dic);
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"usersigen" object:self.view_fankui.text];
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    
 }
+
 -(UITextView *)view_fankui
 {
     if (!_view_fankui) {
@@ -73,5 +91,8 @@
     [self.view_fankui resignFirstResponder];
 }
 #pragma mark - UITextViewDelegate
-
+//return 响应事件
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    return YES;
+}
 @end

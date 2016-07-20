@@ -27,6 +27,7 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) hisView *hisv;
 @property (nonatomic,strong) NSMutableArray *array1;
 @property (nonatomic,strong) NSMutableArray *arr;
+@property (nonatomic,strong) UILabel *searchlabel;
 @end
 
 @implementation SearchViewController
@@ -44,6 +45,7 @@ static NSString *identfider2 = @"scarchcell";
     [self.view addSubview:self.searchbar];
     [self.view addSubview:self.hisv];
     [self.hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.searchlabel];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,6 +64,7 @@ static NSString *identfider2 = @"scarchcell";
                                               self.view.frame.size.height-64);
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
+    self.searchlabel.frame = CGRectMake(0, 80, self.view.frame.size.width, 40);
 }
 
 #pragma  mark - 数据源方法
@@ -72,9 +75,6 @@ static NSString *identfider2 = @"scarchcell";
     hisModel *model = [[hisModel alloc] init];
     model.history_arr = @"123";
     [self.his_arr addObject:model.history_arr];
-    hisModel *model2 = [[hisModel alloc] init];
-    model2.history_arr = @"456";
-    [self.his_arr addObject:model2.history_arr];
     
 }
 
@@ -91,12 +91,13 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setBackgroundImage:searchBarBg];
         //设置背景色
         [_searchbar setBackgroundColor:[UIColor clearColor]];
-        [_searchbar setShowsCancelButton:YES];//搜索框取消按钮
+        [_searchbar setShowsCancelButton:NO];//搜索框取消按钮
         //设置文本框背景
         //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
         
          //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
       
+       
     }
     return _searchbar;
 }
@@ -112,6 +113,19 @@ static NSString *identfider2 = @"scarchcell";
     }
     return _hisv;
 }
+
+-(UILabel *)searchlabel
+{
+    if(!_searchlabel)
+    {
+        _searchlabel = [[UILabel alloc] init];
+        [_searchlabel setHidden:YES];
+        _searchlabel.text = @"没有找到";
+        _searchlabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _searchlabel;
+}
+
 
 #pragma mark - UITableViewDateSource
 
@@ -222,21 +236,28 @@ static NSString *identfider2 = @"scarchcell";
             NSData *data = [[NSData alloc] initWithData:responseObject];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            NSLog(@"%@",dic);
+            
+         
+            NSLog(@"dic = %@",dic);
             
             NSArray *dit  = [dic objectForKey:@"data"];
             
+            NSString *code = [dic objectForKey:@"code"];
+            NSLog(@"code = %@",code);
             NSLog(@"data = %@",dit);
             
+            if ([code isEqualToString:@"500"]) {
+               
+                [self.history_tableview setHidden:YES];
+                [self.searchlabel setHidden:NO];
+            }
+            else
+            {
             
-           
             self.his_arr = [NSMutableArray array];
             hisModel *model = [[hisModel alloc] init];
             model.history_arr = @"123";
             [self.his_arr addObject:model.history_arr];
-            hisModel *model2 = [[hisModel alloc] init];
-            model2.history_arr = @"456";
-            [self.his_arr addObject:model2.history_arr];
             
             
             self.arr = [NSMutableArray array];
@@ -257,20 +278,19 @@ static NSString *identfider2 = @"scarchcell";
             }
             
             [self.history_tableview reloadData];
-            
+            [self.history_tableview setHidden:NO];
+            [self.hisv setHidden:YES];
+            [self.hisv.his_tableview reloadData];
+                
+            }
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
         }];
-
-        
     
-        [self.history_tableview setHidden:NO];
-        [self.hisv setHidden:YES];
-        [self.hisv.his_tableview reloadData];
     }else{
         a=0;
         [_searchbar setShowsCancelButton:NO animated:YES];
-        
+        [self.searchlabel setHidden:YES];
         [self.hisv.his_tableview reloadData];
         [self.history_tableview setHidden:YES];
         [self.hisv setHidden:NO];
@@ -317,6 +337,7 @@ static NSString *identfider2 = @"scarchcell";
 {
     [_searchbar setShowsCancelButton:NO animated:YES];
     [self.history_tableview setHidden:YES];
+    [self.searchlabel setHidden:YES];
      NSLog(@"取消按钮");
 }
 
@@ -335,9 +356,12 @@ static NSString *identfider2 = @"scarchcell";
 {
     if (tableView==self.hisv.his_tableview) {
         self.searchbar.text = self.his_arr[indexPath.row];
+        
+        [self searchBar:self.searchbar textDidChange:self.his_arr[indexPath.row]];
+        
     }
     if (tableView==self.history_tableview) {
-        infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"离" isNeedBack:YES btn_image:nil];
+        infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
         [self.navigationController pushViewController:infoVC animated:YES];
     }
 }

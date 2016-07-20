@@ -11,8 +11,15 @@
 #import "registerViewController.h"
 #import "HttpTool.h"
 #import "MBProgressHUD+XMG.h"
-
+#import <AudioToolbox/AudioToolbox.h>
+#import "MBProgressHUD.h"
 @interface loginViewController ()
+{
+    SystemSoundID sound;//系统声音的id 取值范围为：1000-2000
+    
+    MBProgressHUD *HUD;
+    
+}
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIView *m_view;
 @property (nonatomic,strong) TextView *Tview;
@@ -39,6 +46,8 @@
     [self.view addSubview:self.Tview];
     [self.view addSubview:self.registered_btn];
     [self.view addSubview:self.goback_btn];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.Tview.user_text];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,11 +66,6 @@
     _registered_btn.frame = CGRectMake(width/4, height *0.75, width/2, height*0.075);
     self.goback_btn.frame = CGRectMake(width *0.4, height*0.9, width*0.21, height*0.075);
     
-//    _login_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-220)/2, 400, 220, 50);
-//    _Tview.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-256)/2, 180, 256, 100);
-//    _registered_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 500, 80, 50);
-//    self.goback_btn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-80)/2, 600, 80, 50);
-    
     //设置为第一响应者
     [self.Tview.user_text becomeFirstResponder];
 }
@@ -73,7 +77,6 @@
     if(!_Tview)
     {
         _Tview = [[TextView alloc] init];
-       // _Tview.backgroundColor = [UIColor blueColor];
         _Tview.layer.masksToBounds = YES;
         _Tview.layer.cornerRadius = 20;
         [_Tview.user_text addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -104,6 +107,8 @@
         _login_btn.layer.masksToBounds = YES;
         _login_btn.layer.cornerRadius = 15;
         [_login_btn addTarget:self action:@selector(go_homeClick) forControlEvents:UIControlEventTouchUpInside];
+        _login_btn.alpha = 0.4;
+        _login_btn.enabled = NO;
     }
     return _login_btn;
 }
@@ -150,6 +155,8 @@
     
     NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_paseword};
     
+   
+    
     [HttpTool postWithparamsWithURL:@"User/UserLogin" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -158,10 +165,14 @@
         if ([code isEqualToString:@"500"]) {
             
             [MBProgressHUD showError:@"帐号错误"];
+            //手机震动
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             
         }else if ([code isEqualToString:@"400"])
         {
             [MBProgressHUD showError:@"密码错误"];
+            //手机震动
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         }
         else
         {
@@ -175,10 +186,23 @@
             [defaultes synchronize];
             
             [[NSNotificationCenter defaultCenter]postNotificationName:@"login" object:nil];
-            
+  
         }
     } failure:^(NSError *error) {
+        
         NSLog(@"%@",error);
+        
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        HUD.labelText = @"请检查网络设置";
+        [self.view addSubview:HUD];
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+        [HUD showAnimated:YES whileExecutingBlock:^{
+            sleep(2);
+        } completionBlock:^{
+            [HUD removeFromSuperViewOnHide];
+        }];
+        
     }];
 
 }
@@ -214,4 +238,13 @@
         }
     }
 }
+
+-(void)textChange
+{
+    if (self.Tview.user_text.text.length==11) {
+        self.login_btn.alpha = 1;
+        self.login_btn.enabled = YES;
+    }
+}
+
 @end

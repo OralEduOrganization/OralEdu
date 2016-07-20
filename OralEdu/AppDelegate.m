@@ -11,6 +11,9 @@
 #import "leftViewController.h"
 #import <SMS_SDK/SMSSDK.h>
 #import "iflyMSC/IFlyMSC.h"
+#import "SearchViewController.h"
+
+
 @interface AppDelegate ()
 
 @end
@@ -57,7 +60,31 @@
     NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
     [IFlySpeechUtility createUtility:initString];
     
+    
     return YES;
+}
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
+    //判断先前我们设置的唯一标识
+    if([shortcutItem.type isEqualToString:@"com.test.static1"]){
+       // NSArray *arr = @[@"hello 3D Touch"];
+        NSLog(@"tuchn00001");
+        
+        
+    }
+    
+    if([shortcutItem.type isEqualToString:@"com.test.static2"]){
+        // NSArray *arr = @[@"hello 3D Touch"];
+        NSLog(@"tuchn00002");
+      
+        
+    }
+    
+    if([shortcutItem.type isEqualToString:@"com.test.static3"]){
+        // NSArray *arr = @[@"hello 3D Touch"];
+        NSLog(@"tuchn00003");
+     
+        
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

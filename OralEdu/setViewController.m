@@ -19,11 +19,15 @@
 #import "mobilephoneViewController.h"
 #import "feedbackViewController.h"
 #import "HttpTool.h"
+#import "MBProgressHUD.h"
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
 
 @interface setViewController ()
+{
+    MBProgressHUD *HUD;
+}
 @property (nonatomic,strong) UITableView *setTableview;
 @property (nonatomic,strong) NSMutableArray *setarr;
 @property (nonatomic,strong) NSMutableArray *modelarr;
@@ -109,6 +113,16 @@ static NSString *cellIdentfid3 = @"setcell3";
         
     } failure:^(NSError *error) {
         NSLog(@"失败");
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        HUD.labelText = @"请检查网络设置";
+        [self.view addSubview:HUD];
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+        [HUD showAnimated:YES whileExecutingBlock:^{
+            sleep(2);
+        } completionBlock:^{
+            [HUD removeFromSuperViewOnHide];
+        }];
     }];
     }
     

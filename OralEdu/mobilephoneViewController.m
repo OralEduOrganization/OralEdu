@@ -52,7 +52,6 @@
         NSString *password = [defaultes objectForKey:@"password"];
         NSString *oldmobile = [defaultes objectForKey:@"name"];
         if (self.passworetext.text!=password) {
-            NSLog(@"密码不正确");
             [MBProgressHUD showError:@"密码错误"];
         }
         else

@@ -12,7 +12,11 @@
 #import "ZCYlocation.h"
 #import "faceVideoViewController.h"
 #import "passwordViewController.h"
+#import "MBProgressHUD.h"
 @interface infomationViewController ()
+{
+    MBProgressHUD *HUD;
+}
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) infoModel *model1;
 @property (nonatomic,strong) UIImageView *pic_image;
@@ -71,7 +75,6 @@
         _infotableview = [[UITableView alloc] init];
         _infotableview.delegate = self;
         _infotableview.dataSource = self;
-        //_infotableview.backgroundColor = [UIColor orangeColor];
         _infotableview.scrollEnabled =NO;
     }
     return _infotableview;
@@ -97,7 +100,6 @@
     if(!_name_label)
     {
         _name_label = [[UILabel alloc] init];
-        //_name_label.backgroundColor = [UIColor greenColor];
         _name_label.textAlignment = NSTextAlignmentCenter;
         _name_label.text = self.model1.name_str;
             }

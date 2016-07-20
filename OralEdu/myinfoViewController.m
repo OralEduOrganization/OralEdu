@@ -18,7 +18,11 @@
 #import "AFHTTPSessionManager.h"
 #import "HttpTool.h"
 #import "IndividualitysignatureViewController.h"
+#import "MBProgressHUD.h"
 @interface myinfoViewController ()
+{
+    MBProgressHUD *HUD;
+}
 @property (nonatomic,strong) UITableView *infotableview;
 @property (nonatomic,strong) NSMutableArray *infoarr;
 @property (nonatomic,strong) NSMutableArray *picarr;
@@ -39,12 +43,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"groud2"]];
     [self loadDataFromWeb];
 
     [self.navitionBar.left_btn removeFromSuperview];
-    [self.navitionBar.title_label removeFromSuperview];
-    //self.navitionBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
+//    [self.navitionBar.title_label removeFromSuperview];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
     self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"个性签名",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
@@ -152,6 +154,16 @@
         
     } failure:^(NSError *error) {
         NSLog(@"失败");
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        HUD.labelText = @"请检查网络设置";
+        [self.view addSubview:HUD];
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+        [HUD showAnimated:YES whileExecutingBlock:^{
+            sleep(2);
+        } completionBlock:^{
+            [HUD removeFromSuperViewOnHide];
+        }];
     }];
     }
 }
