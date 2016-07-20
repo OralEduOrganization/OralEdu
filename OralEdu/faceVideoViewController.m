@@ -614,6 +614,12 @@
         _tacktableview.showsVerticalScrollIndicator = NO;
         [_tacktableview setHidden:YES];
         [_tacktableview addSubview:self.refreshControl];
+        
+        if (_tacktableview.contentSize.height > _tacktableview.frame.size.height)
+        {
+            CGPoint offset = CGPointMake(0, _tacktableview.contentSize.height - _tacktableview.frame.size.height);
+            [_tacktableview setContentOffset:offset animated:YES];
+        }
     }
     return _tacktableview;
 }
