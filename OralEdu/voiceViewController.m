@@ -16,10 +16,9 @@
 #import "iflyMSC/IFlyUserWords.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySpeechUnderstander.h"
-
 #import "AFHTTPSessionManager.h"
-@interface voiceViewController ()<IFlySpeechRecognizerDelegate>
 
+@interface voiceViewController ()<IFlySpeechRecognizerDelegate>
 @property (nonatomic, strong) UIButton   *returnBtn;
 @property (nonatomic, strong) UIButton   *voiceBtn;
 @property (nonatomic,strong) IFlySpeechUnderstander *iFlySpeechUnderstander;
@@ -29,7 +28,6 @@
 @property (nonatomic,strong) NSString               *result;
 @property (nonatomic,strong) NSString               *str_result;
 @property (nonatomic, strong) UILabel *resultLabel;
-
 @property (nonatomic,strong) UIButton *speakbtn;
 
 @end
@@ -58,7 +56,7 @@
     [IFlySpeechUtility createUtility:initString];
     _iFlySpeechUnderstander = [IFlySpeechUnderstander sharedInstance];
     _iFlySpeechUnderstander.delegate = self;
-
+    [self.view addSubview:self.speakbtn];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

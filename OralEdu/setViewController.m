@@ -297,15 +297,9 @@ static NSString *cellIdentfid3 = @"setcell3";
 
 -(void)cache
 {
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        
-//        //清除登录信息
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
+    
         dispatch_async(
                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
                        , ^{
