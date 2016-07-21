@@ -8,7 +8,7 @@
 
 #import "feedbackViewController.h"
 #import "HttpTool.h"
-
+#import "MBProgressHUD+XMG.h"
 @interface feedbackViewController ()
 @property(nonatomic,strong)UIButton *btn_tijiao;
 @property(nonatomic,strong)UITextView *view_fankui;
@@ -55,16 +55,18 @@
     NSLog(@"提交");
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
-    NSDictionary *para=@{@"user_moblie":name,@"Feedback":self.view_fankui.text};
+    NSDictionary *para=@{@"user_moblie":name,@"user_feedback":self.view_fankui.text};
     [HttpTool postWithparamsWithURL:@"Update/Feedback" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
         NSLog(@"%@",dic);
         
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"usersigen" object:self.view_fankui.text];
+        [MBProgressHUD showSuccess:@"反馈成功"];
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
+        [MBProgressHUD showError:@"请检查网络"];
+
     }];
     
 }

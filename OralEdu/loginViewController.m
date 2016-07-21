@@ -48,6 +48,7 @@
     [self.view addSubview:self.goback_btn];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.Tview.user_text];
+    
 }
 
 - (void)didReceiveMemoryWarning {
