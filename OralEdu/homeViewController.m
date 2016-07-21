@@ -334,11 +334,4 @@
     [self presentLeftMenuViewController];
 }
 
-//-(void)toinfoBtnClick
-//{
-//    
-//    
-//    infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
-//    [self.navigationController pushViewController:infoVC animated:YES];
-//}
 @end
