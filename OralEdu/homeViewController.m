@@ -210,7 +210,16 @@
         _cell = [[homeCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [_cell setCellDate:self.homearr[indexPath.row]];
         
-        [_cell.home_btn addTarget:self action:@selector(toinfoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_cell setCellClickBlock:^(NSString *str) {
+            
+            NSLog(@"%@",str);
+            infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
+            [self.navigationController pushViewController:infoVC animated:YES];
+        }];
+        
+        
+
     }
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return _cell;
@@ -325,9 +334,11 @@
     [self presentLeftMenuViewController];
 }
 
--(void)toinfoBtnClick
-{
-    infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
-    [self.navigationController pushViewController:infoVC animated:YES];
-}
+//-(void)toinfoBtnClick
+//{
+//    
+//    
+//    infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
+//    [self.navigationController pushViewController:infoVC animated:YES];
+//}
 @end

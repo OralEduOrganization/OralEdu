@@ -9,9 +9,9 @@
 #import "homeCell.h"
 #import "homeModel.h"
 @interface homeCell()
-@property (nonatomic,strong) UILabel *home_namelabel;
 @property (nonatomic,strong) UIImageView *home_headimage;
 @property (nonatomic,strong) UILabel *home_timelabel;
+@property (nonatomic,strong) NSString *str;
 
 @end
 @implementation homeCell
@@ -82,8 +82,16 @@
     {
         _home_btn = [[UIButton alloc] init];
         [_home_btn setImage:[UIImage imageNamed:@"首页联系人未选中叹号"] forState:UIControlStateNormal];
+        [_home_btn addTarget:self action:@selector(home_click) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     return _home_btn;
+}
+
+-(void)home_click{
+
+        self.cellClickBlock([NSString stringWithString:self.home_namelabel.text]);
+
 }
 
 @end
