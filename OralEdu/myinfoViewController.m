@@ -58,6 +58,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(nameasd:) name:@"username" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sigenasd:) name:@"usersigen" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(personasd:) name:@"userperson" object:nil];
+       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(addressasd:) name:@"useraddress" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -631,4 +632,10 @@
     [self.infotableview reloadData];
 }
 
+-(void)addressasd:(NSNotification *)notifocation
+{
+    NSString *address = (NSString *)[notifocation object];
+    _picM.address_str = address;
+    [self.infotableview reloadData];
+}
 @end

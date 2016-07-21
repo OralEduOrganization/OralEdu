@@ -95,7 +95,7 @@
         [weakSelf.homeTableview beginUpdates];
  
         [self loadDataFromWeb];
-        [weakSelf.homeTableview endUpdates];
+        //[weakSelf.homeTableview endUpdates];
         
         [weakSelf.homeTableview.pullToRefreshView stopAnimating];
     });
@@ -104,8 +104,6 @@
 #pragma  mark - 数据源方法
 -(void)loadDataFromWeb
 {
-    
-    //[MBProgressHUD showMessage:@"正在请求数据"];
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
     if (name==nil) {
@@ -140,26 +138,48 @@
         NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
         [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
         self.navitionBar.title_label.text = titlein.title_name;
-
-        //[MBProgressHUD hideHUD];
-
         self.navitionBar.title_label.text=_name1;
-        
-
         
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
 
+        self.homearr = [NSMutableArray array];
+        //实际上这里进行网络调用
+        
+        NSDictionary *para2=@{@"user_moblie":name};
+        [HttpTool postWithparamsWithURL:@"Contact/UserContact?" andParam:para2 success:^(id responseObject) {
+            
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSLog(@"dic11= %@",dic);
+            
+            NSArray *dit11 = [dic objectForKey:@"data"];
+            
+            NSLog(@"dit11 = %@",dit11);
+            
+            for (int i=0; i<dit11.count; i++) {
+                
+                homeModel *model=[[homeModel alloc]init];
+                
+                NSDictionary *aaa=dit11[i];
+                
+                model.home_name=aaa[@"user_nickname"];
+                model.home_head_imageurl = aaa[@"user_url"];
+                model.home_time = aaa[@"last_time"];
+                
+                [self.homearr addObject:model];
+                [self.homeTableview reloadData];
+            }
+            
+            
+        } failure:^(NSError *error) {
+            NSLog(@"失败");
+        }];
+
     }
    
-    self.homearr = [NSMutableArray array];
-    //实际上这里进行网络调用
-    //数据装
-    homeModel *order1 = [[homeModel alloc] initWithhome_head_imageurl:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg" home_name:@"涛桑" home_time:@"11:20"];
-    [_homearr addObject:order1];
-    homeModel *order2 = [[homeModel alloc] initWithhome_head_imageurl:@"http://tva2.sinaimg.cn/crop.72.0.1007.1007.1024/6a0bf347jw8er5bdo5q8zj20u00rz7a9.jpg" home_name:@"李老师" home_time:@"13:50"];
-    [_homearr addObject:order2];
     
 }
 
@@ -331,4 +351,6 @@
     infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
     [self.navigationController pushViewController:infoVC animated:YES];
 }
+
+
 @end
