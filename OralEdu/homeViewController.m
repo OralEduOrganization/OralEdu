@@ -123,9 +123,7 @@
         self.name1 = [[NSString alloc] init];
         
         NSLog(@"dic = %@",dic);
-        
         NSDictionary *dit = [dic objectForKey:@"data"];
-        
         NSLog(@"dit = %@",dit);
         self.url1 = [dit objectForKey:@"url"];
         self.name1 = [dit objectForKey:@"user_nickname"];
@@ -168,11 +166,12 @@
                 model.home_name=aaa[@"user_nickname"];
                 model.home_head_imageurl = aaa[@"user_url"];
                 model.home_time = aaa[@"last_time"];
+                model.home_infomation = aaa[@"user_introduction"];
+                model.home_phone = aaa[@"user_moblie"];
                 
                 [self.homearr addObject:model];
                 [self.homeTableview reloadData];
             }
-            
             
         } failure:^(NSError *error) {
             NSLog(@"失败");
@@ -210,6 +209,7 @@
         [_m_btn addTarget:self action:@selector(go_login) forControlEvents:UIControlEventTouchUpInside];
     }
     return _m_btn;
+
 }
 
 
@@ -230,7 +230,18 @@
         _cell = [[homeCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [_cell setCellDate:self.homearr[indexPath.row]];
         
-        [_cell.home_btn addTarget:self action:@selector(toinfoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_cell setCellClickBlock:^(NSString *str) {
+            
+            NSLog(@"%@",str);
+            
+            infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
+            
+            [infoVC getInfo:str];
+            [self.navigationController pushViewController:infoVC animated:YES];
+            
+        }];
+        
     }
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return _cell;
@@ -343,13 +354,6 @@
 -(void)leftbtnClick
 {
     [self presentLeftMenuViewController];
-}
-
--(void)toinfoBtnClick
-{
-
-    infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
-    [self.navigationController pushViewController:infoVC animated:YES];
 }
 
 

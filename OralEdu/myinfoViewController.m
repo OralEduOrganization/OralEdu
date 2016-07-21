@@ -19,6 +19,7 @@
 #import "HttpTool.h"
 #import "IndividualitysignatureViewController.h"
 #import "MBProgressHUD.h"
+#import "loginViewController.h"
 @interface myinfoViewController ()
 {
     MBProgressHUD *HUD;
@@ -579,6 +580,9 @@
         
         [self loadDataFromWeb];
         [self.infotableview reloadData];
+        
+        loginViewController *loginVC = [[loginViewController alloc] init];
+        [self presentViewController:loginVC animated:YES completion:nil];
         
     }];
     

@@ -35,7 +35,7 @@
     if(!_label1)
     {
         _label1 = [[UILabel alloc] init];
-       // _label1.backgroundColor = [UIColor greenColor];
+        // _label1.backgroundColor = [UIColor greenColor];
         //_label1.textAlignment =  NSTextAlignmentCenter;
     }
     return _label1;

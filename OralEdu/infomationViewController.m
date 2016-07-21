@@ -13,6 +13,8 @@
 #import "faceVideoViewController.h"
 #import "passwordViewController.h"
 #import "MBProgressHUD.h"
+#import "HttpTool.h"
+
 @interface infomationViewController ()
 {
     MBProgressHUD *HUD;
@@ -23,6 +25,9 @@
 @property (nonatomic,strong) UILabel *name_label;
 @property (nonatomic,strong) UIButton *left_btn;
 @property (nonatomic,strong) UIButton *go_viewbtn;
+@property (nonatomic,strong) NSDictionary *pata;
+@property (nonatomic,strong) NSString *aaa;
+@property (nonatomic,strong) infoCell2 *cell;
 @end
 
 @implementation infomationViewController
@@ -32,8 +37,8 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.navitionBar.left_btn removeFromSuperview];
-
-    [self loadDataFromWeb];
+    
+    
     [self.view addSubview:self.infotableview];
     [self.view addSubview:self.pic_image];
     [self.view addSubview:self.name_label];
@@ -59,14 +64,14 @@
 
 #pragma  mark - 数据源方法
 
--(void)loadDataFromWeb
-{
-    _model1 = [[infoModel alloc] init];
-    _model1.pic_imageurlstr = @"http://ww1.sinaimg.cn/crop.3.45.1919.1919.1024/6b805731jw1em0hze051hj21hk1isn5k.jpg";
-    _model1.name_str = @"李老师";
-    _model1.address_str = @"新东方在职讲师，以带过超过100个申请出国的高中生，大学生。为大家圆一个出国梦";
-    _model1.identfid_str = @"老师";
-}
+//-(void)loadDataFromWeb
+//{
+//    _model1 = [[infoModel alloc] init];
+//    _model1.pic_imageurlstr = @"http://ww1.sinaimg.cn/crop.3.45.1919.1919.1024/6b805731jw1em0hze051hj21hk1isn5k.jpg";
+//    _model1.name_str = @"李老师";
+//    _model1.address_str = @"新东方在职讲师，以带过超过100个申请出国的高中生，大学生。为大家圆一个出国梦";
+//    _model1.identfid_str = @"老师";
+//}
 
 -(UITableView *)infotableview
 {
@@ -86,11 +91,8 @@
     if(!_pic_image)
     {
         _pic_image = [[UIImageView alloc] init];
-        _pic_image.backgroundColor = [UIColor greenColor];
         _pic_image.layer.masksToBounds = YES;
         _pic_image.layer.cornerRadius = 35;
-       NSURL *url = [NSURL URLWithString:self.model1.pic_imageurlstr];
-       _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
     }
     return _pic_image;
 }
@@ -101,7 +103,7 @@
     {
         _name_label = [[UILabel alloc] init];
         _name_label.textAlignment = NSTextAlignmentCenter;
-        _name_label.text = self.model1.name_str;
+
             }
     return _name_label;
 }
@@ -147,13 +149,13 @@
 {
     static NSString *identfider = @"infocell1";
 
-        infoCell2 *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
-        if (!cell) {
-            cell = [[infoCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
-            cell.label1.text = @"个人简介";
-            cell.label2.text = _model1.address_str;
+        _cell = [tableView dequeueReusableCellWithIdentifier:identfider];
+        if (!_cell) {
+            _cell = [[infoCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
+            _cell.label1.text = @"个人简介";
+           
         }
-        return cell;
+        return _cell;
  
   
     return nil;
@@ -191,5 +193,33 @@
     [self presentViewController:myFaceVideoController animated:YES completion:^{
         
     }];
+}
+
+
+-(void)getInfo:(NSString *)phone{
+
+    self.pata=@{@"user_moblie":phone};
+    
+    self.aaa = [self.pata objectForKey:@"user_moblie"];
+    
+    [HttpTool postWithparamsWithURL:@"Userspage/HomepageShow?" andParam:self.pata success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        //NSString *code=dic[@"code"];
+        NSLog(@"%@",dic);
+        NSDictionary *dit = [dic objectForKey:@"data"];
+        NSLog(@"dit = %@",dit);
+        _model1 = [[infoModel alloc] init];
+        _model1.pic_imageurlstr = [dit objectForKey:@"user_url"];
+        _model1.name_str = [dit objectForKey:@"user_nickname"];
+        _model1.address_str = [dit objectForKey:@"user_introduction"];
+        NSURL *url = [NSURL URLWithString:self.model1.pic_imageurlstr];
+        _pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+         _cell.label2.text = _model1.address_str;
+        _name_label.text = self.model1.name_str;
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+ 
 }
 @end

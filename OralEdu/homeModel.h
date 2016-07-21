@@ -15,7 +15,8 @@
 @property (nonatomic,strong) NSString *home_head_imageurl;
 @property (nonatomic,strong) NSString *home_name;
 @property (nonatomic,strong) NSString *home_time;
-
+@property (nonatomic,strong) NSString *home_infomation;
+@property (nonatomic,strong) NSString *home_phone;
 
 - (instancetype)initWithhome_head_imageurl:(NSString *)home_head_imageurl
                                  home_name:(NSString *)home_name

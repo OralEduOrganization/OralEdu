@@ -10,4 +10,7 @@
 #import "BaseViewController.h"
 @interface infomationViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 
+-(void)getInfo:(NSString *)phone;
+
+
 @end
