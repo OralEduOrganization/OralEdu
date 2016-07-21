@@ -10,7 +10,6 @@
 
 @implementation APIClient
 
-
 +(instancetype)sharedClient{
     static APIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
@@ -19,7 +18,7 @@
                             //[NSURL URLWithString:@"http://127.0.0.1"]];
         
 
-                         [NSURL URLWithString:@"http://10.1.38.0"]];
+                         [NSURL URLWithString:@"http://192.168.0.8"]];
 
 
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];

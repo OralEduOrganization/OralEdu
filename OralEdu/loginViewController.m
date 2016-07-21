@@ -60,13 +60,28 @@
 {
     [super viewWillAppear:animated];
     
+    NSString *systemModel    =   [[UIDevice currentDevice] model];//是iphone 还是 ipad
+    
+    NSLog(@"设备是%@",systemModel);
+    
+    if ([systemModel isEqual:@"iPad"]) {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        CGFloat height =[UIScreen mainScreen].bounds.size.height;
+        _login_btn.frame = CGRectMake((width-width/4)/2, height*0.6, width/4, 50);
+        self.Tview.frame = CGRectMake((width-width/2)/2, height*0.18, width/2, height*0.1);
+        _registered_btn.frame = CGRectMake(width/4, height *0.75, width/2, height*0.075);
+        self.goback_btn.frame = CGRectMake(width *0.4, height*0.9, width*0.21, height*0.075);
+    }
+    else
+    {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height =[UIScreen mainScreen].bounds.size.height;
     _login_btn.frame = CGRectMake(width /4, height*0.6, width/2, 50);
     _Tview.frame = CGRectMake(width *0.16, height *0.18, width*0.68, height*0.18);
     _registered_btn.frame = CGRectMake(width/4, height *0.75, width/2, height*0.075);
     self.goback_btn.frame = CGRectMake(width *0.4, height*0.9, width*0.21, height*0.075);
-    
+        
+    }
     //设置为第一响应者
     [self.Tview.user_text becomeFirstResponder];
 }
