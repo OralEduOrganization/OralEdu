@@ -54,17 +54,17 @@
 -(void)changeView{
 //    [self addSubview:self.hubView];
 //    [self addSubview:self.deleteBtn];
-    _close  = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.close  = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage * image = [UIImage imageNamed:@"delete"];
-    [_close setImage:image forState:UIControlStateNormal];
-    [_close setFrame:CGRectMake(self.frame.size.width-image.size.width, 0, image.size.width, image.size.height)];
-    [_close sizeToFit];
-    [_close addTarget:self action:@selector(closeBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_close];
+    [self.close setImage:image forState:UIControlStateNormal];
+    [self.close setFrame:CGRectMake(self.frame.size.width-image.size.width, 0, image.size.width, image.size.height)];
+    [self.close sizeToFit];
+    [self.close addTarget:self action:@selector(closeBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.close];
 
 }
 -(void)releaseView{
-    [_close removeFromSuperview];
+    [self.close removeFromSuperview];
 }
 
 -(UIView *)hubView{
