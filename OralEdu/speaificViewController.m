@@ -116,6 +116,7 @@ static NSString *collectionview = @"imagecell";
     if(isEdit==YES){
         [_cell changeView];
     }else{
+        
         [_cell releaseView];
     }
     _cell.nameStr=self.name_arr[indexPath.item];
@@ -361,7 +362,7 @@ static NSString *collectionview = @"imagecell";
     NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
     NSLog(@"_____%ld",indexPath.row);
     [_image_arr removeObjectAtIndex:indexPath.row];
-    
+    isEdit=!isEdit;
     [self.image_collectionview reloadData];
     [Datebase_materallist deletemateraldetails:aCell.nameUrl];
     
@@ -374,6 +375,9 @@ static NSString *collectionview = @"imagecell";
     NSString *pa = [NSString stringWithFormat:@"%@/%@/%@/%@",paths,user_id,self.navitionBar.title_label.text,aCell.nameStr];
 
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
+    
+    [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
+    
     
 
 }
