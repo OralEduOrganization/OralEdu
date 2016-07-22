@@ -256,6 +256,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     //创建视频预览层，用于实时展示摄像头状态
     _captureVideoPreviewLayer=[[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
     
+
     CALayer *layer=self.studentView.layer;
     layer.masksToBounds=YES;
     
@@ -263,12 +264,13 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     _captureVideoPreviewLayer.videoGravity=AVLayerVideoGravityResizeAspectFill;//填充模式
     //将视频预览层添加到界面中
     //[layer addSublayer:_captureVideoPreviewLayer];
+    
     [layer insertSublayer:_captureVideoPreviewLayer below:self.focusCursor.layer];
     
     [self addNotificationToCaptureDevice:captureDevice];
     [self addGenstureRecognizer];
     [self setFlashModeButtonStatus];
-
+    
 }
 
 #pragma mark - Observer
@@ -324,10 +326,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [drawView removeFromSuperview];
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
-    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth-50);
+    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
     [self.view addSubview:drawView];
+    [self.view bringSubviewToFront:self.sview];
     drawView.selectedColor=self.selectedColor;
     [drawView setDrawingMode:DrawingModePaint];
+    
 }
 
 //挂断通话，返回上个界面

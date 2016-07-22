@@ -36,6 +36,7 @@ static NSString *cellIdentfid3 = @"setcell3";
 @property (nonatomic,strong) NSMutableArray *image_arr;
 @property (nonatomic,strong) NSString *url1;
 @property (nonatomic,strong) NSString *name1;
+@property (nonatomic,strong) setModel *smodel;
 @end
 
 @implementation setViewController
@@ -51,6 +52,7 @@ static NSString *cellIdentfid3 = @"setcell3";
     self.navitionBar.title_label.text = @"设置";
     [self.view addSubview:self.setTableview];
     [self.setTableview registerClass:[setCell3 class] forCellReuseIdentifier:cellIdentfid3];
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userurl:) name:@"userurl" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,13 +107,16 @@ static NSString *cellIdentfid3 = @"setcell3";
         NSLog(@"url = %@",_url1);
         NSLog(@"name = %@",_name1);
         
-        
         self.modelarr = [NSMutableArray array];
-        setModel *smodel = [[setModel alloc] initWithPicurl:_url1 Name:_name1 phone:name];
-        [self.modelarr addObject:smodel];
+        
+         self.smodel = [[setModel alloc] initWithPicurl:_url1 Name:_name1 phone:name];
+        
+        
+        
+        [self.modelarr addObject:self.smodel];
         [self.setTableview reloadData];
         
-        
+
     } failure:^(NSError *error) {
         NSLog(@"失败");
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
@@ -364,4 +369,11 @@ static NSString *cellIdentfid3 = @"setcell3";
     return 0;
 }
 
+-(void)userurl:(NSNotification *)notifocation
+{
+    NSString *urlstr = (NSString *)[notifocation object];
+    self.smodel.pic_imageurlstr = urlstr;
+    
+    [self.setTableview reloadData];
+}
 @end
