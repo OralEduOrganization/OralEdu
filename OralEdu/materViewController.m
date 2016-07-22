@@ -41,8 +41,9 @@
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"bai"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
-    [self.navitionBar.right_btn removeFromSuperview];
-    self.delete_arr = [[NSMutableArray alloc]init];
+    [self.navitionBar.right_btn setTitle:@"下载" forState:UIControlStateNormal];
+     self.delete_arr = [[NSMutableArray alloc]init];
+    
     
     self.navitionBar.title_label.text = @"素材库";
     self.mater_arr = [NSMutableArray array];
@@ -169,7 +170,7 @@
     needview.backgroundColor=[UIColor lightGrayColor];
     needview.layer.cornerRadius = 5;
     needview.layer.masksToBounds = YES;
-
+    
     [needview addSubview:label];
     [_cell addSubview:needview];
     [self.delete_arr addObject:label.text];
@@ -379,7 +380,6 @@
 -(void)deleteFileWithObjetName:(NSString *)name andNeedPatch:(NSString *) patch{
     NSFileManager* fileManager=[NSFileManager defaultManager];
 
-   
     //文件名
     
     BOOL blHave=[[NSFileManager defaultManager] fileExistsAtPath:patch];
@@ -397,8 +397,6 @@
         
     }
 }
-
-
 
 
 
@@ -464,16 +462,7 @@
         
     }
     
-    
-//    path=[NSString stringWithFormat:@"%@/%@",docDir,name];
-//    
-//    NSArray *arr=[NSArray array];
-//
-//    [arr writeToFile:path atomically:YES];
-//    
-//    NSData *data=[NSData data];
-//    
-//    NSString *a;
+
     
 }
 
@@ -513,9 +502,7 @@
         //获取当前时间所闻文件名，防止图片重复
         NSData *data = UIImageJPEGRepresentation(image, 0.1);
         
-//        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-//        NSString *name = [defaultes objectForKey:@"name"];
-//        
+        
         [formData appendPartWithFileData:data name:@"file" fileName:name mimeType:@"image/png"];
         
         
@@ -543,10 +530,6 @@
 
 -(void)downloadBtnClick{
 
-    
-    
-    
-    
     //新建文件夹
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -566,10 +549,49 @@
         
     }
 
-    
+
 }
 
+-(void)rightbtnClick
+{
+    NSLog(@"下载");
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    NSDictionary *para=@{@"user_moblie":user_id};
+    
+    [HttpTool postWithparamsWithURL:@"Pic/PicSearch" andParam:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        NSLog(@"dic = %@",dic);
+        
+        NSMutableArray *dit = [dic objectForKey:@"data"];
+        
+        NSLog(@"dit  = %@",dit);
+        
 
+        
+     
+        
+        for (int i = 0; i<dit.count; i++) {
+            NSString *name = [dic objectForKey:@"file_name"];
+            _m_finder = [[materal_finder alloc] init];
+            self.m_finder.materal_finder_name = name;
+            self.mater_arr = [NSMutableArray array];
+            
+            [self.mater_arr addObject:self.m_finder.materal_finder_name];
+        }
+        
+        [self.matertableview reloadData];
+        
+        
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    
+    
+
+}
 
 
 @end
