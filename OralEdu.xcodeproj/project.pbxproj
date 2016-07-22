@@ -24,6 +24,8 @@
 		534522D61D1BFD440055C0EE /* homeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 534522D51D1BFD440055C0EE /* homeCell.m */; };
 		53464A7B1D20072F00F9631B /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53464A7A1D20072F00F9631B /* DWBubbleMenuButton.m */; };
 		535FE8DF1D254070004C6100 /* imageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535FE8DE1D254070004C6100 /* imageCollectionViewCell.m */; };
+		536820801D41C51500EF034B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5368207F1D41C51400EF034B /* AssetsLibrary.framework */; };
+		536820821D41C52200EF034B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 536820811D41C52200EF034B /* AVFoundation.framework */; };
 		5379B52A1D2939CA00D38D4C /* ZCYlocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5379B5291D2939CA00D38D4C /* ZCYlocation.m */; };
 		538C3D031D2FA68A00AEBE47 /* mobilephoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538C3D021D2FA68A00AEBE47 /* mobilephoneViewController.m */; };
 		538D2E401D1CC2D800BB9588 /* leftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 538D2E3F1D1CC2D800BB9588 /* leftView.m */; };
@@ -147,6 +149,8 @@
 		53464A7A1D20072F00F9631B /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
 		535FE8DD1D254070004C6100 /* imageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageCollectionViewCell.h; sourceTree = "<group>"; };
 		535FE8DE1D254070004C6100 /* imageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageCollectionViewCell.m; sourceTree = "<group>"; };
+		5368207F1D41C51400EF034B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		536820811D41C52200EF034B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5379B5281D2939CA00D38D4C /* ZCYlocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCYlocation.h; sourceTree = "<group>"; };
 		5379B5291D2939CA00D38D4C /* ZCYlocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCYlocation.m; sourceTree = "<group>"; };
 		538C3D011D2FA68A00AEBE47 /* mobilephoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilephoneViewController.h; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				536820821D41C52200EF034B /* AVFoundation.framework in Frameworks */,
+				536820801D41C51500EF034B /* AssetsLibrary.framework in Frameworks */,
 				53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */,
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
@@ -1060,6 +1066,8 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				536820811D41C52200EF034B /* AVFoundation.framework */,
+				5368207F1D41C51400EF034B /* AssetsLibrary.framework */,
 				53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */,
 				FECC94841D2CE448006F955A /* iflyMSC.framework */,
 				FECC94721D264953006F955A /* CoreGraphics.framework */,

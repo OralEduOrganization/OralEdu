@@ -16,11 +16,13 @@
 @property (nonatomic,strong)NSString *identity;
 @property (nonatomic,strong)NSString *sigen;
 @property (nonatomic,strong)NSString *pic_url;
+@property (nonatomic,strong)NSString *mobile;
 
 -(instancetype)initWithXingming:(NSString *)name
                        identity:(NSString *)identity
                              in:(NSString *)sigen
-                           head:(NSString *)pic_url;
+                           head:(NSString *)pic_url
+                         mobile:(NSString *)mobile;
 
 
 

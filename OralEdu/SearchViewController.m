@@ -28,6 +28,8 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) NSMutableArray *array1;
 @property (nonatomic,strong) NSMutableArray *arr;
 @property (nonatomic,strong) UILabel *searchlabel;
+@property (nonatomic,strong) searchcell *cell;
+
 @end
 
 @implementation SearchViewController
@@ -39,7 +41,7 @@ static NSString *identfider2 = @"scarchcell";
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
-    [self loadDataFromWeb];
+    //[self loadDataFromWeb];
     [self.navitionBar.title_label removeFromSuperview];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.searchbar];
@@ -67,16 +69,8 @@ static NSString *identfider2 = @"scarchcell";
     self.searchlabel.frame = CGRectMake(0, 80, self.view.frame.size.width, 40);
 }
 
-#pragma  mark - 数据源方法
 
--(void)loadDataFromWeb
-{
-    self.his_arr = [NSMutableArray array];
-    hisModel *model = [[hisModel alloc] init];
-    model.history_arr = @"123";
-    [self.his_arr addObject:model.history_arr];
-    
-}
+
 
 #pragma mark - getters
 
@@ -146,10 +140,10 @@ static NSString *identfider2 = @"scarchcell";
     
     if(a == 1){
         
-        searchcell *cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
-        cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
-        [cell setCellDate:self.arr[indexPath.row]];
-        return cell;
+        self.cell = [tableView dequeueReusableCellWithIdentifier:identfider2];
+        self.cell = [[searchcell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider2];
+        [_cell setCellDate:self.arr[indexPath.row]];
+        return _cell;
     
     }
    else {
@@ -237,7 +231,7 @@ static NSString *identfider2 = @"scarchcell";
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             
-         
+            
             NSLog(@"dic = %@",dic);
             
             NSArray *dit  = [dic objectForKey:@"data"];
@@ -264,7 +258,7 @@ static NSString *identfider2 = @"scarchcell";
             
             for (int i=0; i<dit.count; i++) {
                 
-                hisModel *model=[[hisModel alloc]init];
+        
                 
                 NSDictionary *aaa=dit[i];
                 
@@ -272,9 +266,10 @@ static NSString *identfider2 = @"scarchcell";
                 model.identity=aaa[@"user_identity"];
                 model.pic_url=aaa[@"url"];
                 model.sigen=aaa[@"user_introduction"];
+                model.mobile=aaa[@"user_moblie"];
                 
                 [self.arr addObject:model];
-
+                
             }
             
             [self.history_tableview reloadData];
@@ -282,6 +277,7 @@ static NSString *identfider2 = @"scarchcell";
             [self.hisv setHidden:YES];
             [self.hisv.his_tableview reloadData];
                 
+         
             }
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
@@ -311,6 +307,7 @@ static NSString *identfider2 = @"scarchcell";
  *
  *  @return 生成的图片
  */
+
 - (UIImage*) GetImageWithColor:(UIColor*)color andHeight:(CGFloat)height
 {
     CGRect r= CGRectMake(0.0f, 0.0f, 1.0f, height);
@@ -332,7 +329,9 @@ static NSString *identfider2 = @"scarchcell";
     [self.hisv setHidden:YES];
     [self.hisv removeFromSuperview];
 }
+
 //点击取消按钮
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
 {
     [_searchbar setShowsCancelButton:NO animated:YES];
@@ -362,6 +361,7 @@ static NSString *identfider2 = @"scarchcell";
     }
     if (tableView==self.history_tableview) {
         infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
+        [infoVC getInfo:self.cell.mobolelabel.text];
         [self.navigationController pushViewController:infoVC animated:YES];
     }
 }
