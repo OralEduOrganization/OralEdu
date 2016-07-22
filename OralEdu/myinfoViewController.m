@@ -20,6 +20,7 @@
 #import "IndividualitysignatureViewController.h"
 #import "MBProgressHUD.h"
 #import "loginViewController.h"
+
 @interface myinfoViewController ()
 {
     MBProgressHUD *HUD;
@@ -50,6 +51,13 @@
 //    [self.navitionBar.title_label removeFromSuperview];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
+    
+    
+    
+    
+    
+    
+    
     self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"个性签名",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
     [self.view addSubview:self.pic_image];
     [self.view addSubview:self.name_label];
@@ -59,7 +67,8 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(nameasd:) name:@"username" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sigenasd:) name:@"usersigen" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(personasd:) name:@"userperson" object:nil];
-       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(addressasd:) name:@"useraddress" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(addressasd:) name:@"useraddress" object:nil];
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -149,7 +158,9 @@
         
         
          NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
-         self.pic_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        
+        UIImage *img= [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+         self.pic_image.image =img;
          self.name_label.text = self.picM.name_str;
          self.signature_label.text = self.picM.signature_str;
          [self.infotableview reloadData];
@@ -538,20 +549,35 @@
 
         NSData *data = UIImageJPEGRepresentation(image, 0.1);
         
-        
-        
         NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
         NSString *name = [defaultes objectForKey:@"name"];
         
         [formData appendPartWithFileData:data name:@"file" fileName:name mimeType:@"image/png"];
         
-       
+        NSString *str = [NSString stringWithFormat:@"file:///Applications/XAMPP/xamppfiles/htdocs/OralEduServer/uploadImg/%@.jpg",name];
+        
+        NSDictionary *para=@{@"user_moblie":name,@"user_newurl":str};
+        
+        [HttpTool postWithparamsWithURL:@"Update/UrlUpdate" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSLog(@"%@",dic);
+            
+            
+      
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+
+    
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
-        
+              [[NSNotificationCenter defaultCenter]postNotificationName:@"userurl" object:self.picM.image_urlstr];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
@@ -642,4 +668,6 @@
     _picM.address_str = address;
     [self.infotableview reloadData];
 }
+
+
 @end

@@ -17,9 +17,10 @@
         [self.contentView addSubview:self.xingming_label];
         [self.contentView addSubview:self.head_image];
         [self.contentView addSubview:self.identity_label];
-       [self.contentView addSubview:self.line_view];
+        [self.contentView addSubview:self.line_view];
         [self.contentView addSubview:self.intro_label];
         [self.contentView addSubview:self.in_text];
+        [self.contentView addSubview:self.mobolelabel];
         UITableView *tableView;
         tableView.tableFooterView = [[UIView alloc]init];
     }
@@ -30,6 +31,7 @@
     self.xingming_label.text = order.name;
     self.identity_label.text = order.identity;
     self.in_text.text = order.sigen;
+    self.mobolelabel.text = order.mobile;
     self.head_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:order.pic_url]]];
     [self layoutIfNeeded];
 }
@@ -49,7 +51,7 @@
     self.line_view.frame = CGRectMake((width - width*0.94)/2,height *0.6, width *0.94, 1);
     self.intro_label.frame = CGRectMake(width *0.04, height*0.65,width *0.25, height *0.15);
     self.in_text.frame = CGRectMake(width*0.25, height *0.63, 235, height*0.35);
-    
+    self.mobolelabel.frame = CGRectMake(10, 10, 100, 40);
 }
 
 #pragma mark-UITextViewDelegate
@@ -114,4 +116,21 @@
     }
     return _line_view;
 }
+
+-(UILabel *)mobolelabel
+{
+    if(!_mobolelabel)
+    {
+        _mobolelabel = [[UILabel alloc] init];
+        _mobolelabel.backgroundColor = [UIColor greenColor];
+        _mobolelabel.font = [UIFont systemFontOfSize:13];
+        [_mobolelabel setHidden:YES];
+    }
+    return _mobolelabel;
+}
+
+
+
+
+
 @end

@@ -26,6 +26,7 @@
 @property (nonatomic,strong) NSMutableArray *pic_arr;
 @property (nonatomic,strong) NSString *url1;
 @property (nonatomic,strong) NSString *name1;
+@property (nonatomic,strong) leftviewModel *leftmodel;
 @end
 
 @implementation leftViewController
@@ -51,7 +52,8 @@
     self.pic_arr = [NSMutableArray arrayWithObjects:[UIImage imageNamed:@"主页icon"],[UIImage imageNamed:@"心"],[UIImage imageNamed:@"设置齿轮"],[UIImage imageNamed:@"关于"], nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
-
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userurl:) name:@"userurl" object:nil];
 }
 
 -(void)viewWillLayoutSubviews
@@ -108,9 +110,9 @@
             self.name1 = [dit objectForKey:@"user_nickname"];
             NSLog(@"url111 = %@",_url1);
             NSLog(@"name111 = %@",_name1);
-            leftviewModel *leftm = [[leftviewModel alloc] initWithPicurl:_url1 Name:_name1 Identity:@"老师" Signature:@"阿迪耐克 i 恩老师的课分离出来才能，；OK吃呢吗肯定是短裤 v 难受；"];
+             self.leftmodel = [[leftviewModel alloc] initWithPicurl:_url1 Name:_name1 Identity:@"老师" Signature:@"阿迪耐克 i 恩老师的课分离出来才能，；OK吃呢吗肯定是短裤 v 难受；"];
             self.leftviewarr = [NSMutableArray array];
-            [self.leftviewarr addObject:leftm];
+            [self.leftviewarr addObject:self.leftmodel];
             NSURL *url = [NSURL URLWithString:_url1];
             _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
             self.login_label.text = @"登录成功";
@@ -228,5 +230,14 @@
     {
         [sideMenu setContentViewController:[[[UINavigationController alloc] initWithRootViewController:[aboutViewController  alloc]] init]];
     }
+}
+
+-(void)userurl:(NSNotification *)notifocation
+{
+    NSString *urlstr = (NSString *)[notifocation object];
+    self.leftmodel.leftpic_urlstr = urlstr;
+    self.leftmodel = self.leftviewarr[0];
+    NSURL *url = [NSURL URLWithString:self.leftmodel.leftpic_urlstr];
+    _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
 }
 @end

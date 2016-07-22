@@ -16,7 +16,8 @@
 @property (nonatomic,strong) UIImageView *head_image;
 @property (nonatomic,strong) UIView *line_view;
 
-
+@property (nonatomic,strong) UILabel *mobolelabel;
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 -(void)setCellDate:(hisModel *)order;
+
 @end
