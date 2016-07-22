@@ -14,6 +14,10 @@
 #import "NSString+SZYKit.h"
 #import "materal_finder.h"
 #import "Datebase_materallist.h"
+#import "HttpTool.h"
+#import "AFNetworking.h"
+#import "AFHTTPSessionManager.h"
+
 @interface materViewController ()
 @property (nonatomic,strong) UITableView *matertableview;
 @property (nonatomic,strong) NSMutableArray *mater_arr;
@@ -27,7 +31,7 @@
 @property (nonatomic,strong) NSMutableArray *delete_arr;
 
 @property (nonatomic,strong) UIButton *uploadBtn;
-
+@property (nonatomic,strong) UIButton *downloadBtn;
 @end
 
 @implementation materViewController
@@ -82,13 +86,26 @@
     {
         _uploadBtn = [[UIButton alloc] init];
         _uploadBtn.backgroundColor = [UIColor clearColor];
-        [_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
+        _uploadBtn.titleLabel.text=@"上传";
+        //[_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
         [_uploadBtn addTarget:self action:@selector(uploadBtnClick) forControlEvents:UIControlEventTouchUpInside];
         _uploadBtn.backgroundColor=[UIColor whiteColor];
     }
     return _uploadBtn;
 }
-
+-(UIButton *)downloadBtn
+{
+    if(!_downloadBtn)
+    {
+        _downloadBtn = [[UIButton alloc] init];
+        _downloadBtn.backgroundColor = [UIColor clearColor];
+        _downloadBtn.titleLabel.text=@"上传";
+        //[_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
+        [_downloadBtn addTarget:self action:@selector(downloadBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        _downloadBtn.backgroundColor=[UIColor whiteColor];
+    }
+    return _downloadBtn;
+}
 
 
 
@@ -397,34 +414,162 @@
     NSLog(@"%@",name);
     
     NSString *path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+    NSString *basePath=[NSString stringWithFormat:@"%@/%@",docDir,name];
+//    NSArray *fileNameList=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+    NSFileManager *myFileManager=[NSFileManager defaultManager];
     
-    NSArray *fileNameList=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-//    NSFileManager *myFileManager=[NSFileManager defaultManager];
-//    
-//    NSDirectoryEnumerator *myDirectoryEnumerator;
-//    
-//    myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
-//    
-//    //列举目录内容，可以遍历子目录
-//    
-//    NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
-//    
-//    while((path=[myDirectoryEnumerator nextObject])!=nil)
-//        
-//    {
-//        
-//        NSLog(@"%@",path);
-//        
-//    }
-    path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+    NSDirectoryEnumerator *myDirectoryEnumerator;
     
-    NSArray *arr=[NSArray array];
-
-    [arr writeToFile:path atomically:YES];
+    myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
     
-    NSData *data=[NSData data];
+    //列举目录内容，可以遍历子目录
     
-    NSString *a;
+    NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
+    
+    while((path=[myDirectoryEnumerator nextObject])!=nil)
+        
+    {
+        NSArray *result_arr=[path componentsSeparatedByString:@"."];
+        NSInteger length=result_arr.count;
+        NSString *str=result_arr[length-1];
+        if( [str isEqualToString:@"png"]){
+            
+            NSLog(@"%@",path);
+            
+            NSString *urlStr=[NSString stringWithFormat:@"%@/%@",basePath,path];
+            
+            NSLog(@"%@",urlStr);
+            
+            UIImage *image= [[UIImage alloc]initWithContentsOfFile:urlStr];
+            
+            NSArray *name_arr=[path componentsSeparatedByString:@"/"];
+            
+            NSString *pic_name=name_arr[1];
+            
+            NSString *document_name=name_arr[0];
+            
+            NSLog(@"%@",pic_name);
+            
+            
+            [self uploadImage:image andDocumentname:document_name withName:pic_name];
+            
+            NSString *url4Str=[NSString stringWithFormat:@"file:///Applications/XAMPP/xamppfiles/htdocs/OralEduServer/uploadImg/%@",pic_name];
+            
+            
+            [self addfile:name andDocument:document_name andURL:url4Str];
+            
+            
+        }
+        
+        
+    }
+    
+    
+//    path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+//    
+//    NSArray *arr=[NSArray array];
+//
+//    [arr writeToFile:path atomically:YES];
+//    
+//    NSData *data=[NSData data];
+//    
+//    NSString *a;
     
 }
+
+
+-(void)addfile:(NSString *)user_phone andDocument:(NSString *)doc andURL:(NSString *)url{
+
+
+    NSDictionary *para=@{@"user_moblie":user_phone,@"file_name":doc,@"picture_url":url};
+    [HttpTool postWithparamsWithURL:@"Pic/PicAdd?" andParam:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        NSLog(@"dic = %@",dic);
+    } failure:^(NSError *error) {
+        NSLog(@"失败");
+    }];
+
+
+}
+
+
+
+-(void)uploadImage:(UIImage *)img andDocumentname:(NSString *)docName withName:(NSString *)name{
+    
+    UIImage *image = img;
+    
+    
+    
+    NSURL *URL = [NSURL URLWithString:@"http://127.0.0.1/OralEduServer/cload_upload.php"];
+    AFSecurityPolicy *securityPolicy = [[AFSecurityPolicy alloc] init];
+    [securityPolicy setAllowInvalidCertificates:YES];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager setSecurityPolicy:securityPolicy];
+    [manager POST:URL.absoluteString parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        //获取当前时间所闻文件名，防止图片重复
+        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        
+//        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+//        NSString *name = [defaultes objectForKey:@"name"];
+//        
+        [formData appendPartWithFileData:data name:@"file" fileName:name mimeType:@"image/png"];
+        
+        
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+        
+    }];
+    
+    
+}
+
+-(NSString *)getCurrentTime{
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSString *dateTime=[formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
+
+-(void)downloadBtnClick{
+
+    
+    
+    
+    
+    //新建文件夹
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
+    NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.add_str];
+    NSLog(@"str = %@",self.add_str);
+    // 判断文件夹是否存在，如果不存在，则创建
+    if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
+        [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        
+    } else {
+        NSLog(@"FileDir is exists.");
+        
+    }
+
+    
+}
+
+
+
+
 @end

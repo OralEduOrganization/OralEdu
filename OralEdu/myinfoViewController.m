@@ -19,6 +19,7 @@
 #import "HttpTool.h"
 #import "IndividualitysignatureViewController.h"
 #import "MBProgressHUD.h"
+#import "loginViewController.h"
 @interface myinfoViewController ()
 {
     MBProgressHUD *HUD;
@@ -58,6 +59,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(nameasd:) name:@"username" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(sigenasd:) name:@"usersigen" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(personasd:) name:@"userperson" object:nil];
+       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(addressasd:) name:@"useraddress" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -579,6 +581,9 @@
         [self loadDataFromWeb];
         [self.infotableview reloadData];
         
+        loginViewController *loginVC = [[loginViewController alloc] init];
+        [self presentViewController:loginVC animated:YES completion:nil];
+        
     }];
     
     [control addAction:action1];
@@ -631,4 +636,10 @@
     [self.infotableview reloadData];
 }
 
+-(void)addressasd:(NSNotification *)notifocation
+{
+    NSString *address = (NSString *)[notifocation object];
+    _picM.address_str = address;
+    [self.infotableview reloadData];
+}
 @end

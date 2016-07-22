@@ -12,7 +12,7 @@
 @property (nonatomic,strong) UIImageView *home_headimage;
 @property (nonatomic,strong) UILabel *home_timelabel;
 @property (nonatomic,strong) NSString *str;
-
+@property (nonatomic,strong) homeModel *model;
 @end
 @implementation homeCell
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,6 +29,8 @@
 }
 -(void)setCellDate:(homeModel *)order
 {
+    
+    self.model=order;
     self.home_namelabel.text = order.home_name;
     _home_headimage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:order.home_head_imageurl]]];
     self.home_timelabel.text = order.home_time;
@@ -61,7 +63,6 @@
     if(!_home_namelabel)
     {
         _home_namelabel = [[UILabel alloc] init];
-        
     }
     return _home_namelabel;
 }
@@ -71,7 +72,6 @@
     if(!_home_timelabel)
     {
         _home_timelabel = [[UILabel alloc] init];
-        //_home_timelabel.backgroundColor = [UIColor redColor];
     }
     return _home_timelabel;
 }
@@ -83,15 +83,14 @@
         _home_btn = [[UIButton alloc] init];
         [_home_btn setImage:[UIImage imageNamed:@"首页联系人未选中叹号"] forState:UIControlStateNormal];
         [_home_btn addTarget:self action:@selector(home_click) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     return _home_btn;
 }
 
 -(void)home_click{
 
-        self.cellClickBlock([NSString stringWithString:self.home_namelabel.text]);
-
+    self.cellClickBlock([NSString stringWithString:self.model.home_phone]);
+    
 }
 
 @end

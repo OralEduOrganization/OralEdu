@@ -8,6 +8,7 @@
 
 #import "addressViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "HttpTool.h"
 @interface addressViewController ()
 @property(nonatomic,strong)UILabel *textLabel;
 @property (nonatomic , strong)CLLocationManager *locationManager;
@@ -152,9 +153,23 @@
         //返回上一页
         [self.navigationController popViewControllerAnimated:YES];
         //保存修改的地址
+        //取出用户账号
         
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSDictionary *para=@{@"user_moblie":name,@"user_newaddress":self.address_str};
         
-        
+        [HttpTool postWithparamsWithURL:@"Update/AddressUpdate" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSLog(@"%@",dic);
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"useraddress" object:self.address_str];
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -165,4 +180,5 @@
     [self presentViewController:control animated:YES completion:nil];
     
 }
+
 @end

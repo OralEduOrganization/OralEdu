@@ -22,8 +22,6 @@
 
 +(NSMutableArray*)readmateraldetailsWithuser_id:(NSString *)user_id Name:(NSString *)path_name;
 
-
-
 +(void)deletemateraldetails:(NSString*)materal_imagepath;
 
 @end
