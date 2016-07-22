@@ -25,6 +25,9 @@
 @property (nonatomic,strong) materal_finder *m_finder;
 @property (nonatomic,strong) UITableViewCell *cell;
 @property (nonatomic,strong) NSMutableArray *delete_arr;
+
+@property (nonatomic,strong) UIButton *uploadBtn;
+
 @end
 
 @implementation materViewController
@@ -40,6 +43,7 @@
     self.navitionBar.title_label.text = @"素材库";
     self.mater_arr = [NSMutableArray array];
     [self.view addSubview:self.add_btn];
+    [self.view addSubview:self.uploadBtn];
     
     _m_finder = [[materal_finder alloc] init];
     
@@ -65,9 +69,38 @@
     [super viewWillAppear:animated];
     self.matertableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
     self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
+    self.uploadBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-300, [UIScreen mainScreen].bounds.size.height-300, 50, 50);
     
 }
 #pragma mark - getters
+
+
+
+-(UIButton *)uploadBtn
+{
+    if(!_uploadBtn)
+    {
+        _uploadBtn = [[UIButton alloc] init];
+        _uploadBtn.backgroundColor = [UIColor clearColor];
+        [_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
+        [_uploadBtn addTarget:self action:@selector(uploadBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        _uploadBtn.backgroundColor=[UIColor whiteColor];
+    }
+    return _uploadBtn;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -(UIButton *)add_btn
 {
@@ -346,5 +379,52 @@
         }
         
     }
+}
+
+
+
+
+
+#pragma mark -----上传
+-(void)uploadBtnClick{
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex:0];
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    NSLog(@"%@",docDir);
+    NSLog(@"%@",name);
+    
+    NSString *path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+    
+    NSArray *fileNameList=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+//    NSFileManager *myFileManager=[NSFileManager defaultManager];
+//    
+//    NSDirectoryEnumerator *myDirectoryEnumerator;
+//    
+//    myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
+//    
+//    //列举目录内容，可以遍历子目录
+//    
+//    NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
+//    
+//    while((path=[myDirectoryEnumerator nextObject])!=nil)
+//        
+//    {
+//        
+//        NSLog(@"%@",path);
+//        
+//    }
+    path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+    
+    NSArray *arr=[NSArray array];
+
+    [arr writeToFile:path atomically:YES];
+    
+    NSData *data=[NSData data];
+    
+    NSString *a;
+    
 }
 @end

@@ -14,8 +14,6 @@
 @property (nonatomic,strong) UIButton *home_btn;
 @property (nonatomic,strong) UILabel *home_namelabel;
 
--(void)returnNameBlock:(NSString *(^)())name;
-
 @property (nonatomic, copy) void(^cellClickBlock)(NSString *str);
 
 @end
