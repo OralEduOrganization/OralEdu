@@ -19,6 +19,7 @@
 #import "AFHTTPSessionManager.h"
 #import "materal_model.h"
 #import "MBProgressHUD+XMG.h"
+#import "UIAlertController+SZYKit.h"
 @interface materViewController ()
 @property (nonatomic,strong) UITableView *matertableview;
 @property (nonatomic,strong) NSMutableArray *mater_arr;
@@ -33,9 +34,13 @@
 
 @property (nonatomic,strong) UIButton *uploadBtn;
 @property (nonatomic,strong) UIButton *downloadBtn;
+
+
 @end
 
-@implementation materViewController
+@implementation materViewController{
+     MBProgressHUD *HUD;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -423,64 +428,100 @@
 #pragma mark -----上传
 -(void)uploadBtnClick{
 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDir = [paths objectAtIndex:0];
     
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *name = [defaultes objectForKey:@"name"];
-    NSLog(@"%@",docDir);
-    NSLog(@"%@",name);
-    
-    NSString *path=[NSString stringWithFormat:@"%@/%@",docDir,name];
-    NSString *basePath=[NSString stringWithFormat:@"%@/%@",docDir,name];
-//    NSArray *fileNameList=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-    NSFileManager *myFileManager=[NSFileManager defaultManager];
-    
-    NSDirectoryEnumerator *myDirectoryEnumerator;
-    
-    myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
-    
-    //列举目录内容，可以遍历子目录
-    
-    NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
-    
-    while((path=[myDirectoryEnumerator nextObject])!=nil)
+    [UIAlertController showAlertAtViewController:self withMessage:@"确定上传本地素材库吗？（建议wifi情况下上传）" cancelTitle:@"取消" confirmTitle:@"上传" cancelHandler:^(UIAlertAction *action) {
+    } confirmHandler:^(UIAlertAction *action) {
         
-    {
-        NSArray *result_arr=[path componentsSeparatedByString:@"."];
-        NSInteger length=result_arr.count;
-        NSString *str=result_arr[length-1];
-        if( [str isEqualToString:@"png"]){
+        
+        //初始化hud 置于当前view中
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:HUD];
+        //如果设置此属性则当前的view置于后台
+        HUD.dimBackground = YES;
+        //设置对话框文字
+        HUD.labelText = @"数据上传中";
+        //显示对话框
+        [HUD show:YES];
+        
+        
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docDir = [paths objectAtIndex:0];
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSLog(@"%@",docDir);
+        NSLog(@"%@",name);
+        
+        
+        
+        NSDictionary *para=@{@"user_moblie":name};
+        [HttpTool postWithparamsWithURL:@"Pic/PicAllDelete?" andParam:para success:^(id responseObject) {
             
-            NSLog(@"%@",path);
+            NSLog(@"清空");
+        } failure:^(NSError *error) {
+            NSLog(@"清空失败");
+        }];
+        
+
+        
+        
+        
+        
+        
+        
+        NSString *path=[NSString stringWithFormat:@"%@/%@",docDir,name];
+        NSString *basePath=[NSString stringWithFormat:@"%@/%@",docDir,name];
+        //    NSArray *fileNameList=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        NSFileManager *myFileManager=[NSFileManager defaultManager];
+        
+        NSDirectoryEnumerator *myDirectoryEnumerator;
+        
+        myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
+        
+        //列举目录内容，可以遍历子目录
+        
+        NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
+        
+        while((path=[myDirectoryEnumerator nextObject])!=nil)
             
-            NSString *urlStr=[NSString stringWithFormat:@"%@/%@",basePath,path];
-            
-            NSLog(@"%@",urlStr);
-            
-            UIImage *image= [[UIImage alloc]initWithContentsOfFile:urlStr];
-            
-            NSArray *name_arr=[path componentsSeparatedByString:@"/"];
-            
-            NSString *pic_name=name_arr[1];
-            
-            NSString *document_name=name_arr[0];
-            
-            NSLog(@"%@",pic_name);
-            
-            
-            [self uploadImage:image andDocumentname:document_name withName:pic_name];
-            
-            NSString *url4Str=[NSString stringWithFormat:@"file:///Applications/XAMPP/xamppfiles/htdocs/OralEduServer/uploadImg/%@",pic_name];
-            
-            
-            [self addfile:name andDocument:document_name andURL:url4Str];
+        {
+            NSArray *result_arr=[path componentsSeparatedByString:@"."];
+            NSInteger length=result_arr.count;
+            NSString *str=result_arr[length-1];
+            if( [str isEqualToString:@"png"]){
+                
+                NSLog(@"%@",path);
+                
+                NSString *urlStr=[NSString stringWithFormat:@"%@/%@",basePath,path];
+                
+                NSLog(@"%@",urlStr);
+                
+                UIImage *image= [[UIImage alloc]initWithContentsOfFile:urlStr];
+                
+                NSArray *name_arr=[path componentsSeparatedByString:@"/"];
+                
+                NSString *pic_name=name_arr[1];
+                
+                NSString *document_name=name_arr[0];
+                
+                NSLog(@"%@",pic_name);
+                
+                
+                [self uploadImage:image andDocumentname:document_name withName:pic_name];
+                
+                NSString *url4Str=[NSString stringWithFormat:@"file:///Applications/XAMPP/xamppfiles/htdocs/OralEduServer/uploadImg/%@",pic_name];
+                
+                
+                [self addfile:name andDocument:document_name andURL:url4Str];
+                
+                
+            }
             
             
         }
-        
-        
-    }
+    }];
+
     
 
     
@@ -494,6 +535,7 @@
     [HttpTool postWithparamsWithURL:@"Pic/PicAdd?" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        [HUD removeFromSuperview];
         [MBProgressHUD showSuccess:@"数据上传成功"];
         NSLog(@"dic = %@",dic);
     } failure:^(NSError *error) {
@@ -501,7 +543,6 @@
         [MBProgressHUD showError:@"数据未变或已上传成功"];
         
     }];
-
 
 }
 
@@ -533,7 +574,6 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
-        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
