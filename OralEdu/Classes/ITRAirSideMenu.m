@@ -652,6 +652,12 @@
     return YES;
 }
 
-
+//-(NSUInteger)supportedInterfaceOrientations{
+//    return UIInterfaceOrientationMaskAllButUpsideDown;
+//}
+//
+//- (BOOL)shouldAutorotate{
+//    return NO;
+//}
 
 @end

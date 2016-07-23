@@ -127,15 +127,25 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnImage:) name:@"returnImage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
     
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = UIInterfaceOrientationLandscapeRight;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+//    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//        SEL selector = NSSelectorFromString(@"setOrientation:");
+//        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+//        [invocation setSelector:selector];
+//        [invocation setTarget:[UIDevice currentDevice]];
+//        int val = UIInterfaceOrientationLandscapeRight;
+//        [invocation setArgument:&val atIndex:2];
+//        [invocation invoke];
+//    }
+    
+
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+    self.view.transform = CGAffineTransformMakeRotation(M_PI/2);
+    CGRect frame = [UIScreen mainScreen].applicationFrame;
+    self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
+
+
+   
     
     self.senderID = @"0001";
     NSArray *arr = [self getData];
@@ -149,6 +159,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     [self.view addSubview:self.languageTableview];
 }
+
 -(void)loadView{
     [super loadView];
     
@@ -206,13 +217,13 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
     drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
     
-    self.sview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 50);
+    self.sview.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.width-50, [UIScreen mainScreen].bounds.size.height, 50);
     
-    self.studentView.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height-50)/2,screenHeight/4 , (screenWidth-50)/2);
+    self.studentView.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2,screenHeight/4 , (screenWidth-50)/2);
 
     self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
     
-    self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height-50)/2, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height/2-50);
+    self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2, [UIScreen mainScreen].bounds.size.height/4, [UIScreen mainScreen].bounds.size.width/2-50);
     
     self.backBtn.frame = CGRectMake(0, 0, 50, 50);
     
@@ -646,6 +657,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 -(UIView *)studentView{
     if(!_studentView){
         _studentView=[[UIView alloc]init];
+//        _studentView.transform = CGAffineTransformMakeRotation(M_PI/2);
         _studentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"teacher.jpg"]];
     }
     return _studentView;
@@ -927,7 +939,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     CGSize textLabelSize;
     
     textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    
-    CGRect needRect=CGRectMake(screenW/4-textLabelSize.width-5, 5, textLabelSize.width, textLabelSize.height);
+    CGRect needRect=CGRectMake(screenW/4-textLabelSize.height-5, 5, textLabelSize.width, textLabelSize.height);
     
     return needRect;
     
