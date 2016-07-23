@@ -113,6 +113,17 @@
 		FE2C85CD1D43636F0050843D /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85C41D43636F0050843D /* RongCloud.bundle */; };
 		FE2C85CE1D43636F0050843D /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85C51D43636F0050843D /* RongIMKit.framework */; };
 		FE2C85CF1D43636F0050843D /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85C61D43636F0050843D /* RongIMLib.framework */; };
+		FE2C85D11D4367E70050843D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D01D4367E70050843D /* CFNetwork.framework */; };
+		FE2C85D31D4368050050843D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D21D4368050050843D /* CoreAudio.framework */; };
+		FE2C85D51D4368250050843D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D41D4368250050843D /* CoreMedia.framework */; };
+		FE2C85D71D4368320050843D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D61D4368320050843D /* CoreTelephony.framework */; };
+		FE2C85D91D43683E0050843D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D81D43683E0050843D /* CoreVideo.framework */; };
+		FE2C85DB1D43685E0050843D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DA1D43685E0050843D /* ImageIO.framework */; };
+		FE2C85DD1D43686F0050843D /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DC1D43686F0050843D /* libc++abi.tbd */; };
+		FE2C85DF1D4368D70050843D /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DE1D4368D70050843D /* libxml2.tbd */; };
+		FE2C85E11D4369010050843D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E01D4369010050843D /* OpenGLES.framework */; };
+		FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E21D4369230050843D /* SystemConfiguration.framework */; };
+		FE2C85E51D4369340050843D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E41D4369340050843D /* Photos.framework */; };
 		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
 		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
@@ -312,6 +323,17 @@
 		FE2C85C51D43636F0050843D /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
 		FE2C85C61D43636F0050843D /* RongIMLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMLib.framework; sourceTree = "<group>"; };
 		FE2C85C71D43636F0050843D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCloudKit.strings"; sourceTree = "<group>"; };
+		FE2C85D01D4367E70050843D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FE2C85D21D4368050050843D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		FE2C85D41D4368250050843D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		FE2C85D61D4368320050843D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		FE2C85D81D43683E0050843D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		FE2C85DA1D43685E0050843D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		FE2C85DC1D43686F0050843D /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		FE2C85DE1D4368D70050843D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		FE2C85E01D4369010050843D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		FE2C85E21D4369230050843D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FE2C85E41D4369340050843D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
 		FECC946B1D26125D006F955A /* faceVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = faceVideoViewController.m; sourceTree = "<group>"; };
 		FECC946D1D2636F7006F955A /* PIDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDrawerView.h; sourceTree = "<group>"; };
@@ -334,17 +356,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE2C85E51D4369340050843D /* Photos.framework in Frameworks */,
+				FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */,
+				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
+				FE2C85E11D4369010050843D /* OpenGLES.framework in Frameworks */,
+				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
+				FE2C85DF1D4368D70050843D /* libxml2.tbd in Frameworks */,
+				FE2C85DD1D43686F0050843D /* libc++abi.tbd in Frameworks */,
+				FE2C85DB1D43685E0050843D /* ImageIO.framework in Frameworks */,
+				FE2C85D91D43683E0050843D /* CoreVideo.framework in Frameworks */,
+				FE2C85D71D4368320050843D /* CoreTelephony.framework in Frameworks */,
+				FE2C85D51D4368250050843D /* CoreMedia.framework in Frameworks */,
+				53B22C3F1D264F8700E8EBA5 /* CoreLocation.framework in Frameworks */,
+				FE2C85D31D4368050050843D /* CoreAudio.framework in Frameworks */,
+				FE2C85D11D4367E70050843D /* CFNetwork.framework in Frameworks */,
 				536820821D41C52200EF034B /* AVFoundation.framework in Frameworks */,
 				536820801D41C51500EF034B /* AssetsLibrary.framework in Frameworks */,
 				53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */,
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
-				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
 				FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
 				53B22C411D264F9100E8EBA5 /* CoreGraphics.framework in Frameworks */,
-				53B22C3F1D264F8700E8EBA5 /* CoreLocation.framework in Frameworks */,
 				FE2C85CE1D43636F0050843D /* RongIMKit.framework in Frameworks */,
 				53B22C3D1D2618E900E8EBA5 /* AddressBookUI.framework in Frameworks */,
 				FE2C85CA1D43636F0050843D /* libopencore-amrnb.a in Frameworks */,
@@ -358,7 +392,6 @@
 				FE2C85CF1D43636F0050843D /* RongIMLib.framework in Frameworks */,
 				53B22C2F1D26182100E8EBA5 /* SMS_SDK.framework in Frameworks */,
 				53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */,
-				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1030,6 +1063,17 @@
 		53E91A121D1B70E40091E85A = {
 			isa = PBXGroup;
 			children = (
+				FE2C85E41D4369340050843D /* Photos.framework */,
+				FE2C85E21D4369230050843D /* SystemConfiguration.framework */,
+				FE2C85E01D4369010050843D /* OpenGLES.framework */,
+				FE2C85DE1D4368D70050843D /* libxml2.tbd */,
+				FE2C85DC1D43686F0050843D /* libc++abi.tbd */,
+				FE2C85DA1D43685E0050843D /* ImageIO.framework */,
+				FE2C85D81D43683E0050843D /* CoreVideo.framework */,
+				FE2C85D61D4368320050843D /* CoreTelephony.framework */,
+				FE2C85D41D4368250050843D /* CoreMedia.framework */,
+				FE2C85D21D4368050050843D /* CoreAudio.framework */,
+				FE2C85D01D4367E70050843D /* CFNetwork.framework */,
 				585615151D332D4D00B54508 /* UIImage+needkit.h */,
 				585615161D332D4D00B54508 /* UIImage+needkit.m */,
 				530F6E4D1D279FED00A3A2AE /* PrefixHeader.pch */,
