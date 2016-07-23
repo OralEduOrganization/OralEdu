@@ -104,6 +104,26 @@
 		53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A571D1BB9860091E85A /* SearchViewController.m */; };
 		5828C3C71D34E6130075942B /* searchcell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5828C3C61D34E6130075942B /* searchcell.m */; };
 		585615171D332D4D00B54508 /* UIImage+needkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 585615161D332D4D00B54508 /* UIImage+needkit.m */; };
+		FE2C85681D4356CF0050843D /* UIAlertController+SZYKit.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C85671D4356CF0050843D /* UIAlertController+SZYKit.m */; };
+		FE2C85C81D43636F0050843D /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85BE1D43636F0050843D /* Emoji.plist */; };
+		FE2C85C91D43636F0050843D /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85BF1D43636F0050843D /* RongCloudKit.strings */; };
+		FE2C85CA1D43636F0050843D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85C11D43636F0050843D /* libopencore-amrnb.a */; };
+		FE2C85CB1D43636F0050843D /* RCConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85C21D43636F0050843D /* RCConfig.plist */; };
+		FE2C85CC1D43636F0050843D /* release_notes_ios.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85C31D43636F0050843D /* release_notes_ios.txt */; };
+		FE2C85CD1D43636F0050843D /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85C41D43636F0050843D /* RongCloud.bundle */; };
+		FE2C85CE1D43636F0050843D /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85C51D43636F0050843D /* RongIMKit.framework */; };
+		FE2C85CF1D43636F0050843D /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85C61D43636F0050843D /* RongIMLib.framework */; };
+		FE2C85D11D4367E70050843D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D01D4367E70050843D /* CFNetwork.framework */; };
+		FE2C85D31D4368050050843D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D21D4368050050843D /* CoreAudio.framework */; };
+		FE2C85D51D4368250050843D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D41D4368250050843D /* CoreMedia.framework */; };
+		FE2C85D71D4368320050843D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D61D4368320050843D /* CoreTelephony.framework */; };
+		FE2C85D91D43683E0050843D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85D81D43683E0050843D /* CoreVideo.framework */; };
+		FE2C85DB1D43685E0050843D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DA1D43685E0050843D /* ImageIO.framework */; };
+		FE2C85DD1D43686F0050843D /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DC1D43686F0050843D /* libc++abi.tbd */; };
+		FE2C85DF1D4368D70050843D /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85DE1D4368D70050843D /* libxml2.tbd */; };
+		FE2C85E11D4369010050843D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E01D4369010050843D /* OpenGLES.framework */; };
+		FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E21D4369230050843D /* SystemConfiguration.framework */; };
+		FE2C85E51D4369340050843D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E41D4369340050843D /* Photos.framework */; };
 		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
 		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
@@ -292,6 +312,28 @@
 		5828C3C61D34E6130075942B /* searchcell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchcell.m; sourceTree = "<group>"; };
 		585615151D332D4D00B54508 /* UIImage+needkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+needkit.h"; sourceTree = "<group>"; };
 		585615161D332D4D00B54508 /* UIImage+needkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+needkit.m"; sourceTree = "<group>"; };
+		FE2C85661D4356CF0050843D /* UIAlertController+SZYKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+SZYKit.h"; sourceTree = "<group>"; };
+		FE2C85671D4356CF0050843D /* UIAlertController+SZYKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+SZYKit.m"; sourceTree = "<group>"; };
+		FE2C85BE1D43636F0050843D /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		FE2C85C01D43636F0050843D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongCloudKit.strings; sourceTree = "<group>"; };
+		FE2C85C11D43636F0050843D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
+		FE2C85C21D43636F0050843D /* RCConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCConfig.plist; sourceTree = "<group>"; };
+		FE2C85C31D43636F0050843D /* release_notes_ios.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes_ios.txt; sourceTree = "<group>"; };
+		FE2C85C41D43636F0050843D /* RongCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCloud.bundle; sourceTree = "<group>"; };
+		FE2C85C51D43636F0050843D /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
+		FE2C85C61D43636F0050843D /* RongIMLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMLib.framework; sourceTree = "<group>"; };
+		FE2C85C71D43636F0050843D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCloudKit.strings"; sourceTree = "<group>"; };
+		FE2C85D01D4367E70050843D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FE2C85D21D4368050050843D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		FE2C85D41D4368250050843D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		FE2C85D61D4368320050843D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		FE2C85D81D43683E0050843D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		FE2C85DA1D43685E0050843D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		FE2C85DC1D43686F0050843D /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		FE2C85DE1D4368D70050843D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		FE2C85E01D4369010050843D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		FE2C85E21D4369230050843D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FE2C85E41D4369340050843D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
 		FECC946B1D26125D006F955A /* faceVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = faceVideoViewController.m; sourceTree = "<group>"; };
 		FECC946D1D2636F7006F955A /* PIDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDrawerView.h; sourceTree = "<group>"; };
@@ -314,18 +356,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE2C85E51D4369340050843D /* Photos.framework in Frameworks */,
+				FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */,
+				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
+				FE2C85E11D4369010050843D /* OpenGLES.framework in Frameworks */,
+				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
+				FE2C85DF1D4368D70050843D /* libxml2.tbd in Frameworks */,
+				FE2C85DD1D43686F0050843D /* libc++abi.tbd in Frameworks */,
+				FE2C85DB1D43685E0050843D /* ImageIO.framework in Frameworks */,
+				FE2C85D91D43683E0050843D /* CoreVideo.framework in Frameworks */,
+				FE2C85D71D4368320050843D /* CoreTelephony.framework in Frameworks */,
+				FE2C85D51D4368250050843D /* CoreMedia.framework in Frameworks */,
+				53B22C3F1D264F8700E8EBA5 /* CoreLocation.framework in Frameworks */,
+				FE2C85D31D4368050050843D /* CoreAudio.framework in Frameworks */,
+				FE2C85D11D4367E70050843D /* CFNetwork.framework in Frameworks */,
 				536820821D41C52200EF034B /* AVFoundation.framework in Frameworks */,
 				536820801D41C51500EF034B /* AssetsLibrary.framework in Frameworks */,
 				53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */,
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
-				53B22C471D264FB300E8EBA5 /* MapKit.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
 				FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
 				53B22C411D264F9100E8EBA5 /* CoreGraphics.framework in Frameworks */,
-				53B22C3F1D264F8700E8EBA5 /* CoreLocation.framework in Frameworks */,
+				FE2C85CE1D43636F0050843D /* RongIMKit.framework in Frameworks */,
 				53B22C3D1D2618E900E8EBA5 /* AddressBookUI.framework in Frameworks */,
+				FE2C85CA1D43636F0050843D /* libopencore-amrnb.a in Frameworks */,
 				53B22C3B1D2618E400E8EBA5 /* AddressBook.framework in Frameworks */,
 				53B22C391D2618D900E8EBA5 /* libstdc++.tbd in Frameworks */,
 				53B22C371D2618CA00E8EBA5 /* JavaScriptCore.framework in Frameworks */,
@@ -333,9 +389,9 @@
 				53B22C331D2618B500E8EBA5 /* libicucore.tbd in Frameworks */,
 				53B22C311D2618A800E8EBA5 /* libz.tbd in Frameworks */,
 				53B22C2E1D26182100E8EBA5 /* MOBFoundation.framework in Frameworks */,
+				FE2C85CF1D43636F0050843D /* RongIMLib.framework in Frameworks */,
 				53B22C2F1D26182100E8EBA5 /* SMS_SDK.framework in Frameworks */,
 				53371D4F1D22D1540040F7A7 /* libsqlite3.0.tbd in Frameworks */,
-				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,6 +1063,17 @@
 		53E91A121D1B70E40091E85A = {
 			isa = PBXGroup;
 			children = (
+				FE2C85E41D4369340050843D /* Photos.framework */,
+				FE2C85E21D4369230050843D /* SystemConfiguration.framework */,
+				FE2C85E01D4369010050843D /* OpenGLES.framework */,
+				FE2C85DE1D4368D70050843D /* libxml2.tbd */,
+				FE2C85DC1D43686F0050843D /* libc++abi.tbd */,
+				FE2C85DA1D43685E0050843D /* ImageIO.framework */,
+				FE2C85D81D43683E0050843D /* CoreVideo.framework */,
+				FE2C85D61D4368320050843D /* CoreTelephony.framework */,
+				FE2C85D41D4368250050843D /* CoreMedia.framework */,
+				FE2C85D21D4368050050843D /* CoreAudio.framework */,
+				FE2C85D01D4367E70050843D /* CFNetwork.framework */,
 				585615151D332D4D00B54508 /* UIImage+needkit.h */,
 				585615161D332D4D00B54508 /* UIImage+needkit.m */,
 				530F6E4D1D279FED00A3A2AE /* PrefixHeader.pch */,
@@ -1066,6 +1133,7 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				FE2C85BD1D43636F0050843D /* Rong_Cloud_iOS_IMKit_SDK */,
 				536820811D41C52200EF034B /* AVFoundation.framework */,
 				5368207F1D41C51400EF034B /* AssetsLibrary.framework */,
 				53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */,
@@ -1100,6 +1168,8 @@
 		53E91A361D1B71090091E85A /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				FE2C85661D4356CF0050843D /* UIAlertController+SZYKit.h */,
+				FE2C85671D4356CF0050843D /* UIAlertController+SZYKit.m */,
 				53E91A211D1B70E40091E85A /* AppDelegate.h */,
 				53E91A221D1B70E40091E85A /* AppDelegate.m */,
 				53E91A241D1B70E40091E85A /* ViewController.h */,
@@ -1242,6 +1312,21 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		FE2C85BD1D43636F0050843D /* Rong_Cloud_iOS_IMKit_SDK */ = {
+			isa = PBXGroup;
+			children = (
+				FE2C85BE1D43636F0050843D /* Emoji.plist */,
+				FE2C85BF1D43636F0050843D /* RongCloudKit.strings */,
+				FE2C85C11D43636F0050843D /* libopencore-amrnb.a */,
+				FE2C85C21D43636F0050843D /* RCConfig.plist */,
+				FE2C85C31D43636F0050843D /* release_notes_ios.txt */,
+				FE2C85C41D43636F0050843D /* RongCloud.bundle */,
+				FE2C85C51D43636F0050843D /* RongIMKit.framework */,
+				FE2C85C61D43636F0050843D /* RongIMLib.framework */,
+			);
+			path = Rong_Cloud_iOS_IMKit_SDK;
+			sourceTree = "<group>";
+		};
 		FECC94661D2611DF006F955A /* videoConnect */ = {
 			isa = PBXGroup;
 			children = (
@@ -1352,7 +1437,12 @@
 			files = (
 				53E91A2E1D1B70E40091E85A /* LaunchScreen.storyboard in Resources */,
 				53B22C1F1D2617E900E8EBA5 /* MBProgressHUD.bundle in Resources */,
+				FE2C85C91D43636F0050843D /* RongCloudKit.strings in Resources */,
+				FE2C85CD1D43636F0050843D /* RongCloud.bundle in Resources */,
+				FE2C85CC1D43636F0050843D /* release_notes_ios.txt in Resources */,
+				FE2C85CB1D43636F0050843D /* RCConfig.plist in Resources */,
 				53B22C2D1D26182100E8EBA5 /* SMS_SDKLocalizable.strings in Resources */,
+				FE2C85C81D43636F0050843D /* Emoji.plist in Resources */,
 				53E91A291D1B70E40091E85A /* Main.storyboard in Resources */,
 				53DC007D1D2B586700989E31 /* Assets.xcassets in Resources */,
 			);
@@ -1437,6 +1527,7 @@
 				FECC947A1D266938006F955A /* videoRightView.m in Sources */,
 				FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */,
 				53B9C8761D24FF56003C629B /* AFSecurityPolicy.m in Sources */,
+				FE2C85681D4356CF0050843D /* UIAlertController+SZYKit.m in Sources */,
 				538D2E511D1D38B400BB9588 /* aboutViewController.m in Sources */,
 				530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */,
 				5393136C1D1BC9760035D874 /* TextView.m in Sources */,
@@ -1475,6 +1566,15 @@
 			);
 			name = LaunchScreen.storyboard;
 			path = OralEdu;
+			sourceTree = "<group>";
+		};
+		FE2C85BF1D43636F0050843D /* RongCloudKit.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE2C85C01D43636F0050843D /* en */,
+				FE2C85C71D43636F0050843D /* zh-Hans */,
+			);
+			name = RongCloudKit.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1575,10 +1675,18 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK_v2_6_7_stable",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Yuntx_IMLib_SDK/lib",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK_v2_6_7_stable",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1597,10 +1705,18 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OralEdu/SMSSDK.2.0.0/SMS_SDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK_v2_6_7_stable",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK",
 				);
 				GCC_PREFIX_HEADER = OralEdu/PrefixHeader.pch;
 				INFOPLIST_FILE = OralEdu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Yuntx_IMLib_SDK/lib",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK_v2_6_7_stable",
+					"$(PROJECT_DIR)/Rong_Cloud_iOS_IMKit_SDK",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wangjungang.OralEdu;
 				PRODUCT_NAME = "$(TARGET_NAME)";

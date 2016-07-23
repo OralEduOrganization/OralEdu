@@ -11,6 +11,7 @@
 #import "Datebase_materallist.h"
 #import "materal_model.h"
 #import "imageCollectionViewCell.h"
+#import "UIAlertController+SZYKit.h"
 #define StatusBarHeight (IOS7==YES ? 0 : 20)
 #define BackHeight      (IOS7==YES ? 0 : 15)
 #define fNavBarHeigth (IOS7==YES ? 64 : 44)
@@ -415,26 +416,42 @@ static NSString *collectionview = @"imagecell";
 
 -(void)deleteClick:(NSNotification *)notification{
     
-    imageCollectionViewCell *aCell=(imageCollectionViewCell *)[notification object];
     
-    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
-    [_image_arr removeObjectAtIndex:indexPath.row];
-//    isEdit=!isEdit;
-    [Datebase_materallist deletemateraldetails:aCell.nameUrl];
+    [UIAlertController showAlertAtViewController:self withMessage:@"您确定要删除此图片吗" cancelTitle:@"取消" confirmTitle:@"删除" cancelHandler:^(UIAlertAction *action) {
+    } confirmHandler:^(UIAlertAction *action) {
+        
+        
+   
+        
+        
+        
+        imageCollectionViewCell *aCell=(imageCollectionViewCell *)[notification object];
+        
+        NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+        [_image_arr removeObjectAtIndex:indexPath.row];
+        //    isEdit=!isEdit;
+        [Datebase_materallist deletemateraldetails:aCell.nameUrl];
+        
+        NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *user_id = [defaultes objectForKey:@"name"];
+        
+        
+        NSString *pa = [NSString stringWithFormat:@"%@/%@/%@/%@",paths,user_id,self.navitionBar.title_label.text,aCell.nameStr];
+        
+        [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
+        
+        //    [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
+        
+        [self.image_collectionview reloadData];
+        
+        
+        
+    }];
     
-    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
     
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *user_id = [defaultes objectForKey:@"name"];
-    
-    
-    NSString *pa = [NSString stringWithFormat:@"%@/%@/%@/%@",paths,user_id,self.navitionBar.title_label.text,aCell.nameStr];
-    
-    [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
-    
-//    [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
-    
-    [self.image_collectionview reloadData];
+
 //    UIColor *receiveColor=(UIColor *)[notification object];
 //    self.selectedColor=receiveColor;
 //    drawView.selectedColor=self.selectedColor;
