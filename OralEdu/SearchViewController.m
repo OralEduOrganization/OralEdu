@@ -41,7 +41,7 @@ static NSString *identfider2 = @"scarchcell";
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
-    //[self loadDataFromWeb];
+    [self loadDataFromWeb];
     [self.navitionBar.title_label removeFromSuperview];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.searchbar];
@@ -53,6 +53,15 @@ static NSString *identfider2 = @"scarchcell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)loadDataFromWeb
+{
+    self.his_arr = [NSMutableArray array];
+    hisModel *model = [[hisModel alloc] init];
+    model.history_arr = @"123";
+    [self.his_arr addObject:model.history_arr];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -68,9 +77,6 @@ static NSString *identfider2 = @"scarchcell";
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
     self.searchlabel.frame = CGRectMake(0, 80, self.view.frame.size.width, 40);
 }
-
-
-
 
 #pragma mark - getters
 
@@ -103,7 +109,7 @@ static NSString *identfider2 = @"scarchcell";
         _hisv = [[hisView alloc] init];
         _hisv.his_tableview.dataSource = self;
         _hisv.his_tableview.delegate = self;
-      
+        
     }
     return _hisv;
 }
@@ -202,7 +208,6 @@ static NSString *identfider2 = @"scarchcell";
            [self.history_tableview reloadData];
         
     });
-    
 
     [self.hisv.his_tableview reloadData];
 }
@@ -222,7 +227,7 @@ static NSString *identfider2 = @"scarchcell";
         
         [self.history_tableview reloadData];
         
-
+        
         
         NSDictionary *para=@{@"user_nickname":searchText};
         

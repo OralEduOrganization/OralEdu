@@ -32,7 +32,6 @@ static NSString *cellIdentfid3 = @"setcell3";
 @property (nonatomic,strong) UITableView *setTableview;
 @property (nonatomic,strong) NSMutableArray *setarr;
 @property (nonatomic,strong) NSMutableArray *modelarr;
-@property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) NSMutableArray *image_arr;
 @property (nonatomic,strong) NSString *url1;
 @property (nonatomic,strong) NSString *name1;

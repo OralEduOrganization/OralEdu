@@ -367,7 +367,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     [control addAction:action1];
     [control addAction:action2];
-    
+   
     [self presentViewController:control animated:YES completion:nil];
 }
 

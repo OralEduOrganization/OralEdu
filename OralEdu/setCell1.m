@@ -41,6 +41,7 @@
     self.name_label.text = order.name_str;
     [self layoutIfNeeded];
 }
+
 #pragma mark - gertter
 
 -(UIImageView *)user_image
@@ -49,7 +50,7 @@
     {
         _user_image = [[UIImageView alloc] init];
         _user_image.layer.masksToBounds = YES;
-        _user_image.layer.cornerRadius = 40;
+        _user_image.layer.cornerRadius = 35;
     }
     return _user_image;
 }
