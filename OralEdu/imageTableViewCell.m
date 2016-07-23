@@ -30,7 +30,6 @@
     self.name_label.frame = CGRectMake(20, 10, 100, 50);
 }
 
-
 -(UIImageView *)specific_imageview
 {
     if(!_specific_imageview)
