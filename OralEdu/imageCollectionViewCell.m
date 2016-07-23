@@ -41,9 +41,11 @@
 }
 
 -(void)closeBtn:(UIButton *)sender{
-    if (_delegate && [_delegate respondsToSelector:@selector(moveImageBtnClick:)]) {
-        [_delegate moveImageBtnClick:self];
-    }
+//    if (_delegate && [_delegate respondsToSelector:@selector(moveImageBtnClick:)]) {
+//        [_delegate moveImageBtnClick:self];
+//    }
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"clickToDelete" object:self];
+    
 }
 -(void)hideLoginView{
     if (_delegate && [_delegate respondsToSelector:@selector(moveImageBtnClick:)]) {

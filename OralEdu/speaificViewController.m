@@ -53,6 +53,11 @@ static NSString *collectionview = @"imagecell";
     [self addTheCollectionView];
     [self.view addSubview:self.add_btn];
     [self reloadData];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deleteClick:) name:@"clickToDelete" object:nil];
+    
+    
+    
 }
 -(void)reloadData{
     self.image_arr = [NSMutableArray array];
@@ -112,7 +117,7 @@ static NSString *collectionview = @"imagecell";
 {
     _cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionview forIndexPath:indexPath];
     _cell.delegate = self;
-
+    [_cell releaseView];
     if(isEdit==YES){
         [_cell changeView];
     }else{
@@ -359,10 +364,8 @@ static NSString *collectionview = @"imagecell";
     NSLog(@"%@",aCell.nameUrl);
     
     NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
-    NSLog(@"_____%ld",indexPath.row);
     [_image_arr removeObjectAtIndex:indexPath.row];
     isEdit=!isEdit;
-    [self.image_collectionview reloadData];
     [Datebase_materallist deletemateraldetails:aCell.nameUrl];
     
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
@@ -376,7 +379,8 @@ static NSString *collectionview = @"imagecell";
     [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
     
     [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
-    
+    [self.image_collectionview reloadData];
+
     
 
 }
@@ -408,5 +412,41 @@ static NSString *collectionview = @"imagecell";
     _cell.backgroundColor=[UIColor clearColor];
 }
 
+
+-(void)deleteClick:(NSNotification *)notification{
+    
+    imageCollectionViewCell *aCell=(imageCollectionViewCell *)[notification object];
+    
+    NSIndexPath * indexPath = [self.image_collectionview indexPathForCell:aCell];
+    [_image_arr removeObjectAtIndex:indexPath.row];
+//    isEdit=!isEdit;
+    [Datebase_materallist deletemateraldetails:aCell.nameUrl];
+    
+    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *user_id = [defaultes objectForKey:@"name"];
+    
+    
+    NSString *pa = [NSString stringWithFormat:@"%@/%@/%@/%@",paths,user_id,self.navitionBar.title_label.text,aCell.nameStr];
+    
+    [self deleteFileWithObjetName:aCell.nameStr andNeedPatch:pa];
+    
+//    [self.navitionBar.right_btn setTitle:@"编辑" forState:UIControlStateNormal];
+    
+    [self.image_collectionview reloadData];
+//    UIColor *receiveColor=(UIColor *)[notification object];
+//    self.selectedColor=receiveColor;
+//    drawView.selectedColor=self.selectedColor;
+//    [self.hubView removeFromSuperview];
+//    self.hubView = nil;
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.rightView.transform =CGAffineTransformIdentity;
+//    }completion:^(BOOL finished) {
+//        
+//    }];
+//    
+//}
+}
 
 @end
