@@ -18,7 +18,7 @@
 #import "AFNetworking.h"
 #import "AFHTTPSessionManager.h"
 #import "materal_model.h"
-
+#import "MBProgressHUD+XMG.h"
 @interface materViewController ()
 @property (nonatomic,strong) UITableView *matertableview;
 @property (nonatomic,strong) NSMutableArray *mater_arr;
@@ -222,6 +222,25 @@
         
         [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
         [_mater_arr removeObjectAtIndex:indexPath.row];
+        
+        
+        
+        NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":self.mater_arr[indexPath.row]};
+        
+        [HttpTool postWithparamsWithURL:@"Pic/FileDelete" andParam:pare success:^(id responseObject) {
+            NSLog(@"%@",responseObject);
+            
+        } failure:^(NSError *error) {
+            NSLog(@"ERROR");
+        }];
+        
+        
+        
+        
+        
+        
+        
+        
         
         // 2. 更新UI
         
@@ -475,10 +494,12 @@
     [HttpTool postWithparamsWithURL:@"Pic/PicAdd?" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
+        [MBProgressHUD showSuccess:@"数据上传成功"];
         NSLog(@"dic = %@",dic);
     } failure:^(NSError *error) {
         NSLog(@"失败");
+        [MBProgressHUD showError:@"数据未变或已上传成功"];
+        
     }];
 
 
@@ -566,90 +587,103 @@
         
         NSLog(@"dic = %@",dic);
         
-        NSMutableArray *dit = [dic objectForKey:@"data"];
+        NSString *resultData=[dic objectForKey:@"code"];
         
-        NSLog(@"dit  = %@",dit);
+        if(![resultData isEqualToString:@"500"]){
         
-        self.mater_arr = [NSMutableArray array];
-        self.mater_arr = dit;
-        [self.matertableview reloadData];
-        
-        _m_finder.materal_finder_id = user_id;
-        
-        for (int i =0; i<self.mater_arr.count; i++) {
+            NSMutableArray *dit = [dic objectForKey:@"data"];
             
-            _m_finder.materal_finder_name = self.mater_arr[i];
-            [Datebase_materallist savematerallist:_m_finder];
-         
-            //新建文件夹
-            NSFileManager *fileManager = [[NSFileManager alloc] init];
-            NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.mater_arr[i]];
-            // 判断文件夹是否存在，如果不存在，则创建
-            if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
-                [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+            
+            NSLog(@"dit  = %@",dit);
+            
+            self.mater_arr = [NSMutableArray array];
+            self.mater_arr = dit;
+            [self.matertableview reloadData];
+            
+            _m_finder.materal_finder_id = user_id;
+            
+            for (int i =0; i<self.mater_arr.count; i++) {
                 
-            } else {
-                NSLog(@"FileDir is exists.");
+                _m_finder.materal_finder_name = self.mater_arr[i];
+                [Datebase_materallist savematerallist:_m_finder];
+                
+                //新建文件夹
+                NSFileManager *fileManager = [[NSFileManager alloc] init];
+                NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.mater_arr[i]];
+                // 判断文件夹是否存在，如果不存在，则创建
+                if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
+                    [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+                    
+                } else {
+                    NSLog(@"FileDir is exists.");
+                    
+                }
+                
+                NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":self.mater_arr[i]};
+                
+                [HttpTool postWithparamsWithURL:@"Pic/FileSearch" andParam:pare success:^(id responseObject) {
+                    
+                    NSData *data = [[NSData alloc] initWithData:responseObject];
+                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                    
+                    NSLog(@"dic2 = %@",dic);
+                    
+                    NSMutableArray *dit = [dic objectForKey:@"data"];
+                    NSLog(@"dit2  = %@",dit);
+                    for (int j=0; j<dit.count; j++) {
+                        
+                        NSString *fileurlStr=dit[j];
+                        NSArray *qwe=[fileurlStr componentsSeparatedByString:@"/"];
+                        
+                        NSString *realName=qwe[qwe.count-1];
+                        
+                        NSURL *url = [NSURL URLWithString:dit[j]];
+                        UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                        
+                        
+                        NSData *imageData=UIImageJPEGRepresentation(img, 0.1);
+                        
+                        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+                        NSString *user_id = [defaultes objectForKey:@"name"];
+                        
+                        NSString *zxc=self.mater_arr[i];
+                        
+                        
+                        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,zxc]]stringByAppendingPathComponent:realName];
+                        
+                        NSString *savePath=[NSString stringWithFormat:@"/%@/%@/%@",user_id,zxc,realName];
+                        
+                        [imageData writeToFile:fullPath atomically:NO];
+                        
+                        materal_model *model = [[materal_model alloc]init];
+                        
+                        model.materal_id = user_id;
+                        model.materal_name = zxc;
+                        model.materal_imagepath=savePath;
+                        model.materal_time=@"";
+                        
+                        [Datebase_materallist savemateraldetails:model];
+                        
+                        
+                    }
+                    
+                } failure:^(NSError *error) {
+                    
+                }];
+                
                 
             }
-            
-            NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":self.mater_arr[i]};
-            
-            [HttpTool postWithparamsWithURL:@"Pic/FileSearch" andParam:pare success:^(id responseObject) {
-                
-                NSData *data = [[NSData alloc] initWithData:responseObject];
-                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                
-                NSLog(@"dic2 = %@",dic);
-                
-                NSMutableArray *dit = [dic objectForKey:@"data"];
-                NSLog(@"dit2  = %@",dit);
-                for (int j=0; j<dit.count; j++) {
-                    
-                    NSString *fileurlStr=dit[j];
-                    NSArray *qwe=[fileurlStr componentsSeparatedByString:@"/"];
-                    
-                    NSString *realName=qwe[qwe.count-1];
-                    
-                    NSURL *url = [NSURL URLWithString:dit[j]];
-                    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-                    
-                    
-                    NSData *imageData=UIImageJPEGRepresentation(img, 0.1);
-                    
-                    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-                    NSString *user_id = [defaultes objectForKey:@"name"];
-                    
-                    NSString *zxc=self.mater_arr[i];
-                    
-                    
-                    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",user_id,zxc]]stringByAppendingPathComponent:realName];
-                    
-                    NSString *savePath=[NSString stringWithFormat:@"/%@/%@/%@",user_id,zxc,realName];
-                    
-                    [imageData writeToFile:fullPath atomically:NO];
-                    
-                    materal_model *model = [[materal_model alloc]init];
-                    
-                    model.materal_id = user_id;
-                    model.materal_name = zxc;
-                    model.materal_imagepath=savePath;
-                    model.materal_time=@"";
-                    
-                    [Datebase_materallist savemateraldetails:model];
-
-                    
-            }
-                
-            } failure:^(NSError *error) {
-                
-            }];
-            
-            
+        
+        
+            [MBProgressHUD showSuccess:@"数据同步成功！"];
+        
+        }else{
+        
+            [MBProgressHUD showError:@"您还没有云端数据"];
+        
         }
-        
-      
+
         
         
     } failure:^(NSError *error) {

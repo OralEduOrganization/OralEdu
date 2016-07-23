@@ -32,7 +32,7 @@
         {
             //创建数据表
             NSString *sql = @"create table if not exists Datebase_materallist_info(materallist_id varchar , materallist_name varchar primary key)";
-            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id varchar , materal_name varchar ,materal_imagepath varchar,materal_time varchar)";
+            NSString *sql2 = @"create table if not exists Datebase_details_info(materal_id varchar , materal_name varchar ,materal_imagepath varchar primary key,materal_time varchar)";
             
             if (![db executeUpdate:sql]) {
                 NSLog(@"create table error :%@",[db lastErrorMessage]);
