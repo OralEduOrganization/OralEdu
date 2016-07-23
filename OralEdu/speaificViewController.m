@@ -262,8 +262,6 @@ static NSString *collectionview = @"imagecell";
     needTime=[self getCurrentTime];
     [self saveImage:image withName:[NSString stringWithFormat:@"%@_%@.png",user_id,needTime]];
     
-   
-    
     self.m_model.materal_id = user_id;
     
     self.m_model.materal_name = self.navitionBar.title_label.text;
@@ -271,6 +269,7 @@ static NSString *collectionview = @"imagecell";
     [Datebase_materallist savemateraldetails:self.m_model];
     [self reloadData];
     [self.image_collectionview reloadData];
+    
     
 }
 //获取时间
