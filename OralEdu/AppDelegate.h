@@ -11,7 +11,7 @@
 #import "iflyMSC/IFlyRecognizerViewDelegate.h"
 #import "iflyMSC/IFlyRecognizerView.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAccelerometerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

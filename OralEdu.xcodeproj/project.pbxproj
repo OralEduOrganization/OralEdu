@@ -1063,17 +1063,6 @@
 		53E91A121D1B70E40091E85A = {
 			isa = PBXGroup;
 			children = (
-				FE2C85E41D4369340050843D /* Photos.framework */,
-				FE2C85E21D4369230050843D /* SystemConfiguration.framework */,
-				FE2C85E01D4369010050843D /* OpenGLES.framework */,
-				FE2C85DE1D4368D70050843D /* libxml2.tbd */,
-				FE2C85DC1D43686F0050843D /* libc++abi.tbd */,
-				FE2C85DA1D43685E0050843D /* ImageIO.framework */,
-				FE2C85D81D43683E0050843D /* CoreVideo.framework */,
-				FE2C85D61D4368320050843D /* CoreTelephony.framework */,
-				FE2C85D41D4368250050843D /* CoreMedia.framework */,
-				FE2C85D21D4368050050843D /* CoreAudio.framework */,
-				FE2C85D01D4367E70050843D /* CFNetwork.framework */,
 				585615151D332D4D00B54508 /* UIImage+needkit.h */,
 				585615161D332D4D00B54508 /* UIImage+needkit.m */,
 				530F6E4D1D279FED00A3A2AE /* PrefixHeader.pch */,
@@ -1133,6 +1122,17 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				FE2C85E41D4369340050843D /* Photos.framework */,
+				FE2C85E21D4369230050843D /* SystemConfiguration.framework */,
+				FE2C85E01D4369010050843D /* OpenGLES.framework */,
+				FE2C85DE1D4368D70050843D /* libxml2.tbd */,
+				FE2C85DC1D43686F0050843D /* libc++abi.tbd */,
+				FE2C85DA1D43685E0050843D /* ImageIO.framework */,
+				FE2C85D81D43683E0050843D /* CoreVideo.framework */,
+				FE2C85D61D4368320050843D /* CoreTelephony.framework */,
+				FE2C85D41D4368250050843D /* CoreMedia.framework */,
+				FE2C85D21D4368050050843D /* CoreAudio.framework */,
+				FE2C85D01D4367E70050843D /* CFNetwork.framework */,
 				FE2C85BD1D43636F0050843D /* Rong_Cloud_iOS_IMKit_SDK */,
 				536820811D41C52200EF034B /* AVFoundation.framework */,
 				5368207F1D41C51400EF034B /* AssetsLibrary.framework */,

@@ -331,6 +331,7 @@
      }
 
          //self.resultLabel.text = str;
-     }
+}
+
 
 @end

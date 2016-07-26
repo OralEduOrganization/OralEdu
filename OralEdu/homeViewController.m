@@ -43,16 +43,7 @@
     [super viewDidLoad];
        self.view.backgroundColor = [UIColor whiteColor];
     currentClickIndex = -1;
-    //验证登录信息
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *name = [defaultes objectForKey:@"name"];
-    if (name == nil) {
-        [self go_login];
-        [self loadDataFromWeb];
-    }else{
-    //数据加载
-     [self loadDataFromWeb];
-    }
+  
     //导航栏加载
     self.navitionBar.left_btn.layer.masksToBounds = YES;
     self.navitionBar.left_btn.layer.cornerRadius = 15;
@@ -66,7 +57,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
     self.view.backgroundColor=[UIColor clearColor];
-    
+  
 }
 
 -(void)login{
@@ -82,8 +73,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.homeTableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-    
-    
+    //验证登录信息
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    if (name == nil) {
+        [self go_login];
+        [self loadDataFromWeb];
+    }else{
+        //数据加载
+        [self loadDataFromWeb];
+    }
+  
 }
 
 - (void)insertRowAtTop {
@@ -94,10 +94,9 @@
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [weakSelf.homeTableview beginUpdates];
  
-        [self loadDataFromWeb];
-        //[weakSelf.homeTableview endUpdates];
         
         [weakSelf.homeTableview.pullToRefreshView stopAnimating];
+        
     });
 }
 
@@ -156,23 +155,28 @@
             NSArray *dit11 = [dic objectForKey:@"data"];
             
             NSLog(@"dit11 = %@",dit11);
-            
-            for (int i=0; i<dit11.count; i++) {
+            if ([[dic objectForKey:@"code"]isEqualToString:@"500"])
+            {
                 
-                homeModel *model=[[homeModel alloc]init];
-                
-                NSDictionary *aaa=dit11[i];
-                
-                model.home_name=aaa[@"user_nickname"];
-                model.home_head_imageurl = aaa[@"user_url"];
-                model.home_time = aaa[@"last_time"];
-                model.home_infomation = aaa[@"user_introduction"];
-                model.home_phone = aaa[@"user_moblie"];
-                
-                [self.homearr addObject:model];
-                [self.homeTableview reloadData];
             }
-            
+            else
+            {
+                for (int i=0; i<dit11.count; i++) {
+                    
+                    homeModel *model=[[homeModel alloc]init];
+                    
+                    NSDictionary *aaa=dit11[i];
+                    
+                    model.home_name=aaa[@"user_nickname"];
+                    model.home_head_imageurl = aaa[@"user_url"];
+                    model.home_time = aaa[@"last_time"];
+                    model.home_infomation = aaa[@"user_introduction"];
+                    model.home_phone = aaa[@"user_moblie"];
+                    
+                    [self.homearr addObject:model];
+                    [self.homeTableview reloadData];
+                }
+            }
         } failure:^(NSError *error) {
             NSLog(@"失败");
         }];
@@ -211,7 +215,6 @@
     return _m_btn;
 
 }
-
 
 #pragma mark - UItableView DateSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -323,6 +326,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击了cell");
     
+    
+    
     voiceViewController *voiceController=[[voiceViewController alloc]init];
 //    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
 //    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -356,5 +361,8 @@
     [self presentLeftMenuViewController];
 }
 
-
+-(BOOL)shouldAutorotate
+{
+    return YES;
+}
 @end

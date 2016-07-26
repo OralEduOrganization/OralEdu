@@ -19,6 +19,7 @@
     
     MBProgressHUD *HUD;
     
+    BOOL iseuqal;
 }
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIView *m_view;
@@ -34,6 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    iseuqal = NO;
     //self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.groundimage];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
@@ -48,6 +50,9 @@
     [self.view addSubview:self.goback_btn];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.Tview.user_text];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange2) name:UITextFieldTextDidChangeNotification object:self.Tview.pass_text];
     
 }
 
@@ -134,7 +139,6 @@
     if(!_registered_btn)
     {
         _registered_btn = [[UIButton alloc] init];
-       // _registered_btn.backgroundColor = [UIColor blueColor];
         [_registered_btn setTitle:@"点击注册" forState:UIControlStateNormal];
         [_registered_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _registered_btn.layer.masksToBounds = YES;
@@ -149,7 +153,6 @@
     if(!_goback_btn)
     {
         _goback_btn = [[UIButton alloc] init];
-       // _goback_btn.backgroundColor = [UIColor blueColor];
         [_goback_btn setTitle:@"点击返回" forState:UIControlStateNormal];
         [_goback_btn addTarget:self action:@selector(go_backview) forControlEvents:UIControlEventTouchUpInside];
         [_goback_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -166,13 +169,7 @@
  
     self.user_str = self.Tview.user_text.text;
     self.user_paseword = self.Tview.pass_text.text;
-    
-//    NSDictionary *para=@{@"user_moblie":@"12345678901",@"user_pwd":@"123"};
-    
     NSDictionary *para=@{@"user_moblie":self.user_str,@"user_pwd":self.user_paseword};
-    
-   
-    
     [HttpTool postWithparamsWithURL:@"User/UserLogin" andParam:para success:^(id responseObject) {
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -258,9 +255,15 @@
 -(void)textChange
 {
     if (self.Tview.user_text.text.length==11) {
+        iseuqal=YES;
+    }
+}
+
+-(void)textChange2
+{
+    if (self.Tview.pass_text.text.length==1&&iseuqal==YES) {
         self.login_btn.alpha = 1;
         self.login_btn.enabled = YES;
     }
 }
-
 @end

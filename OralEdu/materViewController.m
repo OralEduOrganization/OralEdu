@@ -33,8 +33,6 @@
 @property (nonatomic,strong) NSMutableArray *delete_arr;
 
 @property (nonatomic,strong) UIButton *uploadBtn;
-@property (nonatomic,strong) UIButton *downloadBtn;
-
 
 @end
 
@@ -83,9 +81,8 @@
     self.uploadBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-300, [UIScreen mainScreen].bounds.size.height-300, 50, 50);
     
 }
+
 #pragma mark - getters
-
-
 
 -(UIButton *)uploadBtn
 {
@@ -100,31 +97,6 @@
     }
     return _uploadBtn;
 }
--(UIButton *)downloadBtn
-{
-    if(!_downloadBtn)
-    {
-        _downloadBtn = [[UIButton alloc] init];
-        _downloadBtn.backgroundColor = [UIColor clearColor];
-        _downloadBtn.titleLabel.text=@"上传";
-        //[_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
-        [_downloadBtn addTarget:self action:@selector(downloadBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        _downloadBtn.backgroundColor=[UIColor whiteColor];
-    }
-    return _downloadBtn;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 -(UIButton *)add_btn
 {
@@ -588,30 +560,6 @@
     [formatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *dateTime=[formatter stringFromDate:[NSDate date]];
     return dateTime;
-}
-
--(void)downloadBtnClick{
-
-    //新建文件夹
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    
-    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-    NSString *user_id = [defaultes objectForKey:@"name"];
-    
-    NSString *createPath = [NSString stringWithFormat:@"%@/%@/%@", pathDocuments,user_id,self.add_str];
-    NSLog(@"str = %@",self.add_str);
-    // 判断文件夹是否存在，如果不存在，则创建
-    if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
-        [fileManager createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        
-    } else {
-        NSLog(@"FileDir is exists.");
-        
-    }
-
-
 }
 
 -(void)rightbtnClick

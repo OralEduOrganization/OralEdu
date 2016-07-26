@@ -20,6 +20,8 @@
     SystemSoundID sound;//系统声音的id 取值范围为：1000-2000
     
     MBProgressHUD *HUD;
+    
+    BOOL isequal;
 }
 @property (nonatomic,strong) UIButton *login_btn;
 @property (nonatomic,strong) UIButton *reist_btn;
@@ -39,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    isequal = NO;
     [self.view addSubview:self.groudimage];
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
@@ -52,6 +55,11 @@
     [self.view addSubview:self.valid_text];
     [self.view addSubview:self.reist_btn];
     [self.view addSubview:self.get_btn];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.phone_text];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange2) name:UITextFieldTextDidChangeNotification object:self.pass_text];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -189,6 +197,8 @@
         _get_btn.backgroundColor = [UIColor orangeColor];
         _get_btn.layer.masksToBounds = YES;
         _get_btn.layer.cornerRadius = 20;
+        _get_btn.alpha = 0.4;
+        _get_btn.enabled = NO;
         [_get_btn addTarget:self action:@selector(startTime) forControlEvents:UIControlEventTouchUpInside];
         [_get_btn setTitle:@"发送验证码" forState:UIControlStateNormal];
         [_get_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -373,6 +383,20 @@
         if (textField.text.length > 11) {
             textField.text = [textField.text substringToIndex:11];
         }
+    }
+}
+-(void)textChange
+{
+    if (self.phone_text.text.length==11) {
+        isequal=YES;
+    }
+}
+
+-(void)textChange2
+{
+    if (self.pass_text.text.length==1&&isequal==YES) {
+        self.get_btn.alpha = 1;
+        self.get_btn.enabled = YES;
     }
 }
 @end

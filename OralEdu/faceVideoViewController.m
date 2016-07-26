@@ -38,8 +38,11 @@
 #import "SVPullToRefresh.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <RongIMLib/RongIMLib.h>
+
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
-@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate,AVCaptureFileOutputRecordingDelegate,AVAudioRecorderDelegate>{
+@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate,AVCaptureFileOutputRecordingDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate>
+{
     NSInteger screenWidth;
     NSInteger screenHeight;
     PIDrawerView *drawView;
@@ -80,8 +83,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;
 @property (nonatomic, strong) NSMutableArray *tackarray;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
-@property (nonatomic,strong) UITableView *languageTableview;
-@property (nonatomic,strong) NSMutableArray *languagearr;
+@property (nonatomic, strong) UITableView *languageTableview;
+@property (nonatomic, strong) NSMutableArray *languagearr;
 
 @property (strong,nonatomic) AVCaptureSession *captureSession;//负责输入和输出设置之间的数据传递
 @property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;//负责从AVCaptureDevice获得输入数据
@@ -117,8 +120,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     [self.view addSubview:self.imageSelectView];
     
-    //[self.view addSubview:self.backBtn];
-
     self.selectedColor = [UIColor redColor];
     drawView.selectedColor=self.selectedColor;
     [self.view addSubview:self.rightView];
@@ -127,25 +128,13 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnImage:) name:@"returnImage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
     
-//    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-//        SEL selector = NSSelectorFromString(@"setOrientation:");
-//        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-//        [invocation setSelector:selector];
-//        [invocation setTarget:[UIDevice currentDevice]];
-//        int val = UIInterfaceOrientationLandscapeRight;
-//        [invocation setArgument:&val atIndex:2];
-//        [invocation invoke];
-//    }
-    
-
     
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
     self.view.transform = CGAffineTransformMakeRotation(M_PI/2);
     CGRect frame = [UIScreen mainScreen].applicationFrame;
     self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
+    
 
-
-   
     
     self.senderID = @"0001";
     NSArray *arr = [self getData];
@@ -170,32 +159,10 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 -(void) refreshView:(UIRefreshControl *)refresh
 {
-   // long count = _dataSource.count;
-   // [self reloadDataSourceWithNumber:count+1];
-//    [self.chatTableView reloadData];
+    
     [refresh endRefreshing];
 }
 
-
-////加载datasource
-//-(void)reloadDataSourceWithNumber:(long)count{
-//    _dataSource = [[NSMutableArray alloc]init];
-//    long dataCount = _dataArr.count;
-//    if (dataCount>=count) {
-//        long j=0;
-//        long m=count;
-//        for (long i=count; i >0; i--) {
-//            
-//            [_dataSource insertObject:_dataArr[dataCount-m] atIndex:j];
-//            m--;
-//            j++;
-//        }
-//    }else{
-//        for (int i=0; i<_dataArr.count; i++) {
-//            [_dataSource insertObject:_dataArr[i] atIndex:i];
-//        }
-//    }
-//}
 
 -(UIRefreshControl *)refreshControl{
     
@@ -224,9 +191,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
     
     self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2, [UIScreen mainScreen].bounds.size.height/4, [UIScreen mainScreen].bounds.size.width/2-50);
-    
-    self.backBtn.frame = CGRectMake(0, 0, 50, 50);
-    
+ 
     self.languageTableview.frame = CGRectMake(screenHeight, 0, screenHeight/4, screenWidth);
     
     
@@ -635,7 +600,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     return _sview;
 }
 
--(UIButton *)backBtn{
+-(UIButton *)backBtn
+{
     if(!_backBtn){
         _backBtn=[[UIButton alloc]init];
         [_backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -646,7 +612,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     return _backBtn;
 }
 
--(UIView *)teacherView{
+-(UIView *)teacherView
+{
     if(!_teacherView){
         _teacherView=[[UIView alloc]init];
         _teacherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"student.jpg"]];
@@ -657,7 +624,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 -(UIView *)studentView{
     if(!_studentView){
         _studentView=[[UIView alloc]init];
-//        _studentView.transform = CGAffineTransformMakeRotation(M_PI/2);
+        _studentView.transform = CGAffineTransformMakeRotation(M_PI/2);
         _studentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"teacher.jpg"]];
     }
     return _studentView;
@@ -681,8 +648,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     return _hubView;
 }
 
-
 //聊天界面的tableview
+
 -(UITableView *)tacktableview{
     
     if (!_tacktableview) {
@@ -870,8 +837,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
         cell.tacklabel.frame=rect;
         
-        
-        //cell.backgroundColor = [UIColor greenColor];
         [cell.contentView addSubview:cell.tacklabel];
         
         
@@ -888,7 +853,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
         
         cell.tacklabel.frame=rect;
-        // cell.backgroundColor = [UIColor greenColor];
+    
         [cell.contentView addSubview:cell.tacklabel];
         
         
@@ -939,7 +904,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     CGSize textLabelSize;
     
     textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    
-    CGRect needRect=CGRectMake(screenW/4-textLabelSize.height-5, 5, textLabelSize.width, textLabelSize.height);
+    CGRect needRect=CGRectMake(screenH/4-textLabelSize.height-30, 5, textLabelSize.width, textLabelSize.height);
     
     return needRect;
     
@@ -1288,6 +1253,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
     }];
 }
+//隐藏状态栏
 
-
+- (UIStatusBarStyle)preferredStatusBarStyle {   //设置样式
+    
+    
+    return UIStatusBarStyleLightContent;
+}
+- (BOOL)prefersStatusBarHidden { //设置隐藏显示
+    return YES;
+}
 @end

@@ -14,7 +14,7 @@
 #import "passwordViewController.h"
 #import "MBProgressHUD.h"
 #import "HttpTool.h"
-
+#import "MBProgressHUD+XMG.h"
 @interface infomationViewController ()
 {
     MBProgressHUD *HUD;
@@ -28,6 +28,7 @@
 @property (nonatomic,strong) NSDictionary *pata;
 @property (nonatomic,strong) NSString *aaa;
 @property (nonatomic,strong) infoCell2 *cell;
+@property (nonatomic,strong) NSString *userphone;
 @end
 
 @implementation infomationViewController
@@ -35,9 +36,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor lightGrayColor];
-    [self.navitionBar.right_btn removeFromSuperview];
     [self.navitionBar.left_btn removeFromSuperview];
-    
+    [self.navitionBar.right_btn setTitle:@"添加" forState:UIControlStateNormal];
     
     [self.view addSubview:self.infotableview];
     [self.view addSubview:self.pic_image];
@@ -199,6 +199,7 @@
 -(void)getInfo:(NSString *)phone{
 
     self.pata=@{@"user_moblie":phone};
+    self.userphone = [NSString stringWithString:phone];
     
     self.aaa = [self.pata objectForKey:@"user_moblie"];
     
@@ -221,5 +222,32 @@
         NSLog(@"%@",error);
     }];
  
+}
+-(void)rightbtnClick
+{
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    
+    self.pata=@{@"user_moblie":name,@"user_contacts":self.userphone};
+    
+    [HttpTool postWithparamsWithURL:@"Contacts/contactsAdd?" andParam:self.pata success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",dic);
+        NSString *code = [dic objectForKey:@"code"];
+        NSLog(@"code = %@",code);
+        if ([code isEqualToString:@"200"]) {
+           [MBProgressHUD showError:@"好友已存在"];
+        }
+        else
+        {
+        [MBProgressHUD showSuccess:@"添加成功"];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+        [MBProgressHUD showError:@"请检查网络设置"];
+        
+    }];
 }
 @end

@@ -14,7 +14,7 @@
 @property (strong, readwrite, nonatomic) UIView *contentViewContainer;
 
 @property (assign, readwrite, nonatomic) BOOL didNotifyDelegate;
-
+@property(nonatomic)NSUInteger orietation;
 @end
 
 @implementation ITRAirSideMenu
@@ -652,12 +652,7 @@
     return YES;
 }
 
-//-(NSUInteger)supportedInterfaceOrientations{
-//    return UIInterfaceOrientationMaskAllButUpsideDown;
-//}
-//
-//- (BOOL)shouldAutorotate{
-//    return NO;
-//}
+
+
 
 @end
