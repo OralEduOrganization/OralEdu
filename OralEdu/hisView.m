@@ -44,17 +44,16 @@
     return _his_label;
 }
 
--(UIButton *)del_btn
-{
-    if(!_del_btn)
-    {
-        _del_btn = [[UIButton alloc] init];
-
-        [_del_btn setTitle:@"清空历史记录" forState:UIControlStateNormal];
-        [_del_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    }
-    return _del_btn;
-}
+//-(UIButton *)del_btn
+//{
+//    if(!_del_btn)
+//    {
+//        _del_btn = [[UIButton alloc] init];
+//        [_del_btn setTitle:@"清空历史记录" forState:UIControlStateNormal];
+//        [_del_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    }
+//    return _del_btn;
+//}
 
 -(UITableView *)his_tableview
 {
