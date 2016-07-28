@@ -52,11 +52,7 @@
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.infotableview];
     
-    
-    
-    
-    
-    
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"refresh" object:nil];
     
     self.infoarr = [NSMutableArray arrayWithObjects:@"用户名",@"个性签名",@"性别",@"地址",@"身份注册",@"个人简介",@"退出登录", nil];
     [self.view addSubview:self.pic_image];
@@ -266,7 +262,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
 
         static NSString *cellidentfic2 = @"infoTableViewCell2";
         infoTableViewCell2 *cell  =  [tableView dequeueReusableCellWithIdentifier:cellidentfic2];
@@ -584,8 +579,6 @@
         
     }];
     
-    
-    
 }
 
 
@@ -607,8 +600,8 @@
         [self loadDataFromWeb];
         [self.infotableview reloadData];
         
-//        loginViewController *loginVC = [[loginViewController alloc] init];
-//        [self presentViewController:loginVC animated:YES completion:nil];
+        loginViewController *loginVC = [[loginViewController alloc] init];
+        [self presentViewController:loginVC animated:YES completion:nil];
         
     }];
     
@@ -710,5 +703,74 @@
     [self.infotableview reloadData];
 }
 
+
+-(void)refresh{
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
+    NSDictionary *para=@{@"user_moblie":name};
+    [HttpTool postWithparamsWithURL:@"Userpage/UserpageShow?" andParam:para success:^(id responseObject) {
+        
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        NSLog(@"dic = %@",dic);
+        
+        NSDictionary *dit = [dic objectForKey:@"data"];
+        
+        NSLog(@"dit = %@",dit);
+        self.url = [dit objectForKey:@"url"];
+        NSString *user_address = [dit objectForKey:@"user_address"];
+        NSString *user_gender = [dit objectForKey:@"user_gender"];
+        NSString *identity = [dit objectForKey:@"user_identity"];
+        NSString *user_introduction = [dit objectForKey:@"user_introduction"];
+        NSString *user_nickname = [dit objectForKey:@"user_nickname"];
+        NSString *user_signed = [dit objectForKey:@"user_signed"];
+        
+        
+        NSLog(@"username = %@",user_nickname);
+        _picM = [[picModel alloc] init];
+        _picM.image_urlstr = self.url;
+        self.arr = [NSMutableArray array];
+        _picM.name_str = user_nickname;
+        _picM.signature_str = user_signed;
+        _picM.address_str = user_address;
+        _picM.gender_str = user_gender;
+        _picM.user_introduction = user_introduction;
+        _picM.identity =identity;
+        
+        NSLog(@"identy = %@",identity);
+        
+        [self.arr addObject:_picM.name_str];
+        [self.arr addObject:_picM.gender_str];
+        [self.arr addObject:_picM.address_str];
+        [self.arr addObject:_picM.signature_str];
+        [self.arr addObject:_picM.user_introduction];
+        [self.arr addObject:_picM.identity];
+        
+        
+        NSURL *url = [NSURL URLWithString:self.picM.image_urlstr];
+        
+        UIImage *img= [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        self.pic_image.image =img;
+        self.name_label.text = self.picM.name_str;
+        self.signature_label.text = self.picM.signature_str;
+        [self.infotableview reloadData];
+        
+    } failure:^(NSError *error) {
+        NSLog(@"失败");
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        HUD.labelText = @"请检查网络设置";
+        [self.view addSubview:HUD];
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+        [HUD showAnimated:YES whileExecutingBlock:^{
+            sleep(2);
+        } completionBlock:^{
+            [HUD removeFromSuperViewOnHide];
+        }];
+    }];
+
+    [self.infotableview reloadData];
+}
 
 @end

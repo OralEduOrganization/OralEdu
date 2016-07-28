@@ -41,7 +41,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-       self.view.backgroundColor = [UIColor whiteColor];
     currentClickIndex = -1;
   
     //导航栏加载
@@ -56,7 +55,7 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
-    self.view.backgroundColor=[UIColor clearColor];
+    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"背景"]];
   
 }
 
@@ -78,7 +77,7 @@
     NSString *name = [defaultes objectForKey:@"name"];
     if (name == nil) {
         [self go_login];
-        [self loadDataFromWeb];
+        //[self loadDataFromWeb];
     }else{
         //数据加载
         [self loadDataFromWeb];
@@ -101,6 +100,7 @@
 }
 
 #pragma  mark - 数据源方法
+
 -(void)loadDataFromWeb
 {
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
@@ -140,10 +140,13 @@
     } failure:^(NSError *error) {
         NSLog(@"失败");
     }];
-
-        self.homearr = [NSMutableArray array];
         //实际上这里进行网络调用
-        
+        if ([name isEqualToString:@""]) {
+            self.homearr = [NSMutableArray array];
+        }
+        else
+        {
+            self.homearr = [NSMutableArray array];
         NSDictionary *para2=@{@"user_moblie":name};
         [HttpTool postWithparamsWithURL:@"Contact/UserContact?" andParam:para2 success:^(id responseObject) {
             
@@ -180,7 +183,7 @@
         } failure:^(NSError *error) {
             NSLog(@"失败");
         }];
-
+        }
     }
    
     
@@ -196,7 +199,7 @@
         _homeTableview.dataSource = self;
         _homeTableview.delegate = self;
         _homeTableview.tableFooterView = [[UIView alloc]init];
-        _homeTableview.backgroundColor = [UIColor whiteColor];
+        _homeTableview.backgroundColor = [UIColor lightGrayColor];
         _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _homeTableview;
@@ -232,7 +235,6 @@
     {
         _cell = [[homeCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [_cell setCellDate:self.homearr[indexPath.row]];
-        
         
         [_cell setCellClickBlock:^(NSString *str) {
             
@@ -289,47 +291,10 @@
         }];
         
         
-        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }];
     
-        // 删除一个置顶按钮
-    
-        UITableViewRowAction *topRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"置顶" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-    
-            NSLog(@"点击了置顶");
-            // 1. 更新数据
-    
-            [_homearr exchangeObjectAtIndex:indexPath.row withObjectAtIndex:0];
-            
-            // 2. 更新UI
-    
-            NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
-    
-            [tableView moveRowAtIndexPath:indexPath toIndexPath:firstIndexPath];
-    
-        }];
-    
-        topRowAction.backgroundColor = [UIColor blueColor];
-    
-    // 添加一个更多按钮
-    
-    UITableViewRowAction *moreRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"更多" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        
-        NSLog(@"点击了更多");
-        
-        
-        
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-        
-    }];
-    
-    moreRowAction.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    
-    // 将设置好的按钮放到数组中返回
-    
-    // return @[deleteRowAction, topRowAction, moreRowAction];
     
     return @[deleteRowAction];
     

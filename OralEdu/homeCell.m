@@ -51,7 +51,7 @@
     if(!_home_headimage)
     {
         _home_headimage = [[UIImageView alloc] init];
-        _home_headimage.backgroundColor = [UIColor orangeColor];
+       // _home_headimage.backgroundColor = [UIColor orangeColor];
         _home_headimage.layer.masksToBounds = YES;
         _home_headimage.layer.cornerRadius = 25;
     }

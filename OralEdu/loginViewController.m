@@ -13,6 +13,7 @@
 #import "MBProgressHUD+XMG.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "MBProgressHUD.h"
+#import "homeViewController.h"
 @interface loginViewController ()
 {
     SystemSoundID sound;//系统声音的id 取值范围为：1000-2000
@@ -192,6 +193,7 @@
         [self dismissViewControllerAnimated:YES completion:^{
             
         }];
+            
             //保存登录信息
             NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
             [defaultes setObject:self.user_str forKey:@"name"];
@@ -199,8 +201,10 @@
             [defaultes synchronize];
             
             [[NSNotificationCenter defaultCenter]postNotificationName:@"login" object:nil];
-  
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"refresh" object:nil];
+
         }
+        
     } failure:^(NSError *error) {
         
         NSLog(@"%@",error);

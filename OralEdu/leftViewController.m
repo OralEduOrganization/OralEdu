@@ -54,6 +54,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userurl:) name:@"userurl" object:nil];
+    
 }
 
 -(void)viewWillLayoutSubviews
@@ -148,7 +149,6 @@
     if(!_user_image)
     {
         _user_image = [[UIImageView alloc] init];
-        //_user_image.backgroundColor = [UIColor greenColor];
         _user_image.layer.masksToBounds = YES;
         _user_image.layer.cornerRadius = 50;
         leftviewModel *model = self.leftviewarr[0];
@@ -169,9 +169,6 @@
     }
     return _login_label;
 }
-
-
-
 
 #pragma mark UITableView Datasource
 
