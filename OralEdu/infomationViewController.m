@@ -190,7 +190,7 @@
 {
     
     
-    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"001" andTargedId:@"002"];
+    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"002" andTargedId:@"001"];
     
     
     

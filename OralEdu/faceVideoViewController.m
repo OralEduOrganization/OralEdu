@@ -132,7 +132,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic)         BOOL                  isCanceled;
 @property (nonatomic,strong) NSString               *result;
 @property (nonatomic, strong) UILabel *resultLabel;
-
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) NSMutableArray *chatMutArr;
 
@@ -183,14 +182,11 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toReturnDocument:) name:@"returnSelectDocument" object:nil];
     
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
-    self.view.transform = CGAffineTransformMakeRotation(M_PI/2);
-    CGRect frame = [UIScreen mainScreen].applicationFrame;
-    self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
 
+    CGAffineTransform transform= CGAffineTransformMakeRotation(M_PI/2);
+    self.view.transform = transform;
+    
 
-//    NSArray *arr = [self getData];
-//    _dataArr = [NSMutableArray arrayWithArray:arr];
     
     self.tackarray = [NSMutableArray array];
     
@@ -247,25 +243,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
 }
 
--(void) refreshView:(UIRefreshControl *)refresh
-{
-    
-    [refresh endRefreshing];
-}
 
-
--(UIRefreshControl *)refreshControl{
-    
-    if (!_refreshControl) {
-        _refreshControl = [[UIRefreshControl alloc]init];
-        [_refreshControl addTarget:self
-                            action:@selector(refreshView:)
-                  forControlEvents:UIControlEventValueChanged];
-        [_refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"松开加载更多"]];
-        
-    }
-    return _refreshControl;
-}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -425,6 +403,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [control addAction:action2];
    
     [self presentViewController:control animated:YES completion:nil];
+//    CGAffineTransform transform= CGAffineTransformMakeRotation(M_PI/2);
+//    control.transform = transform;
 }
 
 -(void)writeBtnClick{
@@ -597,7 +577,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 -(UIView *)studentView{
     if(!_studentView){
         _studentView=[[UIView alloc]init];
-        _studentView.transform = CGAffineTransformMakeRotation(M_PI/2);
+        _studentView.transform = CGAffineTransformMakeRotation(M_PI*1.5);
         _studentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"teacher.jpg"]];
     }
     return _studentView;
@@ -662,6 +642,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     if (!_rightView) {
         _rightView = [[videoRightView alloc]initWithFrame:CGRectMake(screenHeight, 0,200, screenWidth)];
         [_rightView setCurrentSelectedColor:self.selectedColor];
+
     }
     return _rightView;
 }
@@ -670,7 +651,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     if (!_imageSelectView) {
         _imageSelectView = [[pickImageView alloc]initWithFrame:CGRectMake(screenHeight, 0,200, screenWidth)];
-    }
+             }
     return _imageSelectView;
 }
 
@@ -678,6 +659,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     if (!_imageMenuView) {
         _imageMenuView = [[imageMenuView alloc]initWithFrame:CGRectMake(screenHeight, 0,200, screenWidth)];
+       
+
     }
     return _imageMenuView;
 }
@@ -748,9 +731,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 
 
-
-
-
 #pragma mark - tableview DataSource
 
 //代理实现
@@ -794,6 +774,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier3];
             cell.textLabel.text = self.languagearr[indexPath.row];
+
         }
         return cell;
     }
@@ -1768,7 +1749,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
     }];
     
-    
 }
 
 
@@ -1785,31 +1765,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
             result[12], result[13], result[14], result[15]
             ];
 }
-
-
--(NSArray *)getData{
-    
-    NSArray *arr= @[
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"}
-                    ];
-    return arr;
-}
-
-
 
 
 

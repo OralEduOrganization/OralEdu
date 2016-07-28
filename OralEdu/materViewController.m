@@ -214,28 +214,10 @@
         [_mater_arr removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
+       
     }];
-    
-//    // 删除一个置顶按钮
-//    
-//    UITableViewRowAction *topRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"置顶" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-//        
-//        NSLog(@"点击了置顶");
-//        // 1. 更新数据
-//        
-//        [_mater_arr exchangeObjectAtIndex:indexPath.row withObjectAtIndex:0];
-//        
-//        // 2. 更新UI
-//        
-//        NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
-//        
-//        [tableView moveRowAtIndexPath:indexPath toIndexPath:firstIndexPath];
-//        
-//    }];
-//    
-//    topRowAction.backgroundColor = [UIColor blueColor];
-    
-    // 添加一个更多按钮
+     deleteRowAction.backgroundColor = [UIColor clearColor];
+
     
     UITableViewRowAction *moreRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
        
@@ -267,8 +249,9 @@
        
         
     }];
+    moreRowAction.backgroundColor = [UIColor clearColor];
     
-    moreRowAction.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    //moreRowAction.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     // 将设置好的按钮放到数组中返回
     

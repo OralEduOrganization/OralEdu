@@ -29,7 +29,6 @@
 @property (nonatomic,strong) NSMutableArray *homearr;
 @property (nonatomic,strong) NSMutableArray *titlearr;
 @property (nonatomic,strong) homeCell *cell;
-@property (nonatomic,strong) UIButton *m_btn;
 @property (nonatomic,strong) UITableViewRowAction *rowAction1;
 @property (strong,nonatomic) UIRefreshControl *refresh;
 @property (nonatomic,strong) NSString *url1;
@@ -53,15 +52,15 @@
     [self.homeTableview addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
+   
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
     self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"背景"]];
   
 }
 
--(void)login{
-    [self loadDataFromWeb];
-}
+//-(void)login{
+//    [self loadDataFromWeb];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -153,7 +152,7 @@
             NSData *data = [[NSData alloc] initWithData:responseObject];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            NSLog(@"dic11= %@",dic);
+            NSLog(@"dic= %@",dic);
             
             NSArray *dit11 = [dic objectForKey:@"data"];
             
@@ -205,19 +204,7 @@
     return _homeTableview;
 }
 
--(UIButton *)m_btn
-{
-    if(!_m_btn)
-    {
-        _m_btn = [[UIButton alloc] init];
-        //_m_btn.backgroundColor = [UIColor blueColor];
-        [_m_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_m_btn setTitle:@"测试登录" forState:UIControlStateNormal];
-        [_m_btn addTarget:self action:@selector(go_login) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _m_btn;
 
-}
 
 #pragma mark - UItableView DateSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -244,7 +231,7 @@
             
             [infoVC getInfo:str];
             [self.navigationController pushViewController:infoVC animated:YES];
-            
+
         }];
         
     }
@@ -295,6 +282,7 @@
         
     }];
     
+    deleteRowAction.backgroundColor = [UIColor clearColor];
     
     return @[deleteRowAction];
     
