@@ -68,7 +68,7 @@
     
    }
 
-- (void)didReceiveMemoryWarning {
+-(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
@@ -77,9 +77,8 @@
 {
     [super viewWillAppear:animated];
     self.matertableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-100, 50, 50);
-    self.uploadBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-300, [UIScreen mainScreen].bounds.size.height-300, 50, 50);
-    
+    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-200, 50, 50);
+    self.uploadBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-300, 40, 40);
 }
 
 #pragma mark - getters
@@ -89,11 +88,9 @@
     if(!_uploadBtn)
     {
         _uploadBtn = [[UIButton alloc] init];
-        _uploadBtn.backgroundColor = [UIColor clearColor];
-        _uploadBtn.titleLabel.text=@"上传";
-        //[_uploadBtn setImage:[UIImage imageNamed:@"上传"] forState:UIControlStateNormal];
+        [_uploadBtn setTitle:@"上传" forState:UIControlStateNormal];
+        [_uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_uploadBtn addTarget:self action:@selector(uploadBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        _uploadBtn.backgroundColor=[UIColor whiteColor];
     }
     return _uploadBtn;
 }
@@ -128,6 +125,7 @@
 }
 
 #pragma mark - UITableViewDateSource
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.mater_arr.count;
@@ -198,51 +196,44 @@
         NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,user_id,self.mater_arr[indexPath.row]];
         
         [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
-        [_mater_arr removeObjectAtIndex:indexPath.row];
         
         
+        NSString *str = self.mater_arr[indexPath.row];
         
-        NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":self.mater_arr[indexPath.row]};
+        NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":str};
         
         [HttpTool postWithparamsWithURL:@"Pic/FileDelete" andParam:pare success:^(id responseObject) {
             NSLog(@"%@",responseObject);
-            
+        
         } failure:^(NSError *error) {
             NSLog(@"ERROR");
         }];
         
-        
-        
-        
-        
-        
-        
-        
-        
+        [self.matertableview reloadData];
         // 2. 更新UI
-        
+        [_mater_arr removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }];
     
-    // 删除一个置顶按钮
-    
-    UITableViewRowAction *topRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"置顶" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        
-        NSLog(@"点击了置顶");
-        // 1. 更新数据
-        
-        [_mater_arr exchangeObjectAtIndex:indexPath.row withObjectAtIndex:0];
-        
-        // 2. 更新UI
-        
-        NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
-        
-        [tableView moveRowAtIndexPath:indexPath toIndexPath:firstIndexPath];
-        
-    }];
-    
-    topRowAction.backgroundColor = [UIColor blueColor];
+//    // 删除一个置顶按钮
+//    
+//    UITableViewRowAction *topRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"置顶" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+//        
+//        NSLog(@"点击了置顶");
+//        // 1. 更新数据
+//        
+//        [_mater_arr exchangeObjectAtIndex:indexPath.row withObjectAtIndex:0];
+//        
+//        // 2. 更新UI
+//        
+//        NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
+//        
+//        [tableView moveRowAtIndexPath:indexPath toIndexPath:firstIndexPath];
+//        
+//    }];
+//    
+//    topRowAction.backgroundColor = [UIColor blueColor];
     
     // 添加一个更多按钮
     

@@ -22,8 +22,7 @@
 @property (nonatomic, strong) UIButton   *returnBtn;
 @property (nonatomic, strong) UIButton   *voiceBtn;
 @property (nonatomic,strong) IFlySpeechUnderstander *iFlySpeechUnderstander;
-//@property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;//带界面的识别对象
-//@property (nonatomic, strong) IFlySpeechRecognizer *iFlySpeechRecognizer;//不带界面的识别对象
+
 @property (nonatomic)         BOOL                  isCanceled;
 @property (nonatomic,strong) NSString               *result;
 @property (nonatomic,strong) NSString               *str_result;
@@ -42,21 +41,14 @@
     [self.view addSubview:self.resultLabel];
     [self.view addSubview:self.returnBtn];
     
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = UIInterfaceOrientationLandscapeRight;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+   
     
-    NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",@"53b5560a",@"20000"];
+    NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",@"577ca611",@"20000"];
+    
     [IFlySpeechUtility createUtility:initString];
     _iFlySpeechUnderstander = [IFlySpeechUnderstander sharedInstance];
     _iFlySpeechUnderstander.delegate = self;
-    [self.view addSubview:self.speakbtn];
+   // [self.view addSubview:self.speakbtn];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -86,9 +78,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)finishBtnClick{
-//    [_iFlySpeechUnderstander stopListening];
-}
+//-(void)finishBtnClick{
+////    [_iFlySpeechUnderstander stopListening];
+//}
 
 #pragma mark - getters
 
@@ -128,7 +120,6 @@
     }
     return _returnBtn;
 }
-
 
 -(UIButton *)speakbtn
 {
@@ -206,14 +197,8 @@
 
 
 
-
-
-
-
-
-
 - (void)understand {
-    
+   
     self.resultLabel.text=@"";
          bool ret = [_iFlySpeechUnderstander startListening];  //开始监听
          if (ret) {
@@ -224,9 +209,11 @@
              }
      }
 
- - (void)finish {
-         [_iFlySpeechUnderstander stopListening];   //结束监听，并开始识别
-     }
+- (void)finish
+{
+        [_iFlySpeechUnderstander stopListening];   //结束监听，并开始识别
+        NSLog(@"结束监听，并开始识别");
+}
 
  #pragma mark - IFlySpeechRecognizerDelegate
  /**
@@ -238,7 +225,7 @@
  - (void) onVolumeChanged: (int)volume
  {
     
-     }
+}
 
  /**
     72  * @fn      onBeginOfSpeech
@@ -248,7 +235,7 @@
  - (void) onBeginOfSpeech
  {
     
-     }
+}
 
  /**
     82  * @fn      onEndOfSpeech
@@ -258,79 +245,73 @@
  - (void) onEndOfSpeech
  {
     
-    }
+}
 
  /**
     92  * @fn      onError
     93  * @brief   识别结束回调
     94  * @param   errorCode   -[out] 错误类，具体用法见IFlySpeechError
     95  */
+
 - (void) onError:(IFlySpeechError *) error
 {
-         NSString *text ;
-         if (self.isCanceled) {
-                 text = @"识别取消";
-             }
-         else if (error.errorCode ==0 ) {
-                 if (_result.length==0) {
-                        text = @"无识别结果";
-                     }
-                 else{
-                         text = @"识别成功";
-                     }
-             }
-         else{
-                 text = [NSString stringWithFormat:@"发生错误：%d %@",error.errorCode,error.errorDesc];
-                 NSLog(@"%@",text);
-             }
+    NSString *text ;
+    if (self.isCanceled) {
+        text = @"识别取消";
     }
-
+    else if (error.errorCode ==0 ) {
+        if (_result.length==0) {
+            text = @"无识别结果";
+        }
+        else{
+            text = @"识别成功";
+        }
+    }
+    else{
+        text = [NSString stringWithFormat:@"发生错误：%d %@",error.errorCode,error.errorDesc];
+        NSLog(@"%@",text);
+    }
+}
  /**
      117  * @fn      onResults
      118  * @brief   识别结果回调
      119  * @param   result      -[out] 识别结果，NSArray的第一个元素为NSDictionary，NSDictionary的key为识别结果，value为置信度
      120  * @see
      121  */
- - (void) onResults:(NSArray *) results isLast:(BOOL)isLast
- {
-         NSArray * temp = [[NSArray alloc]init];
-         NSString * str = [[NSString alloc]init];
-         NSMutableString *result = [[NSMutableString alloc] init];
-         NSDictionary *dic = results[0];
-         for (NSString *key in dic) {
-                 [result appendFormat:@"%@",key];
-        
-             }
-         NSLog(@"听写结果：%@",result);
-         //---------讯飞语音识别JSON数据解析---------//
-         NSError * error;
-         NSData * data = [result dataUsingEncoding:NSUTF8StringEncoding];
-         NSLog(@"data: %@",data);
-        NSDictionary * dic_result =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-         NSArray * array_ws = [dic_result objectForKey:@"ws"];
-         //遍历识别结果的每一个单词
-        for (int i=0; i<array_ws.count; i++) {
-                 temp = [[array_ws objectAtIndex:i] objectForKey:@"cw"];
-                 NSDictionary * dic_cw = [temp objectAtIndex:0];
-                 str = [str  stringByAppendingString:[dic_cw objectForKey:@"w"]];
-                 NSLog(@"识别结果:%@",[dic_cw objectForKey:@"w"]);
-             }
-         NSLog(@"最终的识别结果:%@",str);
-         //去掉识别结果最后的标点符号
-         if ([str isEqualToString:@"。"] || [str isEqualToString:@"？"] || [str isEqualToString:@"！"]) {
-                 NSLog(@"末尾标点符号：%@",str);
-             }
-        else{
-//                 self.resultLabel.text = str;
-             }
-     
-     if(self.resultLabel.text){
-         self.resultLabel.text=[NSString stringWithFormat:@"%@%@",self.resultLabel.text,str];
-     }else{
-         self.resultLabel.text=str;
-     }
 
-         //self.resultLabel.text = str;
+- (void) onResults:(NSArray *) results isLast:(BOOL)isLast
+{
+    NSArray * temp = [[NSArray alloc]init];
+    NSString * str = [[NSString alloc]init];
+    NSMutableString *result = [[NSMutableString alloc] init];
+    NSDictionary *dic = results[0];
+    for (NSString *key in dic) {
+        [result appendFormat:@"%@",key];
+        
+    }
+    NSLog(@"听写结果：%@",result);
+    //---------讯飞语音识别JSON数据解析---------//
+    NSError * error;
+    NSData * data = [result dataUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"data: %@",data);
+    NSDictionary * dic_result =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+    NSArray * array_ws = [dic_result objectForKey:@"ws"];
+    //遍历识别结果的每一个单词
+    for (int i=0; i<array_ws.count; i++) {
+        temp = [[array_ws objectAtIndex:i] objectForKey:@"cw"];
+        NSDictionary * dic_cw = [temp objectAtIndex:0];
+        str = [str  stringByAppendingString:[dic_cw objectForKey:@"w"]];
+        NSLog(@"识别结果:%@",[dic_cw objectForKey:@"w"]);
+    }
+    NSLog(@"最终的识别结果:%@",str);
+    //去掉识别结果最后的标点符号
+    if ([str isEqualToString:@"。"] || [str isEqualToString:@"？"] || [str isEqualToString:@"！"]) {
+        NSLog(@"末尾标点符号：%@",str);
+    }
+    else{
+        self.resultLabel.text = str;
+    }
+    _result = str;
 }
 
 

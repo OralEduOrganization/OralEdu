@@ -20,7 +20,7 @@
 #import "IndividualitysignatureViewController.h"
 #import "MBProgressHUD.h"
 #import "loginViewController.h"
-
+#import "MBProgressHUD+XMG.h"
 @interface myinfoViewController ()
 {
     MBProgressHUD *HUD;
@@ -374,7 +374,6 @@
 -(void)imagereplace
 {
     [self changeIcon];
-    NSLog(@"12");
 }
 
 //修改性别
@@ -393,14 +392,16 @@
         [HttpTool postWithparamsWithURL:@"Update/GenderUpdate?" andParam:para success:^(id responseObject) {
             NSData *data = [[NSData alloc] initWithData:responseObject];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            //NSString *code=dic[@"code"];
             NSLog(@"%@",dic);
+            _picM.gender_str = @"男";
+            [self.infotableview reloadData];
             
-            
+            [MBProgressHUD showSuccess:@"修改成功"];
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络"];
         }];
-
+        
     }];
     
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -419,9 +420,10 @@
             
             NSLog(@"%@",dic);
             
-            
+            [MBProgressHUD showSuccess:@"修改成功"];
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络"];
         }];
     }];
     UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -532,9 +534,7 @@
     
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     self.pic_image.image = image;
-    //    self.cell.pic_imageview.image = image;
-    
-    
+
     NSURL *URL = [NSURL URLWithString:@"http://127.0.0.1/OralEduServer/upload.php"];
     AFSecurityPolicy *securityPolicy = [[AFSecurityPolicy alloc] init];
     [securityPolicy setAllowInvalidCertificates:YES];
@@ -607,8 +607,8 @@
         [self loadDataFromWeb];
         [self.infotableview reloadData];
         
-        loginViewController *loginVC = [[loginViewController alloc] init];
-        [self presentViewController:loginVC animated:YES completion:nil];
+//        loginViewController *loginVC = [[loginViewController alloc] init];
+//        [self presentViewController:loginVC animated:YES completion:nil];
         
     }];
     
@@ -627,9 +627,50 @@
     UIAlertController *control = [UIAlertController alertControllerWithTitle:@"选择身份" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"老师" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSString *newgender = @"老师";
+        
+        NSDictionary *para=@{@"user_moblie":name,@"user_newidentity":newgender};
+        
+        [HttpTool postWithparamsWithURL:@"Update/IdentityUpdate?" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",dic);
+            _picM.identity = @"老师";
+            [self.infotableview reloadData];
+            
+            [MBProgressHUD showSuccess:@"修改成功"];
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络"];
+            
+        }];
+        
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"学生" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSString *newgender = @"学生";
+        
+        NSDictionary *para=@{@"user_moblie":name,@"user_newidentity":newgender};
+        
+        [HttpTool postWithparamsWithURL:@"Update/IdentityUpdate?" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",dic);
+            _picM.identity = @"学生";
+            [self.infotableview reloadData];
+            
+            [MBProgressHUD showSuccess:@"修改成功"];
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络"];
+            
+        }];
     }];
     UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
