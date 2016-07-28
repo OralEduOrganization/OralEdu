@@ -54,7 +54,7 @@
 #import "iflyMSC/IFlyUserWords.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySpeechUnderstander.h"
-
+#import "chatModel.h"
 
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
@@ -63,6 +63,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     NSInteger screenWidth;
     NSInteger screenHeight;
     PIDrawerView *drawView;
+    
+    NSString *transtrateStr;
+    NSInteger translateMark;
+    
+    NSString *language;
+    
 }
 @property (nonatomic,strong) UIButton           *backBtn;
 @property (nonatomic,strong) UIView             *teacherView;
@@ -95,7 +101,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic, strong) UIView *chatView;
 @property (nonatomic, strong) UITapGestureRecognizer *tapToHideKeyboard;
 @property (nonatomic, assign) NSString * senderID;
-@property (nonatomic, strong) NSMutableArray *dataArr;
+
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;
 @property (nonatomic, strong) NSMutableArray *tackarray;
@@ -127,6 +133,9 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic,strong) NSString               *result;
 @property (nonatomic, strong) UILabel *resultLabel;
 
+@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) NSMutableArray *chatMutArr;
+
 
 @end
 
@@ -145,7 +154,10 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.chatMutArr=[NSMutableArray array];
+    language=@"en";
+    translateMark=0;
+    transtrateStr=[[NSString alloc]init];
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
     self.languagearr = [NSMutableArray arrayWithObjects:@"中文",@"English",@"русский",@"español",@"日本语",@"français",@"한국어",@"عربي/عربى", nil];
@@ -177,8 +189,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
 
 
-    NSArray *arr = [self getData];
-    _dataArr = [NSMutableArray arrayWithArray:arr];
+//    NSArray *arr = [self getData];
+//    _dataArr = [NSMutableArray arrayWithArray:arr];
     
     self.tackarray = [NSMutableArray array];
     
@@ -377,15 +389,15 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 -(void)clearBtnClick{
     
-    [self sendTextMessageMethodWithString:@"ceshishuju"];
-//    [drawView removeFromSuperview];
-//    drawView=[[PIDrawerView alloc]init];
-//    drawView.backgroundColor=[UIColor clearColor];
-//    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
-//    [self.view addSubview:drawView];
-//    [self.view bringSubviewToFront:self.sview];
-//    drawView.selectedColor=self.selectedColor;
-//    [drawView setDrawingMode:DrawingModePaint];
+    
+    [drawView removeFromSuperview];
+    drawView=[[PIDrawerView alloc]init];
+    drawView.backgroundColor=[UIColor clearColor];
+    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
+    [self.view addSubview:drawView];
+    [self.view bringSubviewToFront:self.sview];
+    drawView.selectedColor=self.selectedColor;
+    [drawView setDrawingMode:DrawingModePaint];
     
 }
 
@@ -749,7 +761,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     }
     else
     {
-        return self.dataArr.count;
+        return self.chatMutArr.count;
     }
 }
 
@@ -760,12 +772,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     }
     else
     {
-    NSDictionary *dic = [[NSDictionary alloc] init];
-    dic=self.dataArr[indexPath.row];
-    NSString *string=dic[@"chatText"];
-    CGRect rect=[self getObjectFrameOfTextViewWithInfo:string];
-    NSLog(@"%f~~~~~%f",rect.size.height,rect.size.width);
-    return rect.size.height+5;
+        
+        chatModel *model=[[chatModel alloc]init];
+        //    NSDictionary *dic = [[NSDictionary alloc] init];
+        model=self.chatMutArr[indexPath.row];
+        NSString *string=model.context;
+        CGRect rect=[self getObjectFrameOfTextViewWithInfo:string];
+        NSLog(@"%f~~~~~%f",rect.size.height,rect.size.width);
+        return rect.size.height+5;
     }
 }
 
@@ -785,17 +799,18 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     }
     else
     {
-    NSDictionary *dic = [[NSDictionary alloc] init];
-    dic=self.dataArr[indexPath.row];
-    NSString *string=dic[@"chatText"];
+        chatModel *model=[[chatModel alloc]init];
+//    NSDictionary *dic = [[NSDictionary alloc] init];
+        model=self.chatMutArr[indexPath.row];
+    NSString *string=model.context;
     NSLog(@"%@",string);
     
-    NSDictionary *dic2 = [[NSDictionary alloc] init];
-    dic2=self.dataArr[indexPath.row];
-    NSString *sender = dic2[@"senderID"];
+//    NSDictionary *dic2 = [[NSDictionary alloc] init];
+//    dic2=self.dataArr[indexPath.row];
+    NSString *sender = model.sender;
     NSLog(@"%@",sender);
     
-    if ([sender isEqual:@"0001"]) {
+    if ([sender isEqual:self.senderID]) {
         tackCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         cell = [[tackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -831,29 +846,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     return nil;
 }
 
--(NSArray *)getData{
-    
-    NSArray *arr= @[
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
-                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
-                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
-                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
-                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
-                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"}
-                    ];
-    return arr;
-}
 
--(CGRect )getObjectFrameOfTextViewWithInfo:(NSString *)info{
+-(CGRect )getObjectFrameOfTextViewWithInfo2:(NSString *)info{
     
     //如果发送内容为文字，计算文字高度。
     CGSize textLabelSize;
@@ -866,13 +860,13 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
 }
 
--(CGRect )getObjectFrameOfTextViewWithInfo2:(NSString *)info{
+-(CGRect )getObjectFrameOfTextViewWithInfo:(NSString *)info{
     
     //如果发送内容为文字，计算文字高度。
     CGSize textLabelSize;
     
     textLabelSize = [info boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:15]} context:nil].size;    
-    CGRect needRect=CGRectMake(screenH/4-textLabelSize.height-30, 5, textLabelSize.width, textLabelSize.height);
+    CGRect needRect=CGRectMake(screenH/4-textLabelSize.height-55, 5, textLabelSize.width, textLabelSize.height);
     
     return needRect;
     
@@ -884,41 +878,44 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         if (indexPath.row==0) {
             NSLog(@"中文");
             [self.sview.languagebtn setTitle:@"中" forState:UIControlStateNormal];
+            language=@"zh";
         }
         if (indexPath.row==1) {
             NSLog(@"英文");
             [self.sview.languagebtn setTitle:@"英" forState:UIControlStateNormal];
+            language=@"en";
 
         }
         if (indexPath.row==2) {
             NSLog(@"俄语");
             [self.sview.languagebtn setTitle:@"俄" forState:UIControlStateNormal];
-
+            language=@"ru";
         }
         if (indexPath.row==3) {
             NSLog(@"西班牙语");
             [self.sview.languagebtn setTitle:@"西" forState:UIControlStateNormal];
+            language=@"pt";
 
         }
         if (indexPath.row==4) {
             NSLog(@"日语");
             [self.sview.languagebtn setTitle:@"日" forState:UIControlStateNormal];
-
+            language=@"jp";
         }
         if (indexPath.row==5) {
             NSLog(@"法语");
             [self.sview.languagebtn setTitle:@"法" forState:UIControlStateNormal];
-
+            language=@"fra";
         }
         if (indexPath.row==6) {
             NSLog(@"韩语");
             [self.sview.languagebtn setTitle:@"韩" forState:UIControlStateNormal];
-
+            language=@"kor";
         }
         if (indexPath.row==7) {
             NSLog(@"阿拉伯语");
             [self.sview.languagebtn setTitle:@"阿" forState:UIControlStateNormal];
-
+            language=@"ara";
         }
     }
 }
@@ -1365,11 +1362,28 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
             
             
             
+            chatModel *model=[[chatModel alloc]init];
+            model.sender=dict[@"senderID"];
+            model.context=dict[@"chatTextContent"];
+            
+//            NSInteger count = self.chatMutArr.count;
+            
+            [self.chatMutArr addObject:model];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tacktableview reloadData];
+                
+                if (_tacktableview.contentSize.height > _tacktableview.frame.size.height)
+                {
+                    CGPoint offset = CGPointMake(0, _tacktableview.contentSize.height - _tacktableview.frame.size.height);
+                    [_tacktableview setContentOffset:offset animated:YES];
+                }
+
+                
+            });
+//                [self.tacktableview reloadData];
             
             
-            NSInteger count = self.dataArr.count;
-            
-            [self.dataArr insertObject:dict atIndex:count];
             //////
             /////////
             ////////////
@@ -1390,8 +1404,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
             [voiceMessage.wavAudioData writeToURL:uurl atomically:NO];
             NSLog(@"sccczsc...%@df%@",dic,uurl);
             
-            NSInteger count = self.dataArr.count;
-            [self.dataArr insertObject:dic atIndex:count];
+//            NSInteger count = self.dataArr.count;
+//            [self.dataArr insertObject:dic atIndex:count];
 
             
             
@@ -1458,7 +1472,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self sendAwebMessage:extra];
     
 //    self.inputTextView.text = nil;
-    [self.dataArr insertObject:dict atIndex:count];
+//    [self.dataArr insertObject:dict atIndex:count];
     ///////////
     NSInteger cccount = self.dataSource.count;
     NSIndexPath *iindex = [NSIndexPath indexPathForRow:cccount - 1 inSection:0];
@@ -1529,6 +1543,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         //可能是上次请求未结束，暂不支持多路并发
     }
     NSLog(@"启动识别失败!");
+    
 }
     
 
@@ -1573,23 +1588,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
  93  * @brief   识别结束回调
  94  * @param   errorCode   -[out] 错误类，具体用法见IFlySpeechError
  95  */
-
-- (void)onResult:(NSArray *)resultArray isLast:(BOOL)isLast
-{
-    NSMutableString *result = [NSMutableString new];
-    NSDictionary *dic = [resultArray objectAtIndex:0];
-    NSLog(@"DIC:%@",dic);
-    for (NSString *key in dic) {
-        [result appendFormat:@"%@",key];
-    }
-    //把相应的控件赋值为result.例如:label.text = result;
-    if(self.resultLabel.text){
-        self.resultLabel.text=[NSString stringWithFormat:@"%@%@",self.resultLabel.text,result];
-    }else{
-        self.resultLabel.text=result;
-    }
-    
-}
 
 - (void) onError:(IFlySpeechError *) error
 {
@@ -1657,6 +1655,17 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     NSLog(@"%@",need_result);
     
+    translateMark+=1;
+    
+    if(translateMark==2){
+        
+         [self fanyi:need_result];
+        
+    }
+   
+    
+    
+    
     //self.resultLabel.text = str;
 }
 
@@ -1684,9 +1693,123 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     }
     _iFlySpeechRecognizer.delegate = self;
     
+}
+
+
+
+-(void)fanyi:(NSString *)translateStr
+{
+    
+    [self TransStr:translateStr ToLanguage:language];
+}
+
+-(void)TransStr:(NSString *) str ToLanguage:(NSString *)language
+{
+    if (str == nil || str.length ==0) {
+        // self.resultLabel.placeholder =@"请输入...";
+//        self.resultLabel.text = @"请输入...";
+        return;
+    }
+    
+    
+    
+    NSString *need_str=[NSString stringWithFormat:@"20160714000025224%@1234567897XG4uEkp5GzKrVdOn_18",str];
+    
+    NSString *asd=[self md5:need_str];
+    
+    
+    NSString *url = [NSString stringWithFormat:@"http://api.fanyi.baidu.com/api/trans/vip/translate?q=%@&from=auto&to=%@&appid=20160714000025224&salt=123456789&sign=%@",str,language,asd];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    NSString *urlString = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    [mgr GET:urlString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = (NSDictionary *)responseObject;
+        NSArray *result = dict[@"trans_result"];
+        NSDictionary *dd = [result firstObject];
+        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.resultLabel.text = dd[@"dst"];
+            
+            transtrateStr=dd[@"dst"];
+            NSLog(@"%@",str);
+            NSLog(@"%@",transtrateStr);
+            translateMark=0;
+            
+            [self sendTextMessageMethodWithString:transtrateStr];
+            
+            chatModel *model=[[chatModel alloc]init];
+            model.sender=self.senderID;
+            model.context=transtrateStr;
+            
+            [self.chatMutArr addObject:model];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tacktableview reloadData];
+                
+                if (_tacktableview.contentSize.height > _tacktableview.frame.size.height)
+                {
+                    CGPoint offset = CGPointMake(0, _tacktableview.contentSize.height - _tacktableview.frame.size.height);
+                    [_tacktableview setContentOffset:offset animated:YES];
+                }
+                
+                
+            });
+            
+            
+        });
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.resultLabel.text = [NSString stringWithFormat:@"翻译出错：%@",error];
+            transtrateStr=[NSString stringWithFormat:@"翻译出错：%@",error];
+        });
+        
+    }];
     
     
 }
+
+
+- (NSString *)md5:(NSString *)str
+{
+    const char *cStr = [str UTF8String];
+    unsigned char result[16];
+    CC_MD5(cStr, strlen(cStr), result); // This is the md5 call
+    return [NSString stringWithFormat:
+            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
+
+-(NSArray *)getData{
+    
+    NSArray *arr= @[
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"},
+                    @{@"senderID":@"0001",@"chatText":@"你好韦富钟"},
+                    @{@"senderID":@"0002",@"chatText":@"这段文字要很长很长，因为我要测试他能不能多换几行"},
+                    @{@"senderID":@"0001",@"chatText":@"这段儿短点"},
+                    @{@"senderID":@"0002",@"chatText":@"嗯哼"},
+                    @{@"senderID":@"0001",@"chatText":@"发几个表情符号～～～～～～～～ － 。－"}
+                    ];
+    return arr;
+}
+
+
 
 
 
