@@ -20,7 +20,7 @@
 #import "feedbackViewController.h"
 #import "HttpTool.h"
 #import "MBProgressHUD.h"
-
+#import "MBProgressHUD+XMG.h"
 static NSString *cellIdentfid = @"setcell1";
 static NSString *cellIdentfid2 = @"setcell2";
 static NSString *cellIdentfid3 = @"setcell3";
@@ -299,12 +299,62 @@ static NSString *cellIdentfid3 = @"setcell3";
 }
 
 //清理缓存
+- (long long) fileSizeAtPath:(NSString*) filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+
+- (float ) folderSizeAtPath:(NSString*) folderPath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath]) return 0;
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+    NSString* fileName;
+    long long folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+    }
+    return folderSize/1000.0;
+}
 
 -(void)cache
 {
-    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    CGFloat aaa;
+    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    float size = [self folderSizeAtPath:cachePath];
+    NSLog(@"%f",size);
+    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachePath];
+    NSLog(@"%lu",(unsigned long)[files count]);
+    //    NSLog(@"文件数 ：%d",[files count]);
+    for (NSString *p in files)
+    {
+        NSError *error;
+        NSString *path = [cachePath stringByAppendingString:[NSString stringWithFormat:@"/%@",p]];
+        if([[NSFileManager defaultManager] fileExistsAtPath:path])
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        }
+    }
+    aaa = [self folderSizeAtPath:cachePath];
+    if(aaa>1024.0){
+        aaa=aaa/1024.0;
+        NSString *msg=[NSString stringWithFormat:@"%.1fM",aaa];
+        NSLog(@"msg - %@",msg);
+        //            self.sizeLabel.text=msg;
+    }else{
+        NSString *msg=[NSString stringWithFormat:@"%.1fK",aaa];
+        //            self.sizeLabel.text=msg;
+        NSLog(@"%@",msg);
+    }
     
+    NSString *str = [NSString stringWithFormat:@"文件大小为%.2f K",size];
+    
+    UIAlertController *controll = [UIAlertController alertControllerWithTitle:@"清理缓存" message:str preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+   
         dispatch_async(
                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
                        , ^{
@@ -323,7 +373,7 @@ static NSString *cellIdentfid3 = @"setcell3";
                            }
                            [self performSelectorOnMainThread:@selector(clearCacheSuccess) withObject:nil waitUntilDone:YES];});
         
-        
+     
         
         
     }];
@@ -336,37 +386,15 @@ static NSString *cellIdentfid3 = @"setcell3";
     [controll addAction:action2];
     
     [self presentViewController:controll animated:YES completion:nil];
+    
 }
 
 -(void)clearCacheSuccess
 {
     NSLog(@"清理成功");
+    [MBProgressHUD showSuccess:@"清理成功"];
 }
 
-- (long long) fileSizeAtPath:(NSString*) filePath{
-    NSFileManager* manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:filePath]){
-        
-        //        //取得一个目录下得所有文件名
-        //        NSArray *files = [manager subpathsAtPath:filePath];
-        //        NSLog(@"files1111111%@ == %ld",files,files.count);
-        //
-        //        // 从路径中获得完整的文件名（带后缀）
-        //        NSString *exe = [filePath lastPathComponent];
-        //        NSLog(@"exeexe ====%@",exe);
-        //
-        //        // 获得文件名（不带后缀）
-        //        exe = [exe stringByDeletingPathExtension];
-        //
-        //        // 获得文件名（不带后缀）
-        //        NSString *exestr = [[files objectAtIndex:1] stringByDeletingPathExtension];
-        //        NSLog(@"files2222222%@  ==== %@",[files objectAtIndex:1],exestr);
-        
-        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
-    }
-    
-    return 0;
-}
 
 -(void)userurl:(NSNotification *)notifocation
 {

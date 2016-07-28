@@ -34,7 +34,7 @@
 @property (strong,nonatomic) UIRefreshControl *refresh;
 @property (nonatomic,strong) NSString *url1;
 @property (nonatomic,strong) NSString *name1;
-
+@property (nonatomic,strong) homeModel *model;
 @end
 
 @implementation homeViewController
@@ -163,17 +163,17 @@
             {
                 for (int i=0; i<dit11.count; i++) {
                     
-                    homeModel *model=[[homeModel alloc]init];
+                    self.model=[[homeModel alloc]init];
                     
                     NSDictionary *aaa=dit11[i];
                     
-                    model.home_name=aaa[@"user_nickname"];
-                    model.home_head_imageurl = aaa[@"user_url"];
-                    model.home_time = aaa[@"last_time"];
-                    model.home_infomation = aaa[@"user_introduction"];
-                    model.home_phone = aaa[@"user_moblie"];
+                    self.model.home_name=aaa[@"user_nickname"];
+                    self.model.home_head_imageurl = aaa[@"user_url"];
+                    self.model.home_time = aaa[@"last_time"];
+                    self.model.home_infomation = aaa[@"user_introduction"];
+                    self.model.home_phone = aaa[@"user_moblie"];
                     
-                    [self.homearr addObject:model];
+                    [self.homearr addObject:self.model];
                     [self.homeTableview reloadData];
                 }
             }
@@ -270,6 +270,25 @@
         [_homearr removeObjectAtIndex:indexPath.row];
         
         // 2. 更新UI
+        homeModel *model=self.homearr[indexPath.row];
+        NSString *str = model.home_phone;
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        NSString *name = [defaultes objectForKey:@"name"];
+        NSDictionary *para=@{@"user_moblie":name,@"user_contacts":str};
+        [HttpTool postWithparamsWithURL:@"Contacts/contactsDelete" andParam:para success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",dic);
+            
+            [MBProgressHUD showSuccess:@"删除成功"];
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络"];
+            
+        }];
+        
+        
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         

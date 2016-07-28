@@ -30,6 +30,7 @@ static NSString *identfider2 = @"scarchcell";
 @property (nonatomic,strong) UILabel *searchlabel;
 @property (nonatomic,strong) searchcell *cell;
 
+@property (nonatomic,strong) UIButton *delbtn;
 @end
 
 @implementation SearchViewController
@@ -41,26 +42,27 @@ static NSString *identfider2 = @"scarchcell";
     UITapGestureRecognizer *TapGestureTecognizer=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
     TapGestureTecognizer.cancelsTouchesInView=NO;
     [self.view addGestureRecognizer:TapGestureTecognizer];
-    [self loadDataFromWeb];
+    //[self loadDataFromWeb];
     [self.navitionBar.title_label removeFromSuperview];
     [self.navitionBar.right_btn removeFromSuperview];
     [self.view addSubview:self.searchbar];
     [self.view addSubview:self.hisv];
-    [self.hisv.del_btn addTarget:self action:@selector(hidtableview) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.searchlabel];
+    [self.view addSubview:self.delbtn];
+    self.his_arr = [NSMutableArray array];
+    
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    
+    NSArray *arr=[defaultes objectForKey:@"history"];
+    for(int i=0;i<arr.count;i++){
+        [self.his_arr addObject:arr[i]];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)loadDataFromWeb
-{
-    self.his_arr = [NSMutableArray array];
-    hisModel *model = [[hisModel alloc] init];
-    model.history_arr = @"123";
-    [self.his_arr addObject:model.history_arr];
     
 }
 
@@ -76,9 +78,25 @@ static NSString *identfider2 = @"scarchcell";
     self.m_label.frame = CGRectMake(0, 65, 150, 20);
     self.hisv.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 200);
     self.searchlabel.frame = CGRectMake(0, 80, self.view.frame.size.width, 40);
+    self.delbtn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width-200)/2, 300, 200, 30);
 }
 
 #pragma mark - getters
+
+
+-(UIButton *)delbtn
+{
+    if(!_delbtn)
+    {
+        _delbtn = [[UIButton alloc] init];
+        [_delbtn setTitle:@"清空历史记录" forState:UIControlStateNormal];
+        [_delbtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_delbtn addTarget:self action:@selector(delesearchhistory) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _delbtn;
+}
+
+
 
 -(UISearchBar *)searchbar
 {
@@ -92,12 +110,7 @@ static NSString *identfider2 = @"scarchcell";
         //设置背景色
         [_searchbar setBackgroundColor:[UIColor clearColor]];
         [_searchbar setShowsCancelButton:NO];//搜索框取消按钮
-        //设置文本框背景
-        //[_searchbar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
         
-         //[_searchbar setShowsCancelButton:NO];//显示右侧取消按钮
-      
-       
     }
     return _searchbar;
 }
@@ -107,6 +120,7 @@ static NSString *identfider2 = @"scarchcell";
     if(!_hisv)
     {
         _hisv = [[hisView alloc] init];
+        [_hisv.del_btn addTarget:self action:@selector(delesearchhistory) forControlEvents:UIControlEventTouchUpInside];
         _hisv.his_tableview.dataSource = self;
         _hisv.his_tableview.delegate = self;
         
@@ -166,7 +180,6 @@ static NSString *identfider2 = @"scarchcell";
     
 }
 
-
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -189,8 +202,6 @@ static NSString *identfider2 = @"scarchcell";
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
-    
-    
     NSLog(@"shouldBeginEditing");
     return YES;
 }
@@ -208,10 +219,20 @@ static NSString *identfider2 = @"scarchcell";
            [self.history_tableview reloadData];
         
     });
+    NSString *str=searchBar.text;
 
+    [self.his_arr addObject:str];
+    NSLog(@"his_arr = %@",self.his_arr);
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    [defaultes setObject:self.his_arr forKey:@"history"];
+    [defaultes synchronize];
+//     self.his_arr= [defaultes objectForKey:@"history"];
+    NSLog(@"defaults = %@",self.his_arr);
     [self.hisv.his_tableview reloadData];
+    
+    [self.delbtn setHidden:NO];
+    
 }
-
 
 //搜索框内输入信息
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -221,13 +242,10 @@ static NSString *identfider2 = @"scarchcell";
         [_searchbar setShowsCancelButton:YES animated:YES];
         [self.hisv setHidden:YES];
         a=1;
-        NSLog(@"123");
     
         [self.view addSubview:self.history_tableview];
         
         [self.history_tableview reloadData];
-        
-        
         
         NSDictionary *para=@{@"user_nickname":searchText};
         
@@ -235,15 +253,9 @@ static NSString *identfider2 = @"scarchcell";
             NSData *data = [[NSData alloc] initWithData:responseObject];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            
-            
-            NSLog(@"dic = %@",dic);
-            
             NSArray *dit  = [dic objectForKey:@"data"];
             
             NSString *code = [dic objectForKey:@"code"];
-            NSLog(@"code = %@",code);
-            NSLog(@"data = %@",dit);
             
             if ([code isEqualToString:@"500"]) {
                
@@ -253,17 +265,10 @@ static NSString *identfider2 = @"scarchcell";
             else
             {
             
-            self.his_arr = [NSMutableArray array];
             hisModel *model = [[hisModel alloc] init];
-            model.history_arr = @"123";
-            [self.his_arr addObject:model.history_arr];
-            
-            
             self.arr = [NSMutableArray array];
             
             for (int i=0; i<dit.count; i++) {
-                
-        
                 
                 NSDictionary *aaa=dit[i];
                 
@@ -328,13 +333,6 @@ static NSString *identfider2 = @"scarchcell";
     return img;
 }
 
--(void)hidtableview
-{
-    NSLog(@"123");
-    [self.hisv setHidden:YES];
-    [self.hisv removeFromSuperview];
-}
-
 //点击取消按钮
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
@@ -371,4 +369,13 @@ static NSString *identfider2 = @"scarchcell";
     }
 }
 
+-(void)delesearchhistory
+{
+    [self.delbtn setHidden:YES];
+    [self.hisv setHidden:YES];
+    
+    //清除历史搜索
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"history"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end

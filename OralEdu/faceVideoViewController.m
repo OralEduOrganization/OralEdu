@@ -175,7 +175,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.view.transform = CGAffineTransformMakeRotation(M_PI/2);
     CGRect frame = [UIScreen mainScreen].applicationFrame;
     self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
-    
+
 
     NSArray *arr = [self getData];
     _dataArr = [NSMutableArray arrayWithArray:arr];
@@ -271,7 +271,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2, [UIScreen mainScreen].bounds.size.height/4, [UIScreen mainScreen].bounds.size.width/2-50);
  
     self.languageTableview.frame = CGRectMake(screenHeight, 0, screenHeight/4, screenWidth);
-    
     
     //初始化会话
     _captureSession=[[AVCaptureSession alloc]init];
@@ -1222,8 +1221,9 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
     }];
 }
-//隐藏状态栏
 
+
+//隐藏状态栏
 - (UIStatusBarStyle)preferredStatusBarStyle {   //设置样式
     
     

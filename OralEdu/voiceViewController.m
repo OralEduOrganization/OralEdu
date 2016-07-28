@@ -63,7 +63,7 @@
     NSString *appid = @"577ca611";//自己申请的appId
     NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
     [IFlySpeechUtility createUtility:initString];
-
+    
     
     
     //    ITRAirSideMenu *itrSideMenu = ((AppDelegate *)[UIApplication sharedApplication].delegate).itrAirSideMenu;
@@ -269,7 +269,7 @@
         [_iFlySpeechRecognizer setParameter:@"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];
     }
     _iFlySpeechRecognizer.delegate = self;
-
+    
     
     
 }

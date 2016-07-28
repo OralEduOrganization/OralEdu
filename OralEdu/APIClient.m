@@ -20,6 +20,7 @@
 
 //                         [NSURL URLWithString:@"http://10.1.45.63"]];
 
+
         
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
