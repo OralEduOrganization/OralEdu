@@ -188,7 +188,13 @@
 
 -(void)goVideoViewController
 {
-    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]init];
+    
+    
+    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"002" andTargedId:@"001"];
+    
+    
+    
+    
     myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:myFaceVideoController animated:YES completion:^{
         

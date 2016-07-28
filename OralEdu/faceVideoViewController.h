@@ -12,4 +12,7 @@
 
 @interface faceVideoViewController : UIViewController
 
+- (instancetype)initWithUserId:(NSString *)userId andTargedId:(NSString *)targetId;
+
+
 @end

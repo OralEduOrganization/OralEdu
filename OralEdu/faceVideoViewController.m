@@ -40,8 +40,25 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <RongIMLib/RongIMLib.h>
 
+#import "AFHTTPSessionManager.h"
+#import "AFNetworking.h"
+#import "NSString+HBWmd5.h"
+
+
+#import <UIKit/UIKit.h>
+#import "iflyMSC/IFlyMSC.h"
+#import "AFNetworking.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "iflyMSC/IFlyContact.h"
+#import "iflyMSC/IFlyDataUploader.h"
+#import "iflyMSC/IFlyUserWords.h"
+#import "iflyMSC/IFlySpeechUtility.h"
+#import "iflyMSC/IFlySpeechUnderstander.h"
+
+
+
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
-@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,IFlyRecognizerViewDelegate,AVCaptureFileOutputRecordingDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate>
+@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate,IFlySpeechRecognizerDelegate>
 {
     NSInteger screenWidth;
     NSInteger screenHeight;
@@ -97,9 +114,34 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (strong, nonatomic)  UIButton *flashOffButton;//关闭闪光灯按钮
 @property (strong, nonatomic)  UIImageView *focusCursor; //聚焦光标
 
+
+@property (nonatomic,strong) NSString *cellMessageID;
+@property (nonatomic,strong) NSString *user_id;
+@property (nonatomic,strong) NSString *target_id;
+@property (nonatomic,strong) NSString *token;
+@property (nonatomic,strong) NSString *userIdentifier;
+
+
+@property (nonatomic, strong) IFlySpeechRecognizer *iFlySpeechRecognizer;//不带界面的识别对象
+@property (nonatomic)         BOOL                  isCanceled;
+@property (nonatomic,strong) NSString               *result;
+@property (nonatomic, strong) UILabel *resultLabel;
+
+
 @end
 
 @implementation faceVideoViewController
+
+
+
+- (instancetype)initWithUserId:(NSString *)userId andTargedId:(NSString *)targetId
+{
+    self = [super init];
+    if (self) {
+        [self setUserMessage:userId andTarget:targetId];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -135,8 +177,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.view.bounds = CGRectMake(0, 0, frame.size.height, frame.size.width);
     
 
-    
-    self.senderID = @"0001";
     NSArray *arr = [self getData];
     _dataArr = [NSMutableArray arrayWithArray:arr];
     
@@ -147,7 +187,45 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self.view addSubview:self.sview];
     
     [self.view addSubview:self.languageTableview];
+    
+    
+//    self.userIdentifier = @"TRANSTOR";
+//    
+//    self.user_id = @"aaa";
+//    self.target_id = @"aa";
+//    self.senderID = self.user_id;
+//    [self getTokenWithUserID:self.user_id];        //获取token并且登录融云服务器
+//
+//    
+//    [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
+   
+    NSString *appid = @"577ca611";//自己申请的appId
+    NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
+    [IFlySpeechUtility createUtility:initString];
+
+    
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [_iFlySpeechRecognizer cancel]; //取消识别
+    [_iFlySpeechRecognizer setDelegate:nil];
+    [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
+    [super viewWillDisappear:animated];
+}
+
+
+-(void)setUserMessage:(NSString *)userId andTarget:(NSString *)targetId{
+
+    self.userIdentifier = @"TRANSTOR";
+    self.user_id=userId;
+    self.target_id=targetId;
+    self.senderID = self.user_id;
+    [self getTokenWithUserID:self.user_id];        //获取token并且登录融云服务器
+    [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
+
+}
+
 
 -(void)loadView{
     [super loadView];
@@ -299,14 +377,16 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 
 -(void)clearBtnClick{
-    [drawView removeFromSuperview];
-    drawView=[[PIDrawerView alloc]init];
-    drawView.backgroundColor=[UIColor clearColor];
-    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
-    [self.view addSubview:drawView];
-    [self.view bringSubviewToFront:self.sview];
-    drawView.selectedColor=self.selectedColor;
-    [drawView setDrawingMode:DrawingModePaint];
+    
+    [self sendTextMessageMethodWithString:@"ceshishuju"];
+//    [drawView removeFromSuperview];
+//    drawView=[[PIDrawerView alloc]init];
+//    drawView.backgroundColor=[UIColor clearColor];
+//    drawView.frame = CGRectMake(screenHeight/4, 0, screenHeight-screenHeight/4, screenWidth);
+//    [self.view addSubview:drawView];
+//    [self.view bringSubviewToFront:self.sview];
+//    drawView.selectedColor=self.selectedColor;
+//    [drawView setDrawingMode:DrawingModePaint];
     
 }
 
@@ -452,128 +532,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
 }
 
--(void)addimage
-{
-    UIAlertController *alertController;
-    
-    __block NSUInteger blockSourceType = 0;
-    
-    // 判断是否支持相机
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        //支持访问相机与相册情况
-        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"请选择做为头像的图片" preferredStyle:    UIAlertControllerStyleAlert];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSLog(@"点击从相册中选取");
-            //相册
-            blockSourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            
-            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-            
-            imagePickerController.delegate = self;
-            
-            imagePickerController.allowsEditing = YES;
-            
-            imagePickerController.sourceType = blockSourceType;
-            
-            
-            [self presentViewController:imagePickerController animated:YES completion:nil];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSLog(@"点击拍照");
-            //相机
-            blockSourceType = UIImagePickerControllerSourceTypeCamera;
-            
-            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-            
-            imagePickerController.delegate = self;
-            
-            imagePickerController.allowsEditing = YES;
-            
-            imagePickerController.sourceType = blockSourceType;
-            
-            [self presentViewController:imagePickerController animated:YES completion:nil];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSLog(@"点击取消");
-            // 取消
-            return;
-        }]];
-        
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
-    else
-    {
-        //只支持访问相册情况
-        alertController = [UIAlertController alertControllerWithTitle:@"选择图片" message:@"选择背景图片" preferredStyle:UIAlertControllerStyleAlert];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"从相册中选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSLog(@"点击从相册中选取");
-            //相册
-            blockSourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            
-            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-            
-            imagePickerController.delegate = self;
-            
-            imagePickerController.allowsEditing = YES;
-            
-            imagePickerController.sourceType = blockSourceType;
-            
-            [self presentViewController:imagePickerController animated:YES completion:^{
-                
-            }];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSLog(@"点击取消");
-            // 取消
-            return;
-        }]];
-        
-        
-        
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
-    
-    
-}
 
-#pragma mark - UIImagePickerControllerDelegate methods
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    UIImage *image = nil;
-    if(picker.sourceType == UIImagePickerControllerSourceTypeCamera)
-    {
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    }
-    else
-    {
-        NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-        if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo)
-        {
-            image = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
-        }
-    }
-    
-    self.backGroundImageView.image = image;
-    
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
 
 #pragma mark - getters
 
@@ -596,6 +555,9 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         [_sview.speakbackbtn addTarget:self action:@selector(speakbackbtnclick) forControlEvents:UIControlEventTouchUpInside];
         [_sview.languagebtn addTarget:self action:@selector(languagexuanze) forControlEvents:UIControlEventTouchUpInside];
         [_sview.stopbtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.speakbtn addTarget:self action:@selector(speakbtnclick) forControlEvents:UIControlEventTouchUpInside];
+        [_sview.speakbtn addTarget:self action:@selector(speakbtntouchdown) forControlEvents:UIControlEventTouchDown];
+        
     }
     return _sview;
 }
@@ -769,7 +731,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self.studentView setHidden:NO];
     [self.tacktableview setHidden:YES];
     [self.sview.languagebtn setHidden:NO];
+    
+    
 }
+
+
+
+
+
 
 #pragma mark - tableview DataSource
 
@@ -1263,4 +1232,462 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 - (BOOL)prefersStatusBarHidden { //设置隐藏显示
     return YES;
 }
+
+
+#pragma mark - 融云->链接融云服务器 & 获取token
+
+-(void)connectRongCloudServerWithToken:(NSString *)token{
+    //融云
+    [[RCIMClient sharedRCIMClient]initWithAppKey:@"82hegw5uhhmgx"];
+    [[RCIMClient sharedRCIMClient] connectWithToken:token
+                                            success:^(NSString *userId) {
+                                                NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+                                            } error:^(RCConnectErrorCode status) {
+                                                NSLog(@"登陆的错误码为:%ld", (long)status);
+                                            } tokenIncorrect:^{
+                                                //token过期或者不正确。
+                                                //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
+                                                //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
+                                                [self getTokenWithUserID:self.user_id];//重新获取token;
+                                                NSLog(@"token错误");
+                                            }];
+}
+
+-(void)getTokenWithUserID:(NSString *)userID{
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSString *urlstr =@"https://api.cn.rong.io/user/getToken.json";
+    NSDictionary *dic =@{@"userId":userID,
+                         @"name":userID,
+                         @"portraitUri":@""
+                         };
+    
+    NSString * timestamp = [[NSString alloc] initWithFormat:@"%ld",(NSInteger)[NSDate timeIntervalSinceReferenceDate]];
+    NSString * nonce = [NSString stringWithFormat:@"%d",arc4random()];
+    NSString * appkey = @"82hegw5uhhmgx";
+    NSString * Signature = [[NSString stringWithFormat:@"%@%@%@",appkey,nonce,timestamp] sha1];//sha1对签名进行加密
+    //以下拼接请求内容
+    [manager.requestSerializer setValue:appkey forHTTPHeaderField:@"App-Key"];
+    [manager.requestSerializer setValue:nonce forHTTPHeaderField:@"Nonce"];
+    [manager.requestSerializer setValue:timestamp forHTTPHeaderField:@"Timestamp"];
+    [manager.requestSerializer setValue:Signature forHTTPHeaderField:@"Signature"];
+    [manager.requestSerializer setValue:@"dcT8Jah7TP" forHTTPHeaderField:@"appSecret"];
+    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    //开始请求
+    [manager POST:urlstr parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@" %@", responseObject);
+        
+        NSLog(@"%@",responseObject[@"token"]);
+        
+        [self connectRongCloudServerWithToken:responseObject[@"token"]];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         NSLog(@"%@",error);
+    }];
+    
+}
+
+#pragma mark - 融云
+
+
+-(NSDictionary *)getRCMessageDictionaryWithExtra:(NSString *)extra{
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSArray  * array= [extra componentsSeparatedByString:@"&"];
+    
+    for (int i = 0; i < array.count; i++) {
+        
+        NSString *depStr = array[i];
+        NSArray *arr = [depStr componentsSeparatedByString:@":"];
+        [dic setObject:arr[1] forKey:arr[0]];
+    }
+    
+    return dic;
+}
+
+
+////发送一条语音消息
+//-(void)sendAWebVoice:(NSString *)extra{
+//    
+//    NSDictionary *dict = [self getRCMessageDictionaryWithExtra:extra];
+//    
+//    
+//    NSURL *URL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:self.cellMessageID]];
+//    
+//    RCVoiceMessage *voiceMessage = [RCVoiceMessage messageWithAudio:[NSData dataWithContentsOfURL:URL] duration:[dict[@"audioSecond"] intValue]];
+//    
+//    voiceMessage.extra = extra;
+//    
+//    [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_PRIVATE targetId:self.target_id content:voiceMessage pushContent:nil pushData:nil success:^(long messageId) {
+//        NSLog(@"发送成功。当前消息ID：%ld", messageId);
+//    } error:^(RCErrorCode nErrorCode, long messageId) {
+//        NSLog(@"发送失败。消息ID：%ld， 错误码：%ld", messageId, (long)nErrorCode);
+//    }];
+//    
+//}
+//发送一条文本消息
+-(void)sendAwebMessage:(NSString *)extra{
+    // 构建消息的内容，这里以文本消息为例。
+    RCTextMessage *testMessage = [RCTextMessage messageWithContent:@"Extra已经携带一切信息"];
+    // 调用RCIMClient的sendMessage方法进行发送，结果会通过回调进行反馈。
+    testMessage.extra = extra;
+    [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_PRIVATE
+                                      targetId:self.target_id
+                                       content:testMessage
+                                   pushContent:nil
+                                      pushData:nil
+                                       success:^(long messageId) {
+                                           NSLog(@"发送成功。当前消息ID：%ld", messageId);
+                                       } error:^(RCErrorCode nErrorCode, long messageId) {
+                                           NSLog(@"发送失败。消息ID：%ld， 错误码：%ld", messageId, (long)nErrorCode);
+                                       }];
+}
+
+//接收文本以及语音消息
+- (void)onReceived:(RCMessage *)message
+              left:(int)nLeft
+            object:(id)object {
+    
+    
+    if ([self.target_id isEqualToString:message.senderUserId]) {
+        if ([message.content isMemberOfClass:[RCTextMessage class]]) {
+            RCTextMessage *testMessage = (RCTextMessage *)message.content;
+            
+            NSLog(@"消息内容：%@,附带消息内容---%@asdasdas----%@", testMessage.content,testMessage.extra,message.senderUserId);
+            
+            NSDictionary *dict = [self getRCMessageDictionaryWithExtra:testMessage.extra];
+            NSLog(@"消息信息》》》%@",dict);
+            ///////////////////////////////////////////
+            ///////////
+            //////
+            
+            
+            
+            
+            
+            NSInteger count = self.dataArr.count;
+            
+            [self.dataArr insertObject:dict atIndex:count];
+            //////
+            /////////
+            ////////////
+            ////////////////////////////
+        }
+        
+        
+        
+        if ([message.content isMemberOfClass:[RCVoiceMessage class]]) {
+            
+            RCVoiceMessage *voiceMessage = (RCVoiceMessage *)message.content;
+            
+            NSLog(@"时长：%ld,附带消息内容---%@asdasdas----%@", voiceMessage.duration,voiceMessage.extra,voiceMessage.wavAudioData);
+            
+            //语音存在本地，并且加入展示数组⬇️
+            NSDictionary *dic = [self getRCMessageDictionaryWithExtra:voiceMessage.extra];
+            NSURL *uurl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:dic[@"messageID"]]];
+            [voiceMessage.wavAudioData writeToURL:uurl atomically:NO];
+            NSLog(@"sccczsc...%@df%@",dic,uurl);
+            
+            NSInteger count = self.dataArr.count;
+            [self.dataArr insertObject:dic atIndex:count];
+
+            
+            
+            
+            
+        }
+        
+    }else{
+        NSLog(@"对话的人已经改变了！");
+    }
+    
+    NSLog(@"还剩余的未接收的消息数：%d", nLeft);
+}
+
+
+//获取当前时间string
+-(NSString *)getCurerentTimeString{
+    
+    
+    NSDate *currentTime = [NSDate date];
+    
+    NSString *dateString = [self fromDateToNSString:currentTime];
+    
+    return dateString;
+}
+//Date转化为Nsstring方法
+//格式为：2016-04-0813:15:10" 把这个字符串传进去 @"yyyy-MM-ddHH:mm:ss"
+-(NSString *)fromDateToNSString:(NSDate *)date {
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    
+    [formatter setDateFormat:@"yyyy-MM-ddHH-mm-ss"];
+    
+    
+    NSString *dateNSString = [formatter stringFromDate:date];
+    
+    
+    return dateNSString;
+}
+
+
+
+-(void)sendTextMessageMethodWithString:(NSString *)text{
+    
+    NSString *currentDateString = [self getCurerentTimeString];
+    self.cellMessageID = currentDateString;
+    
+    NSInteger count = self.dataArr.count;
+    
+    NSDictionary *dict = @{@"senderID":self.senderID,
+                           @"chatTextContent":text,
+                           @"chatContentType":@"text",
+                           @"chatPictureURLContent":@"",
+                           @"messageID":self.cellMessageID,
+                           @"senderImgPictureURL":@"",
+                           @"chatAudioContent":self.cellMessageID,
+                           @"audioSecond":@"",
+                           @"sendIdentifier":self.userIdentifier,
+                           @"AVtoStringContent":@"",
+                           @"sendTime":self.cellMessageID};
+    
+    
+    NSString *extra = [self getRCMessageExtraStringWithsenderID:dict[@"senderID"] chatTextContent:dict[@"chatTextContent"] chatContentType:dict[@"chatContentType"] chatPictureURLContent:dict[@"chatPictureURLContent"] messageID:dict[@"messageID"] senderImgPictureURL:dict[@"senderImgPictureURL"] chatAudioContent:dict[@"chatAudioContent"] audioSecond:dict[@"audioSecond"] sendIdentifier:dict[@"sendIdentifier"] AVtoStringContent:dict[@"AVtoStringContent"] sendTime:dict[@"sendTime"]];
+    [self sendAwebMessage:extra];
+    
+//    self.inputTextView.text = nil;
+    [self.dataArr insertObject:dict atIndex:count];
+    ///////////
+    NSInteger cccount = self.dataSource.count;
+    NSIndexPath *iindex = [NSIndexPath indexPathForRow:cccount - 1 inSection:0];
+//    CGRect    rect = [self.bottomTableView rectForRowAtIndexPath:iindex];
+//    CGFloat   cellMaxY = rect.origin.y + rect.size.height;
+    ;
+    
+}
+
+#pragma mark - extra自制定制方法
+
+-(NSString *)getRCMessageExtraStringWithsenderID:(NSString *)senderID chatTextContent:(NSString *)chatTextContent chatContentType:(NSString *)chatContentType chatPictureURLContent:(NSString *)chatPictureURLContent messageID:(NSString *)messageID senderImgPictureURL:(NSString *)senderImgPictureURL chatAudioContent:(NSString *)chatAudioContent audioSecond:(NSString *)audioSecond sendIdentifier:(NSString *)sendIdentifier AVtoStringContent:(NSString *)AVtoStringContent sendTime:(NSString *)sendTime{
+    
+    NSString *one = [NSString stringWithFormat:@"senderID:%@",senderID];
+    NSString *two = [NSString stringWithFormat:@"chatTextContent:%@",chatTextContent];
+    NSString *three = [NSString stringWithFormat:@"chatContentType:%@",chatContentType];
+    NSString *four = [NSString stringWithFormat:@"chatPictureURLContent:%@",chatPictureURLContent];
+    NSString *five = [NSString stringWithFormat:@"messageID:%@",messageID];
+    NSString *six = [NSString stringWithFormat:@"senderImgPictureURL:%@",senderImgPictureURL];
+    NSString *seven = [NSString stringWithFormat:@"chatAudioContent:%@",chatAudioContent];
+    NSString *eight = [NSString stringWithFormat:@"audioSecond:%@",audioSecond];
+    NSString *nine = [NSString stringWithFormat:@"sendIdentifier:%@",sendIdentifier];
+    NSString *ten = [NSString stringWithFormat:@"AVtoStringContent:%@",AVtoStringContent];
+    NSString *eleven = [NSString stringWithFormat:@"sendTime:%@",sendTime];
+    
+    
+    NSString *resultString = [NSString stringWithFormat:@"%@&%@&%@&%@&%@&%@&%@&%@&%@&%@&%@",one,two,three,four,five,six,seven,eight,nine,ten,eleven];
+    
+    return resultString;
+    
+}
+
+
+
+
+//聊天发送按钮事件
+-(void)speakbtnclick
+{
+    
+    [_iFlySpeechRecognizer stopListening];   //结束监听，并开始识别
+    NSLog(@"抬起");
+}
+-(void)speakbtntouchdown
+{
+    self.resultLabel.text=@"";
+    
+    self.isCanceled = NO;
+    
+    if(_iFlySpeechRecognizer == nil)
+    {
+        [self initRecognizer];
+    }
+    
+    [_iFlySpeechRecognizer cancel];
+    [_iFlySpeechRecognizer setParameter:IFLY_AUDIO_SOURCE_MIC forKey:@"audio_source"];
+    
+    //设置听写结果格式为json
+    [_iFlySpeechRecognizer setParameter:@"json" forKey:[IFlySpeechConstant RESULT_TYPE]];
+    
+    //保存录音文件，保存在sdk工作路径中，如未设置工作路径，则默认保存在library/cache下
+    [_iFlySpeechRecognizer setParameter:@"asr.pcm" forKey:[IFlySpeechConstant ASR_AUDIO_PATH]];
+    
+    [_iFlySpeechRecognizer setDelegate:self];
+    
+    BOOL ret = [_iFlySpeechRecognizer startListening];
+    if (!ret) {
+        NSLog(@"启动识别服务失败，请稍后重试");
+        //可能是上次请求未结束，暂不支持多路并发
+    }
+    NSLog(@"启动识别失败!");
+}
+    
+
+
+
+
+
+#pragma mark - IFlySpeechRecognizerDelegate
+/**
+ 61  * @fn      onVolumeChanged
+ 62  * @brief   音量变化回调
+ 63  * @param   volume      -[in] 录音的音量，音量范围1~100
+ 64  * @see
+ 65  */
+- (void) onVolumeChanged: (int)volume
+{
+    
+}
+
+/**
+ 72  * @fn      onBeginOfSpeech
+ 73  * @brief   开始识别回调
+ 74  * @see
+ 75  */
+- (void) onBeginOfSpeech
+{
+    
+}
+
+/**
+ 82  * @fn      onEndOfSpeech
+ 83  * @brief   停止录音回调
+ 84  * @see
+ 85  */
+- (void) onEndOfSpeech
+{
+    
+}
+
+/**
+ 92  * @fn      onError
+ 93  * @brief   识别结束回调
+ 94  * @param   errorCode   -[out] 错误类，具体用法见IFlySpeechError
+ 95  */
+
+- (void)onResult:(NSArray *)resultArray isLast:(BOOL)isLast
+{
+    NSMutableString *result = [NSMutableString new];
+    NSDictionary *dic = [resultArray objectAtIndex:0];
+    NSLog(@"DIC:%@",dic);
+    for (NSString *key in dic) {
+        [result appendFormat:@"%@",key];
+    }
+    //把相应的控件赋值为result.例如:label.text = result;
+    if(self.resultLabel.text){
+        self.resultLabel.text=[NSString stringWithFormat:@"%@%@",self.resultLabel.text,result];
+    }else{
+        self.resultLabel.text=result;
+    }
+    
+}
+
+- (void) onError:(IFlySpeechError *) error
+{
+    NSString *text ;
+    if (self.isCanceled) {
+        text = @"识别取消";
+    }
+    else if (error.errorCode ==0 ) {
+        
+        text = @"识别成功";
+        
+    }
+    else{
+        text = [NSString stringWithFormat:@"发生错误：%d %@",error.errorCode,error.errorDesc];
+        NSLog(@"%@",text);
+    }
+}
+
+/**
+ 117  * @fn      onResults
+ 118  * @brief   识别结果回调
+ 119  * @param   result      -[out] 识别结果，NSArray的第一个元素为NSDictionary，NSDictionary的key为识别结果，value为置信度
+ 120  * @see
+ 121  */
+- (void) onResults:(NSArray *) results isLast:(BOOL)isLast
+{
+    NSArray * temp = [[NSArray alloc]init];
+    NSString * str = [[NSString alloc]init];
+    NSMutableString *result = [[NSMutableString alloc] init];
+    NSDictionary *dic = results[0];
+    for (NSString *key in dic) {
+        [result appendFormat:@"%@",key];
+        
+    }
+    NSLog(@"听写结果：%@",result);
+    //---------讯飞语音识别JSON数据解析---------//
+    NSError * error;
+    NSData * data = [result dataUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"data: %@",data);
+    NSDictionary * dic_result =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+    NSArray * array_ws = [dic_result objectForKey:@"ws"];
+    //遍历识别结果的每一个单词
+    for (int i=0; i<array_ws.count; i++) {
+        temp = [[array_ws objectAtIndex:i] objectForKey:@"cw"];
+        NSDictionary * dic_cw = [temp objectAtIndex:0];
+        str = [str  stringByAppendingString:[dic_cw objectForKey:@"w"]];
+        NSLog(@"识别结果:%@",[dic_cw objectForKey:@"w"]);
+    }
+    NSLog(@"最终的识别结果:%@",str);
+    //去掉识别结果最后的标点符号
+    if ([str isEqualToString:@"。"] || [str isEqualToString:@"？"] || [str isEqualToString:@"！"]) {
+        NSLog(@"末尾标点符号：%@",str);
+    }
+    else{
+        //                 self.resultLabel.text = str;
+    }
+    
+    if(self.resultLabel.text){
+        self.resultLabel.text=[NSString stringWithFormat:@"%@%@",self.resultLabel.text,str];
+    }else{
+        self.resultLabel.text=str;
+    }
+    
+    NSString *need_result=self.resultLabel.text;
+    
+    NSLog(@"%@",need_result);
+    
+    //self.resultLabel.text = str;
+}
+
+
+-(UILabel *)resultLabel{
+    if(!_resultLabel){
+        _resultLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, self.view.bounds.size.width, 50)];
+        _resultLabel.backgroundColor=[UIColor orangeColor];
+    }
+    return _resultLabel;
+}
+
+
+-(void)initRecognizer
+{
+    
+    //单例模式，无UI的实例
+    if (_iFlySpeechRecognizer == nil) {
+        _iFlySpeechRecognizer = [IFlySpeechRecognizer sharedInstance];
+        
+        [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
+        
+        //设置听写模式
+        [_iFlySpeechRecognizer setParameter:@"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];
+    }
+    _iFlySpeechRecognizer.delegate = self;
+    
+    
+    
+}
+
+
+
 @end

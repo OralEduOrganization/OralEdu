@@ -104,6 +104,7 @@
 		53E91A581D1BB9860091E85A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E91A571D1BB9860091E85A /* SearchViewController.m */; };
 		5828C3C71D34E6130075942B /* searchcell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5828C3C61D34E6130075942B /* searchcell.m */; };
 		585615171D332D4D00B54508 /* UIImage+needkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 585615161D332D4D00B54508 /* UIImage+needkit.m */; };
+		FE17E0841D473D500051F664 /* NSString+HBWmd5.m in Sources */ = {isa = PBXBuildFile; fileRef = FE17E0831D473D500051F664 /* NSString+HBWmd5.m */; };
 		FE2C85681D4356CF0050843D /* UIAlertController+SZYKit.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C85671D4356CF0050843D /* UIAlertController+SZYKit.m */; };
 		FE2C85C81D43636F0050843D /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85BE1D43636F0050843D /* Emoji.plist */; };
 		FE2C85C91D43636F0050843D /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE2C85BF1D43636F0050843D /* RongCloudKit.strings */; };
@@ -124,6 +125,7 @@
 		FE2C85E11D4369010050843D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E01D4369010050843D /* OpenGLES.framework */; };
 		FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E21D4369230050843D /* SystemConfiguration.framework */; };
 		FE2C85E51D4369340050843D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E41D4369340050843D /* Photos.framework */; };
+		FE78C8F71D48BD2500017E71 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE78C8F61D48BD2500017E71 /* iflyMSC.framework */; };
 		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
 		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
@@ -131,7 +133,6 @@
 		FECC947A1D266938006F955A /* videoRightView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94791D266938006F955A /* videoRightView.m */; };
 		FECC947D1D2A5D57006F955A /* pickImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947C1D2A5D57006F955A /* pickImageView.m */; };
 		FECC94801D2B8D97006F955A /* imageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC947F1D2B8D97006F955A /* imageMenuView.m */; };
-		FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94841D2CE448006F955A /* iflyMSC.framework */; };
 		FECC94B81D2CF71E006F955A /* voiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC94B71D2CF71E006F955A /* voiceViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -312,6 +313,8 @@
 		5828C3C61D34E6130075942B /* searchcell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchcell.m; sourceTree = "<group>"; };
 		585615151D332D4D00B54508 /* UIImage+needkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+needkit.h"; sourceTree = "<group>"; };
 		585615161D332D4D00B54508 /* UIImage+needkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+needkit.m"; sourceTree = "<group>"; };
+		FE17E0821D473D500051F664 /* NSString+HBWmd5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HBWmd5.h"; sourceTree = "<group>"; };
+		FE17E0831D473D500051F664 /* NSString+HBWmd5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HBWmd5.m"; sourceTree = "<group>"; };
 		FE2C85661D4356CF0050843D /* UIAlertController+SZYKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+SZYKit.h"; sourceTree = "<group>"; };
 		FE2C85671D4356CF0050843D /* UIAlertController+SZYKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+SZYKit.m"; sourceTree = "<group>"; };
 		FE2C85BE1D43636F0050843D /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
@@ -334,6 +337,7 @@
 		FE2C85E01D4369010050843D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		FE2C85E21D4369230050843D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FE2C85E41D4369340050843D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		FE78C8F61D48BD2500017E71 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
 		FECC946B1D26125D006F955A /* faceVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = faceVideoViewController.m; sourceTree = "<group>"; };
 		FECC946D1D2636F7006F955A /* PIDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDrawerView.h; sourceTree = "<group>"; };
@@ -346,7 +350,6 @@
 		FECC947C1D2A5D57006F955A /* pickImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pickImageView.m; sourceTree = "<group>"; };
 		FECC947E1D2B8D97006F955A /* imageMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageMenuView.h; sourceTree = "<group>"; };
 		FECC947F1D2B8D97006F955A /* imageMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageMenuView.m; sourceTree = "<group>"; };
-		FECC94841D2CE448006F955A /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		FECC94B61D2CF71E006F955A /* voiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = voiceViewController.h; sourceTree = "<group>"; };
 		FECC94B71D2CF71E006F955A /* voiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = voiceViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -376,11 +379,11 @@
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
 				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
-				FECC94851D2CE448006F955A /* iflyMSC.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
 				53B22C411D264F9100E8EBA5 /* CoreGraphics.framework in Frameworks */,
 				FE2C85CE1D43636F0050843D /* RongIMKit.framework in Frameworks */,
 				53B22C3D1D2618E900E8EBA5 /* AddressBookUI.framework in Frameworks */,
+				FE78C8F71D48BD2500017E71 /* iflyMSC.framework in Frameworks */,
 				FE2C85CA1D43636F0050843D /* libopencore-amrnb.a in Frameworks */,
 				53B22C3B1D2618E400E8EBA5 /* AddressBook.framework in Frameworks */,
 				53B22C391D2618D900E8EBA5 /* libstdc++.tbd in Frameworks */,
@@ -1122,6 +1125,7 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				FE78C8F61D48BD2500017E71 /* iflyMSC.framework */,
 				FE2C85E41D4369340050843D /* Photos.framework */,
 				FE2C85E21D4369230050843D /* SystemConfiguration.framework */,
 				FE2C85E01D4369010050843D /* OpenGLES.framework */,
@@ -1137,7 +1141,6 @@
 				536820811D41C52200EF034B /* AVFoundation.framework */,
 				5368207F1D41C51400EF034B /* AssetsLibrary.framework */,
 				53094AAB1D3F42D300C73B58 /* AudioToolbox.framework */,
-				FECC94841D2CE448006F955A /* iflyMSC.framework */,
 				FECC94721D264953006F955A /* CoreGraphics.framework */,
 				FECC94701D264936006F955A /* MobileCoreServices.framework */,
 				5379B5271D2939CA00D38D4C /* ZCYlocation */,
@@ -1340,6 +1343,8 @@
 		FECC94671D2611FE006F955A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FE17E0821D473D500051F664 /* NSString+HBWmd5.h */,
+				FE17E0831D473D500051F664 /* NSString+HBWmd5.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1491,6 +1496,7 @@
 				538D2E981D1EB3B600BB9588 /* materalCell.m in Sources */,
 				534522D31D1BFCFB0055C0EE /* homeModel.m in Sources */,
 				FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */,
+				FE17E0841D473D500051F664 /* NSString+HBWmd5.m in Sources */,
 				538D2E4A1D1CDB7200BB9588 /* infomationViewController.m in Sources */,
 				538D2E541D1D509600BB9588 /* setModel.m in Sources */,
 				53E91A231D1B70E40091E85A /* AppDelegate.m in Sources */,
