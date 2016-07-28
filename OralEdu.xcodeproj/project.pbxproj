@@ -126,6 +126,7 @@
 		FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E21D4369230050843D /* SystemConfiguration.framework */; };
 		FE2C85E51D4369340050843D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C85E41D4369340050843D /* Photos.framework */; };
 		FE78C8F71D48BD2500017E71 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE78C8F61D48BD2500017E71 /* iflyMSC.framework */; };
+		FE7F7EAA1D49EC2F00EFA678 /* chatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7F7EA91D49EC2F00EFA678 /* chatModel.m */; };
 		FECC946C1D26125D006F955A /* faceVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946B1D26125D006F955A /* faceVideoViewController.m */; };
 		FECC946F1D2636F7006F955A /* PIDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FECC946E1D2636F7006F955A /* PIDrawerView.m */; };
 		FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECC94701D264936006F955A /* MobileCoreServices.framework */; };
@@ -338,6 +339,8 @@
 		FE2C85E21D4369230050843D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FE2C85E41D4369340050843D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		FE78C8F61D48BD2500017E71 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
+		FE7F7EA81D49EC2F00EFA678 /* chatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chatModel.h; sourceTree = "<group>"; };
+		FE7F7EA91D49EC2F00EFA678 /* chatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chatModel.m; sourceTree = "<group>"; };
 		FECC946A1D26125D006F955A /* faceVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faceVideoViewController.h; sourceTree = "<group>"; };
 		FECC946B1D26125D006F955A /* faceVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = faceVideoViewController.m; sourceTree = "<group>"; };
 		FECC946D1D2636F7006F955A /* PIDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDrawerView.h; sourceTree = "<group>"; };
@@ -1345,6 +1348,8 @@
 			children = (
 				FE17E0821D473D500051F664 /* NSString+HBWmd5.h */,
 				FE17E0831D473D500051F664 /* NSString+HBWmd5.m */,
+				FE7F7EA81D49EC2F00EFA678 /* chatModel.h */,
+				FE7F7EA91D49EC2F00EFA678 /* chatModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1537,6 +1542,7 @@
 				538D2E511D1D38B400BB9588 /* aboutViewController.m in Sources */,
 				530F6E4C1D268D5500A3A2AE /* UIScrollView+SVPullToRefresh.m in Sources */,
 				5393136C1D1BC9760035D874 /* TextView.m in Sources */,
+				FE7F7EAA1D49EC2F00EFA678 /* chatModel.m in Sources */,
 				53B22C1E1D2617E900E8EBA5 /* MBProgressHUD+XMG.m in Sources */,
 				53E5EA2D1D30896100FA06D8 /* setCell3.m in Sources */,
 				530538F11D1C0F7B001736B3 /* setViewController.m in Sources */,
