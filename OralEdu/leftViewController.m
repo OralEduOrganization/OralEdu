@@ -11,15 +11,14 @@
 #import "homeViewController.h"
 #import "leftCell.h"
 #import "setViewController.h"
-//#import "leftView.h"
 #import "leftviewModel.h"
 #import "materViewController.h"
 #import "aboutViewController.h"
 #import "HttpTool.h"
+#import "Reachability.h"
 @interface leftViewController ()
 @property (nonatomic,strong) UITableView *left_tableview;
 @property (nonatomic,strong) NSMutableArray *leftarr;
-@property (nonatomic,strong) UIImageView *pic_image;
 @property (nonatomic,strong) NSMutableArray *leftviewarr;
 @property (nonatomic,strong) UIImageView *user_image;
 @property (nonatomic,strong) UILabel *login_label;
@@ -115,10 +114,28 @@
             self.leftviewarr = [NSMutableArray array];
             [self.leftviewarr addObject:self.leftmodel];
             NSURL *url = [NSURL URLWithString:_url1];
-            _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-            self.login_label.text = @"登录成功";
-
             
+            Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+            switch ([r currentReachabilityStatus]) {
+                case NotReachable:
+                    // 没有网络连接
+                    NSLog(@"没有网络");
+                    _user_image.image = [UIImage imageNamed:@"meiyou-iPhone"];
+                    break;
+                case ReachableViaWWAN:
+                    // 使用3G网络
+                    NSLog(@"正在使用3G网络");
+                    _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                    
+                    break;
+                case ReachableViaWiFi:
+                    // 使用WiFi网络
+                    NSLog(@"正在使用wifi网络");
+                    _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                    
+                    break;
+            }
+            self.login_label.text = @"登录成功";
         } failure:^(NSError *error) {
             NSLog(@"失败");
         }];
@@ -153,7 +170,10 @@
         _user_image.layer.cornerRadius = 50;
         leftviewModel *model = self.leftviewarr[0];
         NSURL *url = [NSURL URLWithString:model.leftpic_urlstr];
-        _user_image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+
+        
+   
+        
     }
     return _user_image;
 }

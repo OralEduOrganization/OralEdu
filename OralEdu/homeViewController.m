@@ -20,6 +20,7 @@
 #import "SVPullToRefresh.h"
 #import "voiceViewController.h"
 #import "HttpTool.h"
+#import "Reachability.h"
 #import "MBProgressHUD+XMG.h"
 @interface homeViewController ()
 {
@@ -55,6 +56,7 @@
    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
     self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"背景"]];
+
   
 }
 
@@ -132,7 +134,32 @@
         [_titlearr addObject:tinfo1];
         titleModel *titlein = self.titlearr[0];
         NSURL *url = [NSURL URLWithString:titlein.title_imageurl];
-        [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
+        
+        
+        Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+        switch ([r currentReachabilityStatus]) {
+            case NotReachable:
+                // 没有网络连接
+                NSLog(@"没有网络");
+                [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"meiyou-iPhone"] forState:UIControlStateNormal];
+                break;
+            case ReachableViaWWAN:
+                // 使用3G网络
+                NSLog(@"正在使用3G网络");
+                [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
+                
+                break;
+            case ReachableViaWiFi:
+                // 使用WiFi网络
+                NSLog(@"正在使用wifi网络");
+                [self.navitionBar.left_btn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:url]] forState:UIControlStateNormal];
+                
+                break;
+        }
+        
+        
+        
+        
         self.navitionBar.title_label.text = titlein.title_name;
         self.navitionBar.title_label.text=_name1;
         
@@ -204,8 +231,6 @@
     return _homeTableview;
 }
 
-
-
 #pragma mark - UItableView DateSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -254,9 +279,6 @@
         
         NSLog(@"点击了删除");
         
-        // 1. 更新数据
-        
-        [_homearr removeObjectAtIndex:indexPath.row];
         
         // 2. 更新UI
         homeModel *model=self.homearr[indexPath.row];
@@ -276,7 +298,10 @@
             [MBProgressHUD showError:@"请检查网络"];
             
         }];
+        // 1. 更新数据
         
+        [_homearr removeObjectAtIndex:indexPath.row];
+
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         

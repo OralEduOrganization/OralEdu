@@ -20,6 +20,7 @@
 #import "materal_model.h"
 #import "MBProgressHUD+XMG.h"
 #import "UIAlertController+SZYKit.h"
+#import "DWBubbleMenuButton.h"
 @interface materViewController ()
 @property (nonatomic,strong) UITableView *matertableview;
 @property (nonatomic,strong) NSMutableArray *mater_arr;
@@ -45,15 +46,11 @@
     [self.navitionBar.left_btn setImage:[UIImage imageNamed:@"bai"] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.matertableview];
-    [self.navitionBar.right_btn setTitle:@"下载" forState:UIControlStateNormal];
-     self.delete_arr = [[NSMutableArray alloc]init];
-    
-    
+    [self.navitionBar.right_btn removeFromSuperview];
+    self.delete_arr = [[NSMutableArray alloc]init];
     self.navitionBar.title_label.text = @"素材库";
     self.mater_arr = [NSMutableArray array];
-    [self.view addSubview:self.add_btn];
-    [self.view addSubview:self.uploadBtn];
-    
+
     _m_finder = [[materal_finder alloc] init];
     
     NSMutableArray *listArr = [NSMutableArray array];
@@ -64,7 +61,21 @@
         [_mater_arr addObject:arr.materal_finder_name];
     }
     
+    UILabel *homeLabel = [self createHomeButtonView];
+    // Create up menu button
+    homeLabel = [self createHomeButtonView];
     
+    DWBubbleMenuButton *upMenuView = [[DWBubbleMenuButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - homeLabel.frame.size.width - 20.f,
+                                                                                          self.view.frame.size.height - homeLabel.frame.size.height - 20.f,
+                                                                                          homeLabel.frame.size.width,
+                                                                                          homeLabel.frame.size.height)
+                                                            expansionDirection:DirectionUp];
+    upMenuView.homeButtonView = homeLabel;
+    
+    [upMenuView addButtons:[self createDemoButtonArray]];
+    
+    [self.view addSubview:upMenuView];
+
     
    }
 
@@ -77,35 +88,11 @@
 {
     [super viewWillAppear:animated];
     self.matertableview.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-    self.add_btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-200, 50, 50);
-    self.uploadBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.height-300, 40, 40);
+   
 }
 
 #pragma mark - getters
 
--(UIButton *)uploadBtn
-{
-    if(!_uploadBtn)
-    {
-        _uploadBtn = [[UIButton alloc] init];
-        [_uploadBtn setTitle:@"上传" forState:UIControlStateNormal];
-        [_uploadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_uploadBtn addTarget:self action:@selector(uploadBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _uploadBtn;
-}
-
--(UIButton *)add_btn
-{
-    if(!_add_btn)
-    {
-        _add_btn = [[UIButton alloc] init];
-        _add_btn.backgroundColor = [UIColor clearColor];
-        [_add_btn setImage:[UIImage imageNamed:@"添加"] forState:UIControlStateNormal];
-        [_add_btn addTarget:self action:@selector(addanew) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _add_btn;
-}
 
 -(UITableView *)matertableview
 {
@@ -256,9 +243,6 @@
     // 将设置好的按钮放到数组中返回
     
     return @[deleteRowAction, moreRowAction];
-    
-    //return @[deleteRowAction,moreRowAction];
-    
 }
 
 #pragma mark - 实现方法
@@ -369,15 +353,12 @@
     }
 }
 
-
-
 #pragma mark -----上传
--(void)uploadBtnClick{
 
-    
+-(void)uploadBtnClick
+{
     [UIAlertController showAlertAtViewController:self withMessage:@"确定上传本地素材库吗？（建议wifi情况下上传）" cancelTitle:@"取消" confirmTitle:@"上传" cancelHandler:^(UIAlertAction *action) {
     } confirmHandler:^(UIAlertAction *action) {
-        
         
         //初始化hud 置于当前view中
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
@@ -389,8 +370,6 @@
         //显示对话框
         [HUD show:YES];
         
-        
-        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
         
@@ -399,8 +378,6 @@
         NSLog(@"%@",docDir);
         NSLog(@"%@",name);
         
-        
-        
         NSDictionary *para=@{@"user_moblie":name};
         [HttpTool postWithparamsWithURL:@"Pic/PicAllDelete?" andParam:para success:^(id responseObject) {
             
@@ -408,13 +385,6 @@
         } failure:^(NSError *error) {
             NSLog(@"清空失败");
         }];
-        
-
-        
-        
-        
-        
-        
         
         NSString *path=[NSString stringWithFormat:@"%@/%@",docDir,name];
         NSString *basePath=[NSString stringWithFormat:@"%@/%@",docDir,name];
@@ -463,16 +433,10 @@
                 
                 
             }
-            
-            
+
         }
     }];
-
-    
-
-    
 }
-
 
 -(void)addfile:(NSString *)user_phone andDocument:(NSString *)doc andURL:(NSString *)url{
 
@@ -492,13 +456,9 @@
 
 }
 
-
-
 -(void)uploadImage:(UIImage *)img andDocumentname:(NSString *)docName withName:(NSString *)name{
     
     UIImage *image = img;
-    
-    
     
     NSURL *URL = [NSURL URLWithString:@"http://127.0.0.1/OralEduServer/cload_upload.php"];
     AFSecurityPolicy *securityPolicy = [[AFSecurityPolicy alloc] init];
@@ -536,9 +496,8 @@
     return dateTime;
 }
 
--(void)rightbtnClick
+-(void)downbtnclick
 {
-    NSLog(@"下载");
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *user_id = [defaultes objectForKey:@"name"];
     NSDictionary *para=@{@"user_moblie":user_id};
@@ -634,9 +593,7 @@
                     
                 }];
                 
-                
             }
-        
         
             [MBProgressHUD showSuccess:@"数据同步成功！"];
         
@@ -645,19 +602,68 @@
             [MBProgressHUD showError:@"您还没有云端数据"];
         
         }
-
-        
         
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
     
-    
-
 }
 
+- (UILabel *)createHomeButtonView {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 60.f, 60.f)];
+    label.text = @"Tap";
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.layer.cornerRadius = label.frame.size.height / 2.f;
+    label.backgroundColor =[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
+    label.clipsToBounds = YES;
+    return label;
+}
 
+- (NSArray *)createDemoButtonArray {
+    NSMutableArray *buttonsMutable = [[NSMutableArray alloc] init];
+    
+    int i = 0;
+    for (NSString *title in @[@"add", @"up", @"down"]) {
+//        for (NSString *title in @[[UIImage imageNamed:@"add"], [UIImage imageNamed:@"Unknown"], [UIImage imageNamed:@"Unknown2"]]) {
 
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitle:title forState:UIControlStateNormal];
+        button.frame = CGRectMake(0.f, 0.f, 50.f, 50.f);
+        button.layer.cornerRadius = button.frame.size.height / 2.f;
+        button.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
+        button.clipsToBounds = YES;
+        button.tag = i++;
+        [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonsMutable addObject:button];
+    }
+    return [buttonsMutable copy];
+}
 
+- (void)test:(UIButton *)sender {
+    if (sender.tag==0) {
+        [self addanew];
+    }
+    if (sender.tag==1) {
+        
+        [self uploadBtnClick];
+    }
+    if (sender.tag==2) {
+        [self downbtnclick];
+    }
+}
+
+- (UIButton *)createButtonWithName:(NSString *)imageName {
+    UIButton *button = [[UIButton alloc] init];
+    [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    [button sizeToFit];
+    [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return true;
+}
 
 @end
