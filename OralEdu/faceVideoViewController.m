@@ -56,9 +56,10 @@
 #import "iflyMSC/IFlySpeechUnderstander.h"
 #import "chatModel.h"
 
+#import "UIAlertController+SZYKit.h"
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
-@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate,IFlySpeechRecognizerDelegate>
+@interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate,IFlySpeechRecognizerDelegate,UIAlertViewDelegate>
 {
     NSInteger screenWidth;
     NSInteger screenHeight;
@@ -134,6 +135,9 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic, strong) UILabel *resultLabel;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) NSMutableArray *chatMutArr;
+
+
+@property (nonatomic,strong) UIView     *alertNeedView;
 
 
 @end
@@ -382,29 +386,35 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 //挂断通话，返回上个界面
 
 -(void)backBtnClick{
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"确定要挂掉通话吗" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-            SEL selector = NSSelectorFromString(@"setOrientation:");
-            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-            [invocation setSelector:selector];
-            [invocation setTarget:[UIDevice currentDevice]];
-            int val = UIInterfaceOrientationPortrait;
-            [invocation setArgument:&val atIndex:2];
-            [invocation invoke];
-        }
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
     
-    [control addAction:action1];
-    [control addAction:action2];
-   
-    [self presentViewController:control animated:YES completion:nil];
-//    CGAffineTransform transform= CGAffineTransformMakeRotation(M_PI/2);
-//    control.transform = transform;
+    [self.view addSubview:self.hubView];
+    [self.view addSubview:self.alertNeedView];
+    
+//    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"确定要挂掉通话吗" message:nil preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        
+//    }];
+//    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//            SEL selector = NSSelectorFromString(@"setOrientation:");
+//            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+//            [invocation setSelector:selector];
+//            [invocation setTarget:[UIDevice currentDevice]];
+//            int val = UIInterfaceOrientationPortrait;
+//            [invocation setArgument:&val atIndex:2];
+//            [invocation invoke];
+//        }
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//    
+//    [control addAction:action1];
+//    [control addAction:action2];
+//   
+//    control.transitioningDelegate=self;
+//    
+//    [self presentViewController:control animated:YES completion:nil];
+////    CGAffineTransform transform= CGAffineTransformMakeRotation(M_PI/2);
+////    control.transform = transform;
 }
 
 -(void)writeBtnClick{
@@ -494,7 +504,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 #pragma mark - methods
 
 -(void)hideLoginView{
-    
+    [self.alertNeedView removeFromSuperview];
     [self.hubView removeFromSuperview];
     self.hubView = nil;
     [UIView animateWithDuration:0.3 animations:^{
@@ -1767,5 +1777,66 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 
 
+-(UIView *)alertNeedView{
+
+    if(!_alertNeedView){
+    
+        _alertNeedView=[[UIView alloc]init];
+        CGSize needSize = self.view.bounds.size;
+        _alertNeedView.frame=CGRectMake(needSize.width/2-100, needSize.height/2-80, 200, 100);
+//        _alertNeedView.center=self.view.center;
+        _alertNeedView.layer.masksToBounds = YES;
+        _alertNeedView.layer.cornerRadius = 10;
+        _alertNeedView.backgroundColor=[UIColor whiteColor];
+        
+        UIView *scorlView=[[UIView alloc]initWithFrame:CGRectMake(0, 60, 200, 1)];
+        scorlView.backgroundColor=[UIColor grayColor];
+        scorlView.alpha=0.2f;
+        
+        [self.alertNeedView addSubview:scorlView];
+        
+        UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(45, 2, 120, 50)];
+        
+        titleLabel.text=@"确定要退出吗？";
+        
+        titleLabel.textColor=[UIColor blackColor];
+        [self.alertNeedView addSubview:titleLabel];
+        UIButton *cancelBtn=[[UIButton alloc]initWithFrame:CGRectMake(10, 55, 80, 50)];
+        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        cancelBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        [cancelBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.alertNeedView addSubview:cancelBtn];
+        [cancelBtn addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *confirmBtn=[[UIButton alloc]initWithFrame:CGRectMake(110, 55, 80, 50)];
+        [confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+        confirmBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+        [confirmBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.alertNeedView addSubview:confirmBtn];
+        
+        [confirmBtn addTarget:self action:@selector(confirmClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIView *scorlView2=[[UIView alloc]initWithFrame:CGRectMake(100, 60, 1, 40)];
+        scorlView2.backgroundColor=[UIColor grayColor];
+        scorlView2.alpha=0.2f;
+        
+        [self.alertNeedView addSubview:scorlView2];
+
+    
+    }
+    
+    return _alertNeedView;
+
+}
+
+-(void)confirmClick{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)cancelClick{
+
+    [self hideLoginView];
+    
+}
 
 @end

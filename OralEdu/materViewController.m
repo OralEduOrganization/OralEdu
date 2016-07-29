@@ -486,6 +486,7 @@
         NSLog(@"dic = %@",dic);
     } failure:^(NSError *error) {
         NSLog(@"失败");
+        [HUD removeFromSuperview];
         [MBProgressHUD showError:@"数据未变或已上传成功"];
         
     }];

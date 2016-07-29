@@ -19,6 +19,7 @@
                   confirmHandler:(confirm)confirm{
     
     [self showAlertAtViewController:viewController title:@"提示" message:message cancelTitle:cancelButtonTitle confirmTitle:confirmButtonTitle cancelHandler:cancle confirmHandler:confirm];
+    
 }
 
 +(void)showAlertAtViewController:(UIViewController *)viewController
