@@ -16,21 +16,25 @@
 #import "iflyMSC/IFlyUserWords.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySpeechUnderstander.h"
-
 #import "AFHTTPSessionManager.h"
+#import "AVPlayView.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 @interface voiceViewController ()<IFlyRecognizerViewDelegate,IFlySpeechRecognizerDelegate>
-
+{
+    AVPlayerViewController      *_playerController;
+    AVPlayer                    *_player;
+    AVAudioSession              *_session;
+    NSString                    *_urlString;
+}
 //@property (nonatomic, strong) NSString *pcmFilePath;//音频文件路径
 @property (nonatomic, strong) UIButton   *returnBtn;
 @property (nonatomic, strong) UIButton   *voiceBtn;
 
-
 @property (nonatomic, strong) IFlySpeechRecognizer *iFlySpeechRecognizer;//不带界面的识别对象
-
-
-
 @property (nonatomic, strong) IFlyRecognizerView *iflyRecognizerView;//带界面的识别对象
-//@property (nonatomic, strong) IFlySpeechRecognizer *iFlySpeechRecognizer;//不带界面的识别对象
+
 @property (nonatomic)         BOOL                  isCanceled;
 @property (nonatomic,strong) NSString               *result;
 @property (nonatomic,strong) NSString               *str_result;
@@ -39,43 +43,39 @@
 @property (nonatomic,strong) UIButton *speakbtn;
 
 @end
-
+static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
 @implementation voiceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    [self.view addSubview:self.voiceBtn];
-    [self.view addSubview:self.resultLabel];
+//    [self.view addSubview:self.voiceBtn];
+//    [self.view addSubview:self.resultLabel];
     [self.view addSubview:self.returnBtn];
     
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = UIInterfaceOrientationLandscapeRight;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+
+    _session = [AVAudioSession sharedInstance];
+    [_session setCategory:AVAudioSessionCategoryPlayback error:nil];
     
+    _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"]];
+    _playerController = [[AVPlayerViewController alloc] init];
+    _playerController.player = _player;
+    _playerController.videoGravity = AVLayerVideoGravityResizeAspect;
+    _playerController.allowsPictureInPicturePlayback = true;    //画中画，iPad可用
+    _playerController.showsPlaybackControls = true;
+    
+    [self addChildViewController:_playerController];
+    _playerController.view.translatesAutoresizingMaskIntoConstraints = true;    //AVPlayerViewController 内部可能是用约束写的，这句可以禁用自动约束，消除报错
+    //self.view.bounds
+    _playerController.view.frame = CGRectMake(0, 0, 320, 300);
+    [self.view addSubview:_playerController.view];
+    [_playerController.player play];    //自动播放
     NSString *appid = @"577ca611";//自己申请的appId
     NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
     [IFlySpeechUtility createUtility:initString];
     
-    
-    
-    //    ITRAirSideMenu *itrSideMenu = ((AppDelegate *)[UIApplication sharedApplication].delegate).itrAirSideMenu;
-    //
-    //
-    //    UIViewController *tempViewController = itrSideMenu.leftMenuViewController;
-    //
-    //    self.iflyRecognizerView = [[IFlyRecognizerView alloc]initWithCenter:CGPointMake(200, 200)];
-    //    self.iflyRecognizerView.delegate = self;
-    //
-    //
-    //    [self.view addSubview:self.speakbtn];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated

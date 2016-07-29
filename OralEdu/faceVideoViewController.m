@@ -57,7 +57,8 @@
 #import "chatModel.h"
 
 #import "UIAlertController+SZYKit.h"
-
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "AVPlayView.h"
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate,IFlySpeechRecognizerDelegate,UIAlertViewDelegate>
 {
@@ -69,10 +70,11 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     NSInteger translateMark;
     
     NSString *language;
+    AVPlayView     *avView;
+    
     
 }
 @property (nonatomic,strong) UIButton           *backBtn;
-@property (nonatomic,strong) UIView             *teacherView;
 @property (nonatomic,strong) UIView             *studentView;
 @property (nonatomic,strong) UIButton           *writeButton;
 @property (nonatomic,strong) UIButton           *pickColorButton;
@@ -142,6 +144,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 @end
 
+static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+
 @implementation faceVideoViewController
 
 
@@ -165,7 +169,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     drawView.backgroundColor=[UIColor clearColor];
     self.languagearr = [NSMutableArray arrayWithObjects:@"中文",@"English",@"русский",@"español",@"日本语",@"français",@"한국어",@"عربي/عربى", nil];
     
-    [self.view addSubview:self.teacherView];
+    avView = [[AVPlayView alloc] initWithFrame:CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2) url:videoUrl];
+    
+    
+    [self.view addSubview:avView];
+    
+    [avView play];
     
     [self.view addSubview:self.studentView];
     
@@ -191,7 +200,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     self.view.transform = transform;
     
 
-    
     self.tackarray = [NSMutableArray array];
     
     [self.view addSubview:self.tacktableview];
@@ -200,17 +208,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     [self.view addSubview:self.languageTableview];
     
-    
-//    self.userIdentifier = @"TRANSTOR";
-//    
-//    self.user_id = @"aaa";
-//    self.target_id = @"aa";
-//    self.senderID = self.user_id;
-//    [self getTokenWithUserID:self.user_id];        //获取token并且登录融云服务器
-//
-//    
-//    [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
-   
+
     NSString *appid = @"577ca611";//自己申请的appId
     NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
     [IFlySpeechUtility createUtility:initString];
@@ -260,7 +258,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     self.studentView.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2,screenHeight/4 , (screenWidth-50)/2);
 
-    self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
+    //self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
     
     self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2, [UIScreen mainScreen].bounds.size.height/4, [UIScreen mainScreen].bounds.size.width/2-50);
  
@@ -390,31 +388,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self.view addSubview:self.hubView];
     [self.view addSubview:self.alertNeedView];
     
-//    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"确定要挂掉通话吗" message:nil preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        
-//    }];
-//    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-//            SEL selector = NSSelectorFromString(@"setOrientation:");
-//            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-//            [invocation setSelector:selector];
-//            [invocation setTarget:[UIDevice currentDevice]];
-//            int val = UIInterfaceOrientationPortrait;
-//            [invocation setArgument:&val atIndex:2];
-//            [invocation invoke];
-//        }
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }];
-//    
-//    [control addAction:action1];
-//    [control addAction:action2];
-//   
-//    control.transitioningDelegate=self;
-//    
-//    [self presentViewController:control animated:YES completion:nil];
-////    CGAffineTransform transform= CGAffineTransformMakeRotation(M_PI/2);
-////    control.transform = transform;
 }
 
 -(void)writeBtnClick{
@@ -575,14 +548,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     return _backBtn;
 }
 
--(UIView *)teacherView
-{
-    if(!_teacherView){
-        _teacherView=[[UIView alloc]init];
-        _teacherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"student.jpg"]];
-    }
-    return _teacherView;
-}
+//-(AVPlayView *)teacherView
+//{
+//    if(!_teacherView){
+//        _teacherView = [[AVPlayView alloc] initWithFrame:CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2) url:videoUrl];
+//        //_teacherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"student.jpg"]];
+//    }
+//    return _teacherView;
+//}
 
 -(UIView *)studentView{
     if(!_studentView){

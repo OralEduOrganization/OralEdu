@@ -82,6 +82,8 @@
 		53B9C8801D250108003C629B /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B9C87F1D250108003C629B /* HttpTool.m */; };
 		53C2E1961D3372AB0059EA9A /* IndividualitysignatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C2E1951D3372AB0059EA9A /* IndividualitysignatureViewController.m */; };
 		53C2E19D1D33889D0059EA9A /* feedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C2E19C1D33889D0059EA9A /* feedbackViewController.m */; };
+		53C8F20D1D4B8017009184BE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C8F20C1D4B8017009184BE /* MediaPlayer.framework */; };
+		53C8F2131D4B8C43009184BE /* AVPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8F2121D4B8C43009184BE /* AVPlayView.m */; };
 		53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */; };
 		53D2ACD81D235CC0001BA2C2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACCF1D235CC0001BA2C2 /* FMDatabaseAdditions.m */; };
 		53D2ACD91D235CC0001BA2C2 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2ACD11D235CC0001BA2C2 /* FMDatabasePool.m */; };
@@ -272,6 +274,9 @@
 		53C2E1951D3372AB0059EA9A /* IndividualitysignatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualitysignatureViewController.m; sourceTree = "<group>"; };
 		53C2E19B1D33889D0059EA9A /* feedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = feedbackViewController.h; sourceTree = "<group>"; };
 		53C2E19C1D33889D0059EA9A /* feedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = feedbackViewController.m; sourceTree = "<group>"; };
+		53C8F20C1D4B8017009184BE /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		53C8F2111D4B8C43009184BE /* AVPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayView.h; sourceTree = "<group>"; };
+		53C8F2121D4B8C43009184BE /* AVPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayView.m; sourceTree = "<group>"; };
 		53D2ACCC1D235CC0001BA2C2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		53D2ACCD1D235CC0001BA2C2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		53D2ACCE1D235CC0001BA2C2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -365,6 +370,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
+				53C8F20D1D4B8017009184BE /* MediaPlayer.framework in Frameworks */,
 				FE2C85E51D4369340050843D /* Photos.framework in Frameworks */,
 				FE2C85E31D4369230050843D /* SystemConfiguration.framework in Frameworks */,
 				53371D4A1D226DFE0040F7A7 /* QuartzCore.framework in Frameworks */,
@@ -383,7 +390,6 @@
 				536820801D41C51500EF034B /* AssetsLibrary.framework in Frameworks */,
 				53094AAC1D3F42D300C73B58 /* AudioToolbox.framework in Frameworks */,
 				FECC94731D264953006F955A /* CoreGraphics.framework in Frameworks */,
-				FECC94711D264936006F955A /* MobileCoreServices.framework in Frameworks */,
 				53B22C451D264FAE00E8EBA5 /* UIKit.framework in Frameworks */,
 				53B22C431D264FA000E8EBA5 /* Foundation.framework in Frameworks */,
 				53B22C411D264F9100E8EBA5 /* CoreGraphics.framework in Frameworks */,
@@ -1131,6 +1137,7 @@
 		53E91A351D1B70FF0091E85A /* Framwork */ = {
 			isa = PBXGroup;
 			children = (
+				53C8F20C1D4B8017009184BE /* MediaPlayer.framework */,
 				539573F11D4B2B8E00EB5BB8 /* Reachability.h */,
 				539573F21D4B2B8E00EB5BB8 /* Reachability.m */,
 				FE78C8F61D48BD2500017E71 /* iflyMSC.framework */,
@@ -1376,6 +1383,8 @@
 				FECC947F1D2B8D97006F955A /* imageMenuView.m */,
 				53D402A31D34830A00B91958 /* setview.h */,
 				53D402A41D34830A00B91958 /* setview.m */,
+				53C8F2111D4B8C43009184BE /* AVPlayView.h */,
+				53C8F2121D4B8C43009184BE /* AVPlayView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1423,6 +1432,14 @@
 					53E91A1A1D1B70E40091E85A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 3637W6NRU9;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -1477,6 +1494,7 @@
 				53E91A261D1B70E40091E85A /* ViewController.m in Sources */,
 				538C3D031D2FA68A00AEBE47 /* mobilephoneViewController.m in Sources */,
 				53D2ACE11D2373D1001BA2C2 /* NSString+SZYKit.m in Sources */,
+				53C8F2131D4B8C43009184BE /* AVPlayView.m in Sources */,
 				53D2ACD71D235CC0001BA2C2 /* FMDatabase.m in Sources */,
 				539313621D1BC7000035D874 /* BaseViewController.m in Sources */,
 				530F6E4B1D268D5500A3A2AE /* UIScrollView+SVInfiniteScrolling.m in Sources */,
