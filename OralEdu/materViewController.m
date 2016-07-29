@@ -450,6 +450,7 @@
         NSLog(@"dic = %@",dic);
     } failure:^(NSError *error) {
         NSLog(@"失败");
+        [HUD removeFromSuperview];
         [MBProgressHUD showError:@"数据未变或已上传成功"];
         
     }];
@@ -624,17 +625,23 @@
     NSMutableArray *buttonsMutable = [[NSMutableArray alloc] init];
     
     int i = 0;
-    for (NSString *title in @[@"add", @"up", @"down"]) {
-//        for (NSString *title in @[[UIImage imageNamed:@"add"], [UIImage imageNamed:@"Unknown"], [UIImage imageNamed:@"Unknown2"]]) {
-
+//    for (NSString *title in @[@"add", @"up", @"down"]) {Un
+    NSArray *arr=[NSArray arrayWithObjects:@"add",@"Unknown",@"Unknown-2", nil];
+    
+//        for (UIImage *title in @[[UIImage imageNamed:@"add"], [UIImage imageNamed:@"Unknown"], [UIImage imageNamed:@"Unknown2"]]) {
+    for(i=0;i<3;i++){
+                
+        UIImage *img=[UIImage imageNamed:arr[i]];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button setTitle:title forState:UIControlStateNormal];
-        button.frame = CGRectMake(0.f, 0.f, 50.f, 50.f);
+       
+            
+        [button setBackgroundImage:img forState:UIControlStateNormal];
+        button.frame = CGRectMake(0.f, 0.f, 40.f, 40.f);
         button.layer.cornerRadius = button.frame.size.height / 2.f;
         button.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
         button.clipsToBounds = YES;
-        button.tag = i++;
+        button.tag = i;
         [button addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
         [buttonsMutable addObject:button];
     }

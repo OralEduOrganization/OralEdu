@@ -51,17 +51,17 @@
     __weak homeViewController *weakSelf = self;
     // setup pull-to-refresh
     [self.homeTableview addPullToRefreshWithActionHandler:^{
+        
         [weakSelf insertRowAtTop];
     }];
-   
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:@"login" object:nil];
-    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"背景"]];
 
-  
+    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"groud3"]];
+
 }
 
 //-(void)login{
-//    [self loadDataFromWeb];
+//    [self.homeTableview reloadData];
+////    [self loadDataFromWeb];
 //}
 
 - (void)didReceiveMemoryWarning {
@@ -78,7 +78,7 @@
     NSString *name = [defaultes objectForKey:@"name"];
     if (name == nil) {
         [self go_login];
-        //[self loadDataFromWeb];
+        
     }else{
         //数据加载
         [self loadDataFromWeb];
@@ -88,14 +88,16 @@
 
 - (void)insertRowAtTop {
     __weak homeViewController *weakSelf = self;
+    int64_t delayInSeconds = 1.0;
     
-    int64_t delayInSeconds = 2.0;
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [weakSelf.homeTableview beginUpdates];
- 
+//        [weakSelf.homeTableview beginUpdates];
         
+        [weakSelf loadDataFromWeb];
         [weakSelf.homeTableview.pullToRefreshView stopAnimating];
+        
         
     });
 }
@@ -203,8 +205,14 @@
                     self.model.home_phone = aaa[@"user_moblie"];
                     
                     [self.homearr addObject:self.model];
-                    [self.homeTableview reloadData];
+                    
                 }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.homeTableview reloadData];
+                });
+
+                
             }
         } failure:^(NSError *error) {
             NSLog(@"失败");
@@ -227,6 +235,7 @@
         _homeTableview.tableFooterView = [[UIView alloc]init];
         _homeTableview.backgroundColor = [UIColor lightGrayColor];
         _homeTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _homeTableview.backgroundColor=[UIColor clearColor];
     }
     return _homeTableview;
 }
@@ -243,8 +252,7 @@
     _cell.layer.masksToBounds = YES;
     [_cell.layer setBorderWidth:1];
     _cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if(!_cell)
-    {
+    
         _cell = [[homeCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [_cell setCellDate:self.homearr[indexPath.row]];
         
@@ -254,12 +262,12 @@
             
             infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
             
-            [infoVC getInfo:str];
-            [self.navigationController pushViewController:infoVC animated:YES];
+        [infoVC getInfo:str];
+        [self.navigationController pushViewController:infoVC animated:YES];
 
         }];
         
-    }
+    
     _cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return _cell;
 }
@@ -279,6 +287,7 @@
         
         NSLog(@"点击了删除");
         
+
         
         // 2. 更新UI
         homeModel *model=self.homearr[indexPath.row];
@@ -302,7 +311,6 @@
         
         [_homearr removeObjectAtIndex:indexPath.row];
 
-        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }];
