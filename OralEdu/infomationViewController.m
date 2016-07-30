@@ -198,8 +198,9 @@
     NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
     NSString *name = [defaultes objectForKey:@"name"];
     
+
     if([name isEqualToString:self.userphone]){
-    
+
         [MBProgressHUD showError:@"不可以和自己聊天~"];
     }else{
         faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"001" andTargedId:@"002"];
