@@ -67,6 +67,23 @@
     }
     [db close];
 }
+
+
+//更新数据
++(void)updatename:(materal_finder *)materallist
+{
+    FMDatabase *db = [self getDatebase];
+    [db open];
+    NSString *sql = @"update Datebase_materallist_info set materallist_id = ?,materallist_name = ?  where materallist_id = ?";
+    
+    if(![db executeUpdate:sql withArgumentsInArray:@[materallist.materal_finder_id,materallist.materal_finder_name]])
+    {
+        NSLog(@"update Date error :%@",[db lastErrorMessage]);
+    }
+    [db close];
+}
+
+
 //更新数据
 +(void)updatematerallist:(materal_finder *)materallist
 {

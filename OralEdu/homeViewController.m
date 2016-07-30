@@ -263,6 +263,8 @@
             infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
             
         [infoVC getInfo:str];
+            infoVC.mark=@"FALSE";
+            
         [self.navigationController pushViewController:infoVC animated:YES];
 
         }];

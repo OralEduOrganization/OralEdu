@@ -169,80 +169,93 @@
         
         NSLog(@"点击了删除");
         
-        // 1. 更新数据
-        self.cell=[self.matertableview cellForRowAtIndexPath:indexPath];
-
-        [Datebase_materallist deletematerallist:self.mater_arr[indexPath.row]];
         
-        NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
-        
-        
-        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
-        NSString *user_id = [defaultes objectForKey:@"name"];
-        
-        NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,user_id,self.mater_arr[indexPath.row]];
-        
-        [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
-        
-        
-        NSString *str = self.mater_arr[indexPath.row];
-        
-        NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":str};
-        
-        [HttpTool postWithparamsWithURL:@"Pic/FileDelete" andParam:pare success:^(id responseObject) {
-            NSLog(@"%@",responseObject);
-        
-        } failure:^(NSError *error) {
-            NSLog(@"ERROR");
+        [UIAlertController showAlertAtViewController:self withMessage:@"确定要删除吗？(如已上传云端也会删除)" cancelTitle:@"取消" confirmTitle:@"删除" cancelHandler:^(UIAlertAction *action) {
+            
+        } confirmHandler:^(UIAlertAction *action) {
+            
+            // 1. 更新数据
+            self.cell=[self.matertableview cellForRowAtIndexPath:indexPath];
+            
+            [Datebase_materallist deletematerallist:self.mater_arr[indexPath.row]];
+            
+            NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+            
+            
+            NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+            NSString *user_id = [defaultes objectForKey:@"name"];
+            
+            NSString *pa = [NSString stringWithFormat:@"%@/%@/%@",paths,user_id,self.mater_arr[indexPath.row]];
+            
+            [self deleteFileWithObjetName:self.mater_arr[indexPath.row] andNeedPatch:pa];
+            
+            
+            NSString *str = self.mater_arr[indexPath.row];
+            
+            NSDictionary *pare=@{@"user_moblie":user_id,@"file_name":str};
+            
+            [HttpTool postWithparamsWithURL:@"Pic/FileDelete" andParam:pare success:^(id responseObject) {
+                NSLog(@"%@",responseObject);
+                
+            } failure:^(NSError *error) {
+                NSLog(@"ERROR");
+            }];
+            
+            [self.matertableview reloadData];
+            // 2. 更新UI
+            [_mater_arr removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            
+            
+            
         }];
         
-        [self.matertableview reloadData];
-        // 2. 更新UI
-        [_mater_arr removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        
         
        
     }];
      deleteRowAction.backgroundColor = [UIColor clearColor];
 
     
-    UITableViewRowAction *moreRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-       
-        NSLog(@"点击了重命名");
-        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"重命名" message:@"重新命名课程名字" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-        }];
-        
-       // UITextField *renameTextField = [[UITextField alloc]init];
-        
-        [control addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-           
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
-            
-        }];
-        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            
-              [_mater_arr replaceObjectAtIndex:indexPath.row withObject:self.str];//指定索引修改
-            [self.matertableview reloadData];
-            
-        }];
-        
-        [control addAction:action1];
-        [control addAction:action2];
-        
-        [self presentViewController:control animated:YES completion:nil];
-        
-       
-        
-    }];
-    moreRowAction.backgroundColor = [UIColor clearColor];
+//    UITableViewRowAction *moreRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+//       
+//        NSLog(@"点击了重命名");
+//        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"重命名" message:@"重新命名课程名字" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            
+//        }];
+//        
+//       // UITextField *renameTextField = [[UITextField alloc]init];
+//        
+//        [control addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+//           
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
+//            
+//        }];
+//        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+//            
+//              [_mater_arr replaceObjectAtIndex:indexPath.row withObject:self.str];//指定索引修改
+//            [self.matertableview reloadData];
+//            
+//        }];
+//        
+//        [control addAction:action1];
+//        [control addAction:action2];
+//        
+//        [self presentViewController:control animated:YES completion:nil];
+//        
+//       
+//        
+//    }];
+//    moreRowAction.backgroundColor = [UIColor clearColor];
     
     //moreRowAction.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     // 将设置好的按钮放到数组中返回
     
-    return @[deleteRowAction, moreRowAction];
+    return @[deleteRowAction];
 }
 
 #pragma mark - 实现方法
@@ -399,14 +412,25 @@
         
         NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
         
+        NSInteger intMark=0;
+        NSInteger q=0;
         while((path=[myDirectoryEnumerator nextObject])!=nil)
             
         {
+            intMark=1;
+            
+            if(q==0){
+                q=1;
+            }else if(q==1){
+                q--;
+            }
+            
+            
             NSArray *result_arr=[path componentsSeparatedByString:@"."];
             NSInteger length=result_arr.count;
             NSString *str=result_arr[length-1];
             if( [str isEqualToString:@"png"]){
-                
+                q=q+3;
                 NSLog(@"%@",path);
                 
                 NSString *urlStr=[NSString stringWithFormat:@"%@/%@",basePath,path];
@@ -432,9 +456,24 @@
                 [self addfile:name andDocument:document_name andURL:url4Str];
                 
                 
+            }else{
+                if(q<1){
+                    [HUD removeFromSuperview];
+                    [MBProgressHUD showError:@"您没有需要上传的数据"];
+                }
+                
             }
+            
 
         }
+        
+        if(intMark==0){
+            
+            [HUD removeFromSuperview];
+            [MBProgressHUD showError:@"您没有需要上传的数据"];
+            
+        }
+
     }];
 }
 

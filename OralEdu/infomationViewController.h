@@ -12,5 +12,6 @@
 
 -(void)getInfo:(NSString *)phone;
 
+@property (nonatomic,assign)NSString *mark;
 
 @end

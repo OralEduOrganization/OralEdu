@@ -150,7 +150,11 @@ static NSString *identfider2 = @"scarchcell";
     }
     else
     {
-      return self.his_arr.count;
+        if(self.his_arr.count==0){
+            return 1;
+        }else{
+            return self.his_arr.count;
+        }
     }
 }
 
@@ -168,11 +172,17 @@ static NSString *identfider2 = @"scarchcell";
     }
    else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identfider];
-        if(!cell)
-        {
+       
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identfider];
-            cell.textLabel.text = self.his_arr[indexPath.row];
-        }
+            
+            if(self.his_arr.count==0){
+                cell.textLabel.text = @"暂无历史记录哦";
+            }else{
+                cell.textLabel.text = self.his_arr[indexPath.row];
+            }
+            
+            
+       
         
         return cell;
     }
@@ -260,6 +270,7 @@ static NSString *identfider2 = @"scarchcell";
             if ([code isEqualToString:@"500"]) {
                
                 [self.history_tableview setHidden:YES];
+                [self.delbtn setHidden:YES];
                 [self.searchlabel setHidden:NO];
             }
             else
@@ -297,6 +308,7 @@ static NSString *identfider2 = @"scarchcell";
         a=0;
         [_searchbar setShowsCancelButton:NO animated:YES];
         [self.searchlabel setHidden:YES];
+        [self.delbtn setHidden:NO];
         [self.hisv.his_tableview reloadData];
         [self.history_tableview setHidden:YES];
         [self.hisv setHidden:NO];
@@ -337,10 +349,19 @@ static NSString *identfider2 = @"scarchcell";
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED
 {
+    _searchbar.text=@"";
+    
+    a=0;
     [_searchbar setShowsCancelButton:NO animated:YES];
-    [self.history_tableview setHidden:YES];
     [self.searchlabel setHidden:YES];
-     NSLog(@"取消按钮");
+    [self.delbtn setHidden:NO];
+    [self.hisv.his_tableview reloadData];
+    [self.history_tableview setHidden:YES];
+    [self.hisv setHidden:NO];
+    
+    
+    [_searchbar setShowsCancelButton:NO animated:YES];
+    NSLog(@"取消按钮");
 }
 
 -(UITableView *)history_tableview{
@@ -363,8 +384,22 @@ static NSString *identfider2 = @"scarchcell";
         
     }
     if (tableView==self.history_tableview) {
+        
+        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+        
+        [self.his_arr addObject:self.cell.xingming_label.text];
+        
+        [defaultes setObject:self.his_arr forKey:@"history"];
+        [defaultes synchronize];
+        
+        [self.hisv.his_tableview reloadData];
+        
+        
         infomationViewController *infoVC = [[infomationViewController alloc] initWithTitle:@"个人信息" isNeedBack:YES btn_image:nil];
         [infoVC getInfo:self.cell.mobolelabel.text];
+        
+        infoVC.mark=@"TRUE";
+        
         [self.navigationController pushViewController:infoVC animated:YES];
     }
 }

@@ -37,7 +37,13 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self.navitionBar.left_btn removeFromSuperview];
-    [self.navitionBar.right_btn setTitle:@"添加" forState:UIControlStateNormal];
+    
+    if([self.mark isEqualToString:@"TRUE"]){
+        [self.navitionBar.right_btn setTitle:@"添加" forState:UIControlStateNormal];
+    }else{
+        self.navitionBar.right_btn.enabled=false;
+    }
+    
     
     [self.view addSubview:self.infotableview];
     [self.view addSubview:self.pic_image];
@@ -189,16 +195,24 @@
 -(void)goVideoViewController
 {
     
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    NSString *name = [defaultes objectForKey:@"name"];
     
-    faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"002" andTargedId:@"001"];
+    if([name isEqualToString:self.userphone]){
     
-    
-    
-    
-    myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:myFaceVideoController animated:YES completion:^{
+        [MBProgressHUD showError:@"不可以和自己聊天~"];
+    }else{
+        faceVideoViewController *myFaceVideoController=[[faceVideoViewController alloc]initWithUserId:@"001" andTargedId:@"002"];
         
-    }];
+        
+        
+        myFaceVideoController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:myFaceVideoController animated:YES completion:^{
+            
+        }];
+
+    }
+    
 }
 
 
@@ -237,23 +251,36 @@
     
     self.pata=@{@"user_moblie":name,@"user_contacts":self.userphone};
     
-    [HttpTool postWithparamsWithURL:@"Contacts/contactsAdd?" andParam:self.pata success:^(id responseObject) {
-        NSData *data = [[NSData alloc] initWithData:responseObject];
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"%@",dic);
-        NSString *code = [dic objectForKey:@"code"];
-        NSLog(@"code = %@",code);
-        if ([code isEqualToString:@"200"]) {
-           [MBProgressHUD showError:@"好友已存在"];
-        }
-        else
-        {
-        [MBProgressHUD showSuccess:@"添加成功"];
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"%@",error);
-        [MBProgressHUD showError:@"请检查网络设置"];
-        
-    }];
-}
+    if([name isEqualToString:self.userphone]){
+        [MBProgressHUD showError:@"不可以添加自己哦"];
+    }else{
+    
+        [HttpTool postWithparamsWithURL:@"Contacts/contactsAdd?" andParam:self.pata success:^(id responseObject) {
+            NSData *data = [[NSData alloc] initWithData:responseObject];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",dic);
+            NSString *code = [dic objectForKey:@"code"];
+            NSLog(@"code = %@",code);
+            if ([code isEqualToString:@"200"]) {
+                [MBProgressHUD showError:@"好友已存在"];
+            }
+            else
+            {
+                
+                
+                [MBProgressHUD showSuccess:@"添加成功"];
+                
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+            [MBProgressHUD showError:@"请检查网络设置"];
+            
+        }];
+
+    
+    
+    }
+    
+    
+    }
 @end
