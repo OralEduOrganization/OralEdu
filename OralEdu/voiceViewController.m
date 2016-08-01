@@ -21,6 +21,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
+
 @interface voiceViewController ()<IFlyRecognizerViewDelegate,IFlySpeechRecognizerDelegate>
 {
     AVPlayerViewController      *_playerController;
@@ -54,23 +55,19 @@ static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
 //    [self.view addSubview:self.resultLabel];
     [self.view addSubview:self.returnBtn];
     
-
-    _session = [AVAudioSession sharedInstance];
-    [_session setCategory:AVAudioSessionCategoryPlayback error:nil];
     
-    _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"]];
-    _playerController = [[AVPlayerViewController alloc] init];
-    _playerController.player = _player;
-    _playerController.videoGravity = AVLayerVideoGravityResizeAspect;
-    _playerController.allowsPictureInPicturePlayback = true;    //画中画，iPad可用
-    _playerController.showsPlaybackControls = true;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_0074" ofType:@"MP4"];
+    NSURL *sourceMovieURL = [NSURL fileURLWithPath:filePath];
+    AVAsset *movieAsset	= [AVURLAsset URLAssetWithURL:sourceMovieURL options:nil];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:movieAsset];
+    AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+    playerLayer.frame = self.view.layer.bounds;
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     
-    [self addChildViewController:_playerController];
-    _playerController.view.translatesAutoresizingMaskIntoConstraints = true;    //AVPlayerViewController 内部可能是用约束写的，这句可以禁用自动约束，消除报错
-    //self.view.bounds
-    _playerController.view.frame = CGRectMake(0, 0, 320, 300);
-    [self.view addSubview:_playerController.view];
-    [_playerController.player play];    //自动播放
+    [self.view.layer addSublayer:playerLayer];
+    [player play];
+  
     NSString *appid = @"577ca611";//自己申请的appId
     NSString *initString = [NSString stringWithFormat:@"appid=%@",appid];
     [IFlySpeechUtility createUtility:initString];

@@ -88,7 +88,6 @@ static NSString *collectionview = @"imagecell";
     return cell;
 }
 
-
 #pragma mark - privateMethod
 
 -(void)toReturnDocument:(NSNotification *)notification{

@@ -59,6 +59,8 @@
 #import "UIAlertController+SZYKit.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "AVPlayView.h"
+#import <AVFoundation/AVFoundation.h>
+
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @interface faceVideoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate,AVAudioRecorderDelegate,RCIMClientReceiveMessageDelegate,IFlySpeechRecognizerDelegate,UIAlertViewDelegate>
 {
@@ -76,6 +78,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 @property (nonatomic,strong) UIButton           *backBtn;
 @property (nonatomic,strong) UIView             *studentView;
+@property (nonatomic,strong) UIView             *teacherView;
 @property (nonatomic,strong) UIButton           *writeButton;
 @property (nonatomic,strong) UIButton           *pickColorButton;
 @property (nonatomic,strong) UIButton           *clearBtn;
@@ -139,8 +142,10 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (nonatomic,strong) NSMutableArray *chatMutArr;
 
 
+
 @property (nonatomic,strong) UIView     *alertNeedView;
 
+@property(nonatomic,strong)AVPlayer *player;
 
 @end
 
@@ -168,13 +173,27 @@ static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
     drawView=[[PIDrawerView alloc]init];
     drawView.backgroundColor=[UIColor clearColor];
     self.languagearr = [NSMutableArray arrayWithObjects:@"中文",@"English",@"русский",@"español",@"日本语",@"français",@"한국어",@"عربي/عربى", nil];
+
     
-    avView = [[AVPlayView alloc] initWithFrame:CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2) url:videoUrl];
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"IMG_0074" ofType:@"MP4"];
     
+    NSURL *url = [NSURL fileURLWithPath:path];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:url];
     
-    [self.view addSubview:avView];
+    _player=[AVPlayer playerWithPlayerItem:playerItem];
     
-    [avView play];
+    AVPlayerLayer *layer=[AVPlayerLayer playerLayerWithPlayer:_player];
+    
+    layer.videoGravity=AVLayerVideoGravityResizeAspect;
+    
+    layer.frame=CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
+
+   // layer.backgroundColor=[[UIColor redColor]CGColor];
+    
+    [self.view.layer addSublayer:layer];
+    
+    [_player play];
+
     
     [self.view addSubview:self.studentView];
     
@@ -258,7 +277,7 @@ static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
     
     self.studentView.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2,screenHeight/4 , (screenWidth-50)/2);
 
-    //self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
+    self.teacherView.frame = CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2);
     
     self.tacktableview.frame = CGRectMake(0, ([UIScreen mainScreen].bounds.size.width-50)/2, [UIScreen mainScreen].bounds.size.height/4, [UIScreen mainScreen].bounds.size.width/2-50);
  
@@ -548,20 +567,21 @@ static NSString *videoUrl = @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
     return _backBtn;
 }
 
-//-(AVPlayView *)teacherView
-//{
-//    if(!_teacherView){
-//        _teacherView = [[AVPlayView alloc] initWithFrame:CGRectMake(0, 0, screenHeight/4, (screenWidth-50)/2) url:videoUrl];
-//        //_teacherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"student.jpg"]];
-//    }
-//    return _teacherView;
-//}
+-(UIView *)teacherView
+{
+    if (!_teacherView) {
+        _teacherView = [[UIView alloc] init];
+        
+    }
+    return _teacherView;
+}
 
 -(UIView *)studentView{
     if(!_studentView){
         _studentView=[[UIView alloc]init];
         _studentView.transform = CGAffineTransformMakeRotation(M_PI*1.5);
-        _studentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"teacher.jpg"]];
+        
+        _studentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"123.png"]];
     }
     return _studentView;
 }

@@ -75,9 +75,16 @@ static NSString *collectionview = @"imagecell";
         NSArray *needNameArr=[need_model.materal_imagepath componentsSeparatedByString:@"/"];
         NSString *name=needNameArr[3];
         UIImage *image= [[UIImage alloc]initWithContentsOfFile:needPatch];
-        [self.image_arr addObject:image];
-        [self.name_arr addObject:name];
-        [self.url_arr addObject:need_model.materal_imagepath];
+        if (image!=nil) {
+            [self.image_arr addObject:image];
+            [self.name_arr addObject:name];
+            [self.url_arr addObject:need_model.materal_imagepath];
+            
+        }else
+        {
+            NSLog(@"没有图片");
+        }
+        
     }
 }
 
